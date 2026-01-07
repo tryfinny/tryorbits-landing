@@ -6,6 +6,10 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
 
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Lora&display=swap");
+
 @layer base {
   :root {
     /* Warm off-white/cream background */
@@ -57,6 +61,8 @@
     --hero-gradient-start: 36 40% 94%;
     --hero-gradient-end: 30 35% 90%;
     --glow: 15 80% 60%;
+    --font-sans: Inter, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+    --font-serif: Lora, ui-serif, Georgia, Cambria, Times New Roman, Times, serif;
   }
 
   .dark {
@@ -100,6 +106,8 @@
     --hero-gradient-start: 25 15% 12%;
     --hero-gradient-end: 25 15% 8%;
     --glow: 15 80% 50%;
+    --font-sans: Inter, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+    --font-serif: Lora, ui-serif, Georgia, Cambria, Times New Roman, Times, serif;
   }
 }
 
