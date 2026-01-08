@@ -38,16 +38,17 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-      transition={{ duration: 0.6, delay: index * 0.15, ease: "easeOut" }}
-      whileHover={{ y: -8, transition: { duration: 0.3 } }}
+      initial={{ opacity: 0, y: 24 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+      transition={{ duration: 0.35, delay: index * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
+      whileHover={{ y: -6, transition: { duration: 0.2 } }}
       className="group"
     >
-      <div className="relative p-8 bg-card rounded-3xl card-shadow border border-border/50 h-full transition-all duration-300 hover:border-primary/30">
+      <div className="relative p-8 bg-card rounded-3xl card-shadow border border-border/50 h-full transition-all duration-200 hover:border-primary/30">
         {/* Icon */}
         <motion.div
-          whileHover={{ scale: 1.1, rotate: 5 }}
+          whileHover={{ scale: 1.08, rotate: 3 }}
+          transition={{ duration: 0.15 }}
           className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-6`}
         >
           <Icon className="w-7 h-7 text-background" />
@@ -58,7 +59,7 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
         <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
 
         {/* Hover glow effect */}
-        <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+        <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" />
       </div>
     </motion.div>
   );
@@ -74,9 +75,9 @@ export function FeaturesSection() {
         {/* Section header */}
         <motion.div
           ref={headerRef}
-          initial={{ opacity: 0, y: 30 }}
-          animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.35 }}
           className="text-center mb-16"
         >
           <span className="text-primary font-medium text-sm uppercase tracking-wider">Features</span>
