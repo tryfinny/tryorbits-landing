@@ -30,10 +30,10 @@ function TestimonialCard({ testimonial, index }: { testimonial: typeof testimoni
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30, scale: 0.95 }}
-      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 30, scale: 0.95 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      whileHover={{ y: -5 }}
+      initial={{ opacity: 0, y: 20, scale: 0.98 }}
+      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 20, scale: 0.98 }}
+      transition={{ duration: 0.3, delay: index * 0.06, ease: [0.25, 0.46, 0.45, 0.94] }}
+      whileHover={{ y: -4, transition: { duration: 0.15 } }}
       className="relative"
     >
       <div className="bg-card p-8 rounded-3xl card-shadow border border-border/50 h-full">
@@ -47,7 +47,7 @@ function TestimonialCard({ testimonial, index }: { testimonial: typeof testimoni
               key={i}
               initial={{ opacity: 0, scale: 0 }}
               animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
-              transition={{ delay: index * 0.1 + i * 0.1 + 0.3, duration: 0.3 }}
+              transition={{ delay: index * 0.06 + i * 0.04 + 0.15, duration: 0.2 }}
             >
               <Star className="w-5 h-5 fill-primary text-primary" />
             </motion.div>
@@ -113,9 +113,9 @@ export function SocialProofSection() {
         {/* Section header */}
         <motion.div
           ref={headerRef}
-          initial={{ opacity: 0, y: 30 }}
-          animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.35 }}
           className="text-center mb-16"
         >
           <span className="text-primary font-medium text-sm uppercase tracking-wider">Testimonials</span>
@@ -137,10 +137,10 @@ export function SocialProofSection() {
 
         {/* App store ratings */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          transition={{ duration: 0.3, delay: 0.15 }}
           className="mt-16 flex flex-wrap justify-center gap-8"
         >
           <div className="flex items-center gap-3 px-6 py-3 bg-card rounded-2xl card-shadow">

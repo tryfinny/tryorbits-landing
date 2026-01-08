@@ -15,16 +15,16 @@ export function CTASection() {
 
       <motion.div
         ref={ref}
-        initial={{ opacity: 0, y: 40 }}
-        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-        transition={{ duration: 0.8 }}
+        initial={{ opacity: 0, y: 24 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+        transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
         className="relative z-10 max-w-4xl mx-auto text-center"
       >
         {/* Badge */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
+          transition={{ delay: 0.1, duration: 0.3 }}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8"
         >
           <Sparkles className="w-4 h-4 text-primary" />
@@ -43,9 +43,9 @@ export function CTASection() {
 
         {/* App Store Buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ delay: 0.4, duration: 0.5 }}
+          initial={{ opacity: 0, y: 12 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+          transition={{ delay: 0.2, duration: 0.3 }}
           className="flex justify-center mb-8"
         >
           <AppStoreButtons />
@@ -56,9 +56,9 @@ export function CTASection() {
           href="#"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ delay: 0.6, duration: 0.5 }}
-          whileHover={{ x: 5 }}
-          className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+          transition={{ delay: 0.3, duration: 0.25 }}
+          whileHover={{ x: 4 }}
+          className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-150"
         >
           Learn more about our features
           <ArrowRight className="w-4 h-4" />
