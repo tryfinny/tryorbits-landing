@@ -130,14 +130,37 @@
 @layer utilities {
   .text-gradient {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--glow)));
+    background-image: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--glow)), hsl(var(--primary)));
+    background-size: 200% 200%;
   }
 
   .card-shadow {
-    box-shadow: 0 4px 40px -12px hsl(var(--primary) / 0.15);
+    box-shadow: 
+      0 4px 40px -12px hsl(var(--primary) / 0.15),
+      0 0 0 1px hsl(var(--border) / 0.1);
   }
 
   .glow-shadow {
     box-shadow: 0 0 60px -15px hsl(var(--glow) / 0.4);
+  }
+
+  /* 3D perspective utilities */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .perspective-2000 {
+    perspective: 2000px;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Selection styling */
+  ::selection {
+    background: hsl(var(--primary) / 0.3);
+    color: hsl(var(--foreground));
   }
 }
