@@ -1,159 +1,215 @@
 import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { Brain, Zap, Calendar, Shield } from 'lucide-react';
+import { Brain, Zap, Calendar, Shield, Home, Users, Wallet, Bell } from 'lucide-react';
 
 const features = [
   {
-    icon: Brain,
-    title: 'AI That Understands You',
-    description: 'Our AI learns your patterns and preferences, offering personalized suggestions that get smarter over time.',
-    color: 'from-primary to-primary/60',
-    gradient: 'radial-gradient(circle at 30% 30%, hsl(var(--primary) / 0.2), transparent 70%)',
+    icon: Home,
+    title: 'Home Management',
+    description: 'Track maintenance, manage supplies, and keep your household running smoothly.',
+    color: 'bg-sage',
+    gradient: 'from-sage/20 to-sky/10',
+    iconBg: 'bg-sage/20',
+    accentColor: 'text-sage-foreground',
   },
   {
-    icon: Zap,
-    title: 'Lightning Fast',
-    description: 'Complete tasks in seconds. Our optimized engine ensures zero lag, even with complex operations.',
-    color: 'from-accent to-accent/60',
-    gradient: 'radial-gradient(circle at 70% 30%, hsl(var(--accent) / 0.3), transparent 70%)',
+    icon: Users,
+    title: 'Family Calendar',
+    description: 'Coordinate schedules, activities, and events for everyone in your family.',
+    color: 'bg-peach',
+    gradient: 'from-peach/20 to-lavender/10',
+    iconBg: 'bg-peach/20',
+    accentColor: 'text-peach-foreground',
   },
   {
-    icon: Calendar,
-    title: 'Smart Scheduling',
-    description: 'Automatically organize your day based on priorities, deadlines, and your energy levels.',
-    color: 'from-primary to-accent',
-    gradient: 'radial-gradient(circle at 50% 70%, hsl(var(--primary) / 0.15), transparent 70%)',
+    icon: Wallet,
+    title: 'Smart Budgeting',
+    description: 'Monitor spending, track bills, and gain insights into your family finances.',
+    color: 'bg-sky',
+    gradient: 'from-sky/20 to-sage/10',
+    iconBg: 'bg-sky/20',
+    accentColor: 'text-sky-foreground',
   },
   {
-    icon: Shield,
-    title: 'Privacy First',
-    description: 'Your data stays yours. End-to-end encryption ensures complete privacy and security.',
-    color: 'from-muted-foreground to-muted-foreground/60',
-    gradient: 'radial-gradient(circle at 30% 70%, hsl(var(--muted) / 0.3), transparent 70%)',
+    icon: Bell,
+    title: 'Intelligent Alerts',
+    description: 'Get timely reminders and proactive suggestions tailored to your routine.',
+    color: 'bg-lavender',
+    gradient: 'from-lavender/20 to-peach/10',
+    iconBg: 'bg-lavender/20',
+    accentColor: 'text-lavender-foreground',
   },
 ];
 
-function MagneticCard({ children, className }: { children: React.ReactNode; className?: string }) {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+// 3D Tilt Card Component
+function TiltCard({ children, className }: { children: React.ReactNode; className?: string }) {
+  const [transform, setTransform] = useState('');
+  const [glare, setGlare] = useState({ x: 50, y: 50, opacity: 0 });
   const ref = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left - rect.width / 2) / 10;
-    const y = (e.clientY - rect.top - rect.height / 2) / 10;
-    setPosition({ x, y });
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    
+    const tiltX = (y - 0.5) * 15;
+    const tiltY = (x - 0.5) * -15;
+    
+    setTransform(`perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`);
+    setGlare({ x: x * 100, y: y * 100, opacity: 0.15 });
   };
 
   const handleMouseLeave = () => {
-    setPosition({ x: 0, y: 0 });
+    setTransform('perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
+    setGlare({ x: 50, y: 50, opacity: 0 });
   };
 
   return (
-    <motion.div
+    <div
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      animate={{ x: position.x, y: position.y }}
-      transition={{ type: "spring", stiffness: 150, damping: 15 }}
-      className={className}
+      className={`relative transition-transform duration-300 ease-out ${className}`}
+      style={{ transform, transformStyle: 'preserve-3d' }}
     >
+      {/* Glare effect */}
+      <div
+        className="pointer-events-none absolute inset-0 rounded-3xl transition-opacity duration-300"
+        style={{
+          background: `radial-gradient(circle at ${glare.x}% ${glare.y}%, white ${0}%, transparent 60%)`,
+          opacity: glare.opacity,
+        }}
+      />
       {children}
-    </motion.div>
+    </div>
   );
 }
 
 function FeatureCard({ feature, index }: { feature: typeof features[0]; index: number }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const Icon = feature.icon;
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
   const [isHovered, setIsHovered] = useState(false);
+  const Icon = feature.icon;
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 60, rotateX: -15 }}
-      animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : { opacity: 0, y: 60, rotateX: -15 }}
+      initial={{ opacity: 0, y: 80, rotateX: -20 }}
+      animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : { opacity: 0, y: 80, rotateX: -20 }}
       transition={{ 
         type: "spring",
-        stiffness: 80,
+        stiffness: 60,
         damping: 15,
         delay: index * 0.1,
       }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      className="group perspective-1000"
+      className="group"
     >
-      <MagneticCard>
+      <TiltCard>
         <motion.div 
-          className="relative p-8 bg-card rounded-3xl card-shadow border border-border/50 h-full overflow-hidden"
-          whileHover={{ 
-            y: -8,
-            boxShadow: '0 20px 60px -15px hsl(var(--primary) / 0.25)',
+          className={`relative p-8 lg:p-10 bg-gradient-to-br ${feature.gradient} rounded-[2rem] border border-border/30 h-full overflow-hidden backdrop-blur-sm`}
+          animate={isHovered ? { 
+            boxShadow: '0 30px 60px -20px hsl(var(--primary) / 0.15)',
+          } : {
+            boxShadow: '0 10px 40px -20px hsl(var(--primary) / 0.05)',
           }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          transition={{ duration: 0.4 }}
         >
-          {/* Animated background gradient */}
+          {/* Animated background pattern */}
           <motion.div
-            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-            style={{ background: feature.gradient }}
-          />
-
-          {/* Shimmer effect on hover */}
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
-            initial={{ x: '-100%' }}
-            animate={isHovered ? { x: '100%' } : { x: '-100%' }}
-            transition={{ duration: 0.6, ease: "easeInOut" }}
-          />
-
-          {/* Icon with 3D effect */}
-          <motion.div
-            whileHover={{ scale: 1.1, rotate: 5 }}
-            animate={isHovered ? { 
-              y: [0, -5, 0],
-              rotate: [0, 3, -3, 0],
-            } : {}}
-            transition={{ 
-              duration: 0.8,
-              repeat: isHovered ? Infinity : 0,
-              ease: "easeInOut"
+            className="absolute inset-0 opacity-30"
+            style={{
+              backgroundImage: `radial-gradient(circle at 70% 30%, hsl(var(--${feature.color.replace('bg-', '')})) 0%, transparent 50%)`,
             }}
-            className={`relative w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-6`}
+            animate={isHovered ? { scale: 1.2, opacity: 0.4 } : { scale: 1, opacity: 0.2 }}
+            transition={{ duration: 0.5 }}
+          />
+
+          {/* Multi-layer shimmer */}
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+            initial={{ x: '-200%', opacity: 0 }}
+            animate={isHovered ? { x: '200%', opacity: 1 } : { x: '-200%', opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+          />
+
+          {/* Floating corner accent */}
+          <motion.div
+            className={`absolute -top-10 -right-10 w-32 h-32 ${feature.color} rounded-full blur-3xl`}
+            animate={isHovered ? { scale: 1.5, opacity: 0.6 } : { scale: 1, opacity: 0.3 }}
+            transition={{ duration: 0.5 }}
+          />
+
+          {/* Icon with 3D pop effect */}
+          <motion.div
+            animate={isHovered ? { 
+              y: -8, 
+              rotateZ: 5,
+              scale: 1.1,
+            } : { 
+              y: 0, 
+              rotateZ: 0,
+              scale: 1,
+            }}
+            transition={{ type: "spring", stiffness: 300, damping: 15 }}
+            className="relative z-10 mb-6"
           >
-            {/* Icon glow */}
             <motion.div
-              className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${feature.color} blur-xl`}
-              animate={isHovered ? { opacity: 0.6, scale: 1.3 } : { opacity: 0, scale: 1 }}
-              transition={{ duration: 0.3 }}
-            />
-            <Icon className="w-8 h-8 text-background relative z-10" />
+              className={`w-16 h-16 lg:w-20 lg:h-20 rounded-2xl ${feature.iconBg} flex items-center justify-center relative`}
+              animate={isHovered ? { 
+                boxShadow: `0 15px 30px -10px hsl(var(--${feature.color.replace('bg-', '')}) / 0.4)`,
+              } : {
+                boxShadow: 'none',
+              }}
+            >
+              {/* Icon glow */}
+              <motion.div
+                className={`absolute inset-0 rounded-2xl ${feature.color} blur-xl`}
+                animate={isHovered ? { opacity: 0.4, scale: 1.2 } : { opacity: 0, scale: 1 }}
+                transition={{ duration: 0.3 }}
+              />
+              <Icon className={`w-8 h-8 lg:w-10 lg:h-10 ${feature.accentColor} relative z-10`} />
+            </motion.div>
           </motion.div>
 
-          {/* Content with stagger */}
+          {/* Content with staggered reveal on hover */}
           <motion.h3 
-            className="text-xl font-semibold mb-3 relative z-10"
-            animate={isHovered ? { x: 5 } : { x: 0 }}
-            transition={{ type: "spring", stiffness: 300 }}
+            className="text-xl lg:text-2xl font-semibold mb-4 relative z-10"
+            animate={isHovered ? { x: 8 } : { x: 0 }}
+            transition={{ type: "spring", stiffness: 200, damping: 15 }}
           >
             {feature.title}
           </motion.h3>
           <motion.p 
-            className="text-muted-foreground leading-relaxed relative z-10"
-            animate={isHovered ? { x: 5 } : { x: 0 }}
-            transition={{ type: "spring", stiffness: 300, delay: 0.05 }}
+            className="text-muted-foreground leading-relaxed relative z-10 text-base lg:text-lg"
+            animate={isHovered ? { x: 8 } : { x: 0 }}
+            transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.03 }}
           >
             {feature.description}
           </motion.p>
 
-          {/* Corner accent */}
+          {/* Interactive corner detail */}
           <motion.div
-            className="absolute -bottom-2 -right-2 w-24 h-24 bg-gradient-to-br from-primary/10 to-accent/10 rounded-full blur-2xl"
-            animate={isHovered ? { scale: 1.5, opacity: 0.8 } : { scale: 1, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          />
+            className="absolute bottom-4 right-4 w-8 h-8 rounded-full border-2 border-muted/30 flex items-center justify-center"
+            animate={isHovered ? { 
+              scale: 1.2, 
+              borderColor: `hsl(var(--${feature.color.replace('bg-', '')}))`,
+              rotate: 90,
+            } : { 
+              scale: 1,
+              rotate: 0,
+            }}
+            transition={{ type: "spring", stiffness: 200, damping: 15 }}
+          >
+            <motion.div
+              className={`w-2 h-2 rounded-full ${feature.color}`}
+              animate={isHovered ? { scale: 1.5 } : { scale: 1 }}
+            />
+          </motion.div>
         </motion.div>
-      </MagneticCard>
+      </TiltCard>
     </motion.div>
   );
 }
@@ -168,40 +224,46 @@ export function FeaturesSection() {
     offset: ["start end", "end start"],
   });
 
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
-  const backgroundY = useTransform(smoothProgress, [0, 1], [0, -50]);
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 50, damping: 20 });
+  const backgroundY1 = useTransform(smoothProgress, [0, 1], [100, -100]);
+  const backgroundY2 = useTransform(smoothProgress, [0, 1], [-50, 50]);
+  const backgroundRotate = useTransform(smoothProgress, [0, 1], [0, 45]);
 
   return (
-    <section ref={containerRef} className="relative py-32 px-6 overflow-hidden">
-      {/* Parallax background elements */}
+    <section ref={containerRef} className="relative py-32 lg:py-40 px-6 overflow-hidden">
+      {/* Parallax background orbs */}
       <motion.div 
-        className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl"
-        style={{ y: backgroundY }}
+        className="absolute top-0 right-[10%] w-[500px] h-[500px] orb-lavender opacity-30"
+        style={{ y: backgroundY1, rotate: backgroundRotate }}
       />
       <motion.div 
-        className="absolute bottom-0 left-0 w-80 h-80 bg-accent/10 rounded-full blur-3xl"
-        style={{ y: useTransform(smoothProgress, [0, 1], [0, 50]) }}
+        className="absolute bottom-0 left-[5%] w-[400px] h-[400px] orb-peach opacity-25"
+        style={{ y: backgroundY2 }}
+      />
+      <motion.div 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] orb-sky opacity-15"
+        style={{ rotate: useTransform(smoothProgress, [0, 1], [0, -30]) }}
       />
 
-      <div className="max-w-6xl mx-auto">
-        {/* Section header with reveal animation */}
+      <div className="max-w-7xl mx-auto relative z-10">
+        {/* Section header */}
         <motion.div
           ref={headerRef}
-          initial={{ opacity: 0, y: 40 }}
-          animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-          transition={{ type: "spring", stiffness: 80, damping: 20 }}
-          className="text-center mb-20"
+          initial={{ opacity: 0, y: 60 }}
+          animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
+          transition={{ type: "spring", stiffness: 60, damping: 20 }}
+          className="text-center mb-20 lg:mb-28"
         >
           <motion.span 
-            className="inline-block text-primary font-medium text-sm uppercase tracking-wider"
+            className="inline-block text-primary font-medium text-sm uppercase tracking-widest mb-6"
             initial={{ opacity: 0, y: 20 }}
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.1 }}
           >
-            Features
+            ✨ Features
           </motion.span>
           <motion.h2 
-            className="text-3xl sm:text-4xl lg:text-5xl font-bold mt-4 mb-6"
+            className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-8"
             initial={{ opacity: 0, y: 20 }}
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.15 }}
@@ -212,14 +274,14 @@ export function FeaturesSection() {
               animate={{ 
                 backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
               }}
-              transition={{ duration: 5, repeat: Infinity }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               style={{ backgroundSize: '200% 200%' }}
             >
               thrive
             </motion.span>
           </motion.h2>
           <motion.p 
-            className="text-lg text-muted-foreground max-w-2xl mx-auto"
+            className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.2 }}
@@ -228,10 +290,17 @@ export function FeaturesSection() {
           </motion.p>
         </motion.div>
 
-        {/* Features grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Features grid with offset layout */}
+        <div className="grid sm:grid-cols-2 gap-6 lg:gap-8">
           {features.map((feature, index) => (
-            <FeatureCard key={feature.title} feature={feature} index={index} />
+            <motion.div
+              key={feature.title}
+              style={{ 
+                marginTop: index % 2 === 1 ? '3rem' : '0',
+              }}
+            >
+              <FeatureCard feature={feature} index={index} />
+            </motion.div>
           ))}
         </div>
       </div>

@@ -1,38 +1,56 @@
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, MotionValue } from 'framer-motion';
 import { Phone3D } from './Phone3D';
 import { AppStoreButtons } from './AppStoreButtons';
-import { Sparkles } from 'lucide-react';
-import { useRef } from 'react';
+import { Sparkles, Star } from 'lucide-react';
+import { useRef, useState, useEffect } from 'react';
 
-// Stagger container for children animations
+// Stagger container with refined timing
 const staggerContainer = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.1,
+      staggerChildren: 0.06,
+      delayChildren: 0.15,
     },
   },
 };
 
-// Individual item animation with spring physics
+// Spring-based fade up with refined physics
 const fadeUpSpring = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, y: 30, filter: 'blur(10px)' },
   visible: {
     opacity: 1,
     y: 0,
+    filter: 'blur(0px)',
     transition: {
       type: "spring" as const,
-      stiffness: 100,
-      damping: 12,
+      stiffness: 120,
+      damping: 14,
     },
   },
 };
 
-// Text character reveal animation
+// Character-by-character reveal with 3D rotation
 const letterAnimation = {
-  hidden: { opacity: 0, y: 50, rotateX: -90 },
+  hidden: { opacity: 0, y: 40, rotateX: -60, filter: 'blur(4px)' },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    rotateX: 0,
+    filter: 'blur(0px)',
+    transition: {
+      type: "spring" as const,
+      stiffness: 150,
+      damping: 12,
+      delay: i * 0.025,
+    },
+  }),
+};
+
+// Word reveal animation
+const wordAnimation = {
+  hidden: { opacity: 0, y: 20, rotateX: -30 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
@@ -40,31 +58,129 @@ const letterAnimation = {
     transition: {
       type: "spring" as const,
       stiffness: 100,
-      damping: 12,
-      delay: i * 0.03,
+      damping: 15,
+      delay: i * 0.08,
     },
   }),
 };
 
-
-function AnimatedText({ text, className }: { text: string; className?: string }) {
+function AnimatedText({ text, className, delay = 0 }: { text: string; className?: string; delay?: number }) {
   return (
-    <span className={className}>
+    <motion.span className={`inline-block ${className}`} style={{ perspective: '1000px' }}>
       {text.split('').map((char, i) => (
         <motion.span
           key={i}
-          custom={i}
+          custom={i + delay}
           variants={letterAnimation}
           initial="hidden"
           animate="visible"
-          className="inline-block"
+          className="inline-block origin-bottom"
           style={{ display: char === ' ' ? 'inline' : 'inline-block' }}
         >
           {char === ' ' ? '\u00A0' : char}
         </motion.span>
       ))}
-    </span>
+    </motion.span>
   );
+}
+
+function AnimatedWords({ text, className }: { text: string; className?: string }) {
+  return (
+    <motion.span className={className}>
+      {text.split(' ').map((word, i) => (
+        <motion.span
+          key={i}
+          custom={i}
+          variants={wordAnimation}
+          initial="hidden"
+          animate="visible"
+          className="inline-block mr-[0.25em]"
+        >
+          {word}
+        </motion.span>
+      ))}
+    </motion.span>
+  );
+}
+
+// Floating particle component with organic motion
+function FloatingParticle({ delay, x, y, size, color }: { delay: number; x: string; y: string; size: number; color: string }) {
+  return (
+    <motion.div
+      className={`absolute rounded-full ${color}`}
+      style={{
+        left: x,
+        top: y,
+        width: size,
+        height: size,
+      }}
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{
+        opacity: [0, 0.6, 0.3, 0.6, 0],
+        scale: [0, 1, 1.2, 1, 0],
+        y: [0, -60, -30, -80, -100],
+        x: [0, 10, -10, 15, 0],
+      }}
+      transition={{
+        duration: 8,
+        repeat: Infinity,
+        delay,
+        ease: [0.25, 0.46, 0.45, 0.94],
+      }}
+    />
+  );
+}
+
+// Morphing blob background
+function MorphingBlob({ className, delay = 0 }: { className: string; delay?: number }) {
+  return (
+    <motion.div
+      className={`absolute rounded-full blur-3xl ${className}`}
+      animate={{
+        scale: [1, 1.2, 1.1, 1.3, 1],
+        x: [0, 30, -20, 10, 0],
+        y: [0, -20, 30, -10, 0],
+        rotate: [0, 45, 90, 45, 0],
+      }}
+      transition={{
+        duration: 20,
+        repeat: Infinity,
+        delay,
+        ease: "easeInOut",
+      }}
+    />
+  );
+}
+
+// Animated counter with spring physics
+function AnimatedNumber({ value }: { value: number }) {
+  const [displayValue, setDisplayValue] = useState(0);
+  
+  useEffect(() => {
+    const duration = 2000;
+    const startTime = Date.now();
+    
+    const animate = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 4);
+      setDisplayValue(Math.floor(eased * value));
+      
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+    
+    const timeout = setTimeout(() => requestAnimationFrame(animate), 800);
+    return () => clearTimeout(timeout);
+  }, [value]);
+  
+  return <span>{displayValue.toLocaleString()}</span>;
+}
+
+// Parallax wrapper
+function useParallax(value: MotionValue<number>, distance: number) {
+  return useTransform(value, [0, 1], [-distance, distance]);
 }
 
 export function HeroSection() {
@@ -74,69 +190,77 @@ export function HeroSection() {
     offset: ["start start", "end start"],
   });
 
-  // Smooth spring-based parallax values
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
-  const y1 = useTransform(smoothProgress, [0, 1], [0, -100]);
-  const y2 = useTransform(smoothProgress, [0, 1], [0, -200]);
-  const opacity = useTransform(smoothProgress, [0, 0.5], [1, 0]);
-  const scale = useTransform(smoothProgress, [0, 0.5], [1, 0.9]);
+  // Ultra-smooth spring physics
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 50, damping: 20, mass: 0.5 });
+  
+  // Parallax transforms
+  const y1 = useTransform(smoothProgress, [0, 1], [0, -150]);
+  const y2 = useTransform(smoothProgress, [0, 1], [0, -250]);
+  const y3 = useTransform(smoothProgress, [0, 1], [0, -100]);
+  const opacity = useTransform(smoothProgress, [0, 0.4], [1, 0]);
+  const scale = useTransform(smoothProgress, [0, 0.4], [1, 0.95]);
+  const phoneY = useParallax(smoothProgress, 50);
+  const phoneRotate = useTransform(smoothProgress, [0, 1], [0, -5]);
+
+  // Mouse parallax for decorative elements
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 20;
+      const y = (e.clientY / window.innerHeight - 0.5) * 20;
+      setMousePosition({ x, y });
+    };
+    
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   return (
-    <section ref={containerRef} className="relative min-h-screen flex flex-col items-center justify-center px-6 py-20 overflow-hidden">
-      {/* Animated background gradient */}
+    <section 
+      ref={containerRef} 
+      className="relative min-h-screen flex flex-col items-center justify-center px-6 py-20 overflow-hidden"
+    >
+      {/* Layered gradient backgrounds */}
       <motion.div 
-        className="absolute inset-0 bg-gradient-to-b from-background via-background to-secondary/30"
+        className="absolute inset-0 bg-gradient-to-b from-background via-background to-secondary/50"
         style={{ opacity }}
       />
       
-      {/* Parallax decorative blobs */}
-      <motion.div 
-        className="absolute top-20 left-10 w-64 h-64 bg-primary/10 rounded-full blur-3xl"
-        style={{ y: y1 }}
-        animate={{ 
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3],
+      {/* Morphing background blobs - muted pastel colors */}
+      <MorphingBlob className="top-10 left-[5%] w-[500px] h-[500px] orb-lavender opacity-40" delay={0} />
+      <MorphingBlob className="top-40 right-[10%] w-[400px] h-[400px] orb-peach opacity-30" delay={5} />
+      <MorphingBlob className="bottom-20 left-[20%] w-[600px] h-[600px] orb-sky opacity-25" delay={10} />
+      <MorphingBlob className="bottom-40 right-[5%] w-[350px] h-[350px] orb-sage opacity-35" delay={15} />
+      
+      {/* Subtle grid pattern overlay */}
+      <div 
+        className="absolute inset-0 opacity-[0.015]"
+        style={{
+          backgroundImage: `
+            linear-gradient(hsl(var(--primary)) 1px, transparent 1px),
+            linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)
+          `,
+          backgroundSize: '60px 60px',
         }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
       />
-      <motion.div 
-        className="absolute bottom-40 right-10 w-80 h-80 bg-accent/20 rounded-full blur-3xl"
-        style={{ y: y2 }}
-        animate={{ 
-          scale: [1.2, 1, 1.2],
-          opacity: [0.4, 0.6, 0.4],
-        }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-      />
-
+      
       {/* Floating particles */}
-      {[...Array(6)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-2 h-2 rounded-full bg-primary/30"
-          style={{
-            left: `${15 + i * 15}%`,
-            top: `${20 + (i % 3) * 25}%`,
-          }}
-          animate={{
-            y: [0, -30, 0],
-            opacity: [0.3, 0.7, 0.3],
-            scale: [1, 1.5, 1],
-          }}
-          transition={{
-            duration: 3 + i * 0.5,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: i * 0.3,
-          }}
-        />
-      ))}
+      <FloatingParticle delay={0} x="15%" y="20%" size={8} color="bg-lavender" />
+      <FloatingParticle delay={1} x="80%" y="30%" size={6} color="bg-peach" />
+      <FloatingParticle delay={2} x="25%" y="60%" size={10} color="bg-sky" />
+      <FloatingParticle delay={3} x="70%" y="70%" size={7} color="bg-sage" />
+      <FloatingParticle delay={4} x="50%" y="15%" size={5} color="bg-primary/30" />
+      <FloatingParticle delay={5} x="10%" y="80%" size={9} color="bg-lavender" />
+      <FloatingParticle delay={6} x="90%" y="50%" size={6} color="bg-peach" />
+      <FloatingParticle delay={7} x="40%" y="85%" size={8} color="bg-sky" />
 
+      {/* Main content with parallax */}
       <motion.div 
-        className="relative z-10 max-w-6xl mx-auto w-full"
-        style={{ scale, opacity }}
+        className="relative z-10 max-w-7xl mx-auto w-full"
+        style={{ scale, opacity, x: mousePosition.x * 0.1, y: mousePosition.y * 0.1 }}
       >
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Left content */}
           <motion.div
             variants={staggerContainer}
@@ -144,150 +268,218 @@ export function HeroSection() {
             animate="visible"
             className="text-center lg:text-left"
           >
-            {/* Badge with shimmer effect */}
+            {/* Badge with enhanced shimmer */}
             <motion.div
               variants={fadeUpSpring}
-              whileHover={{ scale: 1.05, y: -2 }}
-              className="relative inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/50 border border-primary/20 mb-6 overflow-hidden group cursor-pointer"
+              whileHover={{ scale: 1.03, y: -2 }}
+              className="relative inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full glass border border-primary/10 mb-8 overflow-hidden cursor-pointer group"
             >
+              {/* Multi-layer shimmer */}
               <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                animate={{ x: ['-100%', '100%'] }}
-                transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                animate={{ x: ['-200%', '200%'] }}
+                transition={{ duration: 3, repeat: Infinity, repeatDelay: 4, ease: "easeInOut" }}
               />
               <motion.div
                 animate={{ rotate: [0, 360] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+                className="relative"
               >
                 <Sparkles className="w-4 h-4 text-primary" />
               </motion.div>
-              <span className="text-sm font-medium text-foreground/80">AI-Powered Productivity</span>
+              <span className="text-sm font-medium text-foreground/80 relative">AI-Powered Productivity</span>
+              <motion.div
+                className="absolute -right-1 -top-1 w-2 h-2 rounded-full bg-sage"
+                animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
             </motion.div>
 
-            {/* Headline with character animation */}
+            {/* Headline with character-by-character animation */}
             <motion.h1
               variants={fadeUpSpring}
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6"
+              className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] mb-8"
+              style={{ perspective: '1000px' }}
             >
               <AnimatedText text="Your life, " />
+              <br className="hidden sm:block" />
               <motion.span 
                 className="text-gradient inline-block"
                 animate={{ 
                   backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
                 }}
-                transition={{ duration: 5, repeat: Infinity }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                 style={{ backgroundSize: '200% 200%' }}
               >
-                <AnimatedText text="beautifully" />
+                <AnimatedText text="beautifully" delay={12} />
               </motion.span>
               <br />
-              <AnimatedText text="organized" />
+              <AnimatedText text="organized" delay={22} />
             </motion.h1>
 
-            {/* Subheadline */}
+            {/* Subheadline with word animation */}
             <motion.p
               variants={fadeUpSpring}
-              className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-lg mx-auto lg:mx-0"
+              className="text-lg sm:text-xl text-muted-foreground mb-10 max-w-lg mx-auto lg:mx-0 leading-relaxed"
             >
-              The AI assistant that learns how you work, anticipates your needs, and helps you accomplish more with less effort.
+              <AnimatedWords text="The AI assistant that learns how you work, anticipates your needs, and helps you accomplish more with less effort." />
             </motion.p>
 
-            {/* App Store Buttons */}
-            <motion.div variants={fadeUpSpring}>
+            {/* App Store Buttons with entrance animation */}
+            <motion.div 
+              variants={fadeUpSpring}
+              className="mb-10"
+            >
               <AppStoreButtons />
             </motion.div>
 
-            {/* Social proof with animated avatars */}
+            {/* Enhanced social proof */}
             <motion.div
               variants={fadeUpSpring}
-              className="mt-8 flex items-center gap-4 justify-center lg:justify-start"
+              className="flex flex-col sm:flex-row items-center gap-6 justify-center lg:justify-start"
             >
+              {/* Stacked avatars with stagger animation */}
               <div className="flex -space-x-3">
-                {[1, 2, 3, 4, 5].map((i) => (
+                {[
+                  'from-lavender to-primary/50',
+                  'from-peach to-accent',
+                  'from-sky to-primary/30',
+                  'from-sage to-sky',
+                  'from-primary/30 to-lavender',
+                ].map((gradient, i) => (
                   <motion.div
                     key={i}
-                    initial={{ opacity: 0, scale: 0, x: -20 }}
+                    initial={{ opacity: 0, scale: 0, x: -30 }}
                     animate={{ opacity: 1, scale: 1, x: 0 }}
                     transition={{ 
                       type: "spring",
                       stiffness: 200,
-                      damping: 15,
-                      delay: 0.5 + i * 0.08,
+                      damping: 12,
+                      delay: 0.6 + i * 0.08,
                     }}
                     whileHover={{ 
-                      scale: 1.2, 
+                      scale: 1.15, 
                       zIndex: 10,
-                      transition: { type: "spring", stiffness: 400 }
+                      y: -5,
                     }}
-                    className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-accent border-2 border-background cursor-pointer relative"
+                    className={`w-10 h-10 rounded-full bg-gradient-to-br ${gradient} border-2 border-background cursor-pointer relative shadow-lg`}
                   />
                 ))}
               </div>
-              <motion.p 
-                className="text-sm text-muted-foreground"
-                initial={{ opacity: 0, x: -10 }}
+              
+              {/* Stats */}
+              <motion.div 
+                className="flex items-center gap-2"
+                initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.9, duration: 0.3 }}
+                transition={{ delay: 1.1, duration: 0.4 }}
               >
-                <motion.span 
-                  className="font-semibold text-foreground"
-                  animate={{ scale: [1, 1.05, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  50,000+
-                </motion.span>{' '}
-                users love us
-              </motion.p>
+                <div className="flex gap-0.5">
+                  {[...Array(5)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, scale: 0, rotate: -180 }}
+                      animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                      transition={{ delay: 1.2 + i * 0.05, type: "spring", stiffness: 200 }}
+                    >
+                      <Star className="w-4 h-4 fill-golden text-golden" />
+                    </motion.div>
+                  ))}
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  <motion.span 
+                    className="font-semibold text-foreground"
+                  >
+                    <AnimatedNumber value={50000} />+
+                  </motion.span>{' '}
+                  happy users
+                </p>
+              </motion.div>
             </motion.div>
           </motion.div>
 
-          {/* Right - 3D Phone with enhanced entrance */}
+          {/* Right - 3D Phone with enhanced animations */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, rotateY: -15 }}
-            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+            initial={{ opacity: 0, scale: 0.85, rotateY: -20, rotateX: 10 }}
+            animate={{ opacity: 1, scale: 1, rotateY: 0, rotateX: 0 }}
             transition={{ 
               type: "spring",
-              stiffness: 50,
-              damping: 20,
-              delay: 0.2,
+              stiffness: 40,
+              damping: 18,
+              delay: 0.3,
             }}
-            className="relative"
+            style={{ y: phoneY, rotateZ: phoneRotate }}
+            className="relative perspective-2000"
           >
-            {/* Animated glow ring */}
+            {/* Layered glow effects */}
             <motion.div 
-              className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full blur-3xl scale-75"
+              className="absolute inset-0 orb-lavender rounded-full scale-110 blur-3xl"
               animate={{ 
-                scale: [0.75, 0.85, 0.75],
-                opacity: [0.5, 0.8, 0.5],
+                scale: [1.1, 1.2, 1.1],
+                opacity: [0.3, 0.5, 0.3],
+              }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div 
+              className="absolute inset-0 orb-peach rounded-full scale-90 blur-3xl"
+              animate={{ 
+                scale: [0.9, 1, 0.9],
+                opacity: [0.2, 0.4, 0.2],
                 rotate: [0, 180, 360],
               }}
-              transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+              transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
             />
-            <Phone3D className="w-full h-[500px] lg:h-[600px]" />
+            
+            {/* Floating accent rings */}
+            <motion.div
+              className="absolute inset-0 border-2 border-primary/10 rounded-[3rem] scale-105"
+              animate={{ 
+                rotate: [0, 360],
+                scale: [1.05, 1.1, 1.05],
+              }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            />
+            <motion.div
+              className="absolute inset-0 border border-lavender/20 rounded-[3rem] scale-110"
+              animate={{ 
+                rotate: [360, 0],
+                scale: [1.1, 1.15, 1.1],
+              }}
+              transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+            />
+            
+            <Phone3D className="w-full h-[500px] lg:h-[650px]" />
           </motion.div>
         </div>
       </motion.div>
 
       {/* Enhanced scroll indicator */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1, duration: 0.5 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        transition={{ delay: 1.5, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
       >
+        <motion.span 
+          className="text-xs uppercase tracking-widest text-muted-foreground/60"
+          animate={{ opacity: [0.4, 0.8, 0.4] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          Scroll to explore
+        </motion.span>
         <motion.div
-          className="w-6 h-10 rounded-full border-2 border-muted-foreground/30 flex items-start justify-center p-2 cursor-pointer"
-          whileHover={{ borderColor: 'hsl(var(--primary))' }}
+          className="w-6 h-10 rounded-full border-2 border-muted-foreground/20 flex items-start justify-center p-1.5 cursor-pointer hover:border-primary/40 transition-colors"
           animate={{ y: [0, 5, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
         >
           <motion.div
             animate={{ 
-              y: [0, 12, 0],
+              y: [0, 16, 0],
               opacity: [1, 0.3, 1],
+              scaleY: [1, 0.8, 1],
             }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-            className="w-1.5 h-2.5 rounded-full bg-muted-foreground/50"
+            transition={{ duration: 2, repeat: Infinity, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="w-1.5 h-3 rounded-full bg-gradient-to-b from-primary/60 to-lavender/60"
           />
         </motion.div>
       </motion.div>
