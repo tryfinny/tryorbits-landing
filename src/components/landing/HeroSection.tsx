@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform, useSpring, MotionValue } from 'framer-motion';
-import { Phone3D } from './Phone3D';
+import { PhoneMockup } from './PhoneMockup';
 import { AppStoreButtons } from './AppStoreButtons';
 import { Sparkles, Star } from 'lucide-react';
 import { useRef, useState, useEffect } from 'react';
@@ -398,57 +398,20 @@ export function HeroSection() {
             </motion.div>
           </motion.div>
 
-          {/* Right - 3D Phone with enhanced animations */}
+          {/* Right - Phone Mockup with smooth animations */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.85, rotateY: -20, rotateX: 10 }}
-            animate={{ opacity: 1, scale: 1, rotateY: 0, rotateX: 0 }}
+            initial={{ opacity: 0, scale: 0.9, y: 40 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ 
               type: "spring",
-              stiffness: 40,
-              damping: 18,
+              stiffness: 60,
+              damping: 20,
               delay: 0.3,
             }}
-            style={{ y: phoneY, rotateZ: phoneRotate }}
-            className="relative perspective-2000"
+            style={{ y: phoneY }}
+            className="relative"
           >
-            {/* Layered glow effects */}
-            <motion.div 
-              className="absolute inset-0 orb-lavender rounded-full scale-110 blur-3xl"
-              animate={{ 
-                scale: [1.1, 1.2, 1.1],
-                opacity: [0.3, 0.5, 0.3],
-              }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.div 
-              className="absolute inset-0 orb-peach rounded-full scale-90 blur-3xl"
-              animate={{ 
-                scale: [0.9, 1, 0.9],
-                opacity: [0.2, 0.4, 0.2],
-                rotate: [0, 180, 360],
-              }}
-              transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-            />
-            
-            {/* Floating accent rings */}
-            <motion.div
-              className="absolute inset-0 border-2 border-primary/10 rounded-[3rem] scale-105"
-              animate={{ 
-                rotate: [0, 360],
-                scale: [1.05, 1.1, 1.05],
-              }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            />
-            <motion.div
-              className="absolute inset-0 border border-lavender/20 rounded-[3rem] scale-110"
-              animate={{ 
-                rotate: [360, 0],
-                scale: [1.1, 1.15, 1.1],
-              }}
-              transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-            />
-            
-            <Phone3D className="w-full h-[500px] lg:h-[650px]" />
+            <PhoneMockup className="w-full h-[500px] lg:h-[650px] flex items-center justify-center" />
           </motion.div>
         </div>
       </motion.div>
