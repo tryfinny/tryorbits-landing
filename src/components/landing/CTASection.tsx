@@ -1,7 +1,27 @@
 import { motion, useInView, useScroll, useTransform, useSpring } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { AppStoreButtons } from './AppStoreButtons';
-import { ArrowRight, Sparkles, Zap } from 'lucide-react';
+import { ArrowRight, Sparkles, Zap, Heart } from 'lucide-react';
+
+// Floating orb with organic motion
+function FloatingOrb({ className, delay = 0 }: { className: string; delay?: number }) {
+  return (
+    <motion.div
+      className={`absolute rounded-full blur-3xl ${className}`}
+      animate={{
+        y: [0, -40, 0, 40, 0],
+        x: [0, 20, 0, -20, 0],
+        scale: [1, 1.1, 1, 0.9, 1],
+      }}
+      transition={{
+        duration: 15,
+        repeat: Infinity,
+        delay,
+        ease: "easeInOut",
+      }}
+    />
+  );
+}
 
 export function CTASection() {
   const containerRef = useRef(null);
@@ -14,102 +34,112 @@ export function CTASection() {
     offset: ["start end", "end start"],
   });
 
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
-  const backgroundScale = useTransform(smoothProgress, [0, 0.5, 1], [0.8, 1, 1.2]);
-  const backgroundOpacity = useTransform(smoothProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 50, damping: 20 });
+  const backgroundScale = useTransform(smoothProgress, [0, 0.5, 1], [0.9, 1, 1.1]);
+  const backgroundOpacity = useTransform(smoothProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0.5]);
 
   return (
-    <section ref={containerRef} className="relative py-32 px-6 overflow-hidden">
-      {/* Animated background gradient */}
+    <section ref={containerRef} className="relative py-32 lg:py-40 px-6 overflow-hidden">
+      {/* Layered gradient background */}
       <motion.div 
-        className="absolute inset-0 bg-gradient-to-b from-background to-secondary/30"
+        className="absolute inset-0 bg-gradient-to-b from-background via-secondary/20 to-background"
         style={{ opacity: backgroundOpacity }}
       />
       
-      {/* Pulsing center glow */}
+      {/* Central glowing orb */}
       <motion.div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-primary/10 rounded-full blur-3xl"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] orb-lavender opacity-30"
         style={{ scale: backgroundScale }}
         animate={{ 
-          opacity: [0.3, 0.6, 0.3],
+          opacity: [0.2, 0.4, 0.2],
         }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* Floating orbs */}
-      {[...Array(4)].map((_, i) => (
+      {/* Floating accent orbs */}
+      <FloatingOrb className="top-20 left-[15%] w-[300px] h-[300px] orb-peach opacity-25" delay={0} />
+      <FloatingOrb className="bottom-20 right-[15%] w-[250px] h-[250px] orb-sky opacity-30" delay={5} />
+      <FloatingOrb className="top-1/3 right-[20%] w-[200px] h-[200px] orb-sage opacity-20" delay={10} />
+
+      {/* Floating particles */}
+      {[...Array(8)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute w-4 h-4 rounded-full bg-primary/20"
+          className="absolute w-3 h-3 rounded-full"
           style={{
-            left: `${20 + i * 20}%`,
-            top: `${30 + (i % 2) * 40}%`,
+            left: `${15 + i * 10}%`,
+            top: `${25 + (i % 3) * 25}%`,
+            background: i % 4 === 0 ? 'hsl(var(--lavender))' : 
+                       i % 4 === 1 ? 'hsl(var(--peach))' :
+                       i % 4 === 2 ? 'hsl(var(--sky))' : 'hsl(var(--sage))',
           }}
           animate={{
-            y: [0, -40, 0],
-            x: [0, i % 2 === 0 ? 20 : -20, 0],
+            y: [0, -50, 0],
+            x: [0, i % 2 === 0 ? 30 : -30, 0],
             opacity: [0.2, 0.6, 0.2],
             scale: [1, 1.5, 1],
           }}
           transition={{
-            duration: 4 + i,
+            duration: 5 + i,
             repeat: Infinity,
             ease: "easeInOut",
-            delay: i * 0.5,
+            delay: i * 0.7,
           }}
         />
       ))}
 
       <motion.div
         ref={ref}
-        initial={{ opacity: 0, y: 50 }}
-        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-        transition={{ type: "spring", stiffness: 80, damping: 20 }}
-        className="relative z-10 max-w-4xl mx-auto text-center"
+        initial={{ opacity: 0, y: 60 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
+        transition={{ type: "spring", stiffness: 60, damping: 20 }}
+        className="relative z-10 max-w-5xl mx-auto text-center"
       >
         {/* Animated badge */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.8, y: 20 }}
-          animate={isInView ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.8, y: 20 }}
-          transition={{ type: "spring", stiffness: 150, damping: 15, delay: 0.1 }}
-          whileHover={{ scale: 1.05 }}
-          className="relative inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary/10 border border-primary/20 mb-10 overflow-hidden cursor-pointer"
+          initial={{ opacity: 0, scale: 0.8, y: 30 }}
+          animate={isInView ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.8, y: 30 }}
+          transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.1 }}
+          whileHover={{ scale: 1.05, y: -3 }}
+          className="relative inline-flex items-center gap-3 px-6 py-3 glass rounded-full border border-primary/10 mb-12 overflow-hidden cursor-pointer group"
         >
           {/* Shimmer */}
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-            animate={{ x: ['-100%', '100%'] }}
-            transition={{ duration: 2, repeat: Infinity, repeatDelay: 2 }}
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+            animate={{ x: ['-200%', '200%'] }}
+            transition={{ duration: 3, repeat: Infinity, repeatDelay: 3, ease: "easeInOut" }}
           />
+          
           <motion.div
             animate={{ rotate: 360 }}
-            transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
           >
-            <Sparkles className="w-4 h-4 text-primary" />
+            <Sparkles className="w-5 h-5 text-golden" />
           </motion.div>
-          <span className="text-sm font-medium">Free to download</span>
+          <span className="text-sm font-medium relative">Free to download</span>
           <motion.div
             animate={{ scale: [1, 1.3, 1] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
+            transition={{ duration: 2, repeat: Infinity }}
           >
-            <Zap className="w-4 h-4 text-primary fill-primary" />
+            <Heart className="w-4 h-4 text-peach fill-peach" />
           </motion.div>
         </motion.div>
 
-        {/* Headline with character reveal */}
+        {/* Headline */}
         <motion.h2 
-          className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-8 leading-tight"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ type: "spring", stiffness: 80, damping: 15, delay: 0.15 }}
+          className="text-3xl sm:text-4xl lg:text-6xl xl:text-7xl font-bold mb-10 leading-tight"
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+          transition={{ type: "spring", stiffness: 60, damping: 15, delay: 0.15 }}
         >
           Ready to transform your{' '}
+          <br className="hidden sm:block" />
           <motion.span 
             className="text-gradient inline-block"
             animate={{ 
               backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
             }}
-            transition={{ duration: 4, repeat: Infinity }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
             style={{ backgroundSize: '200% 200%' }}
           >
             productivity
@@ -118,49 +148,49 @@ export function CTASection() {
         </motion.h2>
 
         <motion.p 
-          className="text-lg sm:text-xl text-muted-foreground mb-12 max-w-2xl mx-auto"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          className="text-lg sm:text-xl lg:text-2xl text-muted-foreground mb-14 max-w-3xl mx-auto leading-relaxed"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ delay: 0.25 }}
         >
           Download now and join thousands of users who've already discovered a better way to work.
         </motion.p>
 
-        {/* App Store Buttons with enhanced entrance */}
+        {/* App Store Buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 30, scale: 0.9 }}
-          animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 30, scale: 0.9 }}
-          transition={{ type: "spring", stiffness: 100, damping: 15, delay: 0.3 }}
-          className="flex justify-center mb-10"
+          initial={{ opacity: 0, y: 40, scale: 0.95 }}
+          animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 40, scale: 0.95 }}
+          transition={{ type: "spring", stiffness: 80, damping: 15, delay: 0.3 }}
+          className="flex justify-center mb-12"
         >
           <AppStoreButtons />
         </motion.div>
 
-        {/* Secondary CTA with magnetic effect */}
+        {/* Secondary CTA */}
         <motion.a
           href="#"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ delay: 0.4 }}
+          transition={{ delay: 0.45 }}
           onHoverStart={() => setIsArrowHovered(true)}
           onHoverEnd={() => setIsArrowHovered(false)}
           whileHover={{ scale: 1.02 }}
-          className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors group"
+          className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors group text-lg"
         >
           <span className="relative">
             Learn more about our features
             <motion.span
-              className="absolute -bottom-0.5 left-0 h-0.5 bg-primary"
+              className="absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-primary to-lavender"
               initial={{ width: 0 }}
               animate={isArrowHovered ? { width: '100%' } : { width: 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
             />
           </span>
           <motion.div
-            animate={isArrowHovered ? { x: 5 } : { x: 0 }}
-            transition={{ type: "spring", stiffness: 300 }}
+            animate={isArrowHovered ? { x: 8 } : { x: 0 }}
+            transition={{ type: "spring", stiffness: 300, damping: 15 }}
           >
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-5 h-5" />
           </motion.div>
         </motion.a>
       </motion.div>

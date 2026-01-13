@@ -63,6 +63,29 @@ export default {
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
   		},
+  		colors: {
+  			// Pastel accent colors from Orbits design
+  			sage: {
+  				DEFAULT: 'hsl(var(--sage))',
+  				foreground: 'hsl(var(--sage-foreground))',
+  			},
+  			sky: {
+  				DEFAULT: 'hsl(var(--sky))',
+  				foreground: 'hsl(var(--sky-foreground))',
+  			},
+  			peach: {
+  				DEFAULT: 'hsl(var(--peach))',
+  				foreground: 'hsl(var(--peach-foreground))',
+  			},
+  			lavender: {
+  				DEFAULT: 'hsl(var(--lavender))',
+  				foreground: 'hsl(var(--lavender-foreground))',
+  			},
+  			golden: {
+  				DEFAULT: 'hsl(var(--golden))',
+  				foreground: 'hsl(var(--golden-foreground))',
+  			},
+  		},
   		keyframes: {
   			'accordion-down': {
   				from: {
