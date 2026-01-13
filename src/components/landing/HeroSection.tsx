@@ -298,7 +298,7 @@ export function HeroSection() {
             {/* Headline with character-by-character animation */}
             <motion.h1
               variants={fadeUpSpring}
-              className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] mb-8"
+              className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.1] mb-8"
               style={{ perspective: '1000px' }}
             >
               <AnimatedText text="Your life, " />
