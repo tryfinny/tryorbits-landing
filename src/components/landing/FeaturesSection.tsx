@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { Brain, Zap, Calendar, Shield, Home, Users, Wallet, Bell } from 'lucide-react';
+import { Home, Users, Wallet, Bell } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-device-motion';
 
 const features = [
   {
@@ -41,14 +42,15 @@ const features = [
   },
 ];
 
-// 3D Tilt Card Component
-function TiltCard({ children, className }: { children: React.ReactNode; className?: string }) {
+// 3D Tilt Card Component with mobile tap support
+function TiltCard({ children, className, isMobile }: { children: React.ReactNode; className?: string; isMobile: boolean }) {
   const [transform, setTransform] = useState('');
   const [glare, setGlare] = useState({ x: 50, y: 50, opacity: 0 });
+  const [isTapped, setIsTapped] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!ref.current) return;
+    if (isMobile || !ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top) / rect.height;
@@ -65,15 +67,36 @@ function TiltCard({ children, className }: { children: React.ReactNode; classNam
     setGlare({ x: 50, y: 50, opacity: 0 });
   };
 
+  // Mobile touch handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!isMobile || !ref.current) return;
+    setIsTapped(true);
+    const rect = ref.current.getBoundingClientRect();
+    const touch = e.touches[0];
+    const x = (touch.clientX - rect.left) / rect.width;
+    const y = (touch.clientY - rect.top) / rect.height;
+    setGlare({ x: x * 100, y: y * 100, opacity: 0.25 });
+  };
+
+  const handleTouchEnd = () => {
+    setIsTapped(false);
+    setGlare({ x: 50, y: 50, opacity: 0 });
+  };
+
   return (
-    <div
+    <motion.div
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className={`relative transition-transform duration-300 ease-out ${className}`}
-      style={{ transform, transformStyle: 'preserve-3d' }}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onTouchCancel={handleTouchEnd}
+      animate={isMobile ? { scale: isTapped ? 0.98 : 1 } : undefined}
+      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+      className={`relative transition-transform duration-300 ease-out touch-manipulation ${className}`}
+      style={{ transform: isMobile ? undefined : transform, transformStyle: 'preserve-3d' }}
     >
-      {/* Glare effect */}
+      {/* Glare/tap ripple effect */}
       <div
         className="pointer-events-none absolute inset-0 rounded-3xl transition-opacity duration-300"
         style={{
@@ -82,40 +105,46 @@ function TiltCard({ children, className }: { children: React.ReactNode; classNam
         }}
       />
       {children}
-    </div>
+    </motion.div>
   );
 }
 
-function FeatureCard({ feature, index }: { feature: typeof features[0]; index: number }) {
+function FeatureCard({ feature, index, isMobile }: { feature: typeof features[0]; index: number; isMobile: boolean }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
-  const [isHovered, setIsHovered] = useState(false);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const [isActive, setIsActive] = useState(false);
   const Icon = feature.icon;
+
+  // On mobile, use tap instead of hover
+  const handleInteractionStart = () => setIsActive(true);
+  const handleInteractionEnd = () => setIsActive(false);
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 80, rotateX: -20 }}
-      animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : { opacity: 0, y: 80, rotateX: -20 }}
+      initial={{ opacity: 0, y: 60 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
       transition={{ 
         type: "spring",
-        stiffness: 60,
-        damping: 15,
+        stiffness: 80,
+        damping: 18,
         delay: index * 0.1,
       }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
+      onHoverStart={!isMobile ? handleInteractionStart : undefined}
+      onHoverEnd={!isMobile ? handleInteractionEnd : undefined}
+      onTouchStart={isMobile ? handleInteractionStart : undefined}
+      onTouchEnd={isMobile ? handleInteractionEnd : undefined}
       className="group"
     >
-      <TiltCard>
+      <TiltCard isMobile={isMobile}>
         <motion.div 
-          className={`relative p-8 lg:p-10 bg-gradient-to-br ${feature.gradient} rounded-[2rem] border border-border/30 h-full overflow-hidden backdrop-blur-sm`}
-          animate={isHovered ? { 
+          className={`relative p-6 lg:p-10 bg-gradient-to-br ${feature.gradient} rounded-[2rem] border border-border/30 h-full overflow-hidden backdrop-blur-sm`}
+          animate={isActive ? { 
             boxShadow: '0 30px 60px -20px hsl(var(--primary) / 0.15)',
           } : {
             boxShadow: '0 10px 40px -20px hsl(var(--primary) / 0.05)',
           }}
-          transition={{ duration: 0.4 }}
+          transition={{ duration: 0.3 }}
         >
           {/* Animated background pattern */}
           <motion.div
@@ -123,42 +152,50 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
             style={{
               backgroundImage: `radial-gradient(circle at 70% 30%, hsl(var(--${feature.color.replace('bg-', '')})) 0%, transparent 50%)`,
             }}
-            animate={isHovered ? { scale: 1.2, opacity: 0.4 } : { scale: 1, opacity: 0.2 }}
-            transition={{ duration: 0.5 }}
+            animate={isActive ? { scale: 1.2, opacity: 0.4 } : { scale: 1, opacity: 0.2 }}
+            transition={{ duration: 0.4 }}
           />
 
-          {/* Multi-layer shimmer */}
+          {/* Shimmer effect - continuous on mobile */}
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent"
             initial={{ x: '-200%', opacity: 0 }}
-            animate={isHovered ? { x: '200%', opacity: 1 } : { x: '-200%', opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
+            animate={
+              isMobile 
+                ? { x: ['−200%', '200%'], opacity: [0, 1, 0] }
+                : isActive 
+                  ? { x: '200%', opacity: 1 } 
+                  : { x: '-200%', opacity: 0 }
+            }
+            transition={
+              isMobile 
+                ? { duration: 3, repeat: Infinity, repeatDelay: 2 + index * 0.5, ease: "easeInOut" }
+                : { duration: 0.6, ease: "easeInOut" }
+            }
           />
 
           {/* Floating corner accent */}
           <motion.div
             className={`absolute -top-10 -right-10 w-32 h-32 ${feature.color} rounded-full blur-3xl`}
-            animate={isHovered ? { scale: 1.5, opacity: 0.6 } : { scale: 1, opacity: 0.3 }}
-            transition={{ duration: 0.5 }}
+            animate={isActive ? { scale: 1.5, opacity: 0.6 } : { scale: 1, opacity: 0.3 }}
+            transition={{ duration: 0.4 }}
           />
 
-          {/* Icon with 3D pop effect */}
+          {/* Icon with pop effect */}
           <motion.div
-            animate={isHovered ? { 
-              y: -8, 
-              rotateZ: 5,
-              scale: 1.1,
+            animate={isActive ? { 
+              y: -6, 
+              scale: 1.08,
             } : { 
               y: 0, 
-              rotateZ: 0,
               scale: 1,
             }}
-            transition={{ type: "spring", stiffness: 300, damping: 15 }}
-            className="relative z-10 mb-6"
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            className="relative z-10 mb-5"
           >
             <motion.div
-              className={`w-16 h-16 lg:w-20 lg:h-20 rounded-2xl ${feature.iconBg} flex items-center justify-center relative`}
-              animate={isHovered ? { 
+              className={`w-14 h-14 lg:w-20 lg:h-20 rounded-2xl ${feature.iconBg} flex items-center justify-center relative`}
+              animate={isActive ? { 
                 boxShadow: `0 15px 30px -10px hsl(var(--${feature.color.replace('bg-', '')}) / 0.4)`,
               } : {
                 boxShadow: 'none',
@@ -167,25 +204,25 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
               {/* Icon glow */}
               <motion.div
                 className={`absolute inset-0 rounded-2xl ${feature.color} blur-xl`}
-                animate={isHovered ? { opacity: 0.4, scale: 1.2 } : { opacity: 0, scale: 1 }}
-                transition={{ duration: 0.3 }}
+                animate={isActive ? { opacity: 0.5, scale: 1.3 } : { opacity: 0, scale: 1 }}
+                transition={{ duration: 0.25 }}
               />
-              <Icon className={`w-8 h-8 lg:w-10 lg:h-10 ${feature.accentColor} relative z-10`} />
+              <Icon className={`w-7 h-7 lg:w-10 lg:h-10 ${feature.accentColor} relative z-10`} />
             </motion.div>
           </motion.div>
 
-          {/* Content with staggered reveal on hover */}
+          {/* Content */}
           <motion.h3 
-            className="text-xl lg:text-2xl font-semibold mb-4 relative z-10"
-            animate={isHovered ? { x: 8 } : { x: 0 }}
+            className="text-xl lg:text-2xl font-semibold mb-3 relative z-10"
+            animate={isActive ? { x: isMobile ? 0 : 6 } : { x: 0 }}
             transition={{ type: "spring", stiffness: 200, damping: 15 }}
           >
             {feature.title}
           </motion.h3>
           <motion.p 
-            className="text-muted-foreground leading-relaxed relative z-10 text-base lg:text-lg"
-            animate={isHovered ? { x: 8 } : { x: 0 }}
-            transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.03 }}
+            className="text-muted-foreground leading-relaxed relative z-10 text-sm lg:text-lg"
+            animate={isActive ? { x: isMobile ? 0 : 6 } : { x: 0 }}
+            transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.02 }}
           >
             {feature.description}
           </motion.p>
@@ -193,7 +230,7 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
           {/* Interactive corner detail */}
           <motion.div
             className="absolute bottom-4 right-4 w-8 h-8 rounded-full border-2 border-muted/30 flex items-center justify-center"
-            animate={isHovered ? { 
+            animate={isActive ? { 
               scale: 1.2, 
               borderColor: `hsl(var(--${feature.color.replace('bg-', '')}))`,
               rotate: 90,
@@ -205,7 +242,7 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
           >
             <motion.div
               className={`w-2 h-2 rounded-full ${feature.color}`}
-              animate={isHovered ? { scale: 1.5 } : { scale: 1 }}
+              animate={isActive ? { scale: 1.5 } : { scale: 1 }}
             />
           </motion.div>
         </motion.div>
@@ -217,7 +254,8 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
 export function FeaturesSection() {
   const containerRef = useRef(null);
   const headerRef = useRef(null);
-  const isHeaderInView = useInView(headerRef, { once: true, margin: "-100px" });
+  const isHeaderInView = useInView(headerRef, { once: true, margin: "-80px" });
+  const isMobile = useIsMobile();
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -230,18 +268,18 @@ export function FeaturesSection() {
   const backgroundRotate = useTransform(smoothProgress, [0, 1], [0, 45]);
 
   return (
-    <section ref={containerRef} className="relative py-32 lg:py-40 px-6 overflow-hidden">
+    <section ref={containerRef} className="relative py-24 lg:py-40 px-6 overflow-hidden">
       {/* Parallax background orbs */}
       <motion.div 
-        className="absolute top-0 right-[10%] w-[500px] h-[500px] orb-lavender opacity-30"
+        className="absolute top-0 right-[10%] w-[400px] lg:w-[500px] h-[400px] lg:h-[500px] orb-lavender opacity-30"
         style={{ y: backgroundY1, rotate: backgroundRotate }}
       />
       <motion.div 
-        className="absolute bottom-0 left-[5%] w-[400px] h-[400px] orb-peach opacity-25"
+        className="absolute bottom-0 left-[5%] w-[300px] lg:w-[400px] h-[300px] lg:h-[400px] orb-peach opacity-25"
         style={{ y: backgroundY2 }}
       />
       <motion.div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] orb-sky opacity-15"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] lg:w-[800px] h-[600px] lg:h-[800px] orb-sky opacity-15"
         style={{ rotate: useTransform(smoothProgress, [0, 1], [0, -30]) }}
       />
 
@@ -249,13 +287,13 @@ export function FeaturesSection() {
         {/* Section header */}
         <motion.div
           ref={headerRef}
-          initial={{ opacity: 0, y: 60 }}
-          animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
-          transition={{ type: "spring", stiffness: 60, damping: 20 }}
-          className="text-center mb-20 lg:mb-28"
+          initial={{ opacity: 0, y: 40 }}
+          animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+          transition={{ type: "spring", stiffness: 80, damping: 20 }}
+          className="text-center mb-16 lg:mb-28"
         >
           <motion.span 
-            className="inline-block text-primary font-medium text-sm uppercase tracking-widest mb-6"
+            className="inline-block text-primary font-medium text-sm uppercase tracking-widest mb-4"
             initial={{ opacity: 0, y: 20 }}
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.1 }}
@@ -263,25 +301,16 @@ export function FeaturesSection() {
             ✨ Features
           </motion.span>
           <motion.h2 
-            className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-8"
+            className="text-3xl sm:text-4xl lg:text-6xl mb-6"
             initial={{ opacity: 0, y: 20 }}
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.15 }}
           >
             Everything you need to{' '}
-            <motion.span 
-              className="text-gradient inline-block"
-              animate={{ 
-                backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-              }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              style={{ backgroundSize: '200% 200%' }}
-            >
-              thrive
-            </motion.span>
+            <span className="text-primary">thrive</span>
           </motion.h2>
           <motion.p 
-            className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto"
+            className="text-base lg:text-xl text-muted-foreground max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.2 }}
@@ -290,16 +319,16 @@ export function FeaturesSection() {
           </motion.p>
         </motion.div>
 
-        {/* Features grid with offset layout */}
-        <div className="grid sm:grid-cols-2 gap-6 lg:gap-8">
+        {/* Features grid - single column on mobile for better touch targets */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 lg:gap-8">
           {features.map((feature, index) => (
             <motion.div
               key={feature.title}
-              style={{ 
+              style={!isMobile ? { 
                 marginTop: index % 2 === 1 ? '3rem' : '0',
-              }}
+              } : undefined}
             >
-              <FeatureCard feature={feature} index={index} />
+              <FeatureCard feature={feature} index={index} isMobile={isMobile} />
             </motion.div>
           ))}
         </div>
