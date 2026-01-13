@@ -295,26 +295,16 @@ export function HeroSection() {
               />
             </motion.div>
 
-            {/* Headline with character-by-character animation */}
+            {/* Headline - clean and simple */}
             <motion.h1
               variants={fadeUpSpring}
               className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.1] mb-8"
-              style={{ perspective: '1000px' }}
             >
-              <AnimatedText text="Your life, " />
+              <span>Your life, </span>
               <br className="hidden sm:block" />
-              <motion.span 
-                className="text-gradient inline-block"
-                animate={{ 
-                  backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-                }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                style={{ backgroundSize: '200% 200%' }}
-              >
-                <AnimatedText text="beautifully" delay={12} />
-              </motion.span>
+              <span className="text-primary">beautifully</span>
               <br />
-              <AnimatedText text="organized" delay={22} />
+              <span>organized</span>
             </motion.h1>
 
             {/* Subheadline with word animation */}
