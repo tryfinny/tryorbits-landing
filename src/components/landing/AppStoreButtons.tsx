@@ -1,10 +1,13 @@
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import { Apple } from 'lucide-react';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import { useIsMobile } from '@/hooks/use-device-motion';
 
-// Magnetic button with 3D tilt effect
+// Magnetic button with 3D tilt effect + mobile tap feedback
 function MagneticButton({ children, className, href }: { children: React.ReactNode; className?: string; href: string }) {
   const ref = useRef<HTMLAnchorElement>(null);
+  const isMobile = useIsMobile();
+  const [isTapped, setIsTapped] = useState(false);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   
@@ -13,12 +16,12 @@ function MagneticButton({ children, className, href }: { children: React.ReactNo
   const xSpring = useSpring(x, springConfig);
   const ySpring = useSpring(y, springConfig);
   
-  // 3D rotation transforms
+  // 3D rotation transforms (only on desktop)
   const rotateX = useTransform(ySpring, [-20, 20], [8, -8]);
   const rotateY = useTransform(xSpring, [-20, 20], [-8, 8]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!ref.current) return;
+    if (isMobile || !ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
@@ -32,28 +35,52 @@ function MagneticButton({ children, className, href }: { children: React.ReactNo
     y.set(0);
   };
 
+  // Mobile tap handlers
+  const handleTapStart = () => {
+    setIsTapped(true);
+  };
+  
+  const handleTapEnd = () => {
+    setIsTapped(false);
+  };
+
   return (
     <motion.a
       ref={ref}
       href={href}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{ 
+      onTouchStart={handleTapStart}
+      onTouchEnd={handleTapEnd}
+      onTouchCancel={handleTapEnd}
+      style={!isMobile ? { 
         x: xSpring, 
         y: ySpring,
         rotateX,
         rotateY,
         transformStyle: 'preserve-3d',
-      }}
-      whileTap={{ scale: 0.97 }}
-      className={`relative ${className}`}
+      } : undefined}
+      whileTap={{ scale: 0.95 }}
+      className={`relative touch-manipulation ${className}`}
     >
       {children}
+      
+      {/* Mobile tap ripple effect */}
+      {isMobile && (
+        <motion.div
+          className="absolute inset-0 rounded-2xl bg-white pointer-events-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isTapped ? 0.15 : 0 }}
+          transition={{ duration: 0.15 }}
+        />
+      )}
     </motion.a>
   );
 }
 
 export function AppStoreButtons() {
+  const isMobile = useIsMobile();
+  
   return (
     <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start perspective-1000">
       {/* App Store Button */}
@@ -62,30 +89,38 @@ export function AppStoreButtons() {
         className="group"
       >
         <motion.div
-          className="relative inline-flex items-center gap-4 px-7 py-4 bg-foreground text-background rounded-2xl overflow-hidden"
-          whileHover={{ 
+          className="relative inline-flex items-center gap-4 px-7 py-4 bg-foreground text-background rounded-2xl overflow-hidden min-h-[60px]"
+          whileHover={!isMobile ? { 
             boxShadow: '0 25px 50px -12px hsl(var(--primary) / 0.3)',
-          }}
+          } : undefined}
           transition={{ duration: 0.3 }}
         >
+          {/* Continuous pulse glow on mobile for attention */}
+          {isMobile && (
+            <motion.div
+              className="absolute inset-0 rounded-2xl"
+              style={{
+                background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.3), transparent 70%)',
+              }}
+              animate={{
+                opacity: [0, 0.4, 0],
+                scale: [1, 1.1, 1],
+              }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            />
+          )}
+          
           {/* Shimmer effect */}
           <motion.div
             className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
             initial={{ x: '-200%' }}
-            whileHover={{ x: '200%' }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-          />
-          
-          {/* Glow effect */}
-          <motion.div
-            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            style={{
-              background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.2), transparent 70%)',
-            }}
+            animate={{ x: ['−200%', '200%'] }}
+            transition={{ duration: 3, repeat: Infinity, repeatDelay: 2, ease: "easeInOut" }}
           />
           
           <motion.div
-            whileHover={{ scale: 1.1, rotate: -5 }}
+            whileHover={!isMobile ? { scale: 1.1, rotate: -5 } : undefined}
+            whileTap={{ scale: 0.9 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
             <Apple className="w-8 h-8 relative z-10" />
@@ -113,30 +148,38 @@ export function AppStoreButtons() {
         className="group"
       >
         <motion.div
-          className="relative inline-flex items-center gap-4 px-7 py-4 bg-foreground text-background rounded-2xl overflow-hidden"
-          whileHover={{ 
+          className="relative inline-flex items-center gap-4 px-7 py-4 bg-foreground text-background rounded-2xl overflow-hidden min-h-[60px]"
+          whileHover={!isMobile ? { 
             boxShadow: '0 25px 50px -12px hsl(var(--primary) / 0.3)',
-          }}
+          } : undefined}
           transition={{ duration: 0.3 }}
         >
+          {/* Continuous pulse glow on mobile for attention */}
+          {isMobile && (
+            <motion.div
+              className="absolute inset-0 rounded-2xl"
+              style={{
+                background: 'radial-gradient(circle at 50% 50%, hsl(var(--sage) / 0.3), transparent 70%)',
+              }}
+              animate={{
+                opacity: [0, 0.4, 0],
+                scale: [1, 1.1, 1],
+              }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+            />
+          )}
+          
           {/* Shimmer effect */}
           <motion.div
             className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
             initial={{ x: '-200%' }}
-            whileHover={{ x: '200%' }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-          />
-          
-          {/* Glow effect */}
-          <motion.div
-            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            style={{
-              background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.2), transparent 70%)',
-            }}
+            animate={{ x: ['−200%', '200%'] }}
+            transition={{ duration: 3, repeat: Infinity, repeatDelay: 2.5, ease: "easeInOut" }}
           />
           
           <motion.div
-            whileHover={{ scale: 1.1, rotate: 5 }}
+            whileHover={!isMobile ? { scale: 1.1, rotate: 5 } : undefined}
+            whileTap={{ scale: 0.9 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
             <svg className="w-7 h-7 relative z-10" viewBox="0 0 24 24" fill="currentColor">
