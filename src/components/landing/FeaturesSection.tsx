@@ -268,7 +268,7 @@ export function FeaturesSection() {
   const backgroundRotate = useTransform(smoothProgress, [0, 1], [0, 45]);
 
   return (
-    <section ref={containerRef} className="relative py-24 lg:py-40 px-6 overflow-hidden">
+    <section ref={containerRef} className="relative py-24 lg:py-28 px-6 overflow-hidden">
       {/* Parallax background orbs */}
       <motion.div 
         className="absolute top-0 right-[10%] w-[400px] lg:w-[500px] h-[400px] lg:h-[500px] orb-lavender opacity-30"
