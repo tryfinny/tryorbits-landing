@@ -200,7 +200,7 @@ export function HeroSection() {
                 <Sparkles className="w-4 h-4 text-primary" />
               </motion.div>
               <span className="text-xs sm:text-sm font-medium text-foreground/80 relative">
-                AI-Powered Productivity
+                AI-Powered
               </span>
             </motion.div>
 
