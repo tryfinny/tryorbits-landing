@@ -347,7 +347,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                   Good morning, Ellie
                 </h3>
                 <p className="text-xs text-[#6b6b6b] whitespace-nowrap">
-                  Tuesday, April 9 · <span className="text-golden">☀️ 72°</span>
+                  Tuesday, April 9 <span className="text-golden">☀️ 72°</span>
                 </p>
               </div>
 
