@@ -222,7 +222,7 @@ export function HeroSection() {
                   animate={{ backgroundPosition: '0% 50%' }}
                   transition={{ delay: 0.5, duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
                   style={{
-                    background: 'linear-gradient(90deg, hsl(var(--primary)), hsl(var(--lavender)), hsl(var(--primary)))',
+                    background: 'linear-gradient(90deg, hsl(260 45% 40%), hsl(var(--primary)), hsl(260 45% 40%))',
                     backgroundSize: '200% 100%',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
