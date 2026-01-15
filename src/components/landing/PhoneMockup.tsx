@@ -351,7 +351,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               </AICard>
               
               {/* Proactive suggestion card */}
-              <AICard bgColor="bg-gradient-to-br from-peach/30 to-peach/15 border border-peach/20" delay={1.0} className="mb-3">
+              <AICard bgColor="bg-gradient-to-br from-golden/25 to-golden/10 border border-golden/30" delay={1.0} className="mb-3">
                 <div className="flex items-center gap-2 mb-1.5">
                   <span className="text-base">💡</span>
                   <span className="text-[14px] font-serif font-medium text-[#1a1a1a]">Suggestion</span>
