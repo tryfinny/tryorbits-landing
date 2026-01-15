@@ -1,40 +1,40 @@
 import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Home, Users, Wallet, Bell } from "lucide-react";
+import { Calendar, Mail, Home, ListTodo } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-device-motion";
 
 const features = [
   {
-    icon: Home,
-    title: "Home Management",
-    description: "Track maintenance, manage supplies, and keep your household running smoothly.",
+    icon: Calendar,
+    title: "Calendar Syncing",
+    description: "Combine yours and the rest of your family's calendars into one Orbits calendar. Identify conflicts, assign appointments, and more.",
     color: "bg-sage",
     gradient: "from-sage/20 to-sky/10",
     iconBg: "bg-sage/20",
     accentColor: "text-sage-foreground",
   },
   {
-    icon: Users,
-    title: "Family Calendar",
-    description: "Coordinate schedules, activities, and events for everyone in your family.",
+    icon: Mail,
+    title: "Email Handling",
+    description: "Let Orbits handle your emails. Dance class rescheduled? Calendar event updates. Dentist appointment reminder? Orbits drafts a response based on your calendar and all you have to do is hit Send.",
     color: "bg-peach",
     gradient: "from-peach/20 to-lavender/10",
     iconBg: "bg-peach/20",
     accentColor: "text-peach-foreground",
   },
   {
-    icon: Wallet,
-    title: "Smart Budgeting",
-    description: "Monitor spending, track bills, and gain insights into your family finances.",
+    icon: Home,
+    title: "Home Maintenance",
+    description: "Add your appliances, home details, and regular upkeep tasks and let Orbits send the reminders, gather the quotes, or recommend maintenance.",
     color: "bg-sky",
     gradient: "from-sky/20 to-sage/10",
     iconBg: "bg-sky/20",
     accentColor: "text-sky-foreground",
   },
   {
-    icon: Bell,
-    title: "Intelligent Alerts",
-    description: "Get timely reminders and proactive suggestions tailored to your routine.",
+    icon: ListTodo,
+    title: "The Basics",
+    description: "Put away the whiteboard - Lists, Tasks, Reminders, Documents and more of what you'd expect.",
     color: "bg-lavender",
     gradient: "from-lavender/20 to-peach/10",
     iconBg: "bg-lavender/20",
