@@ -292,13 +292,13 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
           {/* Screen - force light mode */}
           <div className="relative bg-[#F9F3E9] rounded-[2.5rem] overflow-hidden">
             {/* Screen content */}
-            <div className="pt-4 pb-4 px-4 sm:px-5 min-h-[400px] sm:min-h-[440px] lg:min-h-[480px]">
+            <div className="pt-3 pb-3 px-4 sm:px-5 min-h-[380px] sm:min-h-[420px] lg:min-h-[460px]">
               {/* Header with date and weather */}
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="mb-3"
+                className="mb-2"
               >
                 <h3 className="text-lg sm:text-xl font-serif font-medium text-[#1a1a1a] mb-0.5 whitespace-nowrap">
                   Good morning, Ellie
@@ -312,9 +312,9 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               <AICard
                 bgColor="bg-gradient-to-br from-sky/30 to-sky/15 border border-sky/20"
                 delay={0.5}
-                className="mb-3"
+                className="mb-2"
               >
-                <div className="flex items-center gap-1.5 mb-3">
+                <div className="flex items-center gap-1.5 mb-2">
                   <span className="text-sm">📅</span>
                   <span className="text-[13px] font-serif font-medium text-[#1a1a1a] whitespace-nowrap">
                     Family Calendar
@@ -323,7 +323,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                 </div>
                 
                 {/* Single row calendar with emoji markers */}
-                <div className="bg-white/60 rounded-2xl px-3 py-2.5 mb-3">
+                <div className="bg-white/60 rounded-2xl px-3 py-2 mb-2">
                   <div className="flex justify-between text-[9px] text-[#999] mb-1.5">
                     <span>S</span>
                     <span>M</span>
@@ -345,7 +345,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                 </div>
 
                 {/* Event item */}
-                <div className="flex items-center gap-2.5 bg-white/60 rounded-2xl px-3 py-2.5">
+                <div className="flex items-center gap-2.5 bg-white/60 rounded-2xl px-3 py-2">
                   <span className="text-base">🎉</span>
                   <div>
                     <p className="text-[12px] font-medium text-[#2a2a2a]">Birthday Party (Lily)</p>
@@ -358,9 +358,9 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               <AICard
                 bgColor="bg-gradient-to-br from-lavender/50 to-lavender/30 border border-lavender/40"
                 delay={0.8}
-                className="mb-3"
+                className="mb-2"
               >
-                <div className="flex items-center gap-2 mb-2.5">
+                <div className="flex items-center gap-2 mb-2">
                   <span className="text-base">📊</span>
                   <span className="text-[13px] font-serif font-medium text-[#1a1a1a]">Progress Tracker</span>
                 </div>
@@ -403,13 +403,13 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                 <AICard
                   bgColor="bg-gradient-to-br from-sage/30 to-sage/15 border border-sage/20"
                   delay={1.0}
-                  className="mb-3"
+                  className="mb-2"
                 >
                   <div className="flex items-center gap-2 mb-1.5">
                     <span className="text-base">🏠</span>
                     <span className="text-[13px] font-serif font-medium text-[#1a1a1a]">HVAC Service Booked</span>
                   </div>
-                  <p className="text-[13px] text-[#3a3a3a] leading-relaxed mb-2.5">
+                  <p className="text-[13px] text-[#3a3a3a] leading-relaxed mb-2">
                     Filter replacement due. AirFlow Pro booked for Tuesday 9AM.
                   </p>
                   <div className="flex gap-2">
