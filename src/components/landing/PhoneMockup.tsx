@@ -309,68 +309,44 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
             </div>
             
             {/* Screen content */}
-            <div className="pt-14 pb-6 sm:pb-8 px-3 sm:px-4 min-h-[480px] sm:min-h-[560px] lg:min-h-[600px]">
+            <div className="pt-14 pb-6 sm:pb-8 px-4 sm:px-5 min-h-[480px] sm:min-h-[560px] lg:min-h-[600px]">
               {/* Header with date and weather */}
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="mb-4"
+                className="mb-5"
               >
-                <h3 className="text-base sm:text-lg font-serif font-medium text-foreground mb-0.5">Good morning, Ellie</h3>
+                <h3 className="text-base sm:text-lg font-serif font-medium text-foreground mb-1">Good morning, Ellie</h3>
                 <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
                   <span>Tuesday, April 9</span>
-                  <span className="text-golden">☀️ 72° / 58°</span>
+                  <span className="text-golden">☀️ 72°</span>
                 </div>
               </motion.div>
               
               {/* Calendar sync card */}
-              <AICard bgColor="bg-sky/15" delay={0.5} className="mb-2.5">
-                <div className="flex items-center gap-1.5 mb-2">
-                  <span className="text-[10px]">✨</span>
+              <AICard bgColor="bg-sky/12" delay={0.5} className="mb-3">
+                <div className="flex items-center gap-1.5 mb-2.5">
+                  <span className="text-[11px]">✨</span>
                   <span className="text-[11px] font-semibold text-foreground">Calendars Synced</span>
                 </div>
-                <div className="space-y-1.5 text-[10px] text-foreground/80 leading-relaxed">
-                  <p>– Mike added "Emma's soccer practice" to the family calendar.</p>
-                  <p>– You're both free to attend — no conflicts detected.</p>
-                </div>
-              </AICard>
-              
-              {/* Schedule conflict card */}
-              <AICard bgColor="bg-background border border-foreground/5" delay={0.7} className="mb-2.5">
-                <div className="flex items-start gap-1.5 mb-2">
-                  <span className="text-[10px]">✨</span>
-                  <div>
-                    <p className="text-[10px] text-foreground font-medium">Mike moved "Dentist for Emma" to Thursday 3PM.</p>
-                    <p className="text-[9px] text-muted-foreground mt-0.5">I've updated your calendar. You're now free during pickup time.</p>
-                  </div>
-                </div>
-                <div className="flex gap-2 mt-2.5">
-                  <ActionButton variant="primary">✓ Looks good</ActionButton>
-                  <ActionButton variant="secondary">📅 View calendar</ActionButton>
-                </div>
+                <p className="text-[10px] text-foreground/80 leading-relaxed">
+                  Mike added "Soccer practice" — you're both free to attend.
+                </p>
               </AICard>
               
               {/* Auto-scheduled maintenance card */}
-              <AICard bgColor="bg-sage/10 border border-sage/20" delay={0.9} className="mb-2.5">
-                <div className="flex items-start gap-1.5 mb-2">
-                  <span className="text-[10px]">✨</span>
-                  <div>
-                    <p className="text-[10px] text-foreground font-medium">Your HVAC filter is 90 days old.</p>
-                    <p className="text-[9px] text-muted-foreground mt-0.5">I've booked CleanAir Pros for Tuesday 9AM — they had a 4.9★ rating and availability.</p>
-                  </div>
+              <AICard bgColor="bg-sage/10" delay={0.8} className="mb-3">
+                <div className="flex items-center gap-1.5 mb-2.5">
+                  <span className="text-[11px]">✨</span>
+                  <span className="text-[11px] font-semibold text-foreground">HVAC Service Booked</span>
                 </div>
-                <div className="flex gap-2 mt-2.5">
-                  <ActionButton variant="primary">✓ Confirm</ActionButton>
-                  <ActionButton variant="secondary">🔄 Reschedule</ActionButton>
-                </div>
-              </AICard>
-              
-              {/* Proactive maintenance suggestion */}
-              <AICard bgColor="bg-lavender/10 border border-lavender/20" delay={1.1}>
-                <div className="flex items-start gap-1.5">
-                  <span className="text-[10px]">✨</span>
-                  <p className="text-[10px] text-foreground leading-relaxed">Your gutters were last cleaned 11 months ago. Want me to schedule a cleaning before the rainy season?</p>
+                <p className="text-[10px] text-foreground/80 leading-relaxed mb-3">
+                  Filter due for replacement. I booked AirFlow Pro for Tuesday 9AM.
+                </p>
+                <div className="flex gap-2">
+                  <ActionButton variant="primary">Confirm</ActionButton>
+                  <ActionButton variant="secondary">Reschedule</ActionButton>
                 </div>
               </AICard>
               
@@ -378,7 +354,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.4 }}
+                transition={{ delay: 1.2 }}
                 className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2"
               >
                 <div className="w-28 sm:w-32 h-1 bg-foreground/20 rounded-full" />
