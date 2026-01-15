@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-
+import { Link } from 'react-router-dom';
 export function Footer() {
   return (
     <footer className="py-12 px-6 border-t border-border">
@@ -19,9 +19,9 @@ export function Footer() {
           {/* Links */}
           <div className="flex flex-wrap justify-center gap-6 text-sm text-muted-foreground">
             <a href="#" className="hover:text-foreground transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-foreground transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-foreground transition-colors">Contact</a>
-            <a href="#" className="hover:text-foreground transition-colors">Support</a>
+            <Link to="/terms" className="hover:text-foreground transition-colors">Terms of Service</Link>
+            <a href="mailto:contact@nemusai.com" className="hover:text-foreground transition-colors">Contact</a>
+            <a href="mailto:contact@nemusai.com" className="hover:text-foreground transition-colors">Support</a>
           </div>
 
           {/* Copyright */}
