@@ -353,12 +353,16 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               {/* Proactive suggestion card */}
               <AICard bgColor="bg-gradient-to-br from-golden/25 to-golden/10 border border-golden/30" delay={1.0} className="mb-3">
                 <div className="flex items-center gap-2 mb-1.5">
-                  <span className="text-base">💡</span>
+                  <span className="text-base">✨</span>
                   <span className="text-[14px] font-serif font-medium text-[#1a1a1a]">Suggestion</span>
                 </div>
-                <p className="text-[13px] text-[#3a3a3a] leading-relaxed">
+                <p className="text-[13px] text-[#3a3a3a] leading-relaxed mb-2.5">
                   Gutters last cleaned 11 months ago. Schedule before rainy season?
                 </p>
+                <div className="flex gap-2">
+                  <ActionButton variant="primary">Schedule</ActionButton>
+                  <ActionButton variant="secondary">Dismiss</ActionButton>
+                </div>
               </AICard>
               
               {/* Bottom navigation hint - home indicator */}
