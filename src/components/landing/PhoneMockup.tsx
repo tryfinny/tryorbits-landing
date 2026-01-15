@@ -362,7 +362,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               >
                 <div className="flex items-center gap-2 mb-2.5">
                   <span className="text-base">📊</span>
-                  <span className="text-[14px] font-serif font-medium text-[#1a1a1a]">Progress Tracker</span>
+                  <span className="text-[13px] font-serif font-medium text-[#1a1a1a]">Progress Tracker</span>
                 </div>
                 <div className="space-y-2">
                   {/* Grocery List */}
@@ -407,7 +407,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                 >
                   <div className="flex items-center gap-2 mb-1.5">
                     <span className="text-base">🏠</span>
-                    <span className="text-[14px] font-serif font-medium text-[#1a1a1a]">HVAC Service Booked</span>
+                    <span className="text-[13px] font-serif font-medium text-[#1a1a1a]">HVAC Service Booked</span>
                   </div>
                   <p className="text-[13px] text-[#3a3a3a] leading-relaxed mb-2.5">
                     Filter replacement due. AirFlow Pro booked for Tuesday 9AM.
