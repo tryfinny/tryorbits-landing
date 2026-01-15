@@ -361,7 +361,7 @@ export function SocialProofSection() {
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               style={{ backgroundSize: '200% 200%' }}
             >
-              <AnimatedCounter value={50000} />+
+              <AnimatedCounter value={2400} />+
             </motion.span>
           </motion.h2>
           <motion.p 

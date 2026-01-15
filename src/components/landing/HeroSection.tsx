@@ -319,7 +319,7 @@ export function HeroSection() {
                 </div>
                 <p className="text-sm text-muted-foreground">
                   <span className="font-semibold text-foreground">
-                    <AnimatedNumber value={50000} />+
+                    <AnimatedNumber value={2400} />+
                   </span>{' '}
                   happy users
                 </p>
