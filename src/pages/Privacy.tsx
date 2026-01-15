@@ -13,7 +13,7 @@ export default function Privacy() {
             className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            Back to Home
+            Back
           </Link>
         </div>
       </header>
@@ -91,8 +91,8 @@ export default function Privacy() {
               </ul>
               <p className="text-muted-foreground leading-relaxed mt-3">
                 To exercise these rights, contact us at{' '}
-                <a href="mailto:contact@nemusai.com" className="text-primary hover:underline">
-                  contact@nemusai.com
+                <a href="mailto:contact@tryorbits.com" className="text-primary hover:underline">
+                  contact@tryorbits.com
                 </a>. We will respond to all requests in accordance with applicable laws.
               </p>
             </section>
@@ -115,8 +115,8 @@ export default function Privacy() {
               <h2 className="text-xl font-semibold mb-3 font-sans">9. Account Deletion</h2>
               <p className="text-muted-foreground leading-relaxed">
                 To delete your account, please contact us at{' '}
-                <a href="mailto:contact@nemusai.com" className="text-primary hover:underline">
-                  contact@nemusai.com
+                <a href="mailto:contact@tryorbits.com" className="text-primary hover:underline">
+                  contact@tryorbits.com
                 </a>.
               </p>
             </section>
@@ -129,8 +129,8 @@ export default function Privacy() {
               <p className="text-muted-foreground leading-relaxed mt-3">
                 <strong className="text-foreground">Nemus AI, Inc.</strong><br />
                 Email:{' '}
-                <a href="mailto:contact@nemusai.com" className="text-primary hover:underline">
-                  contact@nemusai.com
+                <a href="mailto:contact@tryorbits.com" className="text-primary hover:underline">
+                  contact@tryorbits.com
                 </a>
               </p>
             </section>
@@ -141,7 +141,7 @@ export default function Privacy() {
       {/* Simple Footer */}
       <footer className="border-t border-border py-8 px-6">
         <div className="max-w-4xl mx-auto text-center text-sm text-muted-foreground">
-          © 2024 Orbits. All rights reserved.
+          © 2026 Orbits. All rights reserved.
         </div>
       </footer>
     </div>
