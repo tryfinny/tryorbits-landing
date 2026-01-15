@@ -307,7 +307,45 @@ export function FeaturesSection() {
             transition={{ delay: 0.15 }}
           >
             Everything you need to{' '}
-            <span className="text-primary">thrive</span>
+            <motion.span 
+              className="relative inline-block"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <motion.span
+                animate={{ 
+                  backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+                }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                style={{
+                  background: 'linear-gradient(90deg, hsl(var(--sage)), hsl(var(--primary)), hsl(var(--sage)))',
+                  backgroundSize: '200% 100%',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                thrive
+              </motion.span>
+              {/* Animated glow */}
+              <motion.span
+                className="absolute inset-0 blur-lg opacity-40"
+                animate={{ 
+                  backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+                }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                style={{
+                  background: 'linear-gradient(90deg, hsl(var(--sage)), hsl(var(--primary)), hsl(var(--sage)))',
+                  backgroundSize: '200% 100%',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+                aria-hidden="true"
+              >
+                thrive
+              </motion.span>
+            </motion.span>
           </motion.h2>
           <motion.p 
             className="text-base lg:text-xl text-muted-foreground max-w-2xl mx-auto"
