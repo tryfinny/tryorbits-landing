@@ -338,7 +338,7 @@ export function SocialProofSection() {
             💜 Testimonials
           </motion.span>
           <motion.h2 
-            className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-8"
+            className="text-3xl sm:text-4xl lg:text-6xl font-lora font-medium tracking-[-0.01em] mb-8"
             initial={{ opacity: 0, y: 20 }}
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.15 }}
