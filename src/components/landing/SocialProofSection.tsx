@@ -327,7 +327,7 @@ export function SocialProofSection() {
           initial={{ opacity: 0, y: 60 }}
           animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
           transition={{ type: "spring", stiffness: 60, damping: 20 }}
-          className="text-center mb-20 lg:mb-28"
+          className="text-center mb-10 lg:mb-14"
         >
           <motion.span 
             className="inline-block text-primary font-medium text-sm uppercase tracking-widest mb-6"
@@ -356,7 +356,7 @@ export function SocialProofSection() {
             </motion.span>
           </motion.h2>
           <motion.p 
-            className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-10"
+            className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-6"
             initial={{ opacity: 0, y: 20 }}
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.2 }}
