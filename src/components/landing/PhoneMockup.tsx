@@ -309,15 +309,15 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
             </div>
             
             {/* Screen content */}
-            <div className="pt-14 pb-6 sm:pb-8 px-4 sm:px-5 min-h-[480px] sm:min-h-[560px] lg:min-h-[600px]">
+            <div className="pt-10 pb-6 px-4 sm:px-5 min-h-[420px] sm:min-h-[480px] lg:min-h-[520px]">
               {/* Header with date and weather */}
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="mb-5"
+                className="mb-4"
               >
-                <h3 className="text-xl sm:text-2xl font-serif font-medium text-[#1a1a1a] mb-1">Good morning, Ellie</h3>
+                <h3 className="text-xl sm:text-2xl font-serif font-medium text-[#1a1a1a] mb-0.5">Good morning, Ellie</h3>
                 <div className="flex items-center gap-2 text-sm text-[#6b6b6b]">
                   <span>Tuesday, April 9</span>
                   <span className="text-golden">☀️ 72°</span>
@@ -325,24 +325,24 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               </motion.div>
               
               {/* Calendar sync card */}
-              <AICard bgColor="bg-gradient-to-br from-sky/30 to-sky/15 border border-sky/20" delay={0.5} className="mb-3">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-lg">👨‍👩‍👧</span>
-                  <span className="text-[15px] font-serif font-medium text-[#1a1a1a]">Calendars Synced</span>
+              <AICard bgColor="bg-gradient-to-br from-sky/30 to-sky/15 border border-sky/20" delay={0.5} className="mb-2.5">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-base">👨‍👩‍👧</span>
+                  <span className="text-[14px] font-serif font-medium text-[#1a1a1a]">Calendars Synced</span>
                 </div>
-                <p className="text-[14px] text-[#3a3a3a] leading-relaxed">
-                  Mike added "Soccer practice" — you're both free to attend.
+                <p className="text-[13px] text-[#3a3a3a] leading-snug">
+                  Mike added "Soccer practice" — you're free.
                 </p>
               </AICard>
               
               {/* Auto-scheduled maintenance card */}
-              <AICard bgColor="bg-gradient-to-br from-sage/30 to-sage/15 border border-sage/20" delay={0.8} className="mb-3">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-lg">🏠</span>
-                  <span className="text-[15px] font-serif font-medium text-[#1a1a1a]">HVAC Service Booked</span>
+              <AICard bgColor="bg-gradient-to-br from-sage/30 to-sage/15 border border-sage/20" delay={0.8} className="mb-2.5">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-base">🏠</span>
+                  <span className="text-[14px] font-serif font-medium text-[#1a1a1a]">HVAC Booked</span>
                 </div>
-                <p className="text-[14px] text-[#3a3a3a] leading-relaxed mb-3">
-                  Filter due for replacement. I booked AirFlow Pro for Tuesday 9AM.
+                <p className="text-[13px] text-[#3a3a3a] leading-snug mb-2">
+                  AirFlow Pro scheduled for Tuesday 9AM.
                 </p>
                 <div className="flex gap-2">
                   <ActionButton variant="primary">Confirm</ActionButton>
@@ -351,13 +351,13 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               </AICard>
               
               {/* Proactive suggestion card */}
-              <AICard bgColor="bg-gradient-to-br from-peach/30 to-peach/15 border border-peach/20" delay={1.0} className="mb-3">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-lg">💡</span>
-                  <span className="text-[15px] font-serif font-medium text-[#1a1a1a]">Suggestion</span>
+              <AICard bgColor="bg-gradient-to-br from-peach/30 to-peach/15 border border-peach/20" delay={1.0} className="mb-2.5">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-base">💡</span>
+                  <span className="text-[14px] font-serif font-medium text-[#1a1a1a]">Suggestion</span>
                 </div>
-                <p className="text-[14px] text-[#3a3a3a] leading-relaxed">
-                  Gutters last cleaned 11 months ago. Schedule before rainy season?
+                <p className="text-[13px] text-[#3a3a3a] leading-snug">
+                  Gutters due — schedule before rain?
                 </p>
               </AICard>
               
