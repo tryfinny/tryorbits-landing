@@ -237,7 +237,7 @@ export function HeroSection() {
             {/* Social proof */}
             <motion.div
               variants={fadeUpSpring}
-              className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 justify-center lg:justify-start"
+              className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 justify-center lg:justify-start mb-2"
             >
               {/* Stacked avatars with tap feedback */}
               <motion.div 
