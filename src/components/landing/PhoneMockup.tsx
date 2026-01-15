@@ -1,4 +1,4 @@
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { CheckCircle2, Calendar, Bell, Star, TrendingUp, Wrench, Users, RefreshCw } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-device-motion";
@@ -123,21 +123,45 @@ function AICard({
   bgColor = "bg-sky/20",
   delay,
   className = "",
+  isInView = true,
 }: {
   children: React.ReactNode;
   bgColor?: string;
   delay: number;
   className?: string;
+  isInView?: boolean;
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 15 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 20, scale: 0.95 }}
+      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 20, scale: 0.95 }}
       transition={{ delay, type: "spring", stiffness: 100, damping: 15 }}
       className={`${bgColor} rounded-2xl px-3.5 py-2.5 ${className}`}
     >
       {children}
     </motion.div>
+  );
+}
+
+// Animated progress bar component
+function AnimatedProgressBar({
+  percentage,
+  delay,
+  isInView,
+}: {
+  percentage: number;
+  delay: number;
+  isInView: boolean;
+}) {
+  return (
+    <div className="h-1.5 bg-white/60 rounded-full overflow-hidden">
+      <motion.div
+        className="h-full bg-sage rounded-full"
+        initial={{ width: 0 }}
+        animate={isInView ? { width: `${percentage}%` } : { width: 0 }}
+        transition={{ delay, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+      />
+    </div>
   );
 }
 
@@ -167,6 +191,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = useState(false);
   const isMobile = useIsMobile();
+  const isInView = useInView(containerRef, { once: true, margin: "-100px" });
 
   // Mouse/touch tracking for 3D effect
   const mouseX = useMotionValue(0);
@@ -296,8 +321,8 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               {/* Header with date and weather */}
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
+                transition={{ delay: 0.3 }}
                 className="mb-2"
               >
                 <h3 className="text-lg sm:text-xl font-serif font-medium text-[#1a1a1a] mb-0.5 whitespace-nowrap">
@@ -313,6 +338,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                 bgColor="bg-gradient-to-br from-sky/30 to-sky/15 border border-sky/20"
                 delay={0.5}
                 className="mb-2"
+                isInView={isInView}
               >
                 <div className="flex items-center gap-1.5 mb-2">
                   <span className="text-sm">📅</span>
@@ -357,8 +383,9 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               {/* Progress tracker card */}
               <AICard
                 bgColor="bg-gradient-to-br from-lavender/50 to-lavender/30 border border-lavender/40"
-                delay={0.8}
+                delay={0.7}
                 className="mb-2"
+                isInView={isInView}
               >
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-base">📊</span>
@@ -371,9 +398,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                       <span className="text-[11px] font-medium text-[#2a2a2a]">Grocery List</span>
                       <span className="text-[10px] text-[#6a6a6a]">60%</span>
                     </div>
-                    <div className="h-1.5 bg-white/60 rounded-full overflow-hidden">
-                      <div className="h-full bg-sage rounded-full" style={{ width: '60%' }} />
-                    </div>
+                    <AnimatedProgressBar percentage={60} delay={1.0} isInView={isInView} />
                   </div>
                   {/* School Supplies */}
                   <div>
@@ -381,9 +406,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                       <span className="text-[11px] font-medium text-[#2a2a2a]">School Supplies</span>
                       <span className="text-[10px] text-[#6a6a6a]">10%</span>
                     </div>
-                    <div className="h-1.5 bg-white/60 rounded-full overflow-hidden">
-                      <div className="h-full bg-sage rounded-full" style={{ width: '10%' }} />
-                    </div>
+                    <AnimatedProgressBar percentage={10} delay={1.1} isInView={isInView} />
                   </div>
                   {/* Chores */}
                   <div>
@@ -391,9 +414,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                       <span className="text-[11px] font-medium text-[#2a2a2a]">Chores</span>
                       <span className="text-[10px] text-[#6a6a6a]">75%</span>
                     </div>
-                    <div className="h-1.5 bg-white/60 rounded-full overflow-hidden">
-                      <div className="h-full bg-sage rounded-full" style={{ width: '75%' }} />
-                    </div>
+                    <AnimatedProgressBar percentage={75} delay={1.2} isInView={isInView} />
                   </div>
                 </div>
               </AICard>
@@ -402,7 +423,8 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               <div className="relative">
                 <AICard
                   bgColor="bg-gradient-to-br from-sage/30 to-sage/15 border border-sage/20"
-                  delay={1.0}
+                  delay={0.9}
+                  isInView={isInView}
                   className="mb-2"
                 >
                   <div className="flex items-center gap-2 mb-1.5">
