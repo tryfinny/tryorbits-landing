@@ -195,11 +195,11 @@ function AnimatedEmoji({
     <motion.span
       className={className}
       animate={isInView ? { 
-        scale: [1, 1.3, 1],
+        scale: [1, 1.6, 1],
       } : {}}
       transition={{
         delay,
-        duration: 0.4,
+        duration: 0.5,
         ease: "easeOut",
       }}
     >
@@ -381,8 +381,8 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                     <AnimatedEmoji delay={0.9} isInView={isInView} className="text-[11px]">😊</AnimatedEmoji>
                     <motion.span 
                       className="bg-peach/60 rounded-full w-6 h-6 flex items-center justify-center"
-                      animate={isInView ? { scale: [1, 1.2, 1] } : {}}
-                      transition={{ delay: 1.0, duration: 0.4, ease: "easeOut" }}
+                      animate={isInView ? { scale: [1, 1.5, 1] } : {}}
+                      transition={{ delay: 1.0, duration: 0.5, ease: "easeOut" }}
                     >
                       🎉
                     </motion.span>
