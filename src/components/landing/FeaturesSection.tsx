@@ -213,7 +213,7 @@ function FeatureCard({ feature, index, isMobile }: { feature: typeof features[0]
 
           {/* Content */}
           <motion.h3 
-            className="text-xl lg:text-2xl font-heading font-medium tracking-[-0.01em] mb-3 relative z-10"
+            className="text-xl lg:text-2xl font-heading font-semibold tracking-[-0.01em] mb-3 relative z-10"
             animate={isActive ? { x: isMobile ? 0 : 6 } : { x: 0 }}
             transition={{ type: "spring", stiffness: 200, damping: 15 }}
           >
