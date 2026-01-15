@@ -358,7 +358,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               >
                 <div className="flex items-center gap-2 mb-2">
                   <AnimatedEmoji delay={0.6} isInView={isInView}>📅</AnimatedEmoji>
-                  <span className="text-[13px] font-serif font-medium text-[#1a1a1a] whitespace-nowrap">
+                  <span className="text-[13px] font-sans font-medium text-[#1a1a1a] whitespace-nowrap">
                     Family Calendar
                   </span>
                   <RefreshCw className="w-3.5 h-3.5 text-sage ml-auto" />
@@ -409,7 +409,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               >
                 <div className="flex items-center gap-2 mb-2">
                   <AnimatedEmoji delay={0.8} isInView={isInView}>📊</AnimatedEmoji>
-                  <span className="text-[13px] font-serif font-medium text-[#1a1a1a]">Progress Tracker</span>
+                  <span className="text-[13px] font-sans font-medium text-[#1a1a1a]">Progress Tracker</span>
                 </div>
                 <div className="space-y-2">
                   {/* Grocery List */}
@@ -447,7 +447,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                 >
                   <div className="flex items-center gap-2 mb-1.5">
                     <AnimatedEmoji delay={1.0} isInView={isInView}>🏠</AnimatedEmoji>
-                    <span className="text-[13px] font-serif font-medium text-[#1a1a1a]">HVAC Service Booked</span>
+                    <span className="text-[13px] font-sans font-medium text-[#1a1a1a]">HVAC Service Booked</span>
                   </div>
                   <p className="text-[13px] text-[#3a3a3a] leading-relaxed mb-2">
                     Filter replacement due. AirFlow Pro booked for Tuesday 9AM.
