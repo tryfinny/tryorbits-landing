@@ -364,7 +364,7 @@ export function FeaturesSection() {
           initial={{ opacity: 0, y: 40 }}
           animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
           transition={{ type: "spring", stiffness: 80, damping: 20 }}
-          className="text-center mb-16 lg:mb-28"
+          className="text-center mb-10 lg:mb-16"
         >
           <motion.span
             className="inline-block text-primary font-medium text-sm uppercase tracking-widest mb-4"
