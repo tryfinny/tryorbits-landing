@@ -314,7 +314,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                 delay={0.5}
                 className="mb-3"
               >
-                <div className="flex items-center gap-1.5 mb-2.5">
+                <div className="flex items-center gap-1.5 mb-3">
                   <span className="text-sm">📅</span>
                   <span className="text-[13px] font-serif font-medium text-[#1a1a1a] whitespace-nowrap">
                     Family Calendar
@@ -322,33 +322,34 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                   <RefreshCw className="w-3.5 h-3.5 text-sage ml-auto" />
                 </div>
                 
-                {/* Mini calendar grid */}
-                <div className="flex gap-3 mb-2.5">
-                  <div className="bg-white/60 rounded-xl px-2 py-1.5 flex-1">
-                    <div className="text-[8px] font-medium text-[#888] text-center mb-1">APR</div>
-                    <div className="grid grid-cols-7 gap-[2px] text-[7px] text-center">
-                      {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => (
-                        <span key={i} className="text-[#999]">{d}</span>
-                      ))}
-                      {[...Array(2)].map((_, i) => <span key={`e${i}`} />)}
-                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map((d) => (
-                        <span 
-                          key={d} 
-                          className={`${d === 9 ? 'bg-sky text-white rounded-full' : d === 10 ? 'bg-sage text-white rounded-full' : 'text-[#555]'}`}
-                        >
-                          {d}
-                        </span>
-                      ))}
-                    </div>
+                {/* Single row calendar with emoji markers */}
+                <div className="bg-white/60 rounded-2xl px-3 py-2.5 mb-3">
+                  <div className="flex justify-between text-[9px] text-[#999] mb-1.5">
+                    <span>S</span>
+                    <span>M</span>
+                    <span>T</span>
+                    <span>W</span>
+                    <span>T</span>
+                    <span>F</span>
+                    <span>S</span>
+                  </div>
+                  <div className="flex justify-between items-center text-[11px]">
+                    <span className="text-[#555] w-4 text-center">8</span>
+                    <span className="text-center">🌟</span>
+                    <span className="text-center">😊</span>
+                    <span className="text-center">🎉</span>
+                    <span className="text-[#555] w-4 text-center">12</span>
+                    <span className="text-[#555] w-4 text-center">13</span>
+                    <span className="text-[#555] w-4 text-center">14</span>
                   </div>
                 </div>
 
                 {/* Event item */}
-                <div className="flex items-center gap-2 bg-sage/20 rounded-2xl px-2.5 py-2">
-                  <div className="w-1 h-5 bg-sage rounded-full" />
+                <div className="flex items-center gap-2.5 bg-white/60 rounded-2xl px-3 py-2.5">
+                  <span className="text-base">🎹</span>
                   <div>
-                    <p className="text-[11px] font-medium text-[#2a2a2a]">⚽ Soccer Practice</p>
-                    <p className="text-[9px] text-[#6a6a6a]">Thu, Apr 10 · 4:00 PM</p>
+                    <p className="text-[12px] font-medium text-[#2a2a2a]">Piano Lesson</p>
+                    <p className="text-[10px] text-[#6a6a6a]">3:00 PM</p>
                   </div>
                 </div>
               </AICard>
