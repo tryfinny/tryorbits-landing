@@ -373,7 +373,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                   <span className="text-[14px] font-serif font-medium text-[#1a1a1a]">Suggestion</span>
                 </div>
                 <p className="text-[13px] text-[#3a3a3a] leading-relaxed mb-2.5">
-                  You last had the gutters cleaned in May. I recommend a cleaning before the rainy season.
+                  Gutters last cleaned in May. Schedule cleaning before the rainy season?
                 </p>
                 <div className="flex gap-2">
                   <ActionButton variant="primary">Schedule</ActionButton>
