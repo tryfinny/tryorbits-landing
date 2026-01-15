@@ -303,10 +303,9 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                 <h3 className="text-lg sm:text-xl font-serif font-medium text-[#1a1a1a] mb-0.5 whitespace-nowrap">
                   Good morning, Ellie
                 </h3>
-                <div className="flex items-center gap-1.5 text-xs text-[#6b6b6b]">
-                  <span>Tuesday, April 9</span>
-                  <span className="text-golden">☀️ 72°</span>
-                </div>
+                <p className="text-xs text-[#6b6b6b] whitespace-nowrap">
+                  Tuesday, April 9 · <span className="text-golden">☀️ 72°</span>
+                </p>
               </motion.div>
 
               {/* Calendar sync card */}
