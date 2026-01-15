@@ -117,22 +117,49 @@ function FloatingBadge({
   );
 }
 
-// Stats card component with tap feedback
-function StatsCard({ value, label, trend, delay }: { value: string; label: string; trend: string; delay: number }) {
+// AI Card component matching reference design
+function AICard({ 
+  children, 
+  bgColor = 'bg-sky/20',
+  delay,
+  className = ''
+}: { 
+  children: React.ReactNode;
+  bgColor?: string;
+  delay: number;
+  className?: string;
+}) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay, type: "spring", stiffness: 100 }}
-      whileTap={{ scale: 0.97 }}
-      className="glass rounded-xl p-3 flex-1 touch-manipulation"
+      transition={{ delay, type: "spring", stiffness: 100, damping: 15 }}
+      className={`${bgColor} rounded-2xl p-3.5 ${className}`}
     >
-      <div className="flex items-center justify-between mb-1">
-        <span className="text-lg font-bold text-foreground">{value}</span>
-        <span className="text-[9px] text-sage font-medium">{trend}</span>
-      </div>
-      <span className="text-[10px] text-muted-foreground">{label}</span>
+      {children}
     </motion.div>
+  );
+}
+
+// Action button component
+function ActionButton({ 
+  children, 
+  variant = 'primary' 
+}: { 
+  children: React.ReactNode; 
+  variant?: 'primary' | 'secondary';
+}) {
+  return (
+    <motion.button
+      whileTap={{ scale: 0.95 }}
+      className={`px-3 py-1.5 rounded-lg text-[10px] font-medium flex items-center gap-1.5 ${
+        variant === 'primary' 
+          ? 'bg-sage/80 text-sage-foreground' 
+          : 'bg-white/60 text-foreground border border-foreground/10'
+      }`}
+    >
+      {children}
+    </motion.button>
   );
 }
 
@@ -283,78 +310,66 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
             
             {/* Screen content */}
             <div className="pt-14 pb-6 sm:pb-8 px-3 sm:px-4 min-h-[480px] sm:min-h-[560px] lg:min-h-[600px]">
-              {/* Header */}
+              {/* Header with date and weather */}
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
                 className="mb-4"
               >
-                <p className="text-[10px] text-muted-foreground mb-1">Good morning</p>
-                <h3 className="text-base sm:text-lg font-bold text-foreground">Sarah ✨</h3>
+                <h3 className="text-base sm:text-lg font-serif font-medium text-foreground mb-0.5">Good morning, Ellie</h3>
+                <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
+                  <span>Tuesday, April 9</span>
+                  <span className="text-golden">☀️ 72° / 58°</span>
+                </div>
               </motion.div>
               
-              {/* Stats row */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-                className="flex gap-2 mb-4"
-              >
-                <StatsCard value="4" label="Family events" trend="today" delay={0.6} />
-                <StatsCard value="2" label="Auto-scheduled" trend="✓" delay={0.7} />
-              </motion.div>
+              {/* Today at a Glance card */}
+              <AICard bgColor="bg-sky/15" delay={0.5} className="mb-2.5">
+                <div className="flex items-center gap-1.5 mb-2">
+                  <span className="text-[10px]">✨</span>
+                  <span className="text-[11px] font-semibold text-foreground">Today at a Glance</span>
+                </div>
+                <div className="space-y-1.5 text-[10px] text-foreground/80 leading-relaxed">
+                  <p>– You're in charge of picking up Jason from Soccer.</p>
+                  <p>– Your husband is taking Kimmy to her piano lessons.</p>
+                </div>
+              </AICard>
               
-              {/* Section title */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.8 }}
-                className="flex items-center justify-between mb-3"
-              >
-                <span className="text-xs font-semibold text-foreground">Recent Activity</span>
-                <span className="text-[10px] text-primary">View all</span>
-              </motion.div>
+              {/* PTA Meeting card */}
+              <AICard bgColor="bg-background border border-foreground/5" delay={0.7} className="mb-2.5">
+                <div className="flex items-start gap-1.5 mb-2">
+                  <span className="text-[10px]">✨</span>
+                  <div>
+                    <p className="text-[10px] text-foreground font-medium">"PTA Meeting" was rescheduled from 3PM to 4PM.</p>
+                    <p className="text-[9px] text-muted-foreground mt-0.5">You have no conflicting appointments, but Jason's soccer game starts at 5PM.</p>
+                  </div>
+                </div>
+                <div className="flex gap-2 mt-2.5">
+                  <ActionButton variant="primary">✓ RSVP 'Yes'</ActionButton>
+                  <ActionButton variant="secondary">📧 Send email...</ActionButton>
+                </div>
+              </AICard>
               
-              {/* Notifications list */}
-              <div className="space-y-2">
-                <NotificationItem
-                  icon={Wrench}
-                  title="HVAC service booked"
-                  subtitle="Filter change scheduled for Tue 9 AM"
-                  time="Just now"
-                  color="bg-gradient-to-br from-sage to-sky"
-                  delay={0.9}
-                  isMobile={isMobile}
-                />
-                <NotificationItem
-                  icon={Users}
-                  title="Calendar synced with Mike"
-                  subtitle="Soccer practice added for both"
-                  time="5m ago"
-                  color="bg-gradient-to-br from-sky to-primary"
-                  delay={1.0}
-                  isMobile={isMobile}
-                />
-                <NotificationItem
-                  icon={Calendar}
-                  title="Emma's dentist moved"
-                  subtitle="Mike confirmed the new time slot"
-                  time="1h ago"
-                  color="bg-gradient-to-br from-peach to-accent"
-                  delay={1.1}
-                  isMobile={isMobile}
-                />
-                <NotificationItem
-                  icon={Bell}
-                  title="Gutter cleaning reminder"
-                  subtitle="Tap to auto-schedule a pro"
-                  time="2h ago"
-                  color="bg-gradient-to-br from-lavender to-peach"
-                  delay={1.2}
-                  isMobile={isMobile}
-                />
-              </div>
+              {/* Bill notification card */}
+              <AICard bgColor="bg-background border border-foreground/5" delay={0.9} className="mb-2.5">
+                <div className="flex items-start gap-1.5 mb-2">
+                  <span className="text-[10px]">✨</span>
+                  <p className="text-[10px] text-foreground">Your cellphone bill was $40 higher than usual.</p>
+                </div>
+                <div className="flex flex-col gap-1.5 mt-2">
+                  <ActionButton variant="primary">💳 Process Payment</ActionButton>
+                  <ActionButton variant="secondary">📄 View Statement</ActionButton>
+                </div>
+              </AICard>
+              
+              {/* Home maintenance card */}
+              <AICard bgColor="bg-sage/10 border border-sage/20" delay={1.1}>
+                <div className="flex items-start gap-1.5">
+                  <span className="text-[10px]">✨</span>
+                  <p className="text-[10px] text-foreground leading-relaxed">I noticed your HVAC filter is due for replacement. Would you like me to schedule a technician?</p>
+                </div>
+              </AICard>
               
               {/* Bottom navigation hint */}
               <motion.div
