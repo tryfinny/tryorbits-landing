@@ -317,31 +317,31 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                 transition={{ delay: 0.4 }}
                 className="mb-5"
               >
-                <h3 className="text-base sm:text-lg font-serif font-medium text-foreground mb-1">Good morning, Ellie</h3>
-                <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
+                <h3 className="text-lg sm:text-xl font-serif font-medium text-[#1a1a1a] mb-1">Good morning, Ellie</h3>
+                <div className="flex items-center gap-2 text-xs text-[#6b6b6b]">
                   <span>Tuesday, April 9</span>
                   <span className="text-golden">☀️ 72°</span>
                 </div>
               </motion.div>
               
               {/* Calendar sync card */}
-              <AICard bgColor="bg-sky/30 border border-sky/20" delay={0.5} className="mb-3">
+              <AICard bgColor="bg-[#d4e5f7] border border-[#b8d4ed]" delay={0.5} className="mb-3">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-sm">👨‍👩‍👧</span>
-                  <span className="text-[11px] font-serif font-medium text-foreground">Calendars Synced</span>
+                  <span className="text-base">👨‍👩‍👧</span>
+                  <span className="text-[13px] font-serif font-medium text-[#1a1a1a]">Calendars Synced</span>
                 </div>
-                <p className="text-[10px] text-foreground/80 leading-relaxed">
+                <p className="text-[12px] text-[#3a3a3a] leading-relaxed">
                   Mike added "Soccer practice" — you're both free to attend.
                 </p>
               </AICard>
               
               {/* Auto-scheduled maintenance card */}
-              <AICard bgColor="bg-sage/30 border border-sage/20" delay={0.8} className="mb-3">
+              <AICard bgColor="bg-[#d4e8d4] border border-[#b8d4b8]" delay={0.8} className="mb-3">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-sm">🏠</span>
-                  <span className="text-[11px] font-serif font-medium text-foreground">HVAC Service Booked</span>
+                  <span className="text-base">🏠</span>
+                  <span className="text-[13px] font-serif font-medium text-[#1a1a1a]">HVAC Service Booked</span>
                 </div>
-                <p className="text-[10px] text-foreground/80 leading-relaxed mb-3">
+                <p className="text-[12px] text-[#3a3a3a] leading-relaxed mb-3">
                   Filter due for replacement. I booked AirFlow Pro for Tuesday 9AM.
                 </p>
                 <div className="flex gap-2">
@@ -351,12 +351,12 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               </AICard>
               
               {/* Proactive suggestion card */}
-              <AICard bgColor="bg-peach/25 border border-peach/20" delay={1.0} className="mb-3">
+              <AICard bgColor="bg-[#f5e0c4] border border-[#e8d0ae]" delay={1.0} className="mb-3">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-sm">💡</span>
-                  <span className="text-[11px] font-serif font-medium text-foreground">Suggestion</span>
+                  <span className="text-base">💡</span>
+                  <span className="text-[13px] font-serif font-medium text-[#1a1a1a]">Suggestion</span>
                 </div>
-                <p className="text-[10px] text-foreground/80 leading-relaxed">
+                <p className="text-[12px] text-[#3a3a3a] leading-relaxed">
                   Gutters last cleaned 11 months ago. Schedule before rainy season?
                 </p>
               </AICard>
@@ -368,7 +368,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                 transition={{ delay: 1.2 }}
                 className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2"
               >
-                <div className="w-28 sm:w-32 h-1 bg-foreground/20 rounded-full" />
+                <div className="w-28 sm:w-32 h-1 bg-[#1a1a1a]/20 rounded-full" />
               </motion.div>
             </div>
           </div>
