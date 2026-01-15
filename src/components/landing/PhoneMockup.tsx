@@ -327,8 +327,8 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               {/* Calendar sync card */}
               <AICard bgColor="bg-sky/12" delay={0.5} className="mb-3">
                 <div className="flex items-center gap-1.5 mb-2.5">
-                  <span className="text-[11px]">✨</span>
-                  <span className="text-[11px] font-semibold text-foreground">Calendars Synced</span>
+                  <span className="text-[11px]">👨‍👩‍👧</span>
+                  <span className="text-[11px] font-serif font-medium text-foreground">Calendars Synced</span>
                 </div>
                 <p className="text-[10px] text-foreground/80 leading-relaxed">
                   Mike added "Soccer practice" — you're both free to attend.
@@ -338,8 +338,8 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               {/* Auto-scheduled maintenance card */}
               <AICard bgColor="bg-sage/10" delay={0.8} className="mb-3">
                 <div className="flex items-center gap-1.5 mb-2.5">
-                  <span className="text-[11px]">✨</span>
-                  <span className="text-[11px] font-semibold text-foreground">HVAC Service Booked</span>
+                  <span className="text-[11px]">🏠</span>
+                  <span className="text-[11px] font-serif font-medium text-foreground">HVAC Service Booked</span>
                 </div>
                 <p className="text-[10px] text-foreground/80 leading-relaxed mb-3">
                   Filter due for replacement. I booked AirFlow Pro for Tuesday 9AM.
