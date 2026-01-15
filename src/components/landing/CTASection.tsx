@@ -124,7 +124,7 @@ export function CTASection() {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
           transition={{ type: "spring", stiffness: 60, damping: 15, delay: 0.15 }}
         >
-          Ready to transform your{' '}
+          Ready to simplify your{' '}
           <br className="hidden sm:block" />
           <motion.span 
             className="text-gradient inline-block"
@@ -134,7 +134,7 @@ export function CTASection() {
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
             style={{ backgroundSize: '200% 200%' }}
           >
-            productivity
+            household
           </motion.span>
           ?
         </motion.h2>
@@ -145,7 +145,7 @@ export function CTASection() {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ delay: 0.25 }}
         >
-          Download now and join thousands of users who've already discovered a better way to work.
+          Download Orbits and join thousands of households running smoother every day.
         </motion.p>
 
         {/* App Store Buttons */}
