@@ -298,12 +298,12 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="mb-4"
+                className="mb-3"
               >
-                <h3 className="text-xl sm:text-2xl font-serif font-medium text-[#1a1a1a] mb-0.5">
+                <h3 className="text-lg sm:text-xl font-serif font-medium text-[#1a1a1a] mb-0.5 whitespace-nowrap">
                   Good morning, Ellie
                 </h3>
-                <div className="flex items-center gap-2 text-sm text-[#6b6b6b]">
+                <div className="flex items-center gap-1.5 text-xs text-[#6b6b6b]">
                   <span>Tuesday, April 9</span>
                   <span className="text-golden">☀️ 72°</span>
                 </div>
