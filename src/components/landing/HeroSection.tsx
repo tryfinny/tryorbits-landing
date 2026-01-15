@@ -212,16 +212,15 @@ export function HeroSection() {
               <br className="hidden sm:block" />
               <motion.span 
                 className="relative inline-block text-primary"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, type: "spring", stiffness: 100 }}
+                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ delay: 0.3, type: "spring", stiffness: 100, damping: 12 }}
               >
                 <motion.span
                   className="relative z-10"
-                  animate={{ 
-                    backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-                  }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  initial={{ backgroundPosition: '100% 50%' }}
+                  animate={{ backgroundPosition: '0% 50%' }}
+                  transition={{ delay: 0.5, duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
                   style={{
                     background: 'linear-gradient(90deg, hsl(var(--primary)), hsl(var(--lavender)), hsl(var(--primary)))',
                     backgroundSize: '200% 100%',
@@ -235,18 +234,16 @@ export function HeroSection() {
                 {/* Underline animation */}
                 <motion.span
                   className="absolute -bottom-1 left-0 h-1 bg-gradient-to-r from-primary via-lavender to-primary rounded-full"
-                  initial={{ width: 0 }}
-                  animate={{ width: '100%' }}
-                  transition={{ delay: 0.6, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  initial={{ width: 0, opacity: 0 }}
+                  animate={{ width: '100%', opacity: 1 }}
+                  transition={{ delay: 0.7, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
                 />
-                {/* Sparkle effect */}
+                {/* Sparkle effect - one time */}
                 <motion.span
                   className="absolute -top-1 -right-2 w-2 h-2 bg-golden rounded-full"
-                  animate={{ 
-                    scale: [0, 1.2, 1, 1.2, 0],
-                    opacity: [0, 1, 0.8, 1, 0],
-                  }}
-                  transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: [0, 1.5, 1], opacity: [0, 1, 0.8] }}
+                  transition={{ delay: 1, duration: 0.5, ease: "easeOut" }}
                 />
               </motion.span>
               <br />

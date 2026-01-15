@@ -309,14 +309,14 @@ export function FeaturesSection() {
             Everything you need to{' '}
             <motion.span 
               className="relative inline-block"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.98 }}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={isHeaderInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+              transition={{ delay: 0.4, type: "spring", stiffness: 100, damping: 12 }}
             >
               <motion.span
-                animate={{ 
-                  backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-                }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                initial={{ backgroundPosition: '100% 50%' }}
+                animate={isHeaderInView ? { backgroundPosition: '0% 50%' } : { backgroundPosition: '100% 50%' }}
+                transition={{ delay: 0.6, duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
                 style={{
                   background: 'linear-gradient(90deg, hsl(var(--sage)), hsl(var(--primary)), hsl(var(--sage)))',
                   backgroundSize: '200% 100%',
@@ -327,13 +327,12 @@ export function FeaturesSection() {
               >
                 thrive
               </motion.span>
-              {/* Animated glow */}
+              {/* One-time glow pulse */}
               <motion.span
-                className="absolute inset-0 blur-lg opacity-40"
-                animate={{ 
-                  backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-                }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute inset-0 blur-lg"
+                initial={{ opacity: 0 }}
+                animate={isHeaderInView ? { opacity: [0, 0.6, 0.3] } : { opacity: 0 }}
+                transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
                 style={{
                   background: 'linear-gradient(90deg, hsl(var(--sage)), hsl(var(--primary)), hsl(var(--sage)))',
                   backgroundSize: '200% 100%',
