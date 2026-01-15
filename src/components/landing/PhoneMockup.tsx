@@ -346,7 +346,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                     </div>
                   ))}
                 </div>
-                <div className="flex items-center gap-2 bg-sage/20 rounded px-2 py-1.5">
+                <div className="flex items-center gap-2 bg-sage/20 rounded-2xl px-2.5 py-2">
                   <div className="w-1 h-5 bg-sage rounded-full" />
                   <div>
                     <p className="text-[11px] font-medium text-[#2a2a2a]">⚽ Soccer Practice</p>
