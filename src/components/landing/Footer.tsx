@@ -4,7 +4,7 @@ import orbitsLogo from '@/assets/orbits-logo.png';
 
 export function Footer() {
   return (
-    <footer className="py-12 px-6 border-t border-border">
+    <footer className="py-12 pb-32 md:pb-12 px-6 border-t border-border">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo/Brand */}
