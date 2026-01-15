@@ -119,7 +119,7 @@ export function CTASection() {
 
         {/* Headline */}
         <motion.h2 
-          className="text-3xl sm:text-4xl lg:text-6xl xl:text-7xl font-bold mb-10 leading-tight"
+          className="text-3xl sm:text-4xl lg:text-6xl xl:text-7xl font-serif font-medium tracking-[-0.01em] mb-10 leading-tight"
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
           transition={{ type: "spring", stiffness: 60, damping: 15, delay: 0.15 }}
