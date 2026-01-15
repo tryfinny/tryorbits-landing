@@ -327,13 +327,36 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                 delay={0.5}
                 className="mb-3"
               >
-                <div className="flex items-center gap-1.5 mb-2">
+                <div className="flex items-center gap-1.5 mb-2.5">
                   <span className="text-sm">📅</span>
                   <span className="text-[13px] font-serif font-medium text-[#1a1a1a] whitespace-nowrap">
                     Family Calendar
                   </span>
                   <RefreshCw className="w-3.5 h-3.5 text-sage ml-auto" />
                 </div>
+                
+                {/* Mini calendar grid */}
+                <div className="flex gap-3 mb-2.5">
+                  <div className="bg-white/60 rounded-xl px-2 py-1.5 flex-1">
+                    <div className="text-[8px] font-medium text-[#888] text-center mb-1">APR</div>
+                    <div className="grid grid-cols-7 gap-[2px] text-[7px] text-center">
+                      {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => (
+                        <span key={i} className="text-[#999]">{d}</span>
+                      ))}
+                      {[...Array(2)].map((_, i) => <span key={`e${i}`} />)}
+                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map((d) => (
+                        <span 
+                          key={d} 
+                          className={`${d === 9 ? 'bg-sky text-white rounded-full' : d === 10 ? 'bg-sage text-white rounded-full' : 'text-[#555]'}`}
+                        >
+                          {d}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Event item */}
                 <div className="flex items-center gap-2 bg-sage/20 rounded-2xl px-2.5 py-2">
                   <div className="w-1 h-5 bg-sage rounded-full" />
                   <div>
