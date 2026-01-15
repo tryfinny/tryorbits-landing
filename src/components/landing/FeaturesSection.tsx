@@ -374,7 +374,7 @@ export function FeaturesSection() {
                 animate={isHeaderInView ? { scale: [0, 1.5, 1], opacity: [0, 1, 0.8] } : { scale: 0, opacity: 0 }}
                 transition={{ delay: 1, duration: 0.5, ease: "easeOut" }}
               />
-            </motion.span>
+            </motion.span>{" "}
             every week.
           </motion.h2>
           <motion.p
