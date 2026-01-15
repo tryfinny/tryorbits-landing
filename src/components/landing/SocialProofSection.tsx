@@ -5,7 +5,7 @@ import { Star, Quote, Sparkles } from 'lucide-react';
 const testimonials = [
   {
     name: 'Jamie',
-    role: 'Beta tester',
+    role: 'Mom of 2',
     content: "Finally an app that doesn't make me feel guilty for missing tasks. The gentle nudges actually help.",
     rating: 5,
     gradient: 'from-lavender to-primary/30',
@@ -13,7 +13,7 @@ const testimonials = [
   },
   {
     name: 'Alex K.',
-    role: 'Early adopter',
+    role: 'Busy dad',
     content: "Been using it for 3 weeks now. Still figuring out all the features but the calendar sync is solid.",
     rating: 4,
     gradient: 'from-peach to-golden/30',
@@ -21,7 +21,7 @@ const testimonials = [
   },
   {
     name: 'Morgan',
-    role: 'Beta tester',
+    role: 'Newlywed',
     content: "My partner and I can finally see each other's schedules without 10 texts. That alone is worth it.",
     rating: 5,
     gradient: 'from-sky to-sage/30',
@@ -29,7 +29,7 @@ const testimonials = [
   },
   {
     name: 'Sam R.',
-    role: 'Early adopter',
+    role: 'First-time homeowner',
     content: "The home maintenance reminders are a lifesaver. No more forgetting to change the air filters.",
     rating: 5,
     gradient: 'from-sage to-sky/30',
@@ -37,7 +37,7 @@ const testimonials = [
   },
   {
     name: 'Taylor',
-    role: 'Beta tester',
+    role: 'Single mom of 3',
     content: "We tried 3 other apps before this. Orbits is the only one my whole family actually uses.",
     rating: 5,
     gradient: 'from-golden to-peach/30',
@@ -45,7 +45,7 @@ const testimonials = [
   },
   {
     name: 'Jordan M.',
-    role: 'Early adopter',
+    role: 'Dog dad',
     content: "Simple but powerful. The shared grocery list alone has saved us so many duplicate purchases.",
     rating: 4,
     gradient: 'from-primary to-lavender/30',
@@ -53,7 +53,7 @@ const testimonials = [
   },
   {
     name: 'Casey',
-    role: 'Beta tester',
+    role: 'Cat mom',
     content: "I was skeptical about another productivity app but this one actually fits how our household works.",
     rating: 5,
     gradient: 'from-peach to-sage/30',
@@ -61,7 +61,7 @@ const testimonials = [
   },
   {
     name: 'Riley P.',
-    role: 'Early adopter',
+    role: 'Mom of twins',
     content: "The kids can finally see when their activities are without asking me 50 times a day.",
     rating: 5,
     gradient: 'from-sky to-lavender/30',
@@ -69,7 +69,7 @@ const testimonials = [
   },
   {
     name: 'Drew',
-    role: 'Beta tester',
+    role: 'Work-from-home dad',
     content: "Love that it syncs with our existing calendars. No need to re-enter everything.",
     rating: 4,
     gradient: 'from-lavender to-sage/30',
@@ -77,7 +77,7 @@ const testimonials = [
   },
   {
     name: 'Avery T.',
-    role: 'Early adopter',
+    role: 'Roommate wrangler',
     content: "Finally got my roommates to actually remember whose turn it is for chores. Game changer.",
     rating: 5,
     gradient: 'from-sage to-golden/30',
