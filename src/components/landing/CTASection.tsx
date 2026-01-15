@@ -36,24 +36,16 @@ export function CTASection() {
 
   const smoothProgress = useSpring(scrollYProgress, { stiffness: 50, damping: 20 });
   const backgroundScale = useTransform(smoothProgress, [0, 0.5, 1], [0.9, 1, 1.1]);
-  const backgroundOpacity = useTransform(smoothProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0.5]);
 
   return (
     <section ref={containerRef} className="relative py-32 lg:py-40 px-6 overflow-hidden">
       {/* Layered gradient background */}
-      <motion.div 
-        className="absolute inset-0 bg-gradient-to-b from-background via-secondary/20 to-background"
-        style={{ opacity: backgroundOpacity }}
-      />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/20 to-background" />
       
       {/* Central glowing orb */}
       <motion.div 
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] orb-lavender opacity-30"
         style={{ scale: backgroundScale }}
-        animate={{ 
-          opacity: [0.2, 0.4, 0.2],
-        }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
       />
 
       {/* Floating accent orbs */}
@@ -76,7 +68,7 @@ export function CTASection() {
           animate={{
             y: [0, -50, 0],
             x: [0, i % 2 === 0 ? 30 : -30, 0],
-            opacity: [0.2, 0.6, 0.2],
+            opacity: [0.4, 0.6, 0.5],
             scale: [1, 1.5, 1],
           }}
           transition={{
