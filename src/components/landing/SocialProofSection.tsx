@@ -314,7 +314,7 @@ export function SocialProofSection() {
   const backgroundY2 = useTransform(smoothProgress, [0, 1], [-60, 60]);
 
   return (
-    <section ref={containerRef} className="relative py-32 lg:py-40 px-6 bg-gradient-to-b from-secondary/30 to-background overflow-hidden">
+    <section ref={containerRef} className="relative py-20 lg:py-28 px-6 bg-gradient-to-b from-secondary/30 to-background overflow-hidden">
       {/* Parallax background orbs */}
       <motion.div 
         className="absolute top-20 left-[5%] w-[400px] h-[400px] orb-peach opacity-30"
