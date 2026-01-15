@@ -325,7 +325,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               </motion.div>
               
               {/* Calendar sync card */}
-              <AICard bgColor="bg-[#d4e5f7] border border-[#b8d4ed]" delay={0.5} className="mb-3">
+              <AICard bgColor="bg-gradient-to-br from-sky/30 to-sky/15 border border-sky/20" delay={0.5} className="mb-3">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-base">👨‍👩‍👧</span>
                   <span className="text-[13px] font-serif font-medium text-[#1a1a1a]">Calendars Synced</span>
@@ -336,7 +336,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               </AICard>
               
               {/* Auto-scheduled maintenance card */}
-              <AICard bgColor="bg-[#d4e8d4] border border-[#b8d4b8]" delay={0.8} className="mb-3">
+              <AICard bgColor="bg-gradient-to-br from-sage/30 to-sage/15 border border-sage/20" delay={0.8} className="mb-3">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-base">🏠</span>
                   <span className="text-[13px] font-serif font-medium text-[#1a1a1a]">HVAC Service Booked</span>
@@ -351,7 +351,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               </AICard>
               
               {/* Proactive suggestion card */}
-              <AICard bgColor="bg-[#f5e0c4] border border-[#e8d0ae]" delay={1.0} className="mb-3">
+              <AICard bgColor="bg-gradient-to-br from-peach/30 to-peach/15 border border-peach/20" delay={1.0} className="mb-3">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-base">💡</span>
                   <span className="text-[13px] font-serif font-medium text-[#1a1a1a]">Suggestion</span>
