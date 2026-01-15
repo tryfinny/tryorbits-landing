@@ -342,7 +342,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
             {/* Screen content */}
             <div className="pt-3 pb-3 px-4 sm:px-5 min-h-[360px] sm:min-h-[400px] lg:min-h-[440px]">
               {/* Header with date and weather */}
-              <div className="mb-2">
+              <div className="mb-2 ml-1">
                 <h3 className="text-lg sm:text-xl font-serif font-medium text-[#1a1a1a] mb-0.5 whitespace-nowrap">
                   Good morning, Ellie
                 </h3>
