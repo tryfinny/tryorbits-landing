@@ -246,7 +246,7 @@ function FeatureCard({
             </motion.div>
 
             <motion.h3
-              className="text-xl lg:text-2xl font-heading font-medium tracking-[-0.01em] relative z-10"
+              className="text-xl lg:text-2xl font-sans font-medium tracking-[-0.01em] relative z-10"
               animate={isActive ? { x: isMobile ? 0 : 4 } : { x: 0 }}
               transition={{ type: "spring", stiffness: 200, damping: 15 }}
             >
