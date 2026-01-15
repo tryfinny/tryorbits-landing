@@ -27,6 +27,62 @@ const testimonials = [
     gradient: 'from-sky to-sage/30',
     bgColor: 'bg-sky/10',
   },
+  {
+    name: 'Sam R.',
+    role: 'Early adopter',
+    content: "The home maintenance reminders are a lifesaver. No more forgetting to change the air filters.",
+    rating: 5,
+    gradient: 'from-sage to-sky/30',
+    bgColor: 'bg-sage/10',
+  },
+  {
+    name: 'Taylor',
+    role: 'Beta tester',
+    content: "We tried 3 other apps before this. Orbits is the only one my whole family actually uses.",
+    rating: 5,
+    gradient: 'from-golden to-peach/30',
+    bgColor: 'bg-golden/10',
+  },
+  {
+    name: 'Jordan M.',
+    role: 'Early adopter',
+    content: "Simple but powerful. The shared grocery list alone has saved us so many duplicate purchases.",
+    rating: 4,
+    gradient: 'from-primary to-lavender/30',
+    bgColor: 'bg-primary/10',
+  },
+  {
+    name: 'Casey',
+    role: 'Beta tester',
+    content: "I was skeptical about another productivity app but this one actually fits how our household works.",
+    rating: 5,
+    gradient: 'from-peach to-sage/30',
+    bgColor: 'bg-peach/10',
+  },
+  {
+    name: 'Riley P.',
+    role: 'Early adopter',
+    content: "The kids can finally see when their activities are without asking me 50 times a day.",
+    rating: 5,
+    gradient: 'from-sky to-lavender/30',
+    bgColor: 'bg-sky/10',
+  },
+  {
+    name: 'Drew',
+    role: 'Beta tester',
+    content: "Love that it syncs with our existing calendars. No need to re-enter everything.",
+    rating: 4,
+    gradient: 'from-lavender to-sage/30',
+    bgColor: 'bg-lavender/10',
+  },
+  {
+    name: 'Avery T.',
+    role: 'Early adopter',
+    content: "Finally got my roommates to actually remember whose turn it is for chores. Game changer.",
+    rating: 5,
+    gradient: 'from-sage to-golden/30',
+    bgColor: 'bg-sage/10',
+  },
 ];
 
 // Smooth animated counter
@@ -196,14 +252,14 @@ function TestimonialCard({ testimonial, isActive }: { testimonial: typeof testim
   );
 }
 
-// Testimonial Carousel - auto-advances every 3s
+// Testimonial Carousel - auto-advances every 4s
 function TestimonialCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % testimonials.length);
-    }, 3000);
+    }, 4000);
     return () => clearInterval(interval);
   }, []);
 
@@ -218,20 +274,6 @@ function TestimonialCarousel() {
             isActive={true}
           />
         </AnimatePresence>
-      </div>
-
-      {/* Dot indicators */}
-      <div className="flex justify-center gap-2 mt-8">
-        {testimonials.map((_, index) => (
-          <motion.div
-            key={index}
-            className={`w-2 h-2 rounded-full transition-colors duration-300 ${
-              index === activeIndex ? 'bg-primary' : 'bg-primary/20'
-            }`}
-            animate={index === activeIndex ? { scale: 1.3 } : { scale: 1 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          />
-        ))}
       </div>
     </div>
   );
