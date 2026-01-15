@@ -267,8 +267,8 @@ function FeatureCard({
 
             {/* Coming Soon chip */}
             {feature.comingSoon && (
-              <span className="ml-auto px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider bg-foreground/70 text-background border border-foreground/20 rounded-full relative z-10">
-                Coming Soon
+              <span className="ml-auto px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide bg-foreground/80 text-background rounded-full relative z-10 whitespace-nowrap shrink-0">
+                Soon
               </span>
             )}
           </div>
