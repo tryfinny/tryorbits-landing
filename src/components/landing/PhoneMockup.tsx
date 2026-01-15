@@ -121,29 +121,20 @@ function FloatingBadge({
 function AICard({
   children,
   bgColor = "bg-sky/20",
-  delay,
   className = "",
-  isInView = true,
 }: {
   children: React.ReactNode;
   bgColor?: string;
-  delay: number;
   className?: string;
-  isInView?: boolean;
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20, scale: 0.95 }}
-      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 20, scale: 0.95 }}
-      transition={{ delay, type: "spring", stiffness: 100, damping: 15 }}
-      className={`${bgColor} rounded-2xl px-3.5 py-2.5 ${className}`}
-    >
+    <div className={`${bgColor} rounded-2xl px-3.5 py-2.5 ${className}`}>
       {children}
-    </motion.div>
+    </div>
   );
 }
 
-// Animated progress bar component
+// Animated progress bar component - shows full width, animates fill when scrolled
 function AnimatedProgressBar({
   percentage,
   delay,
@@ -157,9 +148,10 @@ function AnimatedProgressBar({
     <div className="h-1.5 bg-white/60 rounded-full overflow-hidden">
       <motion.div
         className="h-full bg-sage rounded-full"
-        initial={{ width: 0 }}
-        animate={isInView ? { width: `${percentage}%` } : { width: 0 }}
+        initial={{ width: `${percentage}%`, scaleX: 0, originX: 0 }}
+        animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
         transition={{ delay, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+        style={{ width: `${percentage}%` }}
       />
     </div>
   );
@@ -187,7 +179,7 @@ function ActionButton({
   );
 }
 
-// Animated emoji component
+// Animated emoji component - shows immediately, bounces when scrolled into view
 function AnimatedEmoji({
   children,
   delay,
@@ -202,13 +194,13 @@ function AnimatedEmoji({
   return (
     <motion.span
       className={className}
-      initial={{ scale: 0, opacity: 0 }}
-      animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
+      animate={isInView ? { 
+        scale: [1, 1.3, 1],
+      } : {}}
       transition={{
         delay,
-        type: "spring",
-        stiffness: 300,
-        damping: 15,
+        duration: 0.4,
+        ease: "easeOut",
       }}
     >
       {children}
@@ -350,26 +342,19 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
             {/* Screen content */}
             <div className="pt-3 pb-3 px-4 sm:px-5 min-h-[360px] sm:min-h-[400px] lg:min-h-[440px]">
               {/* Header with date and weather */}
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
-                transition={{ delay: 0.3 }}
-                className="mb-2"
-              >
+              <div className="mb-2">
                 <h3 className="text-lg sm:text-xl font-serif font-medium text-[#1a1a1a] mb-0.5 whitespace-nowrap">
                   Good morning, Ellie
                 </h3>
                 <p className="text-xs text-[#6b6b6b] whitespace-nowrap">
                   Tuesday, April 9 · <span className="text-golden">☀️ 72°</span>
                 </p>
-              </motion.div>
+              </div>
 
               {/* Calendar sync card */}
               <AICard
                 bgColor="bg-gradient-to-br from-sky/30 to-sky/15 border border-sky/20"
-                delay={0.5}
                 className="mb-2"
-                isInView={isInView}
               >
                 <div className="flex items-center gap-2 mb-2">
                   <AnimatedEmoji delay={0.6} isInView={isInView}>📅</AnimatedEmoji>
@@ -396,9 +381,8 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                     <AnimatedEmoji delay={0.9} isInView={isInView} className="text-[11px]">😊</AnimatedEmoji>
                     <motion.span 
                       className="bg-peach/60 rounded-full w-6 h-6 flex items-center justify-center"
-                      initial={{ scale: 0 }}
-                      animate={isInView ? { scale: 1 } : { scale: 0 }}
-                      transition={{ delay: 1.0, type: "spring", stiffness: 300, damping: 15 }}
+                      animate={isInView ? { scale: [1, 1.2, 1] } : {}}
+                      transition={{ delay: 1.0, duration: 0.4, ease: "easeOut" }}
                     >
                       🎉
                     </motion.span>
@@ -421,9 +405,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               {/* Progress tracker card */}
               <AICard
                 bgColor="bg-gradient-to-br from-lavender/50 to-lavender/30 border border-lavender/40"
-                delay={0.7}
                 className="mb-2"
-                isInView={isInView}
               >
                 <div className="flex items-center gap-2 mb-2">
                   <AnimatedEmoji delay={0.8} isInView={isInView}>📊</AnimatedEmoji>
@@ -461,8 +443,6 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               <div className="relative">
                 <AICard
                   bgColor="bg-gradient-to-br from-sage/30 to-sage/15 border border-sage/20"
-                  delay={0.9}
-                  isInView={isInView}
                   className="mb-2"
                 >
                   <div className="flex items-center gap-2 mb-1.5">
