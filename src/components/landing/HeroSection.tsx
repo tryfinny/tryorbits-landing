@@ -129,7 +129,7 @@ export function HeroSection() {
   return (
     <section 
       ref={containerRef} 
-      className="relative min-h-screen flex flex-col items-center justify-center px-5 sm:px-6 py-16 sm:py-20 overflow-hidden"
+      className="relative z-10 min-h-screen flex flex-col items-center justify-center px-5 sm:px-6 py-16 sm:py-20 pb-32 sm:pb-40 overflow-visible"
     >
       {/* Layered gradient backgrounds */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-secondary/50" />
