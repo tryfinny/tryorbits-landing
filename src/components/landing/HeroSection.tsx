@@ -277,12 +277,12 @@ export function HeroSection() {
                 whileTap={{ scale: 0.95 }}
               >
                 {[
-                  'from-lavender to-primary/50',
-                  'from-peach to-accent',
-                  'from-sky to-primary/30',
-                  'from-sage to-sky',
-                  'from-primary/30 to-lavender',
-                ].map((gradient, i) => (
+                  { initials: 'JM', gradient: 'from-lavender to-primary/50' },
+                  { initials: 'SK', gradient: 'from-peach to-accent' },
+                  { initials: 'AR', gradient: 'from-sky to-primary/30' },
+                  { initials: 'TL', gradient: 'from-sage to-sky' },
+                  { initials: 'DP', gradient: 'from-primary/30 to-lavender' },
+                ].map((user, i) => (
                   <motion.div
                     key={i}
                     initial={{ opacity: 0, scale: 0, x: -20 }}
@@ -293,8 +293,10 @@ export function HeroSection() {
                       damping: 12,
                       delay: 0.5 + i * 0.06,
                     }}
-                    className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br ${gradient} border-2 border-background cursor-pointer relative shadow-lg`}
-                  />
+                    className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br ${user.gradient} border-2 border-background cursor-pointer relative shadow-lg flex items-center justify-center`}
+                  >
+                    <span className="text-[10px] sm:text-xs font-medium text-white/90">{user.initials}</span>
+                  </motion.div>
                 ))}
               </motion.div>
               
@@ -305,23 +307,12 @@ export function HeroSection() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.9, duration: 0.4 }}
               >
-                <div className="flex gap-0.5">
-                  {[...Array(5)].map((_, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, scale: 0 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 1 + i * 0.05, type: "spring", stiffness: 200 }}
-                    >
-                      <Star className="w-4 h-4 fill-golden text-golden" />
-                    </motion.div>
-                  ))}
-                </div>
                 <p className="text-sm text-muted-foreground">
+                  Join{' '}
                   <span className="font-semibold text-foreground">
                     <AnimatedNumber value={2400} />+
                   </span>{' '}
-                  happy users
+                  early adopters
                 </p>
               </motion.div>
             </motion.div>
