@@ -235,10 +235,8 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
       {/* Floating badges around phone - visible on tablet+ */}
       <FloatingBadge x={-15} y={20} delay={0.8} className="z-20 hidden sm:block" isMobile={isMobile}>
         <div className="flex items-center gap-2">
-          <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-lg bg-gradient-to-br from-sage to-sky flex items-center justify-center">
-            <Users className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white" />
-          </div>
-          <span className="text-[10px] sm:text-xs font-medium text-foreground">Calendars synced!</span>
+          <Calendar className="w-4 h-4 text-sky" />
+          <span className="text-[10px] sm:text-xs font-medium text-foreground">2 calendars synced</span>
         </div>
       </FloatingBadge>
       
@@ -326,13 +324,44 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               
               {/* Calendar sync card */}
               <AICard bgColor="bg-gradient-to-br from-sky/30 to-sky/15 border border-sky/20" delay={0.5} className="mb-3">
-                <div className="flex items-center gap-2 mb-1.5">
-                  <span className="text-base">👨‍👩‍👧</span>
-                  <span className="text-[14px] font-serif font-medium text-[#1a1a1a]">Calendars Synced</span>
+                <div className="flex items-center gap-2 mb-2">
+                  <Calendar className="w-4 h-4 text-sky" />
+                  <span className="text-[14px] font-serif font-medium text-[#1a1a1a]">Family Calendar</span>
+                  <span className="ml-auto text-[10px] text-sky font-medium bg-sky/20 px-1.5 py-0.5 rounded-full">Synced</span>
                 </div>
-                <p className="text-[13px] text-[#3a3a3a] leading-relaxed">
-                  Mike added "Soccer practice" — you're both free to attend.
-                </p>
+                {/* Mini calendar visual */}
+                <div className="bg-white/60 rounded-xl p-2 mb-2">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="text-[11px] font-medium text-[#5a5a5a]">April 2025</span>
+                  </div>
+                  <div className="grid grid-cols-7 gap-0.5 text-center">
+                    {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => (
+                      <span key={i} className="text-[9px] text-[#999] font-medium">{d}</span>
+                    ))}
+                    {[6, 7, 8, 9, 10, 11, 12].map((day) => (
+                      <div 
+                        key={day} 
+                        className={`text-[10px] py-0.5 rounded ${
+                          day === 9 
+                            ? 'bg-sky text-white font-semibold' 
+                            : day === 10 
+                              ? 'bg-sage/30 text-sage-foreground font-medium'
+                              : 'text-[#5a5a5a]'
+                        }`}
+                      >
+                        {day}
+                      </div>
+                    ))}
+                  </div>
+                  {/* Event indicator */}
+                  <div className="mt-2 flex items-center gap-2 bg-sage/20 rounded-lg px-2 py-1.5">
+                    <div className="w-1 h-6 bg-sage rounded-full" />
+                    <div>
+                      <p className="text-[11px] font-medium text-[#2a2a2a]">⚽ Soccer Practice</p>
+                      <p className="text-[9px] text-[#6a6a6a]">Thu 10 · 4:00 PM · Added by Mike</p>
+                    </div>
+                  </div>
+                </div>
               </AICard>
               
               {/* Auto-scheduled maintenance card */}
