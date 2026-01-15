@@ -1,44 +1,39 @@
 import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Calendar, Mail, Home, ListTodo } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-device-motion";
 
 const features = [
   {
-    icon: Calendar,
+    emoji: "📅",
     title: "Calendar Syncing",
-    description: "Combine yours and the rest of your family's calendars into one Orbits calendar. Identify conflicts, assign appointments, and more.",
+    description: "One family calendar. Zero confusion. See everyone's schedule, spot conflicts instantly, and stop the endless group texts.",
     color: "bg-sage",
     gradient: "from-sage/20 to-sky/10",
     iconBg: "bg-sage/20",
-    accentColor: "text-sage-foreground",
   },
   {
-    icon: Mail,
+    emoji: "✉️",
     title: "Email Handling",
-    description: "Let Orbits handle your emails. Dance class rescheduled? Calendar event updates. Dentist appointment reminder? Orbits drafts a response based on your calendar and all you have to do is hit Send.",
+    description: "Dance class moved? Calendar updates itself. Dentist reminder? Orbits drafts your reply. You just hit send.",
     color: "bg-peach",
     gradient: "from-peach/20 to-lavender/10",
     iconBg: "bg-peach/20",
-    accentColor: "text-peach-foreground",
   },
   {
-    icon: Home,
+    emoji: "🏠",
     title: "Home Maintenance",
-    description: "Add your appliances, home details, and regular upkeep tasks and let Orbits send the reminders, gather the quotes, or recommend maintenance.",
+    description: "Never forget an oil change or filter swap again. Add your stuff, Orbits handles the reminders and even gets you quotes.",
     color: "bg-sky",
     gradient: "from-sky/20 to-sage/10",
     iconBg: "bg-sky/20",
-    accentColor: "text-sky-foreground",
   },
   {
-    icon: ListTodo,
+    emoji: "✅",
     title: "The Basics",
-    description: "Put away the whiteboard - Lists, Tasks, Reminders, Documents and more of what you'd expect.",
+    description: "Toss the whiteboard. Lists, tasks, reminders, docs — everything you need, finally in one place.",
     color: "bg-lavender",
     gradient: "from-lavender/20 to-peach/10",
     iconBg: "bg-lavender/20",
-    accentColor: "text-lavender-foreground",
   },
 ];
 
@@ -129,7 +124,6 @@ function FeatureCard({
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
   const [isActive, setIsActive] = useState(false);
-  const Icon = feature.icon;
 
   // On mobile, use tap instead of hover
   const handleInteractionStart = () => setIsActive(true);
@@ -235,7 +229,7 @@ function FeatureCard({
                 animate={isActive ? { opacity: 0.5, scale: 1.3 } : { opacity: 0, scale: 1 }}
                 transition={{ duration: 0.25 }}
               />
-              <Icon className={`w-7 h-7 lg:w-10 lg:h-10 ${feature.accentColor} relative z-10`} />
+              <span className="text-2xl lg:text-4xl relative z-10">{feature.emoji}</span>
             </motion.div>
           </motion.div>
 
