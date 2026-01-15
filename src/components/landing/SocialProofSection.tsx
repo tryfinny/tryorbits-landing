@@ -195,7 +195,7 @@ function TestimonialCard({ testimonial, isActive }: { testimonial: typeof testim
         {/* Author */}
         <div className="flex items-center gap-4 relative z-10" style={{ transform: 'translateZ(25px)' }}>
           <motion.div 
-            className={`w-14 h-14 rounded-full bg-gradient-to-br ${testimonial.gradient} flex items-center justify-center text-white font-bold text-lg shadow-lg`}
+            className={`w-14 h-14 aspect-square rounded-full bg-gradient-to-br ${testimonial.gradient} flex items-center justify-center text-white font-bold text-lg shadow-lg shrink-0`}
             initial={{ scale: 0, rotate: -180 }}
             animate={isActive ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -180 }}
             transition={{ type: "spring", stiffness: 150, damping: 12, delay: 0.25 }}
