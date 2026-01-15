@@ -13,7 +13,7 @@ export default function Terms() {
             className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            Back to Home
+            Back
           </Link>
         </div>
       </header>
@@ -118,8 +118,8 @@ export default function Terms() {
               <h2 className="text-xl font-semibold mb-3 font-sans">12. Contact Information</h2>
               <p className="text-muted-foreground leading-relaxed">
                 If you have any questions about these Terms, please contact us at{' '}
-                <a href="mailto:contact@nemusai.com" className="text-primary hover:underline">
-                  contact@nemusai.com
+                <a href="mailto:contact@tryorbits.com" className="text-primary hover:underline">
+                  contact@tryorbits.com
                 </a>.
               </p>
             </section>
@@ -128,8 +128,8 @@ export default function Terms() {
               <h2 className="text-xl font-semibold mb-3 font-sans">13. Sweepstakes and Promotions</h2>
               <p className="text-muted-foreground leading-relaxed">
                 From time to time, Orbits or Nemus AI, Inc. may offer sweepstakes or promotional giveaways. No purchase is necessary to enter. You may enter by emailing{' '}
-                <a href="mailto:contact@nemusai.com" className="text-primary hover:underline">
-                  contact@nemusai.com
+                <a href="mailto:contact@tryorbits.com" className="text-primary hover:underline">
+                  contact@tryorbits.com
                 </a>{' '}
                 with the subject line "Sweepstakes Entry." Each promotion will have its own specific rules and eligibility requirements, which you should review before participating.
               </p>
@@ -141,7 +141,7 @@ export default function Terms() {
       {/* Simple Footer */}
       <footer className="border-t border-border py-8 px-6">
         <div className="max-w-4xl mx-auto text-center text-sm text-muted-foreground">
-          © 2024 Orbits. All rights reserved.
+          © 2026 Orbits. All rights reserved.
         </div>
       </footer>
     </div>
