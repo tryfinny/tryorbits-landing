@@ -210,58 +210,54 @@ function FeatureCard({
             transition={{ duration: 0.4 }}
           />
 
-          {/* Icon with pop effect */}
-          <motion.div
-            animate={
-              isActive
-                ? {
-                    y: -6,
-                    scale: 1.08,
-                  }
-                : {
-                    y: 0,
-                    scale: 1,
-                  }
-            }
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="relative z-10 mb-5"
-          >
+          {/* Header row: Icon + Title inline */}
+          <div className="flex items-center gap-4 mb-4 relative z-10">
             <motion.div
-              className={`w-14 h-14 lg:w-20 lg:h-20 rounded-2xl flex items-center justify-center relative border border-border/40`}
-              style={{
-                backgroundColor: `hsl(var(--${feature.color.replace("bg-", "")}) / 0.25)`,
-              }}
               animate={
                 isActive
-                  ? {
-                      boxShadow: `0 15px 30px -10px hsl(var(--${feature.color.replace("bg-", "")}) / 0.4)`,
-                    }
-                  : {
-                      boxShadow: `0 4px 12px -4px hsl(var(--${feature.color.replace("bg-", "")}) / 0.2)`,
-                    }
+                  ? { scale: 1.08 }
+                  : { scale: 1 }
               }
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
-              {/* Icon glow */}
               <motion.div
-                className={`absolute inset-0 rounded-2xl ${feature.color} blur-xl`}
-                animate={isActive ? { opacity: 0.5, scale: 1.3 } : { opacity: 0, scale: 1 }}
-                transition={{ duration: 0.25 }}
-              />
-              <span className="text-2xl lg:text-4xl relative z-10">{feature.emoji}</span>
+                className={`w-12 h-12 lg:w-14 lg:h-14 rounded-xl flex items-center justify-center relative border border-border/40`}
+                style={{
+                  backgroundColor: `hsl(var(--${feature.color.replace("bg-", "")}) / 0.25)`,
+                }}
+                animate={
+                  isActive
+                    ? {
+                        boxShadow: `0 10px 20px -8px hsl(var(--${feature.color.replace("bg-", "")}) / 0.4)`,
+                      }
+                    : {
+                        boxShadow: `0 4px 12px -4px hsl(var(--${feature.color.replace("bg-", "")}) / 0.2)`,
+                      }
+                }
+              >
+                {/* Icon glow */}
+                <motion.div
+                  className={`absolute inset-0 rounded-xl ${feature.color} blur-xl`}
+                  animate={isActive ? { opacity: 0.5, scale: 1.3 } : { opacity: 0, scale: 1 }}
+                  transition={{ duration: 0.25 }}
+                />
+                <span className="text-xl lg:text-2xl relative z-10">{feature.emoji}</span>
+              </motion.div>
             </motion.div>
-          </motion.div>
 
-          {/* Content */}
-          <motion.h3
-            className="text-xl lg:text-2xl font-heading font-medium tracking-[-0.01em] mb-3 relative z-10"
-            animate={isActive ? { x: isMobile ? 0 : 6 } : { x: 0 }}
-            transition={{ type: "spring", stiffness: 200, damping: 15 }}
-          >
-            {feature.title}
-          </motion.h3>
+            <motion.h3
+              className="text-xl lg:text-2xl font-heading font-medium tracking-[-0.01em] relative z-10"
+              animate={isActive ? { x: isMobile ? 0 : 4 } : { x: 0 }}
+              transition={{ type: "spring", stiffness: 200, damping: 15 }}
+            >
+              {feature.title}
+            </motion.h3>
+          </div>
+
+          {/* Description */}
           <motion.p
             className="text-muted-foreground leading-relaxed relative z-10 text-sm lg:text-lg"
-            animate={isActive ? { x: isMobile ? 0 : 6 } : { x: 0 }}
+            animate={isActive ? { x: isMobile ? 0 : 4 } : { x: 0 }}
             transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.02 }}
           >
             {feature.description}
