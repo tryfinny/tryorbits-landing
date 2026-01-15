@@ -324,50 +324,53 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                 </div>
               </motion.div>
               
-              {/* Today at a Glance card */}
+              {/* Calendar sync card */}
               <AICard bgColor="bg-sky/15" delay={0.5} className="mb-2.5">
                 <div className="flex items-center gap-1.5 mb-2">
                   <span className="text-[10px]">✨</span>
-                  <span className="text-[11px] font-semibold text-foreground">Today at a Glance</span>
+                  <span className="text-[11px] font-semibold text-foreground">Calendars Synced</span>
                 </div>
                 <div className="space-y-1.5 text-[10px] text-foreground/80 leading-relaxed">
-                  <p>– You're in charge of picking up Jason from Soccer.</p>
-                  <p>– Your husband is taking Kimmy to her piano lessons.</p>
+                  <p>– Mike added "Emma's soccer practice" to the family calendar.</p>
+                  <p>– You're both free to attend — no conflicts detected.</p>
                 </div>
               </AICard>
               
-              {/* PTA Meeting card */}
+              {/* Schedule conflict card */}
               <AICard bgColor="bg-background border border-foreground/5" delay={0.7} className="mb-2.5">
                 <div className="flex items-start gap-1.5 mb-2">
                   <span className="text-[10px]">✨</span>
                   <div>
-                    <p className="text-[10px] text-foreground font-medium">"PTA Meeting" was rescheduled from 3PM to 4PM.</p>
-                    <p className="text-[9px] text-muted-foreground mt-0.5">You have no conflicting appointments, but Jason's soccer game starts at 5PM.</p>
+                    <p className="text-[10px] text-foreground font-medium">Mike moved "Dentist for Emma" to Thursday 3PM.</p>
+                    <p className="text-[9px] text-muted-foreground mt-0.5">I've updated your calendar. You're now free during pickup time.</p>
                   </div>
                 </div>
                 <div className="flex gap-2 mt-2.5">
-                  <ActionButton variant="primary">✓ RSVP 'Yes'</ActionButton>
-                  <ActionButton variant="secondary">📧 Send email...</ActionButton>
+                  <ActionButton variant="primary">✓ Looks good</ActionButton>
+                  <ActionButton variant="secondary">📅 View calendar</ActionButton>
                 </div>
               </AICard>
               
-              {/* Bill notification card */}
-              <AICard bgColor="bg-background border border-foreground/5" delay={0.9} className="mb-2.5">
+              {/* Auto-scheduled maintenance card */}
+              <AICard bgColor="bg-sage/10 border border-sage/20" delay={0.9} className="mb-2.5">
                 <div className="flex items-start gap-1.5 mb-2">
                   <span className="text-[10px]">✨</span>
-                  <p className="text-[10px] text-foreground">Your cellphone bill was $40 higher than usual.</p>
+                  <div>
+                    <p className="text-[10px] text-foreground font-medium">Your HVAC filter is 90 days old.</p>
+                    <p className="text-[9px] text-muted-foreground mt-0.5">I've booked CleanAir Pros for Tuesday 9AM — they had a 4.9★ rating and availability.</p>
+                  </div>
                 </div>
-                <div className="flex flex-col gap-1.5 mt-2">
-                  <ActionButton variant="primary">💳 Process Payment</ActionButton>
-                  <ActionButton variant="secondary">📄 View Statement</ActionButton>
+                <div className="flex gap-2 mt-2.5">
+                  <ActionButton variant="primary">✓ Confirm</ActionButton>
+                  <ActionButton variant="secondary">🔄 Reschedule</ActionButton>
                 </div>
               </AICard>
               
-              {/* Home maintenance card */}
-              <AICard bgColor="bg-sage/10 border border-sage/20" delay={1.1}>
+              {/* Proactive maintenance suggestion */}
+              <AICard bgColor="bg-lavender/10 border border-lavender/20" delay={1.1}>
                 <div className="flex items-start gap-1.5">
                   <span className="text-[10px]">✨</span>
-                  <p className="text-[10px] text-foreground leading-relaxed">I noticed your HVAC filter is due for replacement. Would you like me to schedule a technician?</p>
+                  <p className="text-[10px] text-foreground leading-relaxed">Your gutters were last cleaned 11 months ago. Want me to schedule a cleaning before the rainy season?</p>
                 </div>
               </AICard>
               
