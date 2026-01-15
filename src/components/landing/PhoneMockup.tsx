@@ -328,7 +328,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                   <span className="text-sm">📅</span>
                   <span className="text-[13px] font-serif font-medium text-[#1a1a1a] whitespace-nowrap">Family Calendar</span>
                   <span className="text-[10px] text-[#6a6a6a] ml-1">April</span>
-                  <RefreshCw className="w-3 h-3 text-sky ml-auto" />
+                  <RefreshCw className="w-3.5 h-3.5 text-sage ml-auto" />
                 </div>
                 <div className="flex items-center gap-1 mb-2">
                   {[6, 7, 8, 9, 10, 11, 12].map((day) => (
@@ -346,7 +346,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                     </div>
                   ))}
                 </div>
-                <div className="flex items-center gap-2 bg-sage/20 rounded-md px-2 py-1.5">
+                <div className="flex items-center gap-2 bg-sage/20 rounded px-2 py-1.5">
                   <div className="w-1 h-5 bg-sage rounded-full" />
                   <div>
                     <p className="text-[11px] font-medium text-[#2a2a2a]">⚽ Soccer Practice</p>
