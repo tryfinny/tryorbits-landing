@@ -148,8 +148,10 @@ function FeatureCard({
     >
       <TiltCard isMobile={isMobile}>
         <motion.div
-          className={`relative p-6 lg:p-10 bg-gradient-to-br ${feature.gradient} rounded-[2rem] border border-border/50 h-full overflow-hidden backdrop-blur-sm`}
-          style={{ backgroundColor: 'hsl(var(--background) / 0.6)' }}
+          className={`relative p-6 lg:p-10 rounded-[2rem] border border-border/50 h-full overflow-hidden`}
+          style={{ 
+            backgroundColor: `hsl(var(--${feature.color.replace("bg-", "")}) / 0.18)`,
+          }}
           animate={
             isActive
               ? {
@@ -161,13 +163,22 @@ function FeatureCard({
           }
           transition={{ duration: 0.3 }}
         >
+          {/* Top accent glow */}
           <motion.div
-            className="absolute inset-0"
+            className="absolute inset-0 pointer-events-none"
             style={{
-              backgroundImage: `radial-gradient(circle at 70% 30%, hsl(var(--${feature.color.replace("bg-", "")})) 0%, transparent 50%)`,
+              backgroundImage: `radial-gradient(ellipse at 80% 0%, hsl(var(--${feature.color.replace("bg-", "")})) 0%, transparent 50%)`,
             }}
-            animate={isActive ? { scale: 1.2, opacity: 0.5 } : { scale: 1, opacity: 0.35 }}
+            animate={isActive ? { scale: 1.2, opacity: 0.35 } : { scale: 1, opacity: 0.2 }}
             transition={{ duration: 0.4 }}
+          />
+          
+          {/* Bottom fill for consistent visibility */}
+          <div 
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: `linear-gradient(to top, hsl(var(--${feature.color.replace("bg-", "")}) / 0.15) 0%, transparent 50%)`,
+            }}
           />
 
           {/* Shimmer effect - continuous on mobile */}
