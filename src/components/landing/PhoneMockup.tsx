@@ -325,9 +325,9 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               </motion.div>
               
               {/* Calendar sync card */}
-              <AICard bgColor="bg-sky/12" delay={0.5} className="mb-3">
-                <div className="flex items-center gap-1.5 mb-2.5">
-                  <span className="text-[11px]">👨‍👩‍👧</span>
+              <AICard bgColor="bg-sky/30 border border-sky/20" delay={0.5} className="mb-3">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-sm">👨‍👩‍👧</span>
                   <span className="text-[11px] font-serif font-medium text-foreground">Calendars Synced</span>
                 </div>
                 <p className="text-[10px] text-foreground/80 leading-relaxed">
@@ -336,9 +336,9 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               </AICard>
               
               {/* Auto-scheduled maintenance card */}
-              <AICard bgColor="bg-sage/10" delay={0.8} className="mb-3">
-                <div className="flex items-center gap-1.5 mb-2.5">
-                  <span className="text-[11px]">🏠</span>
+              <AICard bgColor="bg-sage/30 border border-sage/20" delay={0.8} className="mb-3">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-sm">🏠</span>
                   <span className="text-[11px] font-serif font-medium text-foreground">HVAC Service Booked</span>
                 </div>
                 <p className="text-[10px] text-foreground/80 leading-relaxed mb-3">
@@ -348,6 +348,17 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                   <ActionButton variant="primary">Confirm</ActionButton>
                   <ActionButton variant="secondary">Reschedule</ActionButton>
                 </div>
+              </AICard>
+              
+              {/* Proactive suggestion card */}
+              <AICard bgColor="bg-peach/25 border border-peach/20" delay={1.0} className="mb-3">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-sm">💡</span>
+                  <span className="text-[11px] font-serif font-medium text-foreground">Suggestion</span>
+                </div>
+                <p className="text-[10px] text-foreground/80 leading-relaxed">
+                  Gutters last cleaned 11 months ago. Schedule before rainy season?
+                </p>
               </AICard>
               
               {/* Bottom navigation hint */}
