@@ -307,7 +307,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
       </FloatingBadge>
 
       {/* Phone frame with 3D tilt */}
-      <motion.div style={{ rotateX, rotateY }} className="relative mx-auto w-[260px] sm:w-[300px] lg:w-[320px]">
+      <motion.div style={{ rotateX, rotateY }} className="relative mx-auto w-[260px] sm:w-[280px] lg:w-[290px]">
         {/* Glow effect behind phone */}
         <motion.div
           className="absolute inset-0 rounded-[3rem] blur-3xl"
