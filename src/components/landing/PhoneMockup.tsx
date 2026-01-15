@@ -134,7 +134,7 @@ function AICard({
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, type: "spring", stiffness: 100, damping: 15 }}
-      className={`${bgColor} rounded-2xl p-3.5 ${className}`}
+      className={`${bgColor} rounded-2xl px-3.5 py-2.5 ${className}`}
     >
       {children}
     </motion.div>
@@ -292,7 +292,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
           {/* Screen - force light mode */}
           <div className="relative bg-[#F9F3E9] rounded-[2.5rem] overflow-hidden">
             {/* Screen content */}
-            <div className="pt-3 pb-3 px-4 sm:px-5 min-h-[380px] sm:min-h-[420px] lg:min-h-[460px]">
+            <div className="pt-3 pb-3 px-4 sm:px-5 min-h-[360px] sm:min-h-[400px] lg:min-h-[440px]">
               {/* Header with date and weather */}
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
