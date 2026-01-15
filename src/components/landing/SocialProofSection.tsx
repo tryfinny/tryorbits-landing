@@ -361,7 +361,7 @@ export function SocialProofSection() {
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.2 }}
           >
-            Join the community of people who've transformed their productivity.
+            Join thousands of households running smoother with Orbits.
           </motion.p>
           <LiveNotification />
         </motion.div>
