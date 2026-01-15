@@ -218,9 +218,11 @@ function AnimatedEmoji({
 
 export function PhoneMockup({ className }: PhoneMockupProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = useState(false);
   const isMobile = useIsMobile();
-  const isInView = useInView(containerRef, { once: true, margin: "-100px" });
+  // Trigger animations only when the bottom of the phone is visible
+  const isInView = useInView(bottomRef, { once: true, margin: "0px" });
 
   // Mouse/touch tracking for 3D effect
   const mouseX = useMotionValue(0);
@@ -483,6 +485,8 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               <div className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2">
                 <div className="w-32 sm:w-36 h-1.5 bg-[#1a1a1a] rounded-full" />
               </div>
+              {/* Ref to detect when bottom of phone is visible */}
+              <div ref={bottomRef} className="absolute bottom-0 left-0 w-full h-1" />
             </div>
           </div>
         </motion.div>
