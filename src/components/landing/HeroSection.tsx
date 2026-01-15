@@ -202,13 +202,6 @@ export function HeroSection() {
               <span className="text-xs sm:text-sm font-medium text-foreground/80 relative">
                 AI-Powered Productivity
               </span>
-              <motion.div className="absolute -right-1 -top-1 w-2 h-2 rounded-full bg-sage" animate={{
-              scale: [1, 1.5, 1],
-              opacity: [1, 0.5, 1]
-            }} transition={{
-              duration: 2,
-              repeat: Infinity
-            }} />
             </motion.div>
 
             {/* Headline */}
@@ -258,18 +251,6 @@ export function HeroSection() {
                 delay: 0.7,
                 duration: 0.6,
                 ease: [0.25, 0.46, 0.45, 0.94]
-              }} />
-                {/* Sparkle effect - one time */}
-                <motion.span className="absolute -top-1 -right-2 w-2 h-2 bg-golden rounded-full" initial={{
-                scale: 0,
-                opacity: 0
-              }} animate={{
-                scale: [0, 1.5, 1],
-                opacity: [0, 1, 0.8]
-              }} transition={{
-                delay: 1,
-                duration: 0.5,
-                ease: "easeOut"
               }} />
               </motion.span>
             </motion.h1>
