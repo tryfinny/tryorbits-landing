@@ -10,6 +10,7 @@ const features = [
     color: "bg-sage",
     gradient: "from-sage/20 to-sky/10",
     iconBg: "bg-sage/20",
+    bgOpacity: 0.18,
   },
   {
     emoji: "✉️",
@@ -18,6 +19,7 @@ const features = [
     color: "bg-peach",
     gradient: "from-peach/20 to-lavender/10",
     iconBg: "bg-peach/20",
+    bgOpacity: 0.28,
   },
   {
     emoji: "🏠",
@@ -26,6 +28,7 @@ const features = [
     color: "bg-sky",
     gradient: "from-sky/20 to-sage/10",
     iconBg: "bg-sky/20",
+    bgOpacity: 0.28,
   },
   {
     emoji: "✅",
@@ -34,6 +37,7 @@ const features = [
     color: "bg-lavender",
     gradient: "from-lavender/20 to-peach/10",
     iconBg: "bg-lavender/20",
+    bgOpacity: 0.28,
   },
 ];
 
@@ -150,7 +154,7 @@ function FeatureCard({
         <motion.div
           className={`relative p-6 lg:p-10 rounded-[2rem] border border-border/50 h-full overflow-hidden`}
           style={{ 
-            backgroundColor: `hsl(var(--${feature.color.replace("bg-", "")}) / 0.18)`,
+            backgroundColor: `hsl(var(--${feature.color.replace("bg-", "")}) / ${feature.bgOpacity})`,
           }}
           animate={
             isActive
