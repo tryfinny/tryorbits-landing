@@ -38,7 +38,7 @@ export function CTASection() {
   const backgroundScale = useTransform(smoothProgress, [0, 0.5, 1], [0.9, 1, 1.1]);
 
   return (
-    <section ref={containerRef} className="relative py-32 lg:py-40 px-6 overflow-hidden">
+    <section ref={containerRef} className="relative pt-16 pb-32 lg:pt-20 lg:pb-40 px-6 overflow-hidden">
       {/* Layered gradient background */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/20 to-background" />
       
