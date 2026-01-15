@@ -372,7 +372,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                       <span className="text-[10px] text-[#6a6a6a]">60%</span>
                     </div>
                     <div className="h-1.5 bg-white/60 rounded-full overflow-hidden">
-                      <div className="h-full bg-sky rounded-full" style={{ width: '60%' }} />
+                      <div className="h-full bg-sage rounded-full" style={{ width: '60%' }} />
                     </div>
                   </div>
                   {/* School Supplies */}
@@ -382,7 +382,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                       <span className="text-[10px] text-[#6a6a6a]">10%</span>
                     </div>
                     <div className="h-1.5 bg-white/60 rounded-full overflow-hidden">
-                      <div className="h-full bg-peach rounded-full" style={{ width: '10%' }} />
+                      <div className="h-full bg-sage rounded-full" style={{ width: '10%' }} />
                     </div>
                   </div>
                   {/* Chores */}
