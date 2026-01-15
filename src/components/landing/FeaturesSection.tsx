@@ -367,13 +367,6 @@ export function FeaturesSection() {
                 animate={isHeaderInView ? { scaleX: 1, opacity: 1 } : { scaleX: 0, opacity: 0 }}
                 transition={{ delay: 0.7, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
               />
-              {/* Sparkle effect - one time */}
-              <motion.span
-                className="absolute -top-1 -right-2 w-2 h-2 bg-golden rounded-full"
-                initial={{ scale: 0, opacity: 0 }}
-                animate={isHeaderInView ? { scale: [0, 1.5, 1], opacity: [0, 1, 0.8] } : { scale: 0, opacity: 0 }}
-                transition={{ delay: 1, duration: 0.5, ease: "easeOut" }}
-              />
             </motion.span>{" "}
             every week.
           </motion.h2>
