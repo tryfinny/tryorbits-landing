@@ -36,15 +36,15 @@ export function StickyDownloadBar() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100 }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-background/90 backdrop-blur-xl border-t border-border md:hidden safe-area-inset-bottom"
+          className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-[#F9F3E9]/95 backdrop-blur-xl border-t border-[#e5ddd0] md:hidden safe-area-inset-bottom"
         >
           {/* Dismiss button */}
           <motion.button
             onClick={() => setIsDismissed(true)}
             whileTap={{ scale: 0.9 }}
-            className="absolute -top-10 right-4 w-8 h-8 rounded-full bg-background/80 backdrop-blur-sm border border-border flex items-center justify-center touch-manipulation"
+            className="absolute -top-10 right-4 w-8 h-8 rounded-full bg-[#F9F3E9]/90 backdrop-blur-sm border border-[#e5ddd0] flex items-center justify-center touch-manipulation"
           >
-            <X className="w-4 h-4 text-muted-foreground" />
+            <X className="w-4 h-4 text-[#6b6b6b]" />
           </motion.button>
           
           <div className="flex gap-3">
@@ -55,7 +55,7 @@ export function StickyDownloadBar() {
               onTouchEnd={() => handleTapEnd('ios')}
               onTouchCancel={() => handleTapEnd('ios')}
               whileTap={{ scale: 0.96 }}
-              className="flex-1 relative inline-flex items-center justify-center gap-2 px-4 py-4 bg-foreground text-background rounded-2xl font-medium overflow-hidden touch-manipulation min-h-[56px]"
+              className="flex-1 relative inline-flex items-center justify-center gap-2 px-4 py-4 bg-[#1a1a1a] text-white rounded-2xl font-medium overflow-hidden touch-manipulation min-h-[56px]"
             >
               {/* Tap ripple effect */}
               <motion.div
@@ -93,7 +93,7 @@ export function StickyDownloadBar() {
               onTouchEnd={() => handleTapEnd('android')}
               onTouchCancel={() => handleTapEnd('android')}
               whileTap={{ scale: 0.96 }}
-              className="flex-1 relative inline-flex items-center justify-center gap-2 px-4 py-4 bg-foreground text-background rounded-2xl font-medium overflow-hidden touch-manipulation min-h-[56px]"
+              className="flex-1 relative inline-flex items-center justify-center gap-2 px-4 py-4 bg-[#1a1a1a] text-white rounded-2xl font-medium overflow-hidden touch-manipulation min-h-[56px]"
             >
               {/* Tap ripple effect */}
               <motion.div
@@ -135,7 +135,7 @@ export function StickyDownloadBar() {
             transition={{ delay: 0.5 }}
           >
             <motion.div
-              className="w-10 h-1 rounded-full bg-muted-foreground/30"
+              className="w-10 h-1 rounded-full bg-[#1a1a1a]/20"
               animate={{ scaleX: [1, 0.8, 1] }}
               transition={{ duration: 1.5, repeat: Infinity }}
             />
