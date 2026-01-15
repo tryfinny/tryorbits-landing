@@ -227,14 +227,17 @@ function FeatureCard({
             className="relative z-10 mb-5"
           >
             <motion.div
-              className={`w-14 h-14 lg:w-20 lg:h-20 rounded-2xl ${feature.iconBg} flex items-center justify-center relative`}
+              className={`w-14 h-14 lg:w-20 lg:h-20 rounded-2xl flex items-center justify-center relative border border-border/40`}
+              style={{
+                backgroundColor: `hsl(var(--${feature.color.replace("bg-", "")}) / 0.25)`,
+              }}
               animate={
                 isActive
                   ? {
                       boxShadow: `0 15px 30px -10px hsl(var(--${feature.color.replace("bg-", "")}) / 0.4)`,
                     }
                   : {
-                      boxShadow: "none",
+                      boxShadow: `0 4px 12px -4px hsl(var(--${feature.color.replace("bg-", "")}) / 0.2)`,
                     }
               }
             >
