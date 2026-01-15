@@ -267,7 +267,7 @@ function FeatureCard({
 
             {/* Coming Soon chip */}
             {feature.comingSoon && (
-              <span className="ml-auto px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider bg-peach/30 text-peach-foreground border border-peach/40 rounded-full relative z-10">
+              <span className="ml-auto px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider bg-foreground/70 text-background border border-foreground/20 rounded-full relative z-10">
                 Coming Soon
               </span>
             )}
@@ -282,41 +282,43 @@ function FeatureCard({
             {feature.description}
           </motion.p>
 
-          {/* Rippling corner dot */}
-          <div className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center">
-            {/* Ripple rings */}
-            <motion.div
-              className={`absolute w-3 h-3 rounded-full border-2`}
-              style={{ borderColor: `hsl(var(--${feature.color.replace("bg-", "")}))` }}
-              animate={{ 
-                scale: [1, 2.5],
-                opacity: [0.6, 0],
-              }}
-              transition={{ 
-                duration: 1.5, 
-                repeat: Infinity, 
-                ease: "easeOut",
-              }}
-            />
-            <motion.div
-              className={`absolute w-3 h-3 rounded-full border-2`}
-              style={{ borderColor: `hsl(var(--${feature.color.replace("bg-", "")}))` }}
-              animate={{ 
-                scale: [1, 2.5],
-                opacity: [0.6, 0],
-              }}
-              transition={{ 
-                duration: 1.5, 
-                repeat: Infinity, 
-                ease: "easeOut",
-                delay: 0.5,
-              }}
-            />
-            {/* Center dot */}
-            <div 
-              className={`w-2.5 h-2.5 rounded-full ${feature.color} relative z-10`}
-            />
-          </div>
+          {/* Rippling corner dot - hidden for coming soon cards */}
+          {!feature.comingSoon && (
+            <div className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center">
+              {/* Ripple rings */}
+              <motion.div
+                className={`absolute w-3 h-3 rounded-full border-2`}
+                style={{ borderColor: `hsl(var(--${feature.color.replace("bg-", "")}))` }}
+                animate={{ 
+                  scale: [1, 2.5],
+                  opacity: [0.6, 0],
+                }}
+                transition={{ 
+                  duration: 1.5, 
+                  repeat: Infinity, 
+                  ease: "easeOut",
+                }}
+              />
+              <motion.div
+                className={`absolute w-3 h-3 rounded-full border-2`}
+                style={{ borderColor: `hsl(var(--${feature.color.replace("bg-", "")}))` }}
+                animate={{ 
+                  scale: [1, 2.5],
+                  opacity: [0.6, 0],
+                }}
+                transition={{ 
+                  duration: 1.5, 
+                  repeat: Infinity, 
+                  ease: "easeOut",
+                  delay: 0.5,
+                }}
+              />
+              {/* Center dot */}
+              <div 
+                className={`w-2.5 h-2.5 rounded-full ${feature.color} relative z-10`}
+              />
+            </div>
+          )}
         </motion.div>
       </TiltCard>
     </motion.div>
