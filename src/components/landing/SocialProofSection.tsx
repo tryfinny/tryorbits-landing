@@ -30,8 +30,7 @@ const testimonials = [
   {
     name: "Sam R.",
     role: "First-time homeowner",
-    content:
-      "The home maintenance reminders are a lifesaver. Did you know you're supposed to clean your dryer vents? Orbits did!",
+    content: "Did you know you're supposed to clean your dryer vents? Orbits did!",
     rating: 5,
     gradient: "from-sage to-sky/30",
     bgColor: "bg-sage/10",
