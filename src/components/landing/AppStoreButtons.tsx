@@ -89,7 +89,7 @@ export function AppStoreButtons() {
         className="group"
       >
         <motion.div
-          className="relative inline-flex items-center gap-4 px-7 py-4 bg-foreground text-background rounded-2xl overflow-hidden min-h-[60px]"
+          className="relative inline-flex items-center gap-4 px-7 py-4 bg-[#1a1a1a] text-white rounded-2xl overflow-hidden min-h-[60px]"
           whileHover={!isMobile ? { 
             boxShadow: '0 25px 50px -12px hsl(var(--primary) / 0.3)',
           } : undefined}
@@ -148,7 +148,7 @@ export function AppStoreButtons() {
         className="group"
       >
         <motion.div
-          className="relative inline-flex items-center gap-4 px-7 py-4 bg-foreground text-background rounded-2xl overflow-hidden min-h-[60px]"
+          className="relative inline-flex items-center gap-4 px-7 py-4 bg-[#1a1a1a] text-white rounded-2xl overflow-hidden min-h-[60px]"
           whileHover={!isMobile ? { 
             boxShadow: '0 25px 50px -12px hsl(var(--primary) / 0.3)',
           } : undefined}
