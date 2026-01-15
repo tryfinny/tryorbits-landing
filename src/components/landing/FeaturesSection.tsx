@@ -267,19 +267,39 @@ function FeatureCard({
             {feature.description}
           </motion.p>
 
-          {/* Pulsing corner dot */}
-          <div className="absolute top-4 right-4 w-8 h-8 rounded-full border-2 border-muted/30 flex items-center justify-center">
+          {/* Rippling corner dot */}
+          <div className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center">
+            {/* Ripple rings */}
             <motion.div
-              className={`w-2.5 h-2.5 rounded-full ${feature.color}`}
+              className={`absolute w-3 h-3 rounded-full border-2`}
+              style={{ borderColor: `hsl(var(--${feature.color.replace("bg-", "")}))` }}
               animate={{ 
-                scale: [1, 1.4, 1],
-                opacity: [0.7, 1, 0.7],
+                scale: [1, 2.5],
+                opacity: [0.6, 0],
               }}
               transition={{ 
-                duration: 2, 
+                duration: 1.5, 
                 repeat: Infinity, 
-                ease: "easeInOut",
+                ease: "easeOut",
               }}
+            />
+            <motion.div
+              className={`absolute w-3 h-3 rounded-full border-2`}
+              style={{ borderColor: `hsl(var(--${feature.color.replace("bg-", "")}))` }}
+              animate={{ 
+                scale: [1, 2.5],
+                opacity: [0.6, 0],
+              }}
+              transition={{ 
+                duration: 1.5, 
+                repeat: Infinity, 
+                ease: "easeOut",
+                delay: 0.5,
+              }}
+            />
+            {/* Center dot */}
+            <div 
+              className={`w-2.5 h-2.5 rounded-full ${feature.color} relative z-10`}
             />
           </div>
         </motion.div>
