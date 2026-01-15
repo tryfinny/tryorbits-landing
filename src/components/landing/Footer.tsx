@@ -14,7 +14,7 @@ export function Footer() {
             viewport={{ once: true }}
             className="flex items-center gap-2"
           >
-            <img src={orbitsLogo} alt="Orbits logo" className="w-8 h-8 object-contain aspect-square" />
+            <img src={orbitsLogo} alt="Orbits logo" className="w-8 h-8 object-contain aspect-square rounded-lg" />
             <span className="font-semibold text-lg">Orbits</span>
           </motion.div>
 
