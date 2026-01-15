@@ -152,7 +152,7 @@ function FeatureCard({
     >
       <TiltCard isMobile={isMobile}>
         <motion.div
-          className={`relative p-6 lg:p-10 rounded-[2rem] border border-border/50 h-full overflow-hidden`}
+          className={`relative p-5 lg:p-6 rounded-[1.5rem] border border-border/50 h-full overflow-hidden`}
           style={{ 
             backgroundColor: `hsl(var(--${feature.color.replace("bg-", "")}) / ${feature.bgOpacity})`,
           }}
@@ -224,10 +224,10 @@ function FeatureCard({
                   }
             }
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="relative z-10 mb-5"
+            className="relative z-10 mb-3"
           >
             <motion.div
-              className={`w-14 h-14 lg:w-20 lg:h-20 rounded-2xl flex items-center justify-center relative border border-border/40`}
+              className={`w-12 h-12 lg:w-14 lg:h-14 rounded-xl flex items-center justify-center relative border border-border/40`}
               style={{
                 backgroundColor: `hsl(var(--${feature.color.replace("bg-", "")}) / 0.25)`,
               }}
@@ -243,24 +243,24 @@ function FeatureCard({
             >
               {/* Icon glow */}
               <motion.div
-                className={`absolute inset-0 rounded-2xl ${feature.color} blur-xl`}
+                className={`absolute inset-0 rounded-xl ${feature.color} blur-xl`}
                 animate={isActive ? { opacity: 0.5, scale: 1.3 } : { opacity: 0, scale: 1 }}
                 transition={{ duration: 0.25 }}
               />
-              <span className="text-2xl lg:text-4xl relative z-10">{feature.emoji}</span>
+              <span className="text-xl lg:text-2xl relative z-10">{feature.emoji}</span>
             </motion.div>
           </motion.div>
 
           {/* Content */}
           <motion.h3
-            className="text-xl lg:text-2xl font-heading font-medium tracking-[-0.01em] mb-3 relative z-10"
+            className="text-lg lg:text-xl font-heading font-medium tracking-[-0.01em] mb-1.5 relative z-10"
             animate={isActive ? { x: isMobile ? 0 : 6 } : { x: 0 }}
             transition={{ type: "spring", stiffness: 200, damping: 15 }}
           >
             {feature.title}
           </motion.h3>
           <motion.p
-            className="text-muted-foreground leading-relaxed relative z-10 text-sm lg:text-lg"
+            className="text-muted-foreground leading-snug relative z-10 text-sm lg:text-base"
             animate={isActive ? { x: isMobile ? 0 : 6 } : { x: 0 }}
             transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.02 }}
           >
