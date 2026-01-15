@@ -187,6 +187,35 @@ function ActionButton({
   );
 }
 
+// Animated emoji component
+function AnimatedEmoji({
+  children,
+  delay,
+  isInView,
+  className = "text-base",
+}: {
+  children: React.ReactNode;
+  delay: number;
+  isInView: boolean;
+  className?: string;
+}) {
+  return (
+    <motion.span
+      className={className}
+      initial={{ scale: 0, opacity: 0 }}
+      animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
+      transition={{
+        delay,
+        type: "spring",
+        stiffness: 300,
+        damping: 15,
+      }}
+    >
+      {children}
+    </motion.span>
+  );
+}
+
 export function PhoneMockup({ className }: PhoneMockupProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = useState(false);
@@ -340,8 +369,8 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                 className="mb-2"
                 isInView={isInView}
               >
-                <div className="flex items-center gap-1.5 mb-2">
-                  <span className="text-sm">📅</span>
+                <div className="flex items-center gap-2 mb-2">
+                  <AnimatedEmoji delay={0.6} isInView={isInView}>📅</AnimatedEmoji>
                   <span className="text-[13px] font-serif font-medium text-[#1a1a1a] whitespace-nowrap">
                     Family Calendar
                   </span>
@@ -361,9 +390,16 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                   </div>
                   <div className="flex justify-between items-center text-[11px]">
                     <span className="text-[#555] w-4 text-center">8</span>
-                    <span className="text-center">🌟</span>
-                    <span className="text-center">😊</span>
-                    <span className="bg-peach/60 rounded-full w-6 h-6 flex items-center justify-center">🎉</span>
+                    <AnimatedEmoji delay={0.8} isInView={isInView} className="text-[11px]">🌟</AnimatedEmoji>
+                    <AnimatedEmoji delay={0.9} isInView={isInView} className="text-[11px]">😊</AnimatedEmoji>
+                    <motion.span 
+                      className="bg-peach/60 rounded-full w-6 h-6 flex items-center justify-center"
+                      initial={{ scale: 0 }}
+                      animate={isInView ? { scale: 1 } : { scale: 0 }}
+                      transition={{ delay: 1.0, type: "spring", stiffness: 300, damping: 15 }}
+                    >
+                      🎉
+                    </motion.span>
                     <span className="text-[#555] w-4 text-center">12</span>
                     <span className="text-[#555] w-4 text-center">13</span>
                     <span className="text-[#555] w-4 text-center">14</span>
@@ -372,7 +408,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
 
                 {/* Event item */}
                 <div className="flex items-center gap-2.5 bg-white/60 rounded-2xl px-3 py-2">
-                  <span className="text-base">🎉</span>
+                  <AnimatedEmoji delay={1.1} isInView={isInView}>🎉</AnimatedEmoji>
                   <div>
                     <p className="text-[12px] font-medium text-[#2a2a2a]">Birthday Party (Lily)</p>
                     <p className="text-[10px] text-[#6a6a6a]">3:00 PM</p>
@@ -388,7 +424,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                 isInView={isInView}
               >
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-base">📊</span>
+                  <AnimatedEmoji delay={0.8} isInView={isInView}>📊</AnimatedEmoji>
                   <span className="text-[13px] font-serif font-medium text-[#1a1a1a]">Progress Tracker</span>
                 </div>
                 <div className="space-y-2">
@@ -428,7 +464,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                   className="mb-2"
                 >
                   <div className="flex items-center gap-2 mb-1.5">
-                    <span className="text-base">🏠</span>
+                    <AnimatedEmoji delay={1.0} isInView={isInView}>🏠</AnimatedEmoji>
                     <span className="text-[13px] font-serif font-medium text-[#1a1a1a]">HVAC Service Booked</span>
                   </div>
                   <p className="text-[13px] text-[#3a3a3a] leading-relaxed mb-2">
