@@ -294,8 +294,8 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
           <div className="absolute -left-[3px] top-60 w-[3px] h-12 bg-[#2a2a2a] rounded-l-sm" />
           <div className="absolute -right-[3px] top-36 w-[3px] h-16 bg-[#2a2a2a] rounded-r-sm" />
           
-          {/* Screen */}
-          <div className="relative bg-background rounded-[2.5rem] overflow-hidden">
+          {/* Screen - force light mode */}
+          <div className="relative bg-[#F9F3E9] rounded-[2.5rem] overflow-hidden">
             {/* Dynamic Island */}
             <div className="absolute top-3 left-1/2 -translate-x-1/2 z-20">
               <motion.div
