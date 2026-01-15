@@ -1,7 +1,7 @@
 import { motion, useInView, useScroll, useTransform, useSpring } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { AppStoreButtons } from './AppStoreButtons';
-import { ArrowRight, Sparkles, Zap, Heart } from 'lucide-react';
+import { ArrowUp, Sparkles, Zap, Heart } from 'lucide-react';
 
 // Floating orb with organic motion
 function FloatingOrb({ className, delay = 0 }: { className: string; delay?: number }) {
@@ -179,10 +179,10 @@ export function CTASection() {
             />
           </span>
           <motion.div
-            animate={isArrowHovered ? { x: 8 } : { x: 0 }}
+            animate={isArrowHovered ? { y: -6 } : { y: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 15 }}
           >
-            <ArrowRight className="w-5 h-5" />
+            <ArrowUp className="w-5 h-5" />
           </motion.div>
         </motion.a>
       </motion.div>
