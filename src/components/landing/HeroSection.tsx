@@ -277,11 +277,11 @@ export function HeroSection() {
                 whileTap={{ scale: 0.95 }}
               >
                 {[
-                  { initials: 'JM', gradient: 'from-lavender to-primary/50' },
-                  { initials: 'SK', gradient: 'from-peach to-accent' },
-                  { initials: 'AR', gradient: 'from-sky to-primary/30' },
-                  { initials: 'TL', gradient: 'from-sage to-sky' },
-                  { initials: 'DP', gradient: 'from-primary/30 to-lavender' },
+                  { initials: 'JM', bg: 'bg-lavender' },
+                  { initials: 'SK', bg: 'bg-peach' },
+                  { initials: 'AR', bg: 'bg-sky' },
+                  { initials: 'TL', bg: 'bg-sage' },
+                  { initials: 'DP', bg: 'bg-primary' },
                 ].map((user, i) => (
                   <motion.div
                     key={i}
@@ -293,7 +293,7 @@ export function HeroSection() {
                       damping: 12,
                       delay: 0.5 + i * 0.06,
                     }}
-                    className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br ${user.gradient} border-2 border-background cursor-pointer relative shadow-lg flex items-center justify-center`}
+                    className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full ${user.bg} border-2 border-background cursor-pointer relative shadow-lg flex items-center justify-center`}
                   >
                     <span className="text-[10px] sm:text-xs font-medium text-white/90">{user.initials}</span>
                   </motion.div>
