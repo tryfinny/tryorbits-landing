@@ -1,4 +1,4 @@
-import { motion, useInView, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion, useInView, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import { useRef, useEffect, useState } from 'react';
 import { Star, Quote, Sparkles } from 'lucide-react';
 
@@ -53,10 +53,8 @@ function AnimatedCounter({ value, duration = 2.5 }: { value: number; duration?: 
   return <span ref={ref}>{count.toLocaleString()}</span>;
 }
 
-// 3D Testimonial Card
-function TestimonialCard({ testimonial, index }: { testimonial: typeof testimonials[0]; index: number }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
+// 3D Testimonial Card - now controlled by isActive prop for carousel
+function TestimonialCard({ testimonial, isActive }: { testimonial: typeof testimonials[0]; isActive: boolean }) {
   const [isHovered, setIsHovered] = useState(false);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
@@ -74,23 +72,22 @@ function TestimonialCard({ testimonial, index }: { testimonial: typeof testimoni
 
   return (
     <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 80, rotateX: -20 }}
-      animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : { opacity: 0, y: 80, rotateX: -20 }}
+      initial={{ opacity: 0, x: 100, scale: 0.9 }}
+      animate={isActive ? { opacity: 1, x: 0, scale: 1 } : { opacity: 0, x: -100, scale: 0.9 }}
+      exit={{ opacity: 0, x: -100, scale: 0.9 }}
       transition={{ 
         type: "spring",
-        stiffness: 60,
-        damping: 15,
-        delay: index * 0.15,
+        stiffness: 80,
+        damping: 18,
       }}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
-      className="relative perspective-1000"
+      className="relative perspective-1000 w-full"
       style={{ perspective: '1000px' }}
     >
       <motion.div 
-        className={`${testimonial.bgColor} p-8 lg:p-10 rounded-[2rem] border border-border/30 h-full relative overflow-hidden backdrop-blur-sm`}
+        className={`${testimonial.bgColor} p-8 lg:p-10 rounded-[2rem] border border-border/30 relative overflow-hidden backdrop-blur-sm`}
         animate={{ 
           rotateX: tilt.x,
           rotateY: tilt.y,
@@ -108,18 +105,19 @@ function TestimonialCard({ testimonial, index }: { testimonial: typeof testimoni
           transition={{ duration: 0.4 }}
         />
 
-        {/* Shimmer effect */}
+        {/* Shimmer effect on entry */}
         <motion.div
           className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
           initial={{ x: '-200%' }}
-          animate={isHovered ? { x: '200%' } : { x: '-200%' }}
-          transition={{ duration: 1, ease: "easeInOut" }}
+          animate={isActive ? { x: ['−200%', '200%'] } : { x: '-200%' }}
+          transition={{ duration: 0.8, ease: "easeInOut", delay: 0.2 }}
         />
 
         {/* Quote icon */}
         <motion.div
-          animate={isHovered ? { scale: 1.15, rotate: 10, y: -5 } : { scale: 1, rotate: 0, y: 0 }}
-          transition={{ type: "spring", stiffness: 200 }}
+          initial={{ scale: 0.5, opacity: 0 }}
+          animate={isActive ? { scale: 1, opacity: 1 } : { scale: 0.5, opacity: 0 }}
+          transition={{ type: "spring", stiffness: 200, delay: 0.1 }}
           className="mb-6"
           style={{ transform: 'translateZ(20px)' }}
         >
@@ -132,12 +130,12 @@ function TestimonialCard({ testimonial, index }: { testimonial: typeof testimoni
             <motion.div
               key={i}
               initial={{ opacity: 0, scale: 0, rotate: -180 }}
-              animate={isInView ? { opacity: 1, scale: 1, rotate: 0 } : { opacity: 0, scale: 0 }}
+              animate={isActive ? { opacity: 1, scale: 1, rotate: 0 } : { opacity: 0, scale: 0 }}
               transition={{ 
                 type: "spring",
                 stiffness: 200,
                 damping: 12,
-                delay: index * 0.15 + i * 0.08 + 0.3,
+                delay: i * 0.08 + 0.15,
               }}
               whileHover={{ scale: 1.3, rotate: 15 }}
             >
@@ -150,8 +148,9 @@ function TestimonialCard({ testimonial, index }: { testimonial: typeof testimoni
         <motion.p 
           className="text-foreground/90 mb-8 leading-relaxed text-lg lg:text-xl relative z-10"
           style={{ transform: 'translateZ(10px)' }}
-          animate={isHovered ? { x: 5 } : { x: 0 }}
-          transition={{ type: "spring", stiffness: 200 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ delay: 0.2 }}
         >
           "{testimonial.content}"
         </motion.p>
@@ -160,23 +159,26 @@ function TestimonialCard({ testimonial, index }: { testimonial: typeof testimoni
         <div className="flex items-center gap-4 relative z-10" style={{ transform: 'translateZ(25px)' }}>
           <motion.div 
             className={`w-14 h-14 rounded-full bg-gradient-to-br ${testimonial.gradient} flex items-center justify-center text-white font-bold text-lg shadow-lg`}
-            whileHover={{ scale: 1.1, rotate: 360 }}
-            transition={{ type: "spring", stiffness: 150, damping: 12 }}
+            initial={{ scale: 0, rotate: -180 }}
+            animate={isActive ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -180 }}
+            transition={{ type: "spring", stiffness: 150, damping: 12, delay: 0.25 }}
           >
             {testimonial.name.charAt(0)}
           </motion.div>
           <div>
             <motion.p 
               className="font-semibold text-lg"
-              animate={isHovered ? { x: 5 } : { x: 0 }}
-              transition={{ type: "spring", stiffness: 200 }}
+              initial={{ opacity: 0, x: -10 }}
+              animate={isActive ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
+              transition={{ delay: 0.3 }}
             >
               {testimonial.name}
             </motion.p>
             <motion.p 
               className="text-muted-foreground"
-              animate={isHovered ? { x: 5 } : { x: 0 }}
-              transition={{ type: "spring", stiffness: 200, delay: 0.02 }}
+              initial={{ opacity: 0, x: -10 }}
+              animate={isActive ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
+              transition={{ delay: 0.35 }}
             >
               {testimonial.role}
             </motion.p>
@@ -191,6 +193,47 @@ function TestimonialCard({ testimonial, index }: { testimonial: typeof testimoni
         />
       </motion.div>
     </motion.div>
+  );
+}
+
+// Testimonial Carousel - auto-advances every 3s
+function TestimonialCarousel() {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % testimonials.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="relative max-w-2xl mx-auto">
+      {/* Carousel container */}
+      <div className="relative overflow-hidden">
+        <AnimatePresence mode="wait">
+          <TestimonialCard
+            key={activeIndex}
+            testimonial={testimonials[activeIndex]}
+            isActive={true}
+          />
+        </AnimatePresence>
+      </div>
+
+      {/* Dot indicators */}
+      <div className="flex justify-center gap-2 mt-8">
+        {testimonials.map((_, index) => (
+          <motion.div
+            key={index}
+            className={`w-2 h-2 rounded-full transition-colors duration-300 ${
+              index === activeIndex ? 'bg-primary' : 'bg-primary/20'
+            }`}
+            animate={index === activeIndex ? { scale: 1.3 } : { scale: 1 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          />
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -366,12 +409,8 @@ export function SocialProofSection() {
           <LiveNotification />
         </motion.div>
 
-        {/* Testimonials grid */}
-        <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
-          {testimonials.map((testimonial, index) => (
-            <TestimonialCard key={testimonial.name} testimonial={testimonial} index={index} />
-          ))}
-        </div>
+        {/* Testimonials carousel */}
+        <TestimonialCarousel />
 
         {/* Early access badge */}
         <motion.div 
