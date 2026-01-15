@@ -34,7 +34,7 @@ export function StickyDownloadBar() {
           style={{ opacity, y }}
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 100, opacity: 0 }}
+          exit={{ y: 100 }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
           className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-background/90 backdrop-blur-xl border-t border-border md:hidden safe-area-inset-bottom"
         >
@@ -72,7 +72,7 @@ export function StickyDownloadBar() {
                   background: 'radial-gradient(circle at 50% 100%, hsl(var(--primary) / 0.2), transparent 60%)',
                 }}
                 animate={{
-                  opacity: [0.3, 0.6, 0.3],
+                  opacity: [0.4, 0.6, 0.5],
                 }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
               />
@@ -110,7 +110,7 @@ export function StickyDownloadBar() {
                   background: 'radial-gradient(circle at 50% 100%, hsl(var(--sage) / 0.2), transparent 60%)',
                 }}
                 animate={{
-                  opacity: [0.3, 0.6, 0.3],
+                  opacity: [0.4, 0.6, 0.5],
                 }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
               />

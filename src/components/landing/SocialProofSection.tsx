@@ -227,7 +227,7 @@ function LiveNotification() {
         />
         <motion.div
           className="absolute inset-0 w-3 h-3 rounded-full bg-sage"
-          animate={{ scale: [1, 2.5], opacity: [0.6, 0] }}
+          animate={{ scale: [1, 2.5], opacity: [0.5, 0.15] }}
           transition={{ duration: 2, repeat: Infinity }}
         />
       </div>

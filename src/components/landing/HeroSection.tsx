@@ -122,7 +122,7 @@ export function HeroSection() {
   const smoothProgress = useSpring(scrollYProgress, { stiffness: 50, damping: 20, mass: 0.5 });
   
   // Parallax transforms - reduced on mobile for performance
-  const opacity = useTransform(smoothProgress, [0, 0.4], [1, 0]);
+  // Keep content visible - no fade out on scroll
   const scale = useTransform(smoothProgress, [0, 0.4], [1, 0.98]);
   const phoneY = useTransform(smoothProgress, [0, 1], [0, isMobile ? 30 : 50]);
 
@@ -132,10 +132,7 @@ export function HeroSection() {
       className="relative min-h-screen flex flex-col items-center justify-center px-5 sm:px-6 py-16 sm:py-20 overflow-hidden"
     >
       {/* Layered gradient backgrounds */}
-      <motion.div 
-        className="absolute inset-0 bg-gradient-to-b from-background via-background to-secondary/50"
-        style={{ opacity }}
-      />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-secondary/50" />
       
       {/* Morphing background blobs - smaller on mobile */}
       <MorphingBlob className="top-10 left-[5%] w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] orb-lavender opacity-30 sm:opacity-40" delay={0} />
@@ -169,7 +166,7 @@ export function HeroSection() {
       {/* Main content */}
       <motion.div 
         className="relative z-10 max-w-7xl mx-auto w-full"
-        style={{ scale, opacity }}
+        style={{ scale }}
       >
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
           {/* Left content */}
