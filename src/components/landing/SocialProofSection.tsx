@@ -197,17 +197,11 @@ function TestimonialCard({ testimonial, index }: { testimonial: typeof testimoni
 // Live signup notification
 function LiveNotification() {
   const [visible, setVisible] = useState(false);
-  const [count, setCount] = useState(14);
+  const count = 24; // Static count, never higher than 30
 
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 1500);
-    const interval = setInterval(() => {
-      setCount(prev => prev + Math.floor(Math.random() * 3) + 1);
-    }, 5000);
-    return () => {
-      clearTimeout(timer);
-      clearInterval(interval);
-    };
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -218,29 +212,26 @@ function LiveNotification() {
       whileHover={{ scale: 1.03, y: -3 }}
       className="inline-flex items-center gap-4 px-6 py-4 glass rounded-full border border-border/30 cursor-pointer"
     >
-      {/* Pulsing dot */}
-      <div className="relative">
+      {/* Rippling pulse dot - same as feature cards */}
+      <div className="relative flex items-center justify-center">
+        {/* Outer ripple */}
         <motion.div
-          className="w-3 h-3 rounded-full bg-sage"
-          animate={{ scale: [1, 1.2, 1] }}
-          transition={{ duration: 2, repeat: Infinity }}
+          className="absolute w-3 h-3 rounded-full bg-sage/30"
+          animate={{ scale: [1, 2.5], opacity: [0.6, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
         />
+        {/* Inner ripple */}
         <motion.div
-          className="absolute inset-0 w-3 h-3 rounded-full bg-sage"
-          animate={{ scale: [1, 2.5], opacity: [0.5, 0.15] }}
-          transition={{ duration: 2, repeat: Infinity }}
+          className="absolute w-3 h-3 rounded-full bg-sage/40"
+          animate={{ scale: [1, 2], opacity: [0.7, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeOut", delay: 0.3 }}
         />
+        {/* Solid center */}
+        <div className="w-3 h-3 rounded-full bg-sage relative z-10" />
       </div>
       
       <span className="text-muted-foreground">
-        <motion.span 
-          key={count}
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="font-semibold text-foreground inline-block"
-        >
-          {count}
-        </motion.span>{' '}
+        <span className="font-semibold text-foreground">{count}</span>{' '}
         people signed up today
       </span>
       
