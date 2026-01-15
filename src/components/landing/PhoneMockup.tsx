@@ -385,20 +385,28 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                 </div>
               </AICard>
 
-              {/* Proactive suggestion card - partially visible to hint at more content */}
-              <AICard
-                bgColor="bg-gradient-to-br from-golden/25 to-golden/10 border border-golden/30"
-                delay={1.0}
-                className="mb-3 overflow-hidden"
-              >
-                <div className="flex items-center gap-2 mb-1.5">
-                  <span className="text-base">✨</span>
-                  <span className="text-[14px] font-serif font-medium text-[#1a1a1a]">Suggestion</span>
-                </div>
-                <p className="text-[13px] text-[#3a3a3a] leading-relaxed">
-                  Gutters last cleaned in May. Schedule cleaning before...
-                </p>
-              </AICard>
+              {/* Proactive suggestion card - fades out to hint at more content */}
+              <div className="relative">
+                <AICard
+                  bgColor="bg-gradient-to-br from-golden/25 to-golden/10 border border-golden/30"
+                  delay={1.0}
+                  className="mb-3"
+                >
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className="text-base">✨</span>
+                    <span className="text-[14px] font-serif font-medium text-[#1a1a1a]">Suggestion</span>
+                  </div>
+                  <p className="text-[13px] text-[#3a3a3a] leading-relaxed mb-2.5">
+                    Gutters last cleaned in May. Schedule cleaning before the rainy season?
+                  </p>
+                  <div className="flex gap-2">
+                    <ActionButton variant="primary">Schedule</ActionButton>
+                    <ActionButton variant="secondary">Dismiss</ActionButton>
+                  </div>
+                </AICard>
+                {/* Fade overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#F9F3E9] via-[#F9F3E9]/70 to-transparent pointer-events-none" />
+              </div>
 
               {/* Bottom navigation hint - home indicator */}
               <div className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2">
