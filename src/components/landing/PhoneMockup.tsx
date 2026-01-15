@@ -1,6 +1,6 @@
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { CheckCircle2, Calendar, Bell, Star, TrendingUp, Wrench, Users } from 'lucide-react';
+import { CheckCircle2, Calendar, Bell, Star, TrendingUp, Wrench, Users, RefreshCw } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-device-motion';
 
 interface PhoneMockupProps {
@@ -327,32 +327,30 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                 <div className="flex items-center gap-1.5 mb-2">
                   <span className="text-sm">📅</span>
                   <span className="text-[13px] font-serif font-medium text-[#1a1a1a] whitespace-nowrap">Family Calendar</span>
-                  <span className="ml-auto text-[9px] text-sky font-medium bg-sky/20 px-1.5 py-0.5 rounded-full shrink-0">Synced</span>
+                  <span className="text-[10px] text-[#6a6a6a] ml-1">April</span>
+                  <RefreshCw className="w-3 h-3 text-sky ml-auto" />
                 </div>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-[10px] font-medium text-[#5a5a5a] whitespace-nowrap">Apr 2025</span>
-                  <div className="flex gap-0.5">
-                    {[6, 7, 8, 9, 10, 11, 12].map((day) => (
-                      <div 
-                        key={day} 
-                        className={`w-4 h-4 text-[9px] flex items-center justify-center rounded ${
-                          day === 9 
-                            ? 'bg-sky text-white font-semibold' 
-                            : day === 10 
-                              ? 'bg-sage/40 text-[#3a3a3a] font-medium'
-                              : 'text-[#5a5a5a]'
-                        }`}
-                      >
-                        {day}
-                      </div>
-                    ))}
-                  </div>
+                <div className="flex items-center gap-1 mb-2">
+                  {[6, 7, 8, 9, 10, 11, 12].map((day) => (
+                    <div 
+                      key={day} 
+                      className={`w-4 h-4 text-[9px] flex items-center justify-center rounded ${
+                        day === 9 
+                          ? 'bg-sky text-white font-semibold' 
+                          : day === 10 
+                            ? 'bg-sage/40 text-[#3a3a3a] font-medium'
+                            : 'text-[#5a5a5a]'
+                      }`}
+                    >
+                      {day}
+                    </div>
+                  ))}
                 </div>
-                <div className="flex items-center gap-2 bg-sage/20 rounded-lg px-2 py-1.5">
+                <div className="flex items-center gap-2 bg-sage/20 rounded-md px-2 py-1.5">
                   <div className="w-1 h-5 bg-sage rounded-full" />
                   <div>
                     <p className="text-[11px] font-medium text-[#2a2a2a]">⚽ Soccer Practice</p>
-                    <p className="text-[9px] text-[#6a6a6a]">Thu 10 · 4:00 PM · Added by Mike</p>
+                    <p className="text-[9px] text-[#6a6a6a]">Thu 10 · 4:00 PM</p>
                   </div>
                 </div>
               </AICard>
