@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import orbitsLogo from '@/assets/orbits-logo.png';
+
 export function Footer() {
   return (
     <footer className="py-12 px-6 border-t border-border">
@@ -12,8 +14,8 @@ export function Footer() {
             viewport={{ once: true }}
             className="flex items-center gap-2"
           >
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-accent" />
-            <span className="font-semibold text-lg">AppName</span>
+            <img src={orbitsLogo} alt="Orbits logo" className="w-8 h-8" />
+            <span className="font-semibold text-lg">Orbits</span>
           </motion.div>
 
           {/* Links */}
@@ -24,7 +26,7 @@ export function Footer() {
 
           {/* Copyright */}
           <p className="text-sm text-muted-foreground">
-            © 2026 AppName. All rights reserved.
+            © 2026 Orbits. All rights reserved.
           </p>
         </div>
       </div>
