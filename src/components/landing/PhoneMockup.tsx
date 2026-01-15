@@ -291,20 +291,8 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
 
           {/* Screen - force light mode */}
           <div className="relative bg-[#F9F3E9] rounded-[2.5rem] overflow-hidden">
-            {/* Dynamic Island */}
-            <div className="absolute top-3 left-1/2 -translate-x-1/2 z-20">
-              <motion.div
-                className="bg-black rounded-full px-5 sm:px-6 py-1.5 flex items-center gap-2"
-                animate={{ width: isActive ? 110 : 95 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#1a1a1a] border border-[#333]" />
-                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#1a1a1a]" />
-              </motion.div>
-            </div>
-
             {/* Screen content */}
-            <div className="pt-12 pb-6 px-4 sm:px-5 min-h-[460px] sm:min-h-[520px] lg:min-h-[560px]">
+            <div className="pt-4 pb-4 px-4 sm:px-5 min-h-[400px] sm:min-h-[440px] lg:min-h-[480px]">
               {/* Header with date and weather */}
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
