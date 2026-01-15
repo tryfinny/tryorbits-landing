@@ -246,8 +246,8 @@ function TestimonialCarousel() {
 
   return (
     <div className="relative max-w-2xl mx-auto">
-      {/* Carousel container */}
-      <div className="relative overflow-hidden">
+      {/* Carousel container - fixed height to prevent layout shift */}
+      <div className="relative overflow-hidden min-h-[320px] lg:min-h-[280px]">
         <AnimatePresence mode="wait">
           <TestimonialCard
             key={activeIndex}
