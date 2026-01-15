@@ -1,6 +1,6 @@
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { CheckCircle2, Calendar, Bell, Star, TrendingUp, Zap } from 'lucide-react';
+import { CheckCircle2, Calendar, Bell, Star, TrendingUp, Wrench, Users } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-device-motion';
 
 interface PhoneMockupProps {
@@ -209,9 +209,9 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
       <FloatingBadge x={-15} y={20} delay={0.8} className="z-20 hidden sm:block" isMobile={isMobile}>
         <div className="flex items-center gap-2">
           <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-lg bg-gradient-to-br from-sage to-sky flex items-center justify-center">
-            <CheckCircle2 className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white" />
+            <Users className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white" />
           </div>
-          <span className="text-[10px] sm:text-xs font-medium text-foreground">Task completed!</span>
+          <span className="text-[10px] sm:text-xs font-medium text-foreground">Calendars synced!</span>
         </div>
       </FloatingBadge>
       
@@ -228,8 +228,8 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
       
       <FloatingBadge x={-10} y={70} delay={1.6} className="z-20 hidden sm:block" isMobile={isMobile}>
         <div className="flex items-center gap-2">
-          <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sage" />
-          <span className="text-[10px] sm:text-xs font-medium text-foreground">+23% productivity</span>
+          <Wrench className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sage" />
+          <span className="text-[10px] sm:text-xs font-medium text-foreground">HVAC scheduled ✓</span>
         </div>
       </FloatingBadge>
 
@@ -301,8 +301,8 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                 transition={{ delay: 0.5 }}
                 className="flex gap-2 mb-4"
               >
-                <StatsCard value="12" label="Tasks today" trend="+3" delay={0.6} />
-                <StatsCard value="89%" label="Completion" trend="↑5%" delay={0.7} />
+                <StatsCard value="4" label="Family events" trend="today" delay={0.6} />
+                <StatsCard value="2" label="Auto-scheduled" trend="✓" delay={0.7} />
               </motion.div>
               
               {/* Section title */}
@@ -319,37 +319,37 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               {/* Notifications list */}
               <div className="space-y-2">
                 <NotificationItem
-                  icon={Zap}
-                  title="Focus session completed"
-                  subtitle="45 minutes of deep work"
-                  time="2m ago"
-                  color="bg-gradient-to-br from-peach to-accent"
+                  icon={Wrench}
+                  title="HVAC service booked"
+                  subtitle="Filter change scheduled for Tue 9 AM"
+                  time="Just now"
+                  color="bg-gradient-to-br from-sage to-sky"
                   delay={0.9}
                   isMobile={isMobile}
                 />
                 <NotificationItem
-                  icon={Calendar}
-                  title="Meeting with Alex"
-                  subtitle="Project review at 3:00 PM"
-                  time="1h ago"
+                  icon={Users}
+                  title="Calendar synced with Mike"
+                  subtitle="Soccer practice added for both"
+                  time="5m ago"
                   color="bg-gradient-to-br from-sky to-primary"
                   delay={1.0}
                   isMobile={isMobile}
                 />
                 <NotificationItem
-                  icon={CheckCircle2}
-                  title="Daily goals achieved"
-                  subtitle="You're on a 7-day streak!"
-                  time="3h ago"
-                  color="bg-gradient-to-br from-sage to-sky"
+                  icon={Calendar}
+                  title="Emma's dentist moved"
+                  subtitle="Mike confirmed the new time slot"
+                  time="1h ago"
+                  color="bg-gradient-to-br from-peach to-accent"
                   delay={1.1}
                   isMobile={isMobile}
                 />
                 <NotificationItem
                   icon={Bell}
-                  title="Reminder: Exercise"
-                  subtitle="Time for your afternoon walk"
-                  time="5h ago"
+                  title="Gutter cleaning reminder"
+                  subtitle="Tap to auto-schedule a pro"
+                  time="2h ago"
                   color="bg-gradient-to-br from-lavender to-peach"
                   delay={1.2}
                   isMobile={isMobile}
