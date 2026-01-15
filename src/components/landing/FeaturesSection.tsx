@@ -6,7 +6,8 @@ const features = [
   {
     emoji: "📅",
     title: "Household Calendar",
-    description: "One family calendar. Zero confusion. See everyone's schedule, spot conflicts instantly, and stop the endless group texts.",
+    description:
+      "One family calendar. Zero confusion. See everyone's schedule, resolve conflicts instantly, and stop the endless group chats.",
     color: "bg-sage",
     gradient: "from-sage/20 to-sky/10",
     iconBg: "bg-sage/20",
@@ -15,7 +16,8 @@ const features = [
   {
     emoji: "🏠",
     title: "Home Maintenance",
-    description: "Never forget an oil change or filter swap again. Add your stuff, Orbits handles the reminders and even gets you quotes.",
+    description:
+      "Add your appliances, home details, and routine tasks and let Orbits suggest maintenance, gather service quotes, or track your warranties.",
     color: "bg-sky",
     gradient: "from-sky/20 to-sage/10",
     iconBg: "bg-sky/20",
@@ -24,7 +26,7 @@ const features = [
   {
     emoji: "✅",
     title: "The Basics",
-    description: "Toss the whiteboard. Lists, tasks, reminders, docs — everything you need, finally in one place.",
+    description: "Toss the whiteboard. Lists, tasks, reminders, documents - everything you need, finally in one place.",
     color: "bg-lavender",
     gradient: "from-lavender/20 to-peach/10",
     iconBg: "bg-lavender/20",
@@ -33,7 +35,8 @@ const features = [
   {
     emoji: "✉️",
     title: "Email Handling",
-    description: "Dance class moved? Calendar updates itself. Dentist reminder? Orbits drafts your reply. You just hit send.",
+    description:
+      "Dance class moved? Calendar updates itself. Dentist reminder? Orbits drafts your reply. You just hit send.",
     color: "bg-peach",
     gradient: "from-peach/20 to-lavender/10",
     iconBg: "bg-peach/20",
@@ -128,15 +131,7 @@ interface Feature {
   comingSoon?: boolean;
 }
 
-function FeatureCard({
-  feature,
-  index,
-  isMobile,
-}: {
-  feature: Feature;
-  index: number;
-  isMobile: boolean;
-}) {
+function FeatureCard({ feature, index, isMobile }: { feature: Feature; index: number; isMobile: boolean }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
   const [isActive, setIsActive] = useState(false);
@@ -165,7 +160,7 @@ function FeatureCard({
       <TiltCard isMobile={isMobile}>
         <motion.div
           className={`relative p-6 lg:p-10 rounded-[2rem] border border-border/50 h-full overflow-hidden`}
-          style={{ 
+          style={{
             backgroundColor: `hsl(var(--${feature.color.replace("bg-", "")}) / ${feature.bgOpacity})`,
           }}
           animate={
@@ -188,9 +183,9 @@ function FeatureCard({
             animate={isActive ? { scale: 1.2, opacity: 0.35 } : { scale: 1, opacity: 0.2 }}
             transition={{ duration: 0.4 }}
           />
-          
+
           {/* Bottom fill for consistent visibility */}
-          <div 
+          <div
             className="absolute inset-0 pointer-events-none"
             style={{
               background: `linear-gradient(to top, hsl(var(--${feature.color.replace("bg-", "")}) / 0.15) 0%, transparent 50%)`,
@@ -225,11 +220,7 @@ function FeatureCard({
           {/* Header row: Icon + Title inline */}
           <div className="flex items-center gap-4 mb-4 relative z-10">
             <motion.div
-              animate={
-                isActive
-                  ? { scale: 1.08 }
-                  : { scale: 1 }
-              }
+              animate={isActive ? { scale: 1.08 } : { scale: 1 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
               <motion.div
@@ -289,34 +280,32 @@ function FeatureCard({
               <motion.div
                 className={`absolute w-3 h-3 rounded-full border-2`}
                 style={{ borderColor: `hsl(var(--${feature.color.replace("bg-", "")}))` }}
-                animate={{ 
+                animate={{
                   scale: [1, 2.5],
                   opacity: [0.6, 0],
                 }}
-                transition={{ 
-                  duration: 1.5, 
-                  repeat: Infinity, 
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
                   ease: "easeOut",
                 }}
               />
               <motion.div
                 className={`absolute w-3 h-3 rounded-full border-2`}
                 style={{ borderColor: `hsl(var(--${feature.color.replace("bg-", "")}))` }}
-                animate={{ 
+                animate={{
                   scale: [1, 2.5],
                   opacity: [0.6, 0],
                 }}
-                transition={{ 
-                  duration: 1.5, 
-                  repeat: Infinity, 
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
                   ease: "easeOut",
                   delay: 0.5,
                 }}
               />
               {/* Center dot */}
-              <div 
-                className={`w-2.5 h-2.5 rounded-full ${feature.color} relative z-10`}
-              />
+              <div className={`w-2.5 h-2.5 rounded-full ${feature.color} relative z-10`} />
             </div>
           )}
         </motion.div>
