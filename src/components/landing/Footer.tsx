@@ -20,8 +20,6 @@ export function Footer() {
           <div className="flex flex-wrap justify-center gap-6 text-sm text-muted-foreground">
             <Link to="/privacy" className="hover:text-foreground transition-colors">Privacy Policy</Link>
             <Link to="/terms" className="hover:text-foreground transition-colors">Terms of Service</Link>
-            <a href="mailto:contact@tryorbits.com" className="hover:text-foreground transition-colors">Contact</a>
-            <a href="mailto:contact@tryorbits.com" className="hover:text-foreground transition-colors">Support</a>
           </div>
 
           {/* Copyright */}
