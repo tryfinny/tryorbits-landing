@@ -4,25 +4,25 @@ import { Star, Quote, Sparkles } from 'lucide-react';
 
 const testimonials = [
   {
-    name: 'Sarah Chen',
-    role: 'Product Designer',
-    content: "This app completely transformed how I manage my day. The AI suggestions are scarily accurate!",
+    name: 'Jamie',
+    role: 'Beta tester',
+    content: "Finally an app that doesn't make me feel guilty for missing tasks. The gentle nudges actually help.",
     rating: 5,
     gradient: 'from-lavender to-primary/30',
     bgColor: 'bg-lavender/10',
   },
   {
-    name: 'Marcus Williams',
-    role: 'Startup Founder',
-    content: "I've tried every productivity app out there. This is the first one that actually stuck. Game changer.",
-    rating: 5,
+    name: 'Alex K.',
+    role: 'Early adopter',
+    content: "Been using it for 3 weeks now. Still figuring out all the features but the calendar sync is solid.",
+    rating: 4,
     gradient: 'from-peach to-golden/30',
     bgColor: 'bg-peach/10',
   },
   {
-    name: 'Emily Rodriguez',
-    role: 'Content Creator',
-    content: "The smart scheduling feature alone saved me 2 hours every day. Absolutely worth it.",
+    name: 'Morgan',
+    role: 'Beta tester',
+    content: "My partner and I can finally see each other's schedules without 10 texts. That alone is worth it.",
     rating: 5,
     gradient: 'from-sky to-sage/30',
     bgColor: 'bg-sky/10',
@@ -382,11 +382,19 @@ export function SocialProofSection() {
           ))}
         </div>
 
-        {/* App store ratings */}
-        <div className="mt-20 flex flex-wrap justify-center gap-6">
-          <FloatingRatingBadge rating="4.9" store="on App Store" delay={0.1} gradient="from-lavender/20 to-primary/5" />
-          <FloatingRatingBadge rating="4.8" store="on Google Play" delay={0.2} gradient="from-sage/20 to-sky/5" />
-        </div>
+        {/* Early access badge */}
+        <motion.div 
+          className="mt-20 flex justify-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+        >
+          <div className="inline-flex items-center gap-3 px-6 py-4 bg-gradient-to-br from-sage/20 to-sky/10 rounded-2xl border border-border/30">
+            <Sparkles className="w-5 h-5 text-primary" />
+            <span className="text-muted-foreground">Join our growing community of early adopters</span>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
