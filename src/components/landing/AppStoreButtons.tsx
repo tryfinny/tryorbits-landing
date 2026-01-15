@@ -1,5 +1,4 @@
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
-import { Apple } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { useIsMobile } from '@/hooks/use-device-motion';
 
@@ -123,7 +122,9 @@ export function AppStoreButtons() {
             whileTap={{ scale: 0.9 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <Apple className="w-8 h-8 relative z-10" />
+            <svg className="w-8 h-8 relative z-10" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8.809 14.92l6.11-11.037c.084-.152.076-.336-.02-.48-.096-.144-.256-.232-.43-.232h-1.69c-.17 0-.33.086-.423.228L8.79 9.268 5.645 3.4c-.094-.142-.254-.228-.424-.228H3.53c-.174 0-.334.088-.43.232-.096.144-.104.328-.02.48l6.11 11.037v5.88c0 .276.223.5.5.5h1.118c.277 0 .5-.224.5-.5v-5.88zM18.391 3.172H17.27c-.277 0-.5.224-.5.5v5.88l-6.11 11.037c-.084.152-.076.336.02.48.096.144.256.232.43.232h1.69c.17 0 .33-.086.423-.228l3.558-5.87 3.145 5.87c.094.142.254.228.424.228h1.69c.174 0 .334-.088.43-.232.096-.144.104-.328.02-.48l-6.11-11.037v-5.88c0-.276-.223-.5-.5-.5z"/>
+            </svg>
           </motion.div>
           <div className="text-left relative z-10">
             <p className="text-xs opacity-70 leading-none">Download on the</p>
