@@ -337,7 +337,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                     <span className="text-[#555] w-4 text-center">8</span>
                     <span className="text-center">🌟</span>
                     <span className="text-center">😊</span>
-                    <span className="text-center">🎉</span>
+                    <span className="bg-peach/60 rounded-full w-6 h-6 flex items-center justify-center">🎉</span>
                     <span className="text-[#555] w-4 text-center">12</span>
                     <span className="text-[#555] w-4 text-center">13</span>
                     <span className="text-[#555] w-4 text-center">14</span>
@@ -346,9 +346,9 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
 
                 {/* Event item */}
                 <div className="flex items-center gap-2.5 bg-white/60 rounded-2xl px-3 py-2.5">
-                  <span className="text-base">🎹</span>
+                  <span className="text-base">🎉</span>
                   <div>
-                    <p className="text-[12px] font-medium text-[#2a2a2a]">Piano Lesson</p>
+                    <p className="text-[12px] font-medium text-[#2a2a2a]">Birthday Party (Lily)</p>
                     <p className="text-[10px] text-[#6a6a6a]">3:00 PM</p>
                   </div>
                 </div>
@@ -356,7 +356,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
 
               {/* Progress tracker card */}
               <AICard
-                bgColor="bg-gradient-to-br from-lavender/25 to-lavender/10 border border-lavender/30"
+                bgColor="bg-gradient-to-br from-lavender/50 to-lavender/30 border border-lavender/40"
                 delay={0.8}
                 className="mb-3"
               >
