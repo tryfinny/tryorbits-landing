@@ -19,7 +19,7 @@ const features = [
     color: "bg-peach",
     gradient: "from-peach/20 to-lavender/10",
     iconBg: "bg-peach/20",
-    bgOpacity: 0.28,
+    bgOpacity: 0.45,
   },
   {
     emoji: "🏠",
