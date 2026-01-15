@@ -180,25 +180,6 @@ function TestimonialCard({ testimonial, isActive }: { testimonial: typeof testim
           <Quote className="w-12 h-12 text-primary/15" />
         </motion.div>
 
-        {/* Stars with staggered animation */}
-        <div className="flex gap-1.5 mb-6" style={{ transform: 'translateZ(15px)' }}>
-          {[...Array(testimonial.rating)].map((_, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, scale: 0, rotate: -180 }}
-              animate={isActive ? { opacity: 1, scale: 1, rotate: 0 } : { opacity: 0, scale: 0 }}
-              transition={{ 
-                type: "spring",
-                stiffness: 200,
-                damping: 12,
-                delay: i * 0.08 + 0.15,
-              }}
-              whileHover={{ scale: 1.3, rotate: 15 }}
-            >
-              <Star className="w-5 h-5 fill-golden text-golden" />
-            </motion.div>
-          ))}
-        </div>
 
         {/* Content */}
         <motion.p 
