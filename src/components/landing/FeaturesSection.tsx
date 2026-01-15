@@ -376,7 +376,7 @@ export function FeaturesSection() {
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.2 }}
           >
-            Features designed to help you spend less time managing your home and more time enjoying it.
+            Spend less time managing your home and more time enjoying it.
           </motion.p>
         </motion.div>
 
