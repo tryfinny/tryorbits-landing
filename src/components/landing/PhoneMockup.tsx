@@ -1,26 +1,26 @@
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { useRef, useState } from 'react';
-import { CheckCircle2, Calendar, Bell, Star, TrendingUp, Wrench, Users, RefreshCw } from 'lucide-react';
-import { useIsMobile } from '@/hooks/use-device-motion';
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useRef, useState } from "react";
+import { CheckCircle2, Calendar, Bell, Star, TrendingUp, Wrench, Users, RefreshCw } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-device-motion";
 
 interface PhoneMockupProps {
   className?: string;
 }
 
 // Notification item component with tap feedback
-function NotificationItem({ 
-  icon: Icon, 
-  title, 
-  subtitle, 
-  time, 
-  color, 
+function NotificationItem({
+  icon: Icon,
+  title,
+  subtitle,
+  time,
+  color,
   delay,
-  isMobile 
-}: { 
-  icon: typeof CheckCircle2; 
-  title: string; 
-  subtitle: string; 
-  time: string; 
+  isMobile,
+}: {
+  icon: typeof CheckCircle2;
+  title: string;
+  subtitle: string;
+  time: string;
   color: string;
   delay: number;
   isMobile: boolean;
@@ -31,11 +31,11 @@ function NotificationItem({
     <motion.div
       initial={{ opacity: 0, x: -20, scale: 0.95 }}
       animate={{ opacity: 1, x: 0, scale: 1 }}
-      transition={{ 
-        delay, 
-        type: "spring", 
-        stiffness: 120, 
-        damping: 14 
+      transition={{
+        delay,
+        type: "spring",
+        stiffness: 120,
+        damping: 14,
       }}
       whileHover={!isMobile ? { scale: 1.02, x: 4 } : undefined}
       whileTap={{ scale: 0.98 }}
@@ -50,8 +50,8 @@ function NotificationItem({
         animate={{ opacity: isTapped ? 1 : 0 }}
         transition={{ duration: 0.1 }}
       />
-      
-      <motion.div 
+
+      <motion.div
         className={`w-10 h-10 rounded-xl ${color} flex items-center justify-center shadow-sm relative z-10`}
         whileTap={{ rotate: [0, -10, 10, 0], scale: 0.9 }}
         transition={{ duration: 0.3 }}
@@ -68,16 +68,16 @@ function NotificationItem({
 }
 
 // Floating badge component with enhanced mobile visibility
-function FloatingBadge({ 
-  children, 
-  className, 
+function FloatingBadge({
+  children,
+  className,
   delay,
   x,
   y,
-  isMobile
-}: { 
-  children: React.ReactNode; 
-  className?: string; 
+  isMobile,
+}: {
+  children: React.ReactNode;
+  className?: string;
   delay: number;
   x: number;
   y: number;
@@ -93,19 +93,19 @@ function FloatingBadge({
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ delay, type: "spring", stiffness: 150, damping: 15 }}
       className={`absolute ${className}`}
-      style={{ 
-        left: isMobile ? `${mobileX}%` : `${x}%`, 
-        top: `${mobileY}%` 
+      style={{
+        left: isMobile ? `${mobileX}%` : `${x}%`,
+        top: `${mobileY}%`,
       }}
     >
       <motion.div
-        animate={{ 
+        animate={{
           y: [0, -6, 0],
           rotate: [0, 1, -1, 0],
         }}
-        transition={{ 
-          duration: 3.5, 
-          repeat: Infinity, 
+        transition={{
+          duration: 3.5,
+          repeat: Infinity,
           ease: "easeInOut",
           delay: delay * 0.5,
         }}
@@ -118,12 +118,12 @@ function FloatingBadge({
 }
 
 // AI Card component matching reference design
-function AICard({ 
-  children, 
-  bgColor = 'bg-sky/20',
+function AICard({
+  children,
+  bgColor = "bg-sky/20",
   delay,
-  className = ''
-}: { 
+  className = "",
+}: {
   children: React.ReactNode;
   bgColor?: string;
   delay: number;
@@ -142,20 +142,20 @@ function AICard({
 }
 
 // Action button component
-function ActionButton({ 
-  children, 
-  variant = 'primary' 
-}: { 
-  children: React.ReactNode; 
-  variant?: 'primary' | 'secondary';
+function ActionButton({
+  children,
+  variant = "primary",
+}: {
+  children: React.ReactNode;
+  variant?: "primary" | "secondary";
 }) {
   return (
     <motion.button
       whileTap={{ scale: 0.95 }}
       className={`px-4 py-2 rounded-lg text-[13px] font-medium flex items-center gap-1.5 ${
-        variant === 'primary' 
-          ? 'bg-sage/80 text-sage-foreground' 
-          : 'bg-white/60 text-foreground border border-foreground/10'
+        variant === "primary"
+          ? "bg-sage/80 text-sage-foreground"
+          : "bg-white/60 text-foreground border border-foreground/10"
       }`}
     >
       {children}
@@ -167,16 +167,16 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = useState(false);
   const isMobile = useIsMobile();
-  
+
   // Mouse/touch tracking for 3D effect
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-  
+
   // Smooth spring animation
   const springConfig = { stiffness: 150, damping: 20, mass: 0.5 };
   const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [6, -6]), springConfig);
   const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-6, 6]), springConfig);
-  
+
   const handleMouseMove = (e: React.MouseEvent) => {
     if (isMobile || !containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
@@ -185,7 +185,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
     mouseX.set(x);
     mouseY.set(y);
   };
-  
+
   const handleMouseLeave = () => {
     mouseX.set(0);
     mouseY.set(0);
@@ -221,7 +221,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
   };
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className={`relative ${className}`}
       onMouseMove={handleMouseMove}
@@ -230,7 +230,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
-      style={{ perspective: '1200px' }}
+      style={{ perspective: "1200px" }}
     >
       {/* Floating badges around phone - visible on tablet+ */}
       <FloatingBadge x={-15} y={20} delay={0.8} className="z-20 hidden sm:block" isMobile={isMobile}>
@@ -239,7 +239,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
           <span className="text-[10px] sm:text-xs font-medium text-foreground">2 calendars synced</span>
         </div>
       </FloatingBadge>
-      
+
       <FloatingBadge x={85} y={35} delay={1.2} className="z-20 hidden sm:block" isMobile={isMobile}>
         <div className="flex items-center gap-2">
           <div className="flex -space-x-1">
@@ -250,7 +250,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
           <span className="text-[10px] sm:text-xs font-medium text-foreground">4.9 rating</span>
         </div>
       </FloatingBadge>
-      
+
       <FloatingBadge x={-10} y={70} delay={1.6} className="z-20 hidden sm:block" isMobile={isMobile}>
         <div className="flex items-center gap-2">
           <Wrench className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sage" />
@@ -259,15 +259,12 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
       </FloatingBadge>
 
       {/* Phone frame with 3D tilt */}
-      <motion.div
-        style={{ rotateX, rotateY }}
-        className="relative mx-auto w-[260px] sm:w-[300px] lg:w-[320px]"
-      >
+      <motion.div style={{ rotateX, rotateY }} className="relative mx-auto w-[260px] sm:w-[300px] lg:w-[320px]">
         {/* Glow effect behind phone */}
         <motion.div
           className="absolute inset-0 rounded-[3rem] blur-3xl"
           style={{
-            background: 'linear-gradient(135deg, hsl(var(--lavender)) 0%, hsl(var(--peach)) 50%, hsl(var(--sky)) 100%)',
+            background: "linear-gradient(135deg, hsl(var(--lavender)) 0%, hsl(var(--peach)) 50%, hsl(var(--sky)) 100%)",
           }}
           animate={{
             opacity: isActive ? 0.5 : 0.3,
@@ -275,14 +272,14 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
           }}
           transition={{ duration: 0.4 }}
         />
-        
+
         {/* Phone body */}
         <motion.div
           className="relative bg-gradient-to-b from-[#1a1a1a] to-[#0d0d0d] rounded-[3rem] p-2.5 sm:p-3 shadow-2xl touch-manipulation"
           animate={{
-            boxShadow: isActive 
-              ? '0 50px 100px -20px rgba(0,0,0,0.5), 0 30px 60px -30px rgba(0,0,0,0.4)'
-              : '0 25px 50px -12px rgba(0,0,0,0.4), 0 12px 24px -12px rgba(0,0,0,0.3)',
+            boxShadow: isActive
+              ? "0 50px 100px -20px rgba(0,0,0,0.5), 0 30px 60px -30px rgba(0,0,0,0.4)"
+              : "0 25px 50px -12px rgba(0,0,0,0.4), 0 12px 24px -12px rgba(0,0,0,0.3)",
           }}
           transition={{ duration: 0.4 }}
         >
@@ -291,7 +288,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
           <div className="absolute -left-[3px] top-44 w-[3px] h-12 bg-[#2a2a2a] rounded-l-sm" />
           <div className="absolute -left-[3px] top-60 w-[3px] h-12 bg-[#2a2a2a] rounded-l-sm" />
           <div className="absolute -right-[3px] top-36 w-[3px] h-16 bg-[#2a2a2a] rounded-r-sm" />
-          
+
           {/* Screen - force light mode */}
           <div className="relative bg-[#F9F3E9] rounded-[2.5rem] overflow-hidden">
             {/* Dynamic Island */}
@@ -305,7 +302,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                 <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#1a1a1a]" />
               </motion.div>
             </div>
-            
+
             {/* Screen content */}
             <div className="pt-12 pb-6 px-4 sm:px-5 min-h-[460px] sm:min-h-[520px] lg:min-h-[560px]">
               {/* Header with date and weather */}
@@ -315,18 +312,26 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                 transition={{ delay: 0.4 }}
                 className="mb-4"
               >
-                <h3 className="text-xl sm:text-2xl font-serif font-medium text-[#1a1a1a] mb-0.5">Good morning, Ellie</h3>
+                <h3 className="text-xl sm:text-2xl font-serif font-medium text-[#1a1a1a] mb-0.5">
+                  Good morning, Ellie
+                </h3>
                 <div className="flex items-center gap-2 text-sm text-[#6b6b6b]">
                   <span>Tuesday, April 9</span>
                   <span className="text-golden">☀️ 72°</span>
                 </div>
               </motion.div>
-              
+
               {/* Calendar sync card */}
-              <AICard bgColor="bg-gradient-to-br from-sky/30 to-sky/15 border border-sky/20" delay={0.5} className="mb-3">
+              <AICard
+                bgColor="bg-gradient-to-br from-sky/30 to-sky/15 border border-sky/20"
+                delay={0.5}
+                className="mb-3"
+              >
                 <div className="flex items-center gap-1.5 mb-2">
                   <span className="text-sm">📅</span>
-                  <span className="text-[13px] font-serif font-medium text-[#1a1a1a] whitespace-nowrap">Family Calendar</span>
+                  <span className="text-[13px] font-serif font-medium text-[#1a1a1a] whitespace-nowrap">
+                    Family Calendar
+                  </span>
                   <RefreshCw className="w-3.5 h-3.5 text-sage ml-auto" />
                 </div>
                 <div className="flex items-center gap-2 bg-sage/20 rounded-2xl px-2.5 py-2">
@@ -337,9 +342,13 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                   </div>
                 </div>
               </AICard>
-              
+
               {/* Auto-scheduled maintenance card */}
-              <AICard bgColor="bg-gradient-to-br from-sage/30 to-sage/15 border border-sage/20" delay={0.8} className="mb-3">
+              <AICard
+                bgColor="bg-gradient-to-br from-sage/30 to-sage/15 border border-sage/20"
+                delay={0.8}
+                className="mb-3"
+              >
                 <div className="flex items-center gap-2 mb-1.5">
                   <span className="text-base">🏠</span>
                   <span className="text-[14px] font-serif font-medium text-[#1a1a1a]">HVAC Service Booked</span>
@@ -352,22 +361,26 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                   <ActionButton variant="secondary">Reschedule</ActionButton>
                 </div>
               </AICard>
-              
+
               {/* Proactive suggestion card */}
-              <AICard bgColor="bg-gradient-to-br from-golden/25 to-golden/10 border border-golden/30" delay={1.0} className="mb-3">
+              <AICard
+                bgColor="bg-gradient-to-br from-golden/25 to-golden/10 border border-golden/30"
+                delay={1.0}
+                className="mb-3"
+              >
                 <div className="flex items-center gap-2 mb-1.5">
                   <span className="text-base">✨</span>
                   <span className="text-[14px] font-serif font-medium text-[#1a1a1a]">Suggestion</span>
                 </div>
                 <p className="text-[13px] text-[#3a3a3a] leading-relaxed mb-2.5">
-                  Gutters last cleaned 11 months ago. Schedule before rainy season?
+                  You last had the gutters cleaned in May. I recommend a cleaning before the rainy season.
                 </p>
                 <div className="flex gap-2">
                   <ActionButton variant="primary">Schedule</ActionButton>
                   <ActionButton variant="secondary">Dismiss</ActionButton>
                 </div>
               </AICard>
-              
+
               {/* Bottom navigation hint - home indicator */}
               <div className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2">
                 <div className="w-32 sm:w-36 h-1.5 bg-[#1a1a1a] rounded-full" />
@@ -375,12 +388,12 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
             </div>
           </div>
         </motion.div>
-        
+
         {/* Reflection effect */}
         <motion.div
           className="absolute -bottom-16 sm:-bottom-20 left-1/2 -translate-x-1/2 w-[90%] h-16 sm:h-20 rounded-full blur-2xl"
           style={{
-            background: 'linear-gradient(to bottom, hsl(var(--primary) / 0.15), transparent)',
+            background: "linear-gradient(to bottom, hsl(var(--primary) / 0.15), transparent)",
           }}
           animate={{
             opacity: isActive ? 0.6 : 0.3,
@@ -389,7 +402,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
           transition={{ duration: 0.4 }}
         />
       </motion.div>
-      
+
       {/* Ambient floating particles - fewer on mobile */}
       {[...Array(isMobile ? 3 : 6)].map((_, i) => (
         <motion.div
@@ -398,7 +411,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
           style={{
             left: `${20 + i * (isMobile ? 25 : 12)}%`,
             top: `${30 + (i % 3) * 20}%`,
-            background: `hsl(var(--${['lavender', 'peach', 'sky', 'sage', 'primary', 'lavender'][i]}) / 0.4)`,
+            background: `hsl(var(--${["lavender", "peach", "sky", "sage", "primary", "lavender"][i]}) / 0.4)`,
           }}
           animate={{
             y: [0, -15, 0],
