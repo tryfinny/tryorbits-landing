@@ -1,87 +1,88 @@
-import { motion, useInView, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
-import { useRef, useEffect, useState } from 'react';
-import { Star, Quote, Sparkles } from 'lucide-react';
+import { motion, useInView, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
+import { Star, Quote, Sparkles } from "lucide-react";
 
 const testimonials = [
   {
-    name: 'Jamie',
-    role: 'Mom of 2',
+    name: "Jamie",
+    role: "Mom of 2",
     content: "Finally an app that doesn't make me feel guilty for missing tasks. The gentle nudges actually help.",
     rating: 5,
-    gradient: 'from-lavender to-primary/30',
-    bgColor: 'bg-lavender/10',
+    gradient: "from-lavender to-primary/30",
+    bgColor: "bg-lavender/10",
   },
   {
-    name: 'Alex K.',
-    role: 'Helpful son to 2 parents',
+    name: "Alex K.",
+    role: "Helpful son to 2 parents",
     content: "Been using it for 3 weeks now. Still figuring out all the features but the calendar sync is solid.",
     rating: 4,
-    gradient: 'from-peach to-golden/30',
-    bgColor: 'bg-peach/10',
+    gradient: "from-peach to-golden/30",
+    bgColor: "bg-peach/10",
   },
   {
-    name: 'Morgan',
-    role: 'New bride',
+    name: "Morgan",
+    role: "New bride",
     content: "My partner and I can finally focus on what matters instead of logistics.",
     rating: 5,
-    gradient: 'from-sky to-sage/30',
-    bgColor: 'bg-sky/10',
+    gradient: "from-sky to-sage/30",
+    bgColor: "bg-sky/10",
   },
   {
-    name: 'Sam R.',
-    role: 'First-time homeowner',
-    content: "The home maintenance reminders are a lifesaver. Did you know you're supposed to clean your dryer vents? Orbits did!",
+    name: "Sam R.",
+    role: "First-time homeowner",
+    content:
+      "The home maintenance reminders are a lifesaver. Did you know you're supposed to clean your dryer vents? Orbits did!",
     rating: 5,
-    gradient: 'from-sage to-sky/30',
-    bgColor: 'bg-sage/10',
+    gradient: "from-sage to-sky/30",
+    bgColor: "bg-sage/10",
   },
   {
-    name: 'Taylor',
-    role: 'Mom of 2 kids, 2 dogs, and 1 husband',
+    name: "Taylor",
+    role: "Mom of 2 kids, 2 dogs, and 1 husband",
     content: "Orbits is the only one my whole family actually uses.",
     rating: 5,
-    gradient: 'from-golden to-peach/30',
-    bgColor: 'bg-golden/10',
+    gradient: "from-golden to-peach/30",
+    bgColor: "bg-golden/10",
   },
   {
-    name: 'Jordan M.',
-    role: 'Dog dad',
+    name: "Jordan M.",
+    role: "Dog dad",
     content: "Love having all of the vaccine info, records, and files for each part of my house in one place.",
     rating: 4,
-    gradient: 'from-primary to-lavender/30',
-    bgColor: 'bg-primary/10',
+    gradient: "from-primary to-lavender/30",
+    bgColor: "bg-primary/10",
   },
   {
-    name: 'Casey',
-    role: 'Working mom of 1',
+    name: "Casey",
+    role: "Working mom of 1",
     content: "I was skeptical about yet another calendar app but Orbits does that and so much more.",
     rating: 5,
-    gradient: 'from-peach to-sage/30',
-    bgColor: 'bg-peach/10',
+    gradient: "from-peach to-sage/30",
+    bgColor: "bg-peach/10",
   },
   {
-    name: 'Riley P.',
-    role: 'Mom of twins',
-    content: "We replaced our Skylight because of Orbits.",
+    name: "Riley P.",
+    role: "Mom of twins",
+    content: "We replaced our Skylight Calendar because of Orbits.",
     rating: 5,
-    gradient: 'from-sky to-lavender/30',
-    bgColor: 'bg-sky/10',
+    gradient: "from-sky to-lavender/30",
+    bgColor: "bg-sky/10",
   },
   {
-    name: 'Drew',
-    role: 'Work-from-home dad',
+    name: "Drew",
+    role: "Work-from-home dad",
     content: "Simple but powerful. The shared grocery list alone has saved us so many duplicate purchases.",
     rating: 4,
-    gradient: 'from-lavender to-sage/30',
-    bgColor: 'bg-lavender/10',
+    gradient: "from-lavender to-sage/30",
+    bgColor: "bg-lavender/10",
   },
   {
-    name: 'Avery T.',
-    role: 'Baby wrangler',
+    name: "Avery T.",
+    role: "Baby wrangler",
     content: "No more calling around for roof quotes - Orbits does it for you!",
     rating: 5,
-    gradient: 'from-sage to-golden/30',
-    bgColor: 'bg-sage/10',
+    gradient: "from-sage to-golden/30",
+    bgColor: "bg-sage/10",
   },
 ];
 
@@ -93,7 +94,7 @@ function AnimatedCounter({ value, duration = 2.5 }: { value: number; duration?: 
 
   useEffect(() => {
     if (!isInView) return;
-    
+
     let startTime: number;
     const animate = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
@@ -110,7 +111,7 @@ function AnimatedCounter({ value, duration = 2.5 }: { value: number; duration?: 
 }
 
 // 3D Testimonial Card - now controlled by isActive prop for carousel
-function TestimonialCard({ testimonial, isActive }: { testimonial: typeof testimonials[0]; isActive: boolean }) {
+function TestimonialCard({ testimonial, isActive }: { testimonial: (typeof testimonials)[0]; isActive: boolean }) {
   const [isHovered, setIsHovered] = useState(false);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
@@ -131,7 +132,7 @@ function TestimonialCard({ testimonial, isActive }: { testimonial: typeof testim
       initial={{ opacity: 0, x: 100, scale: 0.9 }}
       animate={isActive ? { opacity: 1, x: 0, scale: 1 } : { opacity: 0, x: -100, scale: 0.9 }}
       exit={{ opacity: 0, x: -100, scale: 0.9 }}
-      transition={{ 
+      transition={{
         type: "spring",
         stiffness: 80,
         damping: 18,
@@ -140,19 +141,19 @@ function TestimonialCard({ testimonial, isActive }: { testimonial: typeof testim
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
       className="relative perspective-1000 w-full"
-      style={{ perspective: '1000px' }}
+      style={{ perspective: "1000px" }}
     >
-      <motion.div 
+      <motion.div
         className={`${testimonial.bgColor} p-8 lg:p-10 rounded-[2rem] border border-border/30 relative overflow-hidden backdrop-blur-sm`}
-        animate={{ 
+        animate={{
           rotateX: tilt.x,
           rotateY: tilt.y,
-          boxShadow: isHovered 
-            ? '0 40px 80px -30px hsl(var(--primary) / 0.2)' 
-            : '0 15px 40px -20px hsl(var(--primary) / 0.08)',
+          boxShadow: isHovered
+            ? "0 40px 80px -30px hsl(var(--primary) / 0.2)"
+            : "0 15px 40px -20px hsl(var(--primary) / 0.08)",
         }}
         transition={{ type: "spring", stiffness: 200, damping: 20 }}
-        style={{ transformStyle: 'preserve-3d' }}
+        style={{ transformStyle: "preserve-3d" }}
       >
         {/* Background gradient */}
         <motion.div
@@ -164,8 +165,8 @@ function TestimonialCard({ testimonial, isActive }: { testimonial: typeof testim
         {/* Shimmer effect on entry */}
         <motion.div
           className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-          initial={{ x: '-200%' }}
-          animate={isActive ? { x: ['−200%', '200%'] } : { x: '-200%' }}
+          initial={{ x: "-200%" }}
+          animate={isActive ? { x: ["−200%", "200%"] } : { x: "-200%" }}
           transition={{ duration: 0.8, ease: "easeInOut", delay: 0.2 }}
         />
 
@@ -175,16 +176,15 @@ function TestimonialCard({ testimonial, isActive }: { testimonial: typeof testim
           animate={isActive ? { scale: 1, opacity: 1 } : { scale: 0.5, opacity: 0 }}
           transition={{ type: "spring", stiffness: 200, delay: 0.1 }}
           className="mb-6"
-          style={{ transform: 'translateZ(20px)' }}
+          style={{ transform: "translateZ(20px)" }}
         >
           <Quote className="w-12 h-12 text-primary/15" />
         </motion.div>
 
-
         {/* Content */}
-        <motion.p 
+        <motion.p
           className="text-foreground/90 mb-8 leading-relaxed text-lg lg:text-xl relative z-10"
-          style={{ transform: 'translateZ(10px)' }}
+          style={{ transform: "translateZ(10px)" }}
           initial={{ opacity: 0, y: 20 }}
           animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ delay: 0.2 }}
@@ -193,8 +193,8 @@ function TestimonialCard({ testimonial, isActive }: { testimonial: typeof testim
         </motion.p>
 
         {/* Author */}
-        <div className="flex items-center gap-4 relative z-10" style={{ transform: 'translateZ(25px)' }}>
-          <motion.div 
+        <div className="flex items-center gap-4 relative z-10" style={{ transform: "translateZ(25px)" }}>
+          <motion.div
             className={`w-14 h-14 aspect-square rounded-full bg-gradient-to-br ${testimonial.gradient} flex items-center justify-center text-white font-bold text-lg shadow-lg shrink-0`}
             initial={{ scale: 0, rotate: -180 }}
             animate={isActive ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -180 }}
@@ -203,7 +203,7 @@ function TestimonialCard({ testimonial, isActive }: { testimonial: typeof testim
             {testimonial.name.charAt(0)}
           </motion.div>
           <div>
-            <motion.p 
+            <motion.p
               className="font-semibold text-lg"
               initial={{ opacity: 0, x: -10 }}
               animate={isActive ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
@@ -211,7 +211,7 @@ function TestimonialCard({ testimonial, isActive }: { testimonial: typeof testim
             >
               {testimonial.name}
             </motion.p>
-            <motion.p 
+            <motion.p
               className="text-muted-foreground"
               initial={{ opacity: 0, x: -10 }}
               animate={isActive ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
@@ -246,14 +246,10 @@ function TestimonialCarousel() {
 
   return (
     <div className="relative max-w-2xl mx-auto">
-      {/* Carousel container - fixed height to prevent layout shift */}
-      <div className="relative overflow-hidden min-h-[320px] lg:min-h-[280px]">
+      {/* Carousel container */}
+      <div className="relative overflow-hidden">
         <AnimatePresence mode="wait">
-          <TestimonialCard
-            key={activeIndex}
-            testimonial={testimonials[activeIndex]}
-            isActive={true}
-          />
+          <TestimonialCard key={activeIndex} testimonial={testimonials[activeIndex]} isActive={true} />
         </AnimatePresence>
       </div>
     </div>
@@ -295,16 +291,12 @@ function LiveNotification() {
         {/* Solid center */}
         <div className="w-3 h-3 rounded-full bg-sage relative z-10" />
       </div>
-      
+
       <span className="text-muted-foreground">
-        <span className="font-semibold text-foreground">{count}</span>{' '}
-        people signed up today
+        <span className="font-semibold text-foreground">{count}</span> people signed up today
       </span>
-      
-      <motion.div
-        animate={{ rotate: [0, 360] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-      >
+
+      <motion.div animate={{ rotate: [0, 360] }} transition={{ duration: 4, repeat: Infinity, ease: "linear" }}>
         <Sparkles className="w-4 h-4 text-golden" />
       </motion.div>
     </motion.div>
@@ -312,15 +304,25 @@ function LiveNotification() {
 }
 
 // Rating badge with hover effects
-function FloatingRatingBadge({ rating, store, delay, gradient }: { rating: string; store: string; delay: number; gradient: string }) {
+function FloatingRatingBadge({
+  rating,
+  store,
+  delay,
+  gradient,
+}: {
+  rating: string;
+  store: string;
+  delay: number;
+  gradient: string;
+}) {
   const [isHovered, setIsHovered] = useState(false);
-  
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 40, scale: 0.9 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true }}
-      transition={{ 
+      transition={{
         type: "spring",
         stiffness: 80,
         damping: 15,
@@ -334,11 +336,11 @@ function FloatingRatingBadge({ rating, store, delay, gradient }: { rating: strin
       {/* Shimmer */}
       <motion.div
         className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-        initial={{ x: '-200%' }}
-        animate={isHovered ? { x: '200%' } : { x: '-200%' }}
+        initial={{ x: "-200%" }}
+        animate={isHovered ? { x: "200%" } : { x: "-200%" }}
         transition={{ duration: 0.8, ease: "easeInOut" }}
       />
-      
+
       <div className="flex gap-1 relative z-10">
         {[...Array(5)].map((_, i) => (
           <motion.div
@@ -371,17 +373,20 @@ export function SocialProofSection() {
   const backgroundY2 = useTransform(smoothProgress, [0, 1], [-60, 60]);
 
   return (
-    <section ref={containerRef} className="relative pt-10 pb-8 lg:pt-12 lg:pb-12 px-6 bg-gradient-to-b from-secondary/30 to-background overflow-hidden">
+    <section
+      ref={containerRef}
+      className="relative pt-10 pb-8 lg:pt-12 lg:pb-12 px-6 bg-gradient-to-b from-secondary/30 to-background overflow-hidden"
+    >
       {/* Parallax background orbs */}
-      <motion.div 
+      <motion.div
         className="absolute top-20 left-[5%] w-[400px] h-[400px] orb-peach opacity-30"
         style={{ y: backgroundY1 }}
       />
-      <motion.div 
+      <motion.div
         className="absolute bottom-20 right-[10%] w-[500px] h-[500px] orb-lavender opacity-25"
         style={{ y: backgroundY2 }}
       />
-      <motion.div 
+      <motion.div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] orb-sage opacity-15"
         style={{ rotate: useTransform(smoothProgress, [0, 1], [0, 20]) }}
       />
@@ -395,7 +400,7 @@ export function SocialProofSection() {
           transition={{ type: "spring", stiffness: 60, damping: 20 }}
           className="text-center mb-10 lg:mb-14"
         >
-          <motion.span 
+          <motion.span
             className="inline-block text-primary font-medium text-sm uppercase tracking-widest mb-6"
             initial={{ opacity: 0, y: 20 }}
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
@@ -403,25 +408,25 @@ export function SocialProofSection() {
           >
             💜 Testimonials
           </motion.span>
-          <motion.h2 
+          <motion.h2
             className="text-3xl sm:text-4xl lg:text-6xl font-lora font-medium tracking-[-0.01em] mb-8"
             initial={{ opacity: 0, y: 20 }}
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.15 }}
           >
-            Loved by{' '}
-            <motion.span 
+            Loved by{" "}
+            <motion.span
               className="text-gradient inline-block"
-              animate={{ 
-                backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+              animate={{
+                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
               }}
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              style={{ backgroundSize: '200% 200%' }}
+              style={{ backgroundSize: "200% 200%" }}
             >
               <AnimatedCounter value={2400} />+
             </motion.span>
           </motion.h2>
-          <motion.p 
+          <motion.p
             className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-6"
             initial={{ opacity: 0, y: 20 }}
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
@@ -436,7 +441,7 @@ export function SocialProofSection() {
         <TestimonialCarousel />
 
         {/* Early access badge */}
-        <motion.div 
+        <motion.div
           className="mt-10 flex justify-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
