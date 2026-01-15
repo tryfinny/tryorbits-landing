@@ -152,7 +152,7 @@ function ActionButton({
   return (
     <motion.button
       whileTap={{ scale: 0.95 }}
-      className={`px-3 py-1.5 rounded-lg text-[10px] font-medium flex items-center gap-1.5 ${
+      className={`px-4 py-2 rounded-lg text-[13px] font-medium flex items-center gap-1.5 ${
         variant === 'primary' 
           ? 'bg-sage/80 text-sage-foreground' 
           : 'bg-white/60 text-foreground border border-foreground/10'
@@ -317,8 +317,8 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                 transition={{ delay: 0.4 }}
                 className="mb-5"
               >
-                <h3 className="text-lg sm:text-xl font-serif font-medium text-[#1a1a1a] mb-1">Good morning, Ellie</h3>
-                <div className="flex items-center gap-2 text-xs text-[#6b6b6b]">
+                <h3 className="text-xl sm:text-2xl font-serif font-medium text-[#1a1a1a] mb-1">Good morning, Ellie</h3>
+                <div className="flex items-center gap-2 text-sm text-[#6b6b6b]">
                   <span>Tuesday, April 9</span>
                   <span className="text-golden">☀️ 72°</span>
                 </div>
@@ -327,10 +327,10 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               {/* Calendar sync card */}
               <AICard bgColor="bg-gradient-to-br from-sky/30 to-sky/15 border border-sky/20" delay={0.5} className="mb-3">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-base">👨‍👩‍👧</span>
-                  <span className="text-[13px] font-serif font-medium text-[#1a1a1a]">Calendars Synced</span>
+                  <span className="text-lg">👨‍👩‍👧</span>
+                  <span className="text-[15px] font-serif font-medium text-[#1a1a1a]">Calendars Synced</span>
                 </div>
-                <p className="text-[12px] text-[#3a3a3a] leading-relaxed">
+                <p className="text-[14px] text-[#3a3a3a] leading-relaxed">
                   Mike added "Soccer practice" — you're both free to attend.
                 </p>
               </AICard>
@@ -338,10 +338,10 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               {/* Auto-scheduled maintenance card */}
               <AICard bgColor="bg-gradient-to-br from-sage/30 to-sage/15 border border-sage/20" delay={0.8} className="mb-3">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-base">🏠</span>
-                  <span className="text-[13px] font-serif font-medium text-[#1a1a1a]">HVAC Service Booked</span>
+                  <span className="text-lg">🏠</span>
+                  <span className="text-[15px] font-serif font-medium text-[#1a1a1a]">HVAC Service Booked</span>
                 </div>
-                <p className="text-[12px] text-[#3a3a3a] leading-relaxed mb-3">
+                <p className="text-[14px] text-[#3a3a3a] leading-relaxed mb-3">
                   Filter due for replacement. I booked AirFlow Pro for Tuesday 9AM.
                 </p>
                 <div className="flex gap-2">
@@ -353,23 +353,18 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               {/* Proactive suggestion card */}
               <AICard bgColor="bg-gradient-to-br from-peach/30 to-peach/15 border border-peach/20" delay={1.0} className="mb-3">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-base">💡</span>
-                  <span className="text-[13px] font-serif font-medium text-[#1a1a1a]">Suggestion</span>
+                  <span className="text-lg">💡</span>
+                  <span className="text-[15px] font-serif font-medium text-[#1a1a1a]">Suggestion</span>
                 </div>
-                <p className="text-[12px] text-[#3a3a3a] leading-relaxed">
+                <p className="text-[14px] text-[#3a3a3a] leading-relaxed">
                   Gutters last cleaned 11 months ago. Schedule before rainy season?
                 </p>
               </AICard>
               
-              {/* Bottom navigation hint */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.2 }}
-                className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2"
-              >
-                <div className="w-28 sm:w-32 h-1 bg-[#1a1a1a]/20 rounded-full" />
-              </motion.div>
+              {/* Bottom navigation hint - home indicator */}
+              <div className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2">
+                <div className="w-32 sm:w-36 h-1.5 bg-[#1a1a1a] rounded-full" />
+              </div>
             </div>
           </div>
         </motion.div>
