@@ -148,7 +148,8 @@ function FeatureCard({
     >
       <TiltCard isMobile={isMobile}>
         <motion.div
-          className={`relative p-6 lg:p-10 bg-gradient-to-br ${feature.gradient} rounded-[2rem] border border-border/30 h-full overflow-hidden backdrop-blur-sm`}
+          className={`relative p-6 lg:p-10 bg-gradient-to-br ${feature.gradient} rounded-[2rem] border border-border/50 h-full overflow-hidden backdrop-blur-sm`}
+          style={{ backgroundColor: 'hsl(var(--background) / 0.6)' }}
           animate={
             isActive
               ? {
@@ -160,13 +161,12 @@ function FeatureCard({
           }
           transition={{ duration: 0.3 }}
         >
-          {/* Animated background pattern */}
           <motion.div
-            className="absolute inset-0 opacity-30"
+            className="absolute inset-0"
             style={{
               backgroundImage: `radial-gradient(circle at 70% 30%, hsl(var(--${feature.color.replace("bg-", "")})) 0%, transparent 50%)`,
             }}
-            animate={isActive ? { scale: 1.2, opacity: 0.4 } : { scale: 1, opacity: 0.2 }}
+            animate={isActive ? { scale: 1.2, opacity: 0.5 } : { scale: 1, opacity: 0.35 }}
             transition={{ duration: 0.4 }}
           />
 
@@ -249,28 +249,21 @@ function FeatureCard({
             {feature.description}
           </motion.p>
 
-          {/* Interactive corner detail */}
-          <motion.div
-            className="absolute bottom-4 right-4 w-8 h-8 rounded-full border-2 border-muted/30 flex items-center justify-center"
-            animate={
-              isActive
-                ? {
-                    scale: 1.2,
-                    borderColor: `hsl(var(--${feature.color.replace("bg-", "")}))`,
-                    rotate: 90,
-                  }
-                : {
-                    scale: 1,
-                    rotate: 0,
-                  }
-            }
-            transition={{ type: "spring", stiffness: 200, damping: 15 }}
-          >
+          {/* Pulsing corner dot */}
+          <div className="absolute top-4 right-4 w-8 h-8 rounded-full border-2 border-muted/30 flex items-center justify-center">
             <motion.div
-              className={`w-2 h-2 rounded-full ${feature.color}`}
-              animate={isActive ? { scale: 1.5 } : { scale: 1 }}
+              className={`w-2.5 h-2.5 rounded-full ${feature.color}`}
+              animate={{ 
+                scale: [1, 1.4, 1],
+                opacity: [0.7, 1, 0.7],
+              }}
+              transition={{ 
+                duration: 2, 
+                repeat: Infinity, 
+                ease: "easeInOut",
+              }}
             />
-          </motion.div>
+          </div>
         </motion.div>
       </TiltCard>
     </motion.div>
