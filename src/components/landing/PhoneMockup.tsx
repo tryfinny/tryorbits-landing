@@ -372,23 +372,48 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                 </div>
               </AICard>
 
-              {/* Proactive suggestion card - fades out to hint at more content */}
+              {/* Progress tracker card - fades out to hint at more content */}
               <div className="relative">
                 <AICard
-                  bgColor="bg-gradient-to-br from-golden/25 to-golden/10 border border-golden/30"
+                  bgColor="bg-gradient-to-br from-lavender/25 to-lavender/10 border border-lavender/30"
                   delay={1.0}
                   className="mb-3"
                 >
-                  <div className="flex items-center gap-2 mb-1.5">
-                    <span className="text-base">✨</span>
-                    <span className="text-[14px] font-serif font-medium text-[#1a1a1a]">Suggestion</span>
+                  <div className="flex items-center gap-2 mb-2.5">
+                    <span className="text-base">📊</span>
+                    <span className="text-[14px] font-serif font-medium text-[#1a1a1a]">Progress Tracker</span>
                   </div>
-                  <p className="text-[13px] text-[#3a3a3a] leading-relaxed mb-2.5">
-                    Gutters last cleaned in May. Schedule cleaning before the rainy season?
-                  </p>
-                  <div className="flex gap-2">
-                    <ActionButton variant="primary">Schedule</ActionButton>
-                    <ActionButton variant="secondary">Dismiss</ActionButton>
+                  <div className="space-y-2">
+                    {/* Grocery List */}
+                    <div>
+                      <div className="flex justify-between items-center mb-0.5">
+                        <span className="text-[11px] font-medium text-[#2a2a2a]">Grocery List</span>
+                        <span className="text-[10px] text-[#6a6a6a]">60%</span>
+                      </div>
+                      <div className="h-1.5 bg-white/60 rounded-full overflow-hidden">
+                        <div className="h-full bg-sky rounded-full" style={{ width: '60%' }} />
+                      </div>
+                    </div>
+                    {/* School Supplies */}
+                    <div>
+                      <div className="flex justify-between items-center mb-0.5">
+                        <span className="text-[11px] font-medium text-[#2a2a2a]">School Supplies</span>
+                        <span className="text-[10px] text-[#6a6a6a]">10%</span>
+                      </div>
+                      <div className="h-1.5 bg-white/60 rounded-full overflow-hidden">
+                        <div className="h-full bg-peach rounded-full" style={{ width: '10%' }} />
+                      </div>
+                    </div>
+                    {/* Chores */}
+                    <div>
+                      <div className="flex justify-between items-center mb-0.5">
+                        <span className="text-[11px] font-medium text-[#2a2a2a]">Chores</span>
+                        <span className="text-[10px] text-[#6a6a6a]">75%</span>
+                      </div>
+                      <div className="h-1.5 bg-white/60 rounded-full overflow-hidden">
+                        <div className="h-full bg-sage rounded-full" style={{ width: '75%' }} />
+                      </div>
+                    </div>
                   </div>
                 </AICard>
                 {/* Fade overlay */}
