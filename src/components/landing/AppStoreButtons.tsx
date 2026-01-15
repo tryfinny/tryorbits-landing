@@ -130,15 +130,6 @@ export function AppStoreButtons() {
             <p className="text-lg font-semibold leading-tight">App Store</p>
           </div>
           
-          {/* Corner sparkle */}
-          <motion.div
-            className="absolute -top-1 -right-1 w-4 h-4 bg-golden rounded-full"
-            animate={{ 
-              scale: [0, 1, 0],
-              opacity: [0, 1, 0],
-            }}
-            transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-          />
         </motion.div>
       </MagneticButton>
 
@@ -191,15 +182,6 @@ export function AppStoreButtons() {
             <p className="text-lg font-semibold leading-tight">Google Play</p>
           </div>
           
-          {/* Corner sparkle */}
-          <motion.div
-            className="absolute -top-1 -right-1 w-4 h-4 bg-sage rounded-full"
-            animate={{ 
-              scale: [0, 1, 0],
-              opacity: [0, 1, 0],
-            }}
-            transition={{ duration: 2, repeat: Infinity, repeatDelay: 4 }}
-          />
         </motion.div>
       </MagneticButton>
     </div>
