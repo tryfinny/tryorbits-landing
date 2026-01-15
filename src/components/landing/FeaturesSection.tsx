@@ -5,21 +5,12 @@ import { useIsMobile } from "@/hooks/use-device-motion";
 const features = [
   {
     emoji: "📅",
-    title: "Calendar Syncing",
+    title: "Household Calendar",
     description: "One family calendar. Zero confusion. See everyone's schedule, spot conflicts instantly, and stop the endless group texts.",
     color: "bg-sage",
     gradient: "from-sage/20 to-sky/10",
     iconBg: "bg-sage/20",
     bgOpacity: 0.18,
-  },
-  {
-    emoji: "✉️",
-    title: "Email Handling",
-    description: "Dance class moved? Calendar updates itself. Dentist reminder? Orbits drafts your reply. You just hit send.",
-    color: "bg-peach",
-    gradient: "from-peach/20 to-lavender/10",
-    iconBg: "bg-peach/20",
-    bgOpacity: 0.45,
   },
   {
     emoji: "🏠",
@@ -38,6 +29,16 @@ const features = [
     gradient: "from-lavender/20 to-peach/10",
     iconBg: "bg-lavender/20",
     bgOpacity: 0.28,
+  },
+  {
+    emoji: "✉️",
+    title: "Email Handling",
+    description: "Dance class moved? Calendar updates itself. Dentist reminder? Orbits drafts your reply. You just hit send.",
+    color: "bg-peach",
+    gradient: "from-peach/20 to-lavender/10",
+    iconBg: "bg-peach/20",
+    bgOpacity: 0.45,
+    comingSoon: true,
   },
 ];
 
@@ -116,12 +117,23 @@ function TiltCard({
   );
 }
 
+interface Feature {
+  emoji: string;
+  title: string;
+  description: string;
+  color: string;
+  gradient: string;
+  iconBg: string;
+  bgOpacity: number;
+  comingSoon?: boolean;
+}
+
 function FeatureCard({
   feature,
   index,
   isMobile,
 }: {
-  feature: (typeof features)[0];
+  feature: Feature;
   index: number;
   isMobile: boolean;
 }) {
@@ -252,6 +264,13 @@ function FeatureCard({
             >
               {feature.title}
             </motion.h3>
+
+            {/* Coming Soon chip */}
+            {feature.comingSoon && (
+              <span className="ml-auto px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider bg-peach/30 text-peach-foreground border border-peach/40 rounded-full relative z-10">
+                Coming Soon
+              </span>
+            )}
           </div>
 
           {/* Description */}
