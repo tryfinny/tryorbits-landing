@@ -361,7 +361,13 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                   <span className="text-[13px] font-sans font-medium text-[#1a1a1a] whitespace-nowrap">
                     Family Calendar
                   </span>
-                  <RefreshCw className="w-3.5 h-3.5 text-sage ml-auto" />
+                  <motion.div
+                    className="ml-auto"
+                    animate={isInView ? { rotate: 360 } : { rotate: 0 }}
+                    transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
+                  >
+                    <RefreshCw className="w-3.5 h-3.5 text-sage" />
+                  </motion.div>
                 </div>
                 
                 {/* Single row calendar with emoji markers */}
