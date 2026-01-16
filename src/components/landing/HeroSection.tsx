@@ -209,48 +209,49 @@ export function HeroSection() {
               <span>Orbits makes home
  </span>
               <br className="hidden sm:block" />
-              <motion.span className="relative inline-block" initial={{
-              opacity: 0,
-              scale: 0.8,
-              y: 20
-            }} animate={{
-              opacity: 1,
-              scale: 1,
-              y: 0
-            }} transition={{
-              delay: 0.3,
-              type: "spring",
-              stiffness: 100,
-              damping: 12
-            }}>
-                <motion.span className="relative z-10" initial={{
-                backgroundPosition: "100% 50%"
-              }} animate={{
-                backgroundPosition: "0% 50%"
-              }} transition={{
-                delay: 0.5,
-                duration: 1.2,
-                ease: [0.25, 0.46, 0.45, 0.94]
-              }} style={{
-                background: "linear-gradient(90deg, hsl(260 45% 40%), hsl(var(--primary)), hsl(260 45% 40%))",
-                backgroundSize: "200% 100%",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text"
-              }}>
+              <motion.span
+                className="underline-reveal"
+                style={{ "--underline-delay": "0.7s" } as React.CSSProperties}
+                initial={{
+                  opacity: 0,
+                  scale: 0.8,
+                  y: 20
+                }}
+                animate={{
+                  opacity: 1,
+                  scale: 1,
+                  y: 0
+                }}
+                transition={{
+                  delay: 0.3,
+                  type: "spring",
+                  stiffness: 100,
+                  damping: 12
+                }}
+              >
+                <motion.span
+                  className="relative z-10"
+                  initial={{
+                    backgroundPosition: "100% 50%"
+                  }}
+                  animate={{
+                    backgroundPosition: "0% 50%"
+                  }}
+                  transition={{
+                    delay: 0.5,
+                    duration: 1.2,
+                    ease: [0.25, 0.46, 0.45, 0.94]
+                  }}
+                  style={{
+                    background: "linear-gradient(90deg, hsl(260 45% 40%), hsl(var(--primary)), hsl(260 45% 40%))",
+                    backgroundSize: "200% 100%",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text"
+                  }}
+                >
                   effortless
                 </motion.span>
-                {/* Underline animation */}
-                <motion.div 
-                  className="absolute -bottom-1 left-0 w-full h-1 bg-gradient-to-r from-primary via-lavender to-primary rounded-full origin-left"
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{
-                    delay: 0.7,
-                    duration: 0.6,
-                    ease: [0.25, 0.46, 0.45, 0.94]
-                  }} 
-                />
               </motion.span>
             </motion.h1>
 
@@ -285,7 +286,7 @@ export function HeroSection() {
                 bg: "bg-sage"
               }, {
                 initials: "DP",
-                bg: "bg-[#D4B5B0]"
+                bg: "bg-peach"
               }].map((user, i) => <motion.div key={i} initial={{
                 opacity: 0,
                 scale: 0,

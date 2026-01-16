@@ -371,7 +371,8 @@ export function FeaturesSection() {
           >
             Features to help you save{" "}
             <motion.span
-              className="relative inline-block"
+              className={"underline-reveal"}
+              style={{ "--underline-delay": "0.7s" } as React.CSSProperties}
               initial={{ opacity: 0, scale: 0.8, y: 20 }}
               animate={isHeaderInView ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.8, y: 20 }}
               transition={{ delay: 0.3, type: "spring", stiffness: 100, damping: 12 }}
@@ -391,13 +392,6 @@ export function FeaturesSection() {
               >
                 hours
               </motion.span>
-              {/* Underline animation */}
-              <motion.div
-                className="absolute -bottom-1 left-0 w-full h-1 bg-gradient-to-r from-primary via-lavender to-primary rounded-full origin-left"
-                initial={{ scaleX: 0 }}
-                animate={isHeaderInView ? { scaleX: 1 } : { scaleX: 0 }}
-                transition={{ delay: 0.7, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-              />
             </motion.span>{" "}
             every week.
           </motion.h2>
