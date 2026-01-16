@@ -396,8 +396,8 @@ export function SocialProofSection() {
           <LiveNotification />
         </motion.div>
 
-        {/* Testimonials carousel */}
-        <TestimonialCarousel />
+        {/* Testimonials carousel - commented out for performance testing */}
+        {/* <TestimonialCarousel /> */}
 
         {/* Early access badge */}
         <motion.div
