@@ -192,23 +192,15 @@ function FeatureCard({ feature, index, isMobile }: { feature: Feature; index: nu
             }}
           />
 
-          {/* Shimmer effect - continuous on mobile */}
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent"
-            initial={{ x: "-200%", opacity: 0 }}
-            animate={
-              isMobile
-                ? { x: ["−200%", "200%"], opacity: [0, 1, 0] }
-                : isActive
-                  ? { x: "200%", opacity: 1 }
-                  : { x: "-200%", opacity: 0 }
-            }
-            transition={
-              isMobile
-                ? { duration: 3, repeat: Infinity, repeatDelay: 2 + index * 0.5, ease: "easeInOut" }
-                : { duration: 0.6, ease: "easeInOut" }
-            }
-          />
+          {/* Shimmer effect - desktop only */}
+          {!isMobile && (
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent"
+              initial={{ x: "-200%", opacity: 0 }}
+              animate={isActive ? { x: "200%", opacity: 1 } : { x: "-200%", opacity: 0 }}
+              transition={{ duration: 0.6, ease: "easeInOut" }}
+            />
+          )}
 
           {/* Floating corner accent */}
           <motion.div
@@ -273,39 +265,21 @@ function FeatureCard({ feature, index, isMobile }: { feature: Feature; index: nu
             {feature.description}
           </motion.p>
 
-          {/* Rippling corner dot - hidden for coming soon cards */}
-          {!feature.comingSoon && (
+          {/* Corner dot - simplified, no ripple on mobile */}
+          {!feature.comingSoon && !isMobile && (
             <div className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center">
-              {/* Ripple rings */}
               <motion.div
-                className={`absolute w-3 h-3 rounded-full border-2`}
+                className="absolute w-3 h-3 rounded-full border-2"
                 style={{ borderColor: `hsl(var(--${feature.color.replace("bg-", "")}))` }}
-                animate={{
-                  scale: [1, 2.5],
-                  opacity: [0.6, 0],
-                }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: "easeOut",
-                }}
+                animate={{ scale: [1, 2], opacity: [0.6, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut" }}
               />
-              <motion.div
-                className={`absolute w-3 h-3 rounded-full border-2`}
-                style={{ borderColor: `hsl(var(--${feature.color.replace("bg-", "")}))` }}
-                animate={{
-                  scale: [1, 2.5],
-                  opacity: [0.6, 0],
-                }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: "easeOut",
-                  delay: 0.5,
-                }}
-              />
-              {/* Center dot */}
               <div className={`w-2.5 h-2.5 rounded-full ${feature.color} relative z-10`} />
+            </div>
+          )}
+          {!feature.comingSoon && isMobile && (
+            <div className="absolute top-4 right-4">
+              <div className={`w-2.5 h-2.5 rounded-full ${feature.color}`} />
             </div>
           )}
         </motion.div>
@@ -320,31 +294,12 @@ export function FeaturesSection() {
   const isHeaderInView = useInView(headerRef, { once: true, margin: "-80px" });
   const isMobile = useIsMobile();
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
-
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 50, damping: 20 });
-  const backgroundY1 = useTransform(smoothProgress, [0, 1], [100, -100]);
-  const backgroundY2 = useTransform(smoothProgress, [0, 1], [-50, 50]);
-  const backgroundRotate = useTransform(smoothProgress, [0, 1], [0, 45]);
-
   return (
     <section ref={containerRef} className="relative pt-12 pb-12 lg:pt-16 lg:pb-16 px-6 overflow-hidden">
-      {/* Parallax background orbs */}
-      <motion.div
-        className="absolute top-0 right-[10%] w-[400px] lg:w-[500px] h-[400px] lg:h-[500px] orb-lavender opacity-30"
-        style={{ y: backgroundY1, rotate: backgroundRotate }}
-      />
-      <motion.div
-        className="absolute bottom-0 left-[5%] w-[300px] lg:w-[400px] h-[300px] lg:h-[400px] orb-peach opacity-25"
-        style={{ y: backgroundY2 }}
-      />
-      <motion.div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] lg:w-[800px] h-[600px] lg:h-[800px] orb-sky opacity-15"
-        style={{ rotate: useTransform(smoothProgress, [0, 1], [0, -30]) }}
-      />
+      {/* Static background orbs - no animation */}
+      <div className="absolute top-0 right-[10%] w-[400px] lg:w-[500px] h-[400px] lg:h-[500px] orb-lavender opacity-30 blur-3xl rounded-full" />
+      <div className="absolute bottom-0 left-[5%] w-[300px] lg:w-[400px] h-[300px] lg:h-[400px] orb-peach opacity-25 blur-3xl rounded-full" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] lg:w-[800px] h-[600px] lg:h-[800px] orb-sky opacity-15 blur-3xl rounded-full" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section header */}

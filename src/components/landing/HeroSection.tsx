@@ -36,60 +36,79 @@ const fadeUpSpring = {
   }
 };
 
-// Floating particle component with organic motion
+// Floating particle component with organic motion - disabled on mobile for performance
 function FloatingParticle({
   delay,
   x,
   y,
   size,
-  color
+  color,
+  isMobile,
 }: {
   delay: number;
   x: string;
   y: string;
   size: number;
   color: string;
+  isMobile?: boolean;
 }) {
-  return <motion.div className={`absolute rounded-full ${color}`} style={{
-    left: x,
-    top: y,
-    width: size,
-    height: size
-  }} initial={{
-    opacity: 0,
-    scale: 0
-  }} animate={{
-    opacity: [0, 0.5, 0.3, 0.5, 0],
-    scale: [0, 1, 1.1, 1, 0],
-    y: [0, -40, -20, -60, -80],
-    x: [0, 8, -8, 10, 0]
-  }} transition={{
-    duration: 8,
-    repeat: Infinity,
-    delay,
-    ease: [0.25, 0.46, 0.45, 0.94]
-  }} />;
+  // Skip animation entirely on mobile
+  if (isMobile) return null;
+  
+  return (
+    <motion.div
+      className={`absolute rounded-full ${color}`}
+      style={{
+        left: x,
+        top: y,
+        width: size,
+        height: size,
+      }}
+      initial={{ opacity: 0.3 }}
+      animate={{
+        opacity: [0.3, 0.5, 0.3],
+        y: [0, -20, 0],
+      }}
+      transition={{
+        duration: 8,
+        repeat: Infinity,
+        delay,
+        ease: "easeInOut",
+      }}
+    />
+  );
 }
 
-// Morphing blob background
+// Morphing blob background - static on mobile for performance
 function MorphingBlob({
   className,
-  delay = 0
+  delay = 0,
+  isMobile,
 }: {
   className: string;
   delay?: number;
+  isMobile?: boolean;
 }) {
-  return <motion.div className={`absolute rounded-full blur-3xl ${className}`} animate={{
-    scale: [1, 1.15, 1.08, 1.2, 1],
-    x: [0, 20, -15, 8, 0],
-    y: [0, -15, 20, -8, 0],
-    rotate: [0, 30, 60, 30, 0]
-  }} transition={{
-    duration: 20,
-    repeat: Infinity,
-    delay,
-    ease: "easeInOut"
-  }} />;
+  // Static on mobile - no animation
+  if (isMobile) {
+    return <div className={`absolute rounded-full blur-2xl ${className}`} />;
+  }
+  
+  return (
+    <motion.div
+      className={`absolute rounded-full blur-3xl ${className}`}
+      animate={{
+        scale: [1, 1.1, 1],
+        opacity: [0.3, 0.4, 0.3],
+      }}
+      transition={{
+        duration: 20,
+        repeat: Infinity,
+        delay,
+        ease: "easeInOut",
+      }}
+    />
+  );
 }
 
 // Animated counter
@@ -124,51 +143,62 @@ function AnimatedNumber({
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
-  const {
-    scrollYProgress
-  } = useScroll({
+  
+  // Only use scroll-based animations on desktop
+  const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end start"]
+    offset: ["start start", "end start"],
   });
 
-  // Ultra-smooth spring physics
+  // Disable spring physics on mobile for performance
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 50,
-    damping: 20,
-    mass: 0.5
+    stiffness: isMobile ? 100 : 50,
+    damping: isMobile ? 30 : 20,
+    mass: 0.5,
   });
 
-  // Parallax transforms - reduced on mobile for performance
-  // Keep content visible - no fade out on scroll
-  const scale = useTransform(smoothProgress, [0, 0.4], [1, 0.98]);
-  const phoneY = useTransform(smoothProgress, [0, 1], [0, isMobile ? 30 : 50]);
-  return <section ref={containerRef} className="relative z-10 min-h-screen flex flex-col items-center justify-center px-5 sm:px-6 py-16 sm:py-20 pb-32 sm:pb-40 overflow-visible">
+  // Skip parallax on mobile entirely
+  const scale = useTransform(smoothProgress, [0, 0.4], [1, isMobile ? 1 : 0.98]);
+  const phoneY = useTransform(smoothProgress, [0, 1], [0, isMobile ? 0 : 50]);
+  
+  return (
+    <section
+      ref={containerRef}
+      className="relative z-10 min-h-screen flex flex-col items-center justify-center px-5 sm:px-6 py-16 sm:py-20 pb-32 sm:pb-40 overflow-visible"
+    >
       {/* Layered gradient backgrounds */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-secondary/50" />
 
-      {/* Morphing background blobs - smaller on mobile */}
-      <MorphingBlob className="top-10 left-[5%] w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] orb-lavender opacity-30 sm:opacity-40" delay={0} />
-      <MorphingBlob className="top-40 right-[10%] w-[250px] sm:w-[400px] h-[250px] sm:h-[400px] orb-peach opacity-25 sm:opacity-30" delay={5} />
-      <MorphingBlob className="bottom-20 left-[20%] w-[350px] sm:w-[600px] h-[350px] sm:h-[600px] orb-sky opacity-20 sm:opacity-25" delay={10} />
+      {/* Morphing background blobs - static on mobile */}
+      <MorphingBlob className="top-10 left-[5%] w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] orb-lavender opacity-30 sm:opacity-40" delay={0} isMobile={isMobile} />
+      <MorphingBlob className="top-40 right-[10%] w-[250px] sm:w-[400px] h-[250px] sm:h-[400px] orb-peach opacity-25 sm:opacity-30" delay={5} isMobile={isMobile} />
+      <MorphingBlob className="bottom-20 left-[20%] w-[350px] sm:w-[600px] h-[350px] sm:h-[600px] orb-sky opacity-20 sm:opacity-25" delay={10} isMobile={isMobile} />
 
-      {/* Subtle grid pattern overlay */}
-      <div className="absolute inset-0 opacity-[0.01] sm:opacity-[0.015]" style={{
-      backgroundImage: `
-            linear-gradient(hsl(var(--primary)) 1px, transparent 1px),
-            linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)
-          `,
-      backgroundSize: "50px 50px"
-    }} />
+      {/* Subtle grid pattern overlay - hidden on mobile */}
+      {!isMobile && (
+        <div
+          className="absolute inset-0 opacity-[0.015]"
+          style={{
+            backgroundImage: `
+              linear-gradient(hsl(var(--primary)) 1px, transparent 1px),
+              linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)
+            `,
+            backgroundSize: "50px 50px",
+          }}
+        />
+      )}
 
-      {/* Floating particles - fewer on mobile */}
-      {!isMobile && <>
-          <FloatingParticle delay={0} x="15%" y="20%" size={8} color="bg-lavender" />
-          <FloatingParticle delay={1} x="80%" y="30%" size={6} color="bg-peach" />
-          <FloatingParticle delay={2} x="25%" y="60%" size={10} color="bg-sky" />
-          <FloatingParticle delay={3} x="70%" y="70%" size={7} color="bg-sage" />
-        </>}
-      <FloatingParticle delay={4} x="50%" y="15%" size={5} color="bg-primary/30" />
-      <FloatingParticle delay={5} x="10%" y="80%" size={8} color="bg-lavender" />
+      {/* Floating particles - desktop only */}
+      {!isMobile && (
+        <>
+          <FloatingParticle delay={0} x="15%" y="20%" size={8} color="bg-lavender" isMobile={isMobile} />
+          <FloatingParticle delay={1} x="80%" y="30%" size={6} color="bg-peach" isMobile={isMobile} />
+          <FloatingParticle delay={2} x="25%" y="60%" size={10} color="bg-sky" isMobile={isMobile} />
+          <FloatingParticle delay={3} x="70%" y="70%" size={7} color="bg-sage" isMobile={isMobile} />
+          <FloatingParticle delay={4} x="50%" y="15%" size={5} color="bg-primary/30" isMobile={isMobile} />
+          <FloatingParticle delay={5} x="10%" y="80%" size={8} color="bg-lavender" isMobile={isMobile} />
+        </>
+      )}
 
       {/* Main content */}
       <motion.div className="relative z-10 max-w-7xl mx-auto w-full" style={{
@@ -177,28 +207,26 @@ export function HeroSection() {
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
           {/* Left content */}
           <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="text-center lg:text-left">
-            {/* Badge with tap feedback */}
-            <motion.div variants={fadeUpSpring} whileTap={{
-            scale: 0.97
-          }} className="relative inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-primary/10 mb-6 sm:mb-8 overflow-hidden cursor-pointer touch-manipulation">
-              {/* Continuous shimmer */}
-              <motion.div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent" animate={{
-              x: ["-200%", "200%"]
-            }} transition={{
-              duration: 3,
-              repeat: Infinity,
-              repeatDelay: 3,
-              ease: "easeInOut"
-            }} />
-              <motion.div animate={{
-              rotate: [0, 360]
-            }} transition={{
-              duration: 6,
-              repeat: Infinity,
-              ease: "linear"
-            }} className="relative">
-                <Sparkles className="w-4 h-4 text-primary" />
-              </motion.div>
+            {/* Badge with tap feedback - simplified on mobile */}
+            <motion.div
+              variants={fadeUpSpring}
+              whileTap={{ scale: 0.97 }}
+              className="relative inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-primary/10 mb-6 sm:mb-8 overflow-hidden cursor-pointer touch-manipulation"
+            >
+              {/* Shimmer - desktop only */}
+              {!isMobile && (
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                  animate={{ x: ["-200%", "200%"] }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    repeatDelay: 3,
+                    ease: "easeInOut",
+                  }}
+                />
+              )}
+              <Sparkles className="w-4 h-4 text-primary" />
               <span className="text-xs sm:text-sm font-medium text-foreground/80 relative">
                 AI-Powered
               </span>
@@ -349,41 +377,26 @@ export function HeroSection() {
         </div>
       </motion.div>
 
-      {/* Scroll indicator - hidden on mobile */}
-      <motion.div initial={{
-      opacity: 0,
-      y: 20
-    }} animate={{
-      opacity: 1,
-      y: 0
-    }} transition={{
-      delay: 1.2,
-      duration: 0.5
-    }} className="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 flex-col items-center gap-2 hidden sm:flex">
-        <motion.span className="text-xs uppercase tracking-widest text-muted-foreground/50" animate={{
-        opacity: [0.3, 0.7, 0.3]
-      }} transition={{
-        duration: 2,
-        repeat: Infinity
-      }}>
-          Scroll to explore
-        </motion.span>
-        <motion.div className="w-6 h-9 rounded-full border-2 border-muted-foreground/20 flex items-start justify-center p-1.5 cursor-pointer" animate={{
-        y: [0, 4, 0]
-      }} transition={{
-        duration: 2,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }}>
-          <motion.div animate={{
-          y: [0, 12, 0],
-          opacity: [1, 0.3, 1]
-        }} transition={{
-          duration: 1.8,
-          repeat: Infinity,
-          ease: [0.25, 0.46, 0.45, 0.94]
-        }} className="w-1.5 h-2.5 rounded-full bg-gradient-to-b from-primary/50 to-lavender/50" />
+      {/* Scroll indicator - desktop only */}
+      {!isMobile && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.2, duration: 0.5 }}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex-col items-center gap-2 hidden sm:flex"
+        >
+          <span className="text-xs uppercase tracking-widest text-muted-foreground/50">
+            Scroll to explore
+          </span>
+          <div className="w-6 h-9 rounded-full border-2 border-muted-foreground/20 flex items-start justify-center p-1.5">
+            <motion.div
+              animate={{ y: [0, 12, 0] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+              className="w-1.5 h-2.5 rounded-full bg-gradient-to-b from-primary/50 to-lavender/50"
+            />
+          </div>
         </motion.div>
-      </motion.div>
-    </section>;
+      )}
+    </section>
+  );
 }

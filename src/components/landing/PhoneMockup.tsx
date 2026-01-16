@@ -67,7 +67,7 @@ function NotificationItem({
   );
 }
 
-// Floating badge component with enhanced mobile visibility
+// Floating badge component - simplified animation
 function FloatingBadge({
   children,
   className,
@@ -83,36 +83,25 @@ function FloatingBadge({
   y: number;
   isMobile: boolean;
 }) {
-  // On mobile, position badges within view
+  // Skip entirely on mobile for performance
+  if (isMobile) return null;
+  
   const mobileX = Math.max(10, Math.min(x, 70));
-  const mobileY = y;
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0, y: 20 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{ opacity: 1, scale: 1 }}
       transition={{ delay, type: "spring", stiffness: 150, damping: 15 }}
       className={`absolute ${className}`}
       style={{
-        left: isMobile ? `${mobileX}%` : `${x}%`,
-        top: `${mobileY}%`,
+        left: `${x}%`,
+        top: `${y}%`,
       }}
     >
-      <motion.div
-        animate={{
-          y: [0, -6, 0],
-          rotate: [0, 1, -1, 0],
-        }}
-        transition={{
-          duration: 3.5,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: delay * 0.5,
-        }}
-        className="glass rounded-xl px-2.5 py-1.5 sm:px-3 sm:py-2 shadow-lg border border-white/20"
-      >
+      <div className="glass rounded-xl px-3 py-2 shadow-lg border border-white/20">
         {children}
-      </motion.div>
+      </div>
     </motion.div>
   );
 }
@@ -213,17 +202,19 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = useState(false);
   const isMobile = useIsMobile();
-  // Trigger animations only when the bottom of the phone is visible
   const isInView = useInView(bottomRef, { once: true, margin: "0px" });
 
-  // Mouse/touch tracking for 3D effect
+  // Disable 3D tilt on mobile for performance
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  // Smooth spring animation
-  const springConfig = { stiffness: 150, damping: 20, mass: 0.5 };
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [6, -6]), springConfig);
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-6, 6]), springConfig);
+  // Simplified spring config for mobile
+  const springConfig = isMobile 
+    ? { stiffness: 300, damping: 30 } 
+    : { stiffness: 150, damping: 20, mass: 0.5 };
+  
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], isMobile ? [0, 0] : [6, -6]), springConfig);
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], isMobile ? [0, 0] : [-6, 6]), springConfig);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (isMobile || !containerRef.current) return;
@@ -491,30 +482,29 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
         />
       </motion.div>
 
-      {/* Ambient floating particles - fewer on mobile */}
-      {[...Array(isMobile ? 3 : 6)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-2 h-2 rounded-full"
-          style={{
-            left: `${20 + i * (isMobile ? 25 : 12)}%`,
-            top: `${30 + (i % 3) * 20}%`,
-            background: `hsl(var(--${["lavender", "peach", "sky", "sage", "primary", "lavender"][i]}) / 0.4)`,
-          }}
-          animate={{
-            y: [0, -15, 0],
-            x: [0, i % 2 === 0 ? 8 : -8, 0],
-            opacity: [0.3, 0.6, 0.3],
-            scale: [1, 1.2, 1],
-          }}
-          transition={{
-            duration: 4 + i * 0.5,
-            repeat: Infinity,
-            delay: i * 0.3,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
+      {/* Ambient floating particles - desktop only */}
+      {!isMobile &&
+        [...Array(4)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-2 h-2 rounded-full"
+            style={{
+              left: `${20 + i * 15}%`,
+              top: `${30 + (i % 3) * 20}%`,
+              background: `hsl(var(--${["lavender", "peach", "sky", "sage"][i]}) / 0.4)`,
+            }}
+            animate={{
+              y: [0, -10, 0],
+              opacity: [0.3, 0.5, 0.3],
+            }}
+            transition={{
+              duration: 5 + i,
+              repeat: Infinity,
+              delay: i * 0.5,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
     </div>
   );
 }

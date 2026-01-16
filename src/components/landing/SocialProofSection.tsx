@@ -256,10 +256,10 @@ function TestimonialCarousel() {
   );
 }
 
-// Live signup notification
+// Live signup notification - simplified animation
 function LiveNotification() {
   const [visible, setVisible] = useState(false);
-  const count = 24; // Static count, never higher than 30
+  const count = 24;
 
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 1500);
@@ -268,37 +268,17 @@ function LiveNotification() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30, scale: 0.9 }}
-      animate={visible ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 30, scale: 0.9 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={visible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{ type: "spring", stiffness: 150, damping: 15 }}
-      whileHover={{ scale: 1.03, y: -3 }}
       className="inline-flex items-center gap-4 px-6 py-4 glass rounded-full border border-border/30 cursor-pointer"
     >
-      {/* Rippling pulse dot - same as feature cards */}
-      <div className="relative flex items-center justify-center">
-        {/* Outer ripple */}
-        <motion.div
-          className="absolute w-3 h-3 rounded-full bg-sage/30"
-          animate={{ scale: [1, 2.5], opacity: [0.6, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
-        />
-        {/* Inner ripple */}
-        <motion.div
-          className="absolute w-3 h-3 rounded-full bg-sage/40"
-          animate={{ scale: [1, 2], opacity: [0.7, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeOut", delay: 0.3 }}
-        />
-        {/* Solid center */}
-        <div className="w-3 h-3 rounded-full bg-sage relative z-10" />
-      </div>
-
+      {/* Simple static dot */}
+      <div className="w-3 h-3 rounded-full bg-sage" />
       <span className="text-muted-foreground">
         <span className="font-semibold text-foreground">{count}</span> people signed up today
       </span>
-
-      <motion.div animate={{ rotate: [0, 360] }} transition={{ duration: 4, repeat: Infinity, ease: "linear" }}>
-        <Sparkles className="w-4 h-4 text-golden" />
-      </motion.div>
+      <Sparkles className="w-4 h-4 text-golden" />
     </motion.div>
   );
 }
@@ -363,33 +343,15 @@ export function SocialProofSection() {
   const headerRef = useRef(null);
   const isHeaderInView = useInView(headerRef, { once: true, margin: "-100px" });
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
-
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 50, damping: 20 });
-  const backgroundY1 = useTransform(smoothProgress, [0, 1], [80, -80]);
-  const backgroundY2 = useTransform(smoothProgress, [0, 1], [-60, 60]);
-
   return (
     <section
       ref={containerRef}
       className="relative pt-10 pb-8 lg:pt-12 lg:pb-12 px-6 bg-gradient-to-b from-secondary/30 to-background overflow-hidden"
     >
-      {/* Parallax background orbs */}
-      <motion.div
-        className="absolute top-20 left-[5%] w-[400px] h-[400px] orb-peach opacity-30"
-        style={{ y: backgroundY1 }}
-      />
-      <motion.div
-        className="absolute bottom-20 right-[10%] w-[500px] h-[500px] orb-lavender opacity-25"
-        style={{ y: backgroundY2 }}
-      />
-      <motion.div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] orb-sage opacity-15"
-        style={{ rotate: useTransform(smoothProgress, [0, 1], [0, 20]) }}
-      />
+      {/* Static background orbs - no animation */}
+      <div className="absolute top-20 left-[5%] w-[400px] h-[400px] orb-peach opacity-30 blur-3xl rounded-full" />
+      <div className="absolute bottom-20 right-[10%] w-[500px] h-[500px] orb-lavender opacity-25 blur-3xl rounded-full" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] orb-sage opacity-15 blur-3xl rounded-full" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section header */}
