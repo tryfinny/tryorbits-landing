@@ -209,7 +209,7 @@ export function HeroSection() {
               <span>Orbits makes home
  </span>
               <br className="hidden sm:block" />
-              <motion.span className="relative inline-block text-primary" initial={{
+              <motion.span className="relative inline-block" initial={{
               opacity: 0,
               scale: 0.8,
               y: 20
@@ -241,10 +241,10 @@ export function HeroSection() {
                   effortless
                 </motion.span>
                 {/* Underline animation */}
-                <motion.span 
-                  className="absolute -bottom-1 left-0 h-1 bg-gradient-to-r from-primary via-lavender to-primary rounded-full block"
-                  initial={{ width: 0, opacity: 0 }}
-                  animate={{ width: "100%", opacity: 1 }}
+                <motion.div 
+                  className="absolute -bottom-1 left-0 w-full h-1 bg-gradient-to-r from-primary via-lavender to-primary rounded-full origin-left"
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
                   transition={{
                     delay: 0.7,
                     duration: 0.6,
