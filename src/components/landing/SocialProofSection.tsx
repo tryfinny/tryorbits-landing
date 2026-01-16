@@ -144,7 +144,7 @@ function TestimonialCard({ testimonial, isActive }: { testimonial: (typeof testi
       style={{ perspective: "1000px" }}
     >
       <motion.div
-        className={`${testimonial.bgColor} p-8 lg:p-10 rounded-[2rem] border border-border/30 relative overflow-hidden backdrop-blur-sm`}
+        className={`${testimonial.bgColor} p-8 lg:p-10 rounded-[2rem] border border-border/30 relative overflow-hidden md:backdrop-blur-sm`}
         animate={{
           rotateX: tilt.x,
           rotateY: tilt.y,
@@ -311,7 +311,7 @@ function FloatingRatingBadge({
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
       whileHover={{ y: -8, scale: 1.02 }}
-      className={`flex items-center gap-4 px-8 py-5 bg-gradient-to-br ${gradient} rounded-2xl border border-border/30 cursor-pointer relative overflow-hidden backdrop-blur-sm`}
+      className={`flex items-center gap-4 px-8 py-5 bg-gradient-to-br ${gradient} rounded-2xl border border-border/30 cursor-pointer relative overflow-hidden md:backdrop-blur-sm`}
     >
       {/* Shimmer */}
       <motion.div
