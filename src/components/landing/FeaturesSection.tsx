@@ -211,12 +211,14 @@ function FeatureCard({ feature, index, isMobile }: { feature: Feature; index: nu
                   backgroundColor: `hsl(var(--${feature.color.replace("bg-", "")}) / 0.25)`,
                 }}
               >
-                {/* Icon glow */}
-                <motion.div
-                  className={`absolute inset-0 rounded-xl ${feature.color} blur-xl`}
-                  animate={isActive ? { opacity: 0.5, scale: 1.3 } : { opacity: 0, scale: 1 }}
-                  transition={{ duration: 0.25 }}
-                />
+                {/* Icon glow - desktop only to avoid blur filter repaints */}
+                {!isMobile && (
+                  <motion.div
+                    className={`absolute inset-0 rounded-xl ${feature.color} blur-xl`}
+                    animate={isActive ? { opacity: 0.5, scale: 1.3 } : { opacity: 0, scale: 1 }}
+                    transition={{ duration: 0.25 }}
+                  />
+                )}
                 <span className="text-xl lg:text-2xl relative z-10">{feature.emoji}</span>
               </motion.div>
             </motion.div>
@@ -246,8 +248,8 @@ function FeatureCard({ feature, index, isMobile }: { feature: Feature; index: nu
             {feature.description}
           </motion.p>
 
-          {/* Rippling corner dot - hidden for coming soon cards */}
-          {!feature.comingSoon && (
+          {/* Rippling corner dot - hidden for coming soon cards and on mobile */}
+          {!feature.comingSoon && !isMobile && (
             <div className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center">
               {/* Ripple rings */}
               <motion.div
@@ -264,6 +266,12 @@ function FeatureCard({ feature, index, isMobile }: { feature: Feature; index: nu
               />
               {/* Center dot */}
               <div className={`w-2.5 h-2.5 rounded-full ${feature.color} relative z-10`} />
+            </div>
+          )}
+          {/* Static corner dot on mobile */}
+          {!feature.comingSoon && isMobile && (
+            <div className="absolute top-4 right-4">
+              <div className={`w-2.5 h-2.5 rounded-full ${feature.color}`} />
             </div>
           )}
         </motion.div>

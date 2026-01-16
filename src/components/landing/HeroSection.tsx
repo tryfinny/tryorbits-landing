@@ -263,19 +263,8 @@ export function HeroSection() {
                   damping: 12
                 }}
               >
-                <motion.span
+                <span
                   className="relative z-10"
-                  initial={{
-                    backgroundPosition: "100% 50%"
-                  }}
-                  animate={{
-                    backgroundPosition: "0% 50%"
-                  }}
-                  transition={{
-                    delay: 0.5,
-                    duration: 1.2,
-                    ease: [0.25, 0.46, 0.45, 0.94]
-                  }}
                   style={{
                     background: "linear-gradient(90deg, hsl(260 45% 40%), hsl(var(--primary)), hsl(260 45% 40%))",
                     backgroundSize: "200% 100%",
@@ -285,7 +274,7 @@ export function HeroSection() {
                   }}
                 >
                   effortless
-                </motion.span>
+                </span>
               </motion.span>
             </motion.h1>
 
