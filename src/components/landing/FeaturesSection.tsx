@@ -392,10 +392,10 @@ export function FeaturesSection() {
                 hours
               </motion.span>
               {/* Underline animation */}
-              <motion.span
-                className="absolute -bottom-1 left-0 h-1 bg-gradient-to-r from-primary via-lavender to-primary rounded-full block"
-                initial={{ width: 0, opacity: 0 }}
-                animate={isHeaderInView ? { width: "100%", opacity: 1 } : { width: 0, opacity: 0 }}
+              <motion.div
+                className="absolute -bottom-1 left-0 w-full h-1 bg-gradient-to-r from-primary via-lavender to-primary rounded-full origin-left"
+                initial={{ scaleX: 0 }}
+                animate={isHeaderInView ? { scaleX: 1 } : { scaleX: 0 }}
                 transition={{ delay: 0.7, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
               />
             </motion.span>{" "}
