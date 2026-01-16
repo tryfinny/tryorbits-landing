@@ -13,7 +13,7 @@ const Index = () => {
       <SocialProofSection />
       <CTASection />
       <Footer />
-      {/* <StickyDownloadBar /> */}
+      <StickyDownloadBar />
     </main>
   );
 };
