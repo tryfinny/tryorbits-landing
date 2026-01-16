@@ -90,18 +90,13 @@ export function AppStoreButtons() {
         <motion.div
           className="relative inline-flex items-center gap-4 px-7 py-4 bg-[#1a1a1a] text-white rounded-2xl overflow-hidden min-h-[60px]"
         >
-          {/* Continuous pulse glow on mobile for attention */}
+          {/* Static glow on mobile - no animation for performance */}
           {isMobile && (
-            <motion.div
-              className="absolute inset-0 rounded-2xl"
+            <div
+              className="absolute inset-0 rounded-2xl opacity-20"
               style={{
-                background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.3), transparent 70%)',
+                background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.4), transparent 70%)',
               }}
-              animate={{
-                opacity: [0, 0.4, 0],
-                scale: [1, 1.1, 1],
-              }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             />
           )}
           
@@ -144,18 +139,13 @@ export function AppStoreButtons() {
           } : undefined}
           transition={{ duration: 0.3 }}
         >
-          {/* Continuous pulse glow on mobile for attention */}
+          {/* Static glow on mobile - no animation for performance */}
           {isMobile && (
-            <motion.div
-              className="absolute inset-0 rounded-2xl"
+            <div
+              className="absolute inset-0 rounded-2xl opacity-20"
               style={{
-                background: 'radial-gradient(circle at 50% 50%, hsl(var(--sage) / 0.3), transparent 70%)',
+                background: 'radial-gradient(circle at 50% 50%, hsl(var(--sage) / 0.4), transparent 70%)',
               }}
-              animate={{
-                opacity: [0, 0.4, 0],
-                scale: [1, 1.1, 1],
-              }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
             />
           )}
           
