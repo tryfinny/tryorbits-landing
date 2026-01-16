@@ -7,7 +7,6 @@ import { LazySection } from '@/components/landing/LazySection';
 const FeaturesSection = lazy(() => import('@/components/landing/FeaturesSection').then(m => ({ default: m.FeaturesSection })));
 const SocialProofSection = lazy(() => import('@/components/landing/SocialProofSection').then(m => ({ default: m.SocialProofSection })));
 const CTASection = lazy(() => import('@/components/landing/CTASection').then(m => ({ default: m.CTASection })));
-const StickyDownloadBar = lazy(() => import('@/components/landing/StickyDownloadBar').then(m => ({ default: m.StickyDownloadBar })));
 
 const Index = () => {
   return (
@@ -35,9 +34,6 @@ const Index = () => {
       </LazySection>
       
       <Footer />
-      <Suspense fallback={null}>
-        <StickyDownloadBar />
-      </Suspense>
     </main>
   );
 };
