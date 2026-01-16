@@ -334,7 +334,7 @@ export function HeroSection() {
                 stiffness: 200,
                 damping: 12,
                 delay: 0.5 + i * 0.06
-              }} className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full ${user.bg} border-2 border-background cursor-pointer relative shadow-lg flex items-center justify-center`}>
+              }} className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full ${user.bg} border-2 border-background cursor-pointer relative shadow-sm flex items-center justify-center`}>
                     <span className="text-[10px] sm:text-xs font-medium text-white/90">{user.initials}</span>
                   </motion.div>)}
               </motion.div>

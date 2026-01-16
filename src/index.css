@@ -179,27 +179,50 @@
     background-size: 200% 200%;
   }
 
-  /* Soft shadows for pastel aesthetic */
+  /* Soft shadows for pastel aesthetic - simplified for mobile performance */
   .card-shadow {
     box-shadow: 
-      0 4px 40px -12px hsl(var(--primary) / 0.08),
-      0 0 0 1px hsl(var(--border) / 0.5),
-      inset 0 1px 0 hsl(0 0% 100% / 0.5);
+      0 2px 8px -4px hsl(var(--primary) / 0.06),
+      0 0 0 1px hsl(var(--border) / 0.5);
   }
 
   .card-shadow-hover {
     box-shadow: 
-      0 20px 60px -15px hsl(var(--primary) / 0.15),
-      0 0 0 1px hsl(var(--primary) / 0.1),
-      inset 0 1px 0 hsl(0 0% 100% / 0.5);
+      0 4px 16px -6px hsl(var(--primary) / 0.1),
+      0 0 0 1px hsl(var(--primary) / 0.08);
   }
 
   .glow-shadow {
-    box-shadow: 0 0 80px -20px hsl(var(--glow) / 0.3);
+    box-shadow: 0 2px 12px -4px hsl(var(--glow) / 0.15);
   }
 
   .glow-shadow-soft {
-    box-shadow: 0 0 100px -30px hsl(var(--lavender) / 0.4);
+    box-shadow: 0 2px 16px -6px hsl(var(--lavender) / 0.2);
+  }
+
+  /* Enable larger shadows only on desktop */
+  @media (min-width: 768px) {
+    .card-shadow {
+      box-shadow: 
+        0 4px 40px -12px hsl(var(--primary) / 0.08),
+        0 0 0 1px hsl(var(--border) / 0.5),
+        inset 0 1px 0 hsl(0 0% 100% / 0.5);
+    }
+
+    .card-shadow-hover {
+      box-shadow: 
+        0 20px 60px -15px hsl(var(--primary) / 0.15),
+        0 0 0 1px hsl(var(--primary) / 0.1),
+        inset 0 1px 0 hsl(0 0% 100% / 0.5);
+    }
+
+    .glow-shadow {
+      box-shadow: 0 0 80px -20px hsl(var(--glow) / 0.3);
+    }
+
+    .glow-shadow-soft {
+      box-shadow: 0 0 100px -30px hsl(var(--lavender) / 0.4);
+    }
   }
 
   /* Glassmorphism - solid backgrounds on mobile for iOS performance */

@@ -144,13 +144,10 @@ function TestimonialCard({ testimonial, isActive }: { testimonial: (typeof testi
       style={{ perspective: "1000px" }}
     >
       <motion.div
-        className={`${testimonial.bgColor} p-8 lg:p-10 rounded-[2rem] border border-border/30 relative overflow-hidden md:backdrop-blur-sm`}
+        className={`${testimonial.bgColor} p-8 lg:p-10 rounded-[2rem] border border-border/30 relative overflow-hidden md:backdrop-blur-sm shadow-sm`}
         animate={{
           rotateX: tilt.x,
           rotateY: tilt.y,
-          boxShadow: isHovered
-            ? "0 40px 80px -30px hsl(var(--primary) / 0.2)"
-            : "0 15px 40px -20px hsl(var(--primary) / 0.08)",
         }}
         transition={{ type: "spring", stiffness: 200, damping: 20 }}
         style={{ transformStyle: "preserve-3d" }}
