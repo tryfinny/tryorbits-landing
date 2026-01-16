@@ -314,7 +314,13 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
 
         {/* Phone body */}
         <motion.div
-          className="relative bg-gradient-to-b from-[#1a1a1a] to-[#0d0d0d] rounded-[3rem] p-2.5 sm:p-3 shadow-lg md:shadow-2xl touch-manipulation"
+          className="relative bg-gradient-to-b from-[#1a1a1a] to-[#0d0d0d] rounded-[3rem] p-2.5 sm:p-3 shadow-2xl touch-manipulation"
+          animate={{
+            boxShadow: isActive
+              ? "0 50px 100px -20px rgba(0,0,0,0.5), 0 30px 60px -30px rgba(0,0,0,0.4)"
+              : "0 25px 50px -12px rgba(0,0,0,0.4), 0 12px 24px -12px rgba(0,0,0,0.3)",
+          }}
+          transition={{ duration: 0.4 }}
         >
           {/* Side buttons */}
           <div className="absolute -left-[3px] top-28 w-[3px] h-8 bg-[#2a2a2a] rounded-l-sm" />

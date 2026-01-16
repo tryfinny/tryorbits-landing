@@ -89,26 +89,33 @@ export function AppStoreButtons() {
       >
         <motion.div
           className="relative inline-flex items-center gap-4 px-7 py-4 bg-[#1a1a1a] text-white rounded-2xl overflow-hidden min-h-[60px]"
+          whileHover={!isMobile ? { 
+            boxShadow: '0 25px 50px -12px hsl(var(--primary) / 0.3)',
+          } : undefined}
+          transition={{ duration: 0.3 }}
         >
-          {/* Static glow on mobile - no animation for performance */}
+          {/* Continuous pulse glow on mobile for attention */}
           {isMobile && (
-            <div
-              className="absolute inset-0 rounded-2xl opacity-20"
+            <motion.div
+              className="absolute inset-0 rounded-2xl"
               style={{
-                background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.4), transparent 70%)',
+                background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.3), transparent 70%)',
               }}
+              animate={{
+                opacity: [0, 0.4, 0],
+                scale: [1, 1.1, 1],
+              }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             />
           )}
           
-          {/* Shimmer effect - desktop only */}
-          {!isMobile && (
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-              initial={{ x: '-200%' }}
-              animate={{ x: ['−200%', '200%'] }}
-              transition={{ duration: 3, repeat: Infinity, repeatDelay: 2, ease: "easeInOut" }}
-            />
-          )}
+          {/* Shimmer effect */}
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+            initial={{ x: '-200%' }}
+            animate={{ x: ['−200%', '200%'] }}
+            transition={{ duration: 3, repeat: Infinity, repeatDelay: 2, ease: "easeInOut" }}
+          />
           
           <motion.div
             whileHover={!isMobile ? { scale: 1.1, rotate: -5 } : undefined}
@@ -139,25 +146,28 @@ export function AppStoreButtons() {
           } : undefined}
           transition={{ duration: 0.3 }}
         >
-          {/* Static glow on mobile - no animation for performance */}
+          {/* Continuous pulse glow on mobile for attention */}
           {isMobile && (
-            <div
-              className="absolute inset-0 rounded-2xl opacity-20"
+            <motion.div
+              className="absolute inset-0 rounded-2xl"
               style={{
-                background: 'radial-gradient(circle at 50% 50%, hsl(var(--sage) / 0.4), transparent 70%)',
+                background: 'radial-gradient(circle at 50% 50%, hsl(var(--sage) / 0.3), transparent 70%)',
               }}
+              animate={{
+                opacity: [0, 0.4, 0],
+                scale: [1, 1.1, 1],
+              }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
             />
           )}
           
-          {/* Shimmer effect - desktop only */}
-          {!isMobile && (
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-              initial={{ x: '-200%' }}
-              animate={{ x: ['−200%', '200%'] }}
-              transition={{ duration: 3, repeat: Infinity, repeatDelay: 2.5, ease: "easeInOut" }}
-            />
-          )}
+          {/* Shimmer effect */}
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+            initial={{ x: '-200%' }}
+            animate={{ x: ['−200%', '200%'] }}
+            transition={{ duration: 3, repeat: Infinity, repeatDelay: 2.5, ease: "easeInOut" }}
+          />
           
           <motion.div
             whileHover={!isMobile ? { scale: 1.1, rotate: 5 } : undefined}

@@ -263,8 +263,19 @@ export function HeroSection() {
                   damping: 12
                 }}
               >
-                <span
+                <motion.span
                   className="relative z-10"
+                  initial={{
+                    backgroundPosition: "100% 50%"
+                  }}
+                  animate={{
+                    backgroundPosition: "0% 50%"
+                  }}
+                  transition={{
+                    delay: 0.5,
+                    duration: 1.2,
+                    ease: [0.25, 0.46, 0.45, 0.94]
+                  }}
                   style={{
                     background: "linear-gradient(90deg, hsl(260 45% 40%), hsl(var(--primary)), hsl(260 45% 40%))",
                     backgroundSize: "200% 100%",
@@ -274,7 +285,7 @@ export function HeroSection() {
                   }}
                 >
                   effortless
-                </span>
+                </motion.span>
               </motion.span>
             </motion.h1>
 
@@ -323,7 +334,7 @@ export function HeroSection() {
                 stiffness: 200,
                 damping: 12,
                 delay: 0.5 + i * 0.06
-              }} className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full ${user.bg} border-2 border-background cursor-pointer relative shadow-sm flex items-center justify-center`}>
+              }} className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full ${user.bg} border-2 border-background cursor-pointer relative shadow-lg flex items-center justify-center`}>
                     <span className="text-[10px] sm:text-xs font-medium text-white/90">{user.initials}</span>
                   </motion.div>)}
               </motion.div>
