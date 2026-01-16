@@ -288,8 +288,7 @@
     background: linear-gradient(
       90deg,
       hsl(var(--primary)),
-      hsl(var(--lavender)),
-      hsl(var(--primary))
+      hsl(var(--lavender))
     );
     animation: underline-reveal 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
     animation-delay: var(--underline-delay, 0s);
