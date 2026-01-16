@@ -1,4 +1,4 @@
-import { motion, useMotionValue, useSpring, useTransform, PanInfo } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { useIsMobile } from '@/hooks/use-device-motion';
 
@@ -22,16 +22,16 @@ export function MobileTouchCard({ children, className, glowColor = 'primary' }: 
   const x = useSpring(touchX, springConfig);
   const y = useSpring(touchY, springConfig);
   
-  // 3D transforms based on touch position
+  // 3D transforms based on touch position - desktop only
   const rotateX = useTransform(y, [0, 1], [8, -8]);
   const rotateY = useTransform(x, [0, 1], [-8, 8]);
   
-  // Glare position
+  // Glare position - desktop only
   const glareX = useTransform(x, [0, 1], [0, 100]);
   const glareY = useTransform(y, [0, 1], [0, 100]);
   
   const handleTouchStart = (e: React.TouchEvent) => {
-    if (!ref.current) return;
+    if (!ref.current || isMobile) return; // Skip 3D on mobile
     const rect = ref.current.getBoundingClientRect();
     const touch = e.touches[0];
     touchX.set((touch.clientX - rect.left) / rect.width);
@@ -40,7 +40,7 @@ export function MobileTouchCard({ children, className, glowColor = 'primary' }: 
   };
   
   const handleTouchMove = (e: React.TouchEvent) => {
-    if (!ref.current) return;
+    if (!ref.current || isMobile) return; // Skip 3D on mobile
     const rect = ref.current.getBoundingClientRect();
     const touch = e.touches[0];
     touchX.set((touch.clientX - rect.left) / rect.width);
@@ -68,6 +68,32 @@ export function MobileTouchCard({ children, className, glowColor = 'primary' }: 
     setIsTapped(false);
   };
 
+  // Simplified mobile version - no 3D transforms, no gradient glare
+  if (isMobile) {
+    return (
+      <motion.div
+        ref={ref}
+        animate={{
+          scale: isTapped ? 1.02 : 1,
+        }}
+        transition={{ type: "spring", stiffness: 400, damping: 25 }}
+        className={`relative ${className}`}
+        onTouchStart={() => setIsTapped(true)}
+        onTouchEnd={() => setIsTapped(false)}
+        onTouchCancel={() => setIsTapped(false)}
+      >
+        {/* Simple opacity overlay on tap - no gradient */}
+        <motion.div
+          className="pointer-events-none absolute inset-0 rounded-[inherit] bg-foreground/5"
+          animate={{ opacity: isTapped ? 1 : 0 }}
+          transition={{ duration: 0.15 }}
+        />
+        {children}
+      </motion.div>
+    );
+  }
+
+  // Desktop version with full 3D and glare
   return (
     <motion.div
       ref={ref}
@@ -75,11 +101,11 @@ export function MobileTouchCard({ children, className, glowColor = 'primary' }: 
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => !isMobile && setIsTapped(true)}
+      onMouseEnter={() => setIsTapped(true)}
       onMouseLeave={handleMouseLeave}
       style={{ 
-        rotateX: isMobile ? rotateX : rotateX,
-        rotateY: isMobile ? rotateY : rotateY,
+        rotateX,
+        rotateY,
         transformStyle: 'preserve-3d',
         perspective: 1000,
       }}
@@ -89,7 +115,7 @@ export function MobileTouchCard({ children, className, glowColor = 'primary' }: 
       transition={{ type: "spring", stiffness: 400, damping: 25 }}
       className={`relative ${className}`}
     >
-      {/* Touch ripple / glare effect */}
+      {/* Touch ripple / glare effect - desktop only */}
       <motion.div
         className="pointer-events-none absolute inset-0 rounded-[inherit] overflow-hidden"
         style={{
