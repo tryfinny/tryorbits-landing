@@ -6,7 +6,7 @@ export default function Privacy() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
+      <header className="sticky top-0 z-50 bg-background/95 md:bg-background/80 md:backdrop-blur-xl border-b border-border">
         <div className="max-w-4xl mx-auto px-6 py-4">
           <Link 
             to="/" 
