@@ -426,7 +426,7 @@
     }
   }
 
-  /* Gradient orbs */
+  /* Gradient orbs - static decorative elements */
   .orb-peach {
     background: radial-gradient(circle, hsl(var(--peach)) 0%, transparent 70%);
   }
@@ -441,5 +441,19 @@
 
   .orb-sage {
     background: radial-gradient(circle, hsl(var(--sage)) 0%, transparent 70%);
+  }
+
+  /* Ensure orbs are completely static on touch devices */
+  @media (hover: none) and (pointer: coarse) {
+    .orb-peach,
+    .orb-lavender,
+    .orb-sky,
+    .orb-sage,
+    [class*="orb-"] {
+      animation: none !important;
+      transition: none !important;
+      transform: none !important;
+      will-change: auto;
+    }
   }
 }
