@@ -285,7 +285,7 @@ export function HeroSection() {
                 bg: "bg-sage"
               }, {
                 initials: "DP",
-                bg: "bg-golden"
+                bg: "bg-lavender/80"
               }].map((user, i) => <motion.div key={i} initial={{
                 opacity: 0,
                 scale: 0,
