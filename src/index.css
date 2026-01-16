@@ -382,9 +382,9 @@
 
   /* Disable/reduce infinite animations on touch devices for performance */
   @media (hover: none) and (pointer: coarse) {
+    /* Completely disable shimmer on touch - prevents continuous gradient repaints */
     .shimmer::before {
-      animation: none;
-      opacity: 0.1;
+      display: none;
     }
 
     .animate-float {
