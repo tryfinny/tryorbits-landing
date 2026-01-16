@@ -380,6 +380,38 @@
     animation: pulse-glow 4s ease-in-out infinite;
   }
 
+  /* Disable/reduce infinite animations on touch devices for performance */
+  @media (hover: none) and (pointer: coarse) {
+    .shimmer::before {
+      animation: none;
+      opacity: 0.1;
+    }
+
+    .animate-float {
+      animation: none;
+    }
+
+    .animate-pulse-glow {
+      animation: none;
+      opacity: 0.5;
+    }
+
+    /* Reduce any tailwind animate-pulse on touch */
+    .animate-pulse {
+      animation: none;
+    }
+
+    /* Reduce animate-spin to single rotation or none */
+    .animate-spin {
+      animation: none;
+    }
+
+    /* Reduce animate-bounce */
+    .animate-bounce {
+      animation: none;
+    }
+  }
+
   /* Gradient orbs */
   .orb-peach {
     background: radial-gradient(circle, hsl(var(--peach)) 0%, transparent 70%);
