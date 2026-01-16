@@ -163,16 +163,6 @@ function FeatureCard({ feature, index, isMobile }: { feature: Feature; index: nu
           style={{
             backgroundColor: `hsl(var(--${feature.color.replace("bg-", "")}) / ${feature.bgOpacity})`,
           }}
-          animate={
-            isActive
-              ? {
-                  boxShadow: "0 30px 60px -20px hsl(var(--primary) / 0.15)",
-                }
-              : {
-                  boxShadow: "0 10px 40px -20px hsl(var(--primary) / 0.05)",
-                }
-          }
-          transition={{ duration: 0.3 }}
         >
           {/* Top accent glow */}
           <motion.div
@@ -220,15 +210,6 @@ function FeatureCard({ feature, index, isMobile }: { feature: Feature; index: nu
                 style={{
                   backgroundColor: `hsl(var(--${feature.color.replace("bg-", "")}) / 0.25)`,
                 }}
-                animate={
-                  isActive
-                    ? {
-                        boxShadow: `0 10px 20px -8px hsl(var(--${feature.color.replace("bg-", "")}) / 0.4)`,
-                      }
-                    : {
-                        boxShadow: `0 4px 12px -4px hsl(var(--${feature.color.replace("bg-", "")}) / 0.2)`,
-                      }
-                }
               >
                 {/* Icon glow */}
                 <motion.div
