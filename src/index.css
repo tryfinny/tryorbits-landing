@@ -273,7 +273,7 @@
     color: hsl(var(--foreground));
   }
 
-  /* Animated underline */
+  /* Animated underline - GPU-accelerated with scaleX */
   .animated-underline {
     position: relative;
   }
@@ -283,24 +283,27 @@
     position: absolute;
     bottom: -2px;
     left: 0;
-    width: 0;
+    width: 100%;
     height: 2px;
     background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--lavender)));
-    transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
   }
 
   .animated-underline:hover::after {
-    width: 100%;
+    transform: scaleX(1);
   }
 
-  /* Mobile-compatible underline reveal (no hover required) */
+  /* Mobile-compatible underline reveal - GPU-accelerated */
   @keyframes underline-reveal {
     from {
-      width: 0;
+      transform: scaleX(0);
       opacity: 0;
     }
     to {
-      width: 100%;
+      transform: scaleX(1);
       opacity: 1;
     }
   }
@@ -316,17 +319,19 @@
     bottom: -4px;
     left: 0;
     height: 4px;
-    width: 0;
-    opacity: 0;
+    width: 100%;
     border-radius: 9999px;
     background: linear-gradient(
       90deg,
       hsl(var(--primary)),
       hsl(var(--lavender))
     );
+    transform: scaleX(0);
+    transform-origin: left;
+    opacity: 0;
     animation: underline-reveal 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
     animation-delay: var(--underline-delay, 0s);
-    will-change: width, opacity;
+    will-change: transform, opacity;
   }
 
 
