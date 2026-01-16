@@ -105,13 +105,15 @@ export function AppStoreButtons() {
             />
           )}
           
-          {/* Shimmer effect */}
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-            initial={{ x: '-200%' }}
-            animate={{ x: ['−200%', '200%'] }}
-            transition={{ duration: 3, repeat: Infinity, repeatDelay: 2, ease: "easeInOut" }}
-          />
+          {/* Shimmer effect - desktop only */}
+          {!isMobile && (
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+              initial={{ x: '-200%' }}
+              animate={{ x: ['−200%', '200%'] }}
+              transition={{ duration: 3, repeat: Infinity, repeatDelay: 2, ease: "easeInOut" }}
+            />
+          )}
           
           <motion.div
             whileHover={!isMobile ? { scale: 1.1, rotate: -5 } : undefined}
@@ -157,13 +159,15 @@ export function AppStoreButtons() {
             />
           )}
           
-          {/* Shimmer effect */}
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-            initial={{ x: '-200%' }}
-            animate={{ x: ['−200%', '200%'] }}
-            transition={{ duration: 3, repeat: Infinity, repeatDelay: 2.5, ease: "easeInOut" }}
-          />
+          {/* Shimmer effect - desktop only */}
+          {!isMobile && (
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+              initial={{ x: '-200%' }}
+              animate={{ x: ['−200%', '200%'] }}
+              transition={{ duration: 3, repeat: Infinity, repeatDelay: 2.5, ease: "easeInOut" }}
+            />
+          )}
           
           <motion.div
             whileHover={!isMobile ? { scale: 1.1, rotate: 5 } : undefined}
