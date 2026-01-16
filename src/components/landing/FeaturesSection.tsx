@@ -265,22 +265,26 @@ function FeatureCard({ feature, index, isMobile }: { feature: Feature; index: nu
             {feature.description}
           </motion.p>
 
-          {/* Rippling corner dot - hidden for coming soon cards */}
+          {/* Corner dot - static on mobile for iOS performance, animated on desktop */}
           {!feature.comingSoon && (
             <div className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center">
-              {/* Ripple rings */}
-              <motion.div
-                className="absolute w-3 h-3 rounded-full border-2"
-                style={{ borderColor: `hsl(var(--${feature.color.replace("bg-", "")}))` }}
-                animate={{ scale: [1, 2.5], opacity: [0.6, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut" }}
-              />
-              <motion.div
-                className="absolute w-3 h-3 rounded-full border-2"
-                style={{ borderColor: `hsl(var(--${feature.color.replace("bg-", "")}))` }}
-                animate={{ scale: [1, 2.5], opacity: [0.6, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut", delay: 0.5 }}
-              />
+              {/* Ripple rings - desktop only */}
+              {!isMobile && (
+                <>
+                  <motion.div
+                    className="absolute w-3 h-3 rounded-full border-2"
+                    style={{ borderColor: `hsl(var(--${feature.color.replace("bg-", "")}))` }}
+                    animate={{ scale: [1, 2.5], opacity: [0.6, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut" }}
+                  />
+                  <motion.div
+                    className="absolute w-3 h-3 rounded-full border-2"
+                    style={{ borderColor: `hsl(var(--${feature.color.replace("bg-", "")}))` }}
+                    animate={{ scale: [1, 2.5], opacity: [0.6, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut", delay: 0.5 }}
+                  />
+                </>
+              )}
               {/* Center dot */}
               <div className={`w-2.5 h-2.5 rounded-full ${feature.color} relative z-10`} />
             </div>
