@@ -204,17 +204,13 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
   const isMobile = useIsMobile();
   const isInView = useInView(bottomRef, { once: true, margin: "0px" });
 
-  // Disable 3D tilt on mobile for performance
+  // Completely disable 3D tilt motion values on mobile for iOS performance
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  // Simplified spring config for mobile
-  const springConfig = isMobile 
-    ? { stiffness: 300, damping: 30 } 
-    : { stiffness: 150, damping: 20, mass: 0.5 };
-  
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], isMobile ? [0, 0] : [6, -6]), springConfig);
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], isMobile ? [0, 0] : [-6, 6]), springConfig);
+  // Skip spring physics entirely on mobile
+  const rotateX = isMobile ? 0 : useSpring(useTransform(mouseY, [-0.5, 0.5], [6, -6]), { stiffness: 150, damping: 20, mass: 0.5 });
+  const rotateY = isMobile ? 0 : useSpring(useTransform(mouseX, [-0.5, 0.5], [-6, 6]), { stiffness: 150, damping: 20, mass: 0.5 });
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (isMobile || !containerRef.current) return;
@@ -231,45 +227,14 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
     setIsActive(false);
   };
 
-  // Mobile touch handlers
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (!isMobile || !containerRef.current) return;
-    setIsActive(true);
-    const rect = containerRef.current.getBoundingClientRect();
-    const touch = e.touches[0];
-    const x = (touch.clientX - rect.left) / rect.width - 0.5;
-    const y = (touch.clientY - rect.top) / rect.height - 0.5;
-    mouseX.set(x * 0.5); // Reduced tilt on mobile
-    mouseY.set(y * 0.5);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isMobile || !containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const touch = e.touches[0];
-    const x = (touch.clientX - rect.left) / rect.width - 0.5;
-    const y = (touch.clientY - rect.top) / rect.height - 0.5;
-    mouseX.set(x * 0.5);
-    mouseY.set(y * 0.5);
-  };
-
-  const handleTouchEnd = () => {
-    mouseX.set(0);
-    mouseY.set(0);
-    setIsActive(false);
-  };
-
   return (
     <div
       ref={containerRef}
       className={`relative ${className}`}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsActive(true)}
-      onMouseLeave={handleMouseLeave}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-      style={{ perspective: "1200px" }}
+      onMouseMove={!isMobile ? handleMouseMove : undefined}
+      onMouseEnter={!isMobile ? () => setIsActive(true) : undefined}
+      onMouseLeave={!isMobile ? handleMouseLeave : undefined}
+      style={!isMobile ? { perspective: "1200px" } : undefined}
     >
       {/* Floating badges around phone - visible on tablet+ */}
       <FloatingBadge x={-15} y={20} delay={0.8} className="z-20 hidden sm:block" isMobile={isMobile}>
@@ -297,30 +262,22 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
         </div>
       </FloatingBadge>
 
-      {/* Phone frame with 3D tilt */}
-      <motion.div style={{ rotateX, rotateY }} className="relative mx-auto w-[260px] sm:w-[280px] lg:w-[290px]">
-        {/* Glow effect behind phone */}
-        <motion.div
-          className="absolute inset-0 rounded-[3rem] blur-3xl"
+      {/* Phone frame with 3D tilt - static on mobile */}
+      <motion.div style={!isMobile ? { rotateX, rotateY } : undefined} className="relative mx-auto w-[260px] sm:w-[280px] lg:w-[290px]">
+        {/* Glow effect behind phone - static on mobile */}
+        <div
+          className="absolute inset-0 rounded-[3rem] blur-3xl opacity-30"
           style={{
             background: "linear-gradient(135deg, hsl(var(--lavender)) 0%, hsl(var(--peach)) 50%, hsl(var(--sky)) 100%)",
           }}
-          animate={{
-            opacity: isActive ? 0.5 : 0.3,
-            scale: isActive ? 1.1 : 1.05,
-          }}
-          transition={{ duration: 0.4 }}
         />
 
-        {/* Phone body */}
-        <motion.div
+        {/* Phone body - static shadow on mobile */}
+        <div
           className="relative bg-gradient-to-b from-[#1a1a1a] to-[#0d0d0d] rounded-[3rem] p-2.5 sm:p-3 shadow-2xl touch-manipulation"
-          animate={{
-            boxShadow: isActive
-              ? "0 50px 100px -20px rgba(0,0,0,0.5), 0 30px 60px -30px rgba(0,0,0,0.4)"
-              : "0 25px 50px -12px rgba(0,0,0,0.4), 0 12px 24px -12px rgba(0,0,0,0.3)",
+          style={{
+            boxShadow: "0 25px 50px -12px rgba(0,0,0,0.4), 0 12px 24px -12px rgba(0,0,0,0.3)"
           }}
-          transition={{ duration: 0.4 }}
         >
           {/* Side buttons */}
           <div className="absolute -left-[3px] top-28 w-[3px] h-8 bg-[#2a2a2a] rounded-l-sm" />
@@ -466,19 +423,14 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
               <div ref={bottomRef} className="absolute bottom-0 left-0 w-full h-1" />
             </div>
           </div>
-        </motion.div>
+        </div>
 
-        {/* Reflection effect */}
-        <motion.div
-          className="absolute -bottom-16 sm:-bottom-20 left-1/2 -translate-x-1/2 w-[90%] h-16 sm:h-20 rounded-full blur-2xl"
+        {/* Reflection effect - static on mobile */}
+        <div
+          className="absolute -bottom-16 sm:-bottom-20 left-1/2 -translate-x-1/2 w-[90%] h-16 sm:h-20 rounded-full blur-2xl opacity-30"
           style={{
             background: "linear-gradient(to bottom, hsl(var(--primary) / 0.15), transparent)",
           }}
-          animate={{
-            opacity: isActive ? 0.6 : 0.3,
-            scaleX: isActive ? 1.1 : 1,
-          }}
-          transition={{ duration: 0.4 }}
         />
       </motion.div>
 
