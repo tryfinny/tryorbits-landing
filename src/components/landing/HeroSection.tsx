@@ -241,17 +241,16 @@ export function HeroSection() {
                   effortless
                 </motion.span>
                 {/* Underline animation */}
-                <motion.span className="absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-primary via-lavender to-primary rounded-full origin-left" initial={{
-                scaleX: 0,
-                opacity: 0
-              }} animate={{
-                scaleX: 1,
-                opacity: 1
-              }} transition={{
-                delay: 0.7,
-                duration: 0.6,
-                ease: [0.25, 0.46, 0.45, 0.94]
-              }} />
+                <motion.span 
+                  className="absolute -bottom-1 left-0 h-1 bg-gradient-to-r from-primary via-lavender to-primary rounded-full block"
+                  initial={{ width: 0, opacity: 0 }}
+                  animate={{ width: "100%", opacity: 1 }}
+                  transition={{
+                    delay: 0.7,
+                    duration: 0.6,
+                    ease: [0.25, 0.46, 0.45, 0.94]
+                  }} 
+                />
               </motion.span>
             </motion.h1>
 
