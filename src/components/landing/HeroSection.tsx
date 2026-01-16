@@ -207,7 +207,7 @@ export function HeroSection() {
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
           {/* Left content */}
           <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="text-center lg:text-left">
-            {/* Badge with tap feedback - simplified on mobile */}
+            {/* Badge with tap feedback */}
             <motion.div
               variants={fadeUpSpring}
               whileTap={{ scale: 0.97 }}
@@ -226,7 +226,13 @@ export function HeroSection() {
                   }}
                 />
               )}
-              <Sparkles className="w-4 h-4 text-primary" />
+              <motion.div
+                animate={{ rotate: [0, 360] }}
+                transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+                className="relative"
+              >
+                <Sparkles className="w-4 h-4 text-primary" />
+              </motion.div>
               <span className="text-xs sm:text-sm font-medium text-foreground/80 relative">
                 AI-Powered
               </span>
