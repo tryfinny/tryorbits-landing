@@ -202,17 +202,28 @@
     box-shadow: 0 0 100px -30px hsl(var(--lavender) / 0.4);
   }
 
-  /* Glassmorphism */
+  /* Glassmorphism - solid backgrounds on mobile for iOS performance */
   .glass {
-    background: hsl(var(--card) / 0.8);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: hsl(var(--card) / 0.92);
   }
 
   .glass-strong {
-    background: hsl(var(--card) / 0.95);
-    backdrop-filter: blur(40px);
-    -webkit-backdrop-filter: blur(40px);
+    background: hsl(var(--card) / 0.98);
+  }
+
+  /* Enable backdrop-filter only on desktop where it performs well */
+  @media (min-width: 768px) {
+    .glass {
+      background: hsl(var(--card) / 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .glass-strong {
+      background: hsl(var(--card) / 0.95);
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+    }
   }
 
   /* 3D perspective utilities */
