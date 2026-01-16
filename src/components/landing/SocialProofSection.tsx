@@ -235,6 +235,7 @@ function TestimonialCard({ testimonial, isActive }: { testimonial: (typeof testi
 // Testimonial Carousel - auto-advances every 4s
 function TestimonialCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [minHeight, setMinHeight] = useState<number>(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -243,12 +244,39 @@ function TestimonialCarousel() {
     return () => clearInterval(interval);
   }, []);
 
+  // Prevent layout shift: measure the tallest testimonial once (and on resize)
+  useEffect(() => {
+    const measure = () => {
+      const nodes = document.querySelectorAll<HTMLElement>("[data-testimonial-measure]");
+      let max = 0;
+      nodes.forEach((el) => {
+        max = Math.max(max, el.offsetHeight);
+      });
+      setMinHeight(max);
+    };
+
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
   return (
     <div className="relative max-w-2xl mx-auto">
-      {/* Carousel container */}
-      <div className="relative overflow-hidden">
-        <AnimatePresence mode="wait">
-          <TestimonialCard key={activeIndex} testimonial={testimonials[activeIndex]} isActive={true} />
+      {/* Hidden measurement stack (doesn't affect layout) */}
+      <div className="pointer-events-none absolute -z-10 opacity-0 left-0 top-0 w-full">
+        {testimonials.map((t) => (
+          <div key={t.name} data-testimonial-measure>
+            <TestimonialCard testimonial={t} isActive={true} />
+          </div>
+        ))}
+      </div>
+
+      {/* Carousel container (fixed min-height) */}
+      <div className="relative overflow-hidden" style={{ minHeight: minHeight || undefined }}>
+        <AnimatePresence mode="wait" initial={false}>
+          <div className="absolute inset-0">
+            <TestimonialCard key={activeIndex} testimonial={testimonials[activeIndex]} isActive={true} />
+          </div>
         </AnimatePresence>
       </div>
     </div>
