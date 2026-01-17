@@ -204,13 +204,15 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
   const isMobile = useIsMobile();
   const isInView = useInView(bottomRef, { once: true, margin: "0px" });
 
-  // Completely disable 3D tilt motion values on mobile for iOS performance
+  // Always call all hooks unconditionally (React rules of hooks)
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-
-  // Skip spring physics entirely on mobile
-  const rotateX = isMobile ? 0 : useSpring(useTransform(mouseY, [-0.5, 0.5], [6, -6]), { stiffness: 150, damping: 20, mass: 0.5 });
-  const rotateY = isMobile ? 0 : useSpring(useTransform(mouseX, [-0.5, 0.5], [-6, 6]), { stiffness: 150, damping: 20, mass: 0.5 });
+  
+  // Always create transforms and springs, but values stay at 0 on mobile since mouseX/mouseY never update
+  const rotateXTransform = useTransform(mouseY, [-0.5, 0.5], [6, -6]);
+  const rotateYTransform = useTransform(mouseX, [-0.5, 0.5], [-6, 6]);
+  const rotateX = useSpring(rotateXTransform, { stiffness: 150, damping: 20, mass: 0.5 });
+  const rotateY = useSpring(rotateYTransform, { stiffness: 150, damping: 20, mass: 0.5 });
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (isMobile || !containerRef.current) return;
