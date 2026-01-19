@@ -1,27 +1,16 @@
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useMemo } from 'react';
 import { useIsMobile } from '@/hooks/use-device-motion';
 
-// Device detection with useEffect to ensure client-side execution
+// Simple device detection - runs once on mount
 function useDeviceType() {
-  const [deviceType, setDeviceType] = useState<'ios' | 'android' | 'other' | 'unknown'>('unknown');
-  
-  useEffect(() => {
+  return useMemo(() => {
+    if (typeof navigator === 'undefined') return 'unknown';
     const ua = navigator.userAgent.toLowerCase();
-    console.log('User Agent:', ua);
-    if (/iphone|ipad|ipod/.test(ua)) {
-      console.log('Detected: iOS');
-      setDeviceType('ios');
-    } else if (/android/.test(ua)) {
-      console.log('Detected: Android');
-      setDeviceType('android');
-    } else {
-      console.log('Detected: Other');
-      setDeviceType('other');
-    }
+    if (/iphone|ipad|ipod/.test(ua)) return 'ios';
+    if (/android/.test(ua)) return 'android';
+    return 'other';
   }, []);
-  
-  return deviceType;
 }
 
 // Magnetic button with 3D tilt effect + mobile tap feedback
