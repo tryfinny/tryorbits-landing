@@ -97,9 +97,9 @@ export function AppStoreButtons() {
         } : undefined}
         transition={{ duration: 0.3 }}
       >
-        {/* Mobile pulse glow for iOS users - CSS-based for performance */}
+        {/* Mobile border draw animation for iOS users */}
         {isMobile && deviceType === 'ios' && (
-          <div className="button-glow-pulse" />
+          <div className="button-border-draw" />
         )}
         
         {/* Shimmer effect */}
@@ -140,9 +140,9 @@ export function AppStoreButtons() {
         } : undefined}
         transition={{ duration: 0.3 }}
       >
-        {/* Mobile pulse glow for Android users - CSS-based for performance */}
+        {/* Mobile border draw animation for Android users */}
         {isMobile && deviceType === 'android' && (
-          <div className="button-glow-pulse" />
+          <div className="button-border-draw" />
         )}
         
         {/* Shimmer effect */}
