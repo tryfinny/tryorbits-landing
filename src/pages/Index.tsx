@@ -2,7 +2,6 @@ import { HeroSection } from '@/components/landing/HeroSection';
 import { FeaturesSection } from '@/components/landing/FeaturesSection';
 import { SocialProofSection } from '@/components/landing/SocialProofSection';
 import { CTASection } from '@/components/landing/CTASection';
-import { StickyDownloadBar } from '@/components/landing/StickyDownloadBar';
 import { Footer } from '@/components/landing/Footer';
 import { LazySection } from '@/components/landing/LazySection';
 
@@ -26,7 +25,6 @@ const Index = () => {
       </LazySection>
       
       <Footer />
-      <StickyDownloadBar />
     </main>
   );
 };
