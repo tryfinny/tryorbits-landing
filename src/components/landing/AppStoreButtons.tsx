@@ -84,7 +84,7 @@ export function AppStoreButtons() {
     <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start perspective-1000">
       {/* App Store Button */}
       <MagneticButton 
-        href="#"
+        href="https://apps.apple.com/us/app/orbits-ai-family-assistant/id6751995632"
         className="group"
       >
         <motion.div

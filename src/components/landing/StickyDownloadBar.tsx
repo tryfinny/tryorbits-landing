@@ -50,7 +50,7 @@ export function StickyDownloadBar() {
           <div className="flex gap-3">
             {/* iOS Button with enhanced tap feedback */}
             <motion.a
-              href="#"
+              href="https://apps.apple.com/us/app/orbits-ai-family-assistant/id6751995632"
               onTouchStart={() => handleTapStart('ios')}
               onTouchEnd={() => handleTapEnd('ios')}
               onTouchCancel={() => handleTapEnd('ios')}
