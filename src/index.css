@@ -303,42 +303,6 @@
   }
 
 
-  /* Button border draw - SVG stroke animation */
-  @keyframes stroke-draw {
-    0% {
-      stroke-dashoffset: 600;
-    }
-    100% {
-      stroke-dashoffset: 0;
-    }
-  }
-
-  @keyframes stroke-pulse {
-    0%, 100% {
-      opacity: 0.9;
-    }
-    50% {
-      opacity: 0.4;
-    }
-  }
-
-  .button-stroke-draw {
-    position: absolute;
-    inset: -3px;
-    pointer-events: none;
-    overflow: visible;
-  }
-
-  .button-stroke-draw rect {
-    fill: none;
-    stroke: url(#button-gradient);
-    stroke-width: 2.5;
-    stroke-dasharray: 600;
-    stroke-dashoffset: 600;
-    animation: stroke-draw 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards,
-               stroke-pulse 2s ease-in-out 1.5s infinite;
-  }
-
   /* Shimmer animation */
   @keyframes shimmer {
     0% { transform: translateX(-100%); }

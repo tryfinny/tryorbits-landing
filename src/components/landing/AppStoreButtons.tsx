@@ -97,17 +97,19 @@ export function AppStoreButtons() {
         } : undefined}
         transition={{ duration: 0.3 }}
       >
-        {/* Mobile border draw animation for iOS users - SVG stroke */}
+        {/* Continuous pulse glow on mobile for iOS users */}
         {isMobile && deviceType === 'ios' && (
-          <svg className="button-stroke-draw" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="button-gradient-ios" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="hsl(245 25% 45%)" />
-                <stop offset="100%" stopColor="hsl(260 30% 88%)" />
-              </linearGradient>
-            </defs>
-            <rect x="1" y="1" width="98" height="98" rx="20" stroke="url(#button-gradient-ios)" />
-          </svg>
+          <motion.div
+            className="absolute inset-0 rounded-2xl"
+            style={{
+              background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.3), transparent 70%)',
+            }}
+            animate={{
+              opacity: [0, 0.4, 0],
+              scale: [1, 1.1, 1],
+            }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          />
         )}
         
         {/* Shimmer effect */}
@@ -148,17 +150,19 @@ export function AppStoreButtons() {
         } : undefined}
         transition={{ duration: 0.3 }}
       >
-        {/* Mobile border draw animation for Android users - SVG stroke */}
+        {/* Continuous pulse glow on mobile for Android users */}
         {isMobile && deviceType === 'android' && (
-          <svg className="button-stroke-draw" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="button-gradient-android" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="hsl(245 25% 45%)" />
-                <stop offset="100%" stopColor="hsl(260 30% 88%)" />
-              </linearGradient>
-            </defs>
-            <rect x="1" y="1" width="98" height="98" rx="20" stroke="url(#button-gradient-android)" />
-          </svg>
+          <motion.div
+            className="absolute inset-0 rounded-2xl"
+            style={{
+              background: 'radial-gradient(circle at 50% 50%, hsl(var(--sage) / 0.3), transparent 70%)',
+            }}
+            animate={{
+              opacity: [0, 0.4, 0],
+              scale: [1, 1.1, 1],
+            }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          />
         )}
         
         {/* Shimmer effect */}
