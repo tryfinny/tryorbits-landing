@@ -97,19 +97,9 @@ export function AppStoreButtons() {
         } : undefined}
         transition={{ duration: 0.3 }}
       >
-        {/* Mobile pulse glow for iOS users */}
+        {/* Mobile pulse glow for iOS users - CSS-based for performance */}
         {isMobile && deviceType === 'ios' && (
-          <motion.div
-            className="absolute -inset-1 rounded-2xl pointer-events-none"
-            style={{
-              background: 'linear-gradient(135deg, hsl(var(--primary) / 0.4), hsl(var(--lavender) / 0.4))',
-            }}
-            animate={{
-              opacity: [0.6, 0, 0.6],
-              scale: [1, 1.08, 1],
-            }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-          />
+          <div className="button-glow-pulse" />
         )}
         
         {/* Shimmer effect */}
@@ -150,19 +140,9 @@ export function AppStoreButtons() {
         } : undefined}
         transition={{ duration: 0.3 }}
       >
-        {/* Mobile pulse glow for Android users */}
+        {/* Mobile pulse glow for Android users - CSS-based for performance */}
         {isMobile && deviceType === 'android' && (
-          <motion.div
-            className="absolute -inset-1 rounded-2xl pointer-events-none"
-            style={{
-              background: 'linear-gradient(135deg, hsl(var(--primary) / 0.4), hsl(var(--lavender) / 0.4))',
-            }}
-            animate={{
-              opacity: [0.6, 0, 0.6],
-              scale: [1, 1.08, 1],
-            }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-          />
+          <div className="button-glow-pulse" />
         )}
         
         {/* Shimmer effect */}
