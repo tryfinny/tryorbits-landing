@@ -1,6 +1,17 @@
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useRef, useState, useMemo } from 'react';
 import { useIsMobile } from '@/hooks/use-device-motion';
+
+// Simple device detection - runs once on mount
+function useDeviceType() {
+  return useMemo(() => {
+    if (typeof navigator === 'undefined') return 'unknown';
+    const ua = navigator.userAgent.toLowerCase();
+    if (/iphone|ipad|ipod/.test(ua)) return 'ios';
+    if (/android/.test(ua)) return 'android';
+    return 'other';
+  }, []);
+}
 
 // Magnetic button with 3D tilt effect + mobile tap feedback
 function MagneticButton({ children, className, href }: { children: React.ReactNode; className?: string; href: string }) {
@@ -79,7 +90,7 @@ function MagneticButton({ children, className, href }: { children: React.ReactNo
 
 export function AppStoreButtons() {
   const isMobile = useIsMobile();
-  
+  const deviceType = useDeviceType();
   return (
     <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start perspective-1000">
       {/* App Store Button */}
@@ -94,8 +105,8 @@ export function AppStoreButtons() {
           } : undefined}
           transition={{ duration: 0.3 }}
         >
-          {/* Continuous pulse glow on mobile for attention */}
-          {isMobile && (
+          {/* Pulse glow only on iOS devices */}
+          {deviceType === 'ios' && (
             <motion.div
               className="absolute inset-0 rounded-2xl"
               style={{
@@ -103,7 +114,7 @@ export function AppStoreButtons() {
               }}
               animate={{
                 opacity: [0, 0.4, 0],
-                scale: [1, 1.1, 1],
+                scale: [1, 1.05, 1],
               }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             />
@@ -146,8 +157,8 @@ export function AppStoreButtons() {
           } : undefined}
           transition={{ duration: 0.3 }}
         >
-          {/* Continuous pulse glow on mobile for attention */}
-          {isMobile && (
+          {/* Pulse glow only on Android devices */}
+          {deviceType === 'android' && (
             <motion.div
               className="absolute inset-0 rounded-2xl"
               style={{
@@ -155,9 +166,9 @@ export function AppStoreButtons() {
               }}
               animate={{
                 opacity: [0, 0.4, 0],
-                scale: [1, 1.1, 1],
+                scale: [1, 1.05, 1],
               }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             />
           )}
           
