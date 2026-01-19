@@ -348,49 +348,6 @@
     animation: pulse-glow 4s ease-in-out infinite;
   }
 
-  /* Platform-aware ring pulse animation */
-  @keyframes ring-pulse {
-    0% {
-      opacity: 0.6;
-      transform: scale(1);
-    }
-    50% {
-      opacity: 0;
-      transform: scale(1.15);
-    }
-    100% {
-      opacity: 0;
-      transform: scale(1.15);
-    }
-  }
-
-  .platform-ring {
-    position: absolute;
-    inset: -3px;
-    border-radius: 1.25rem;
-    background: transparent;
-    pointer-events: none;
-  }
-
-  .platform-ring::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 2px;
-    background: linear-gradient(
-      135deg,
-      hsl(var(--primary)),
-      hsl(var(--lavender))
-    );
-    -webkit-mask: 
-      linear-gradient(#fff 0 0) content-box, 
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    animation: ring-pulse 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
-  }
-
   /* Gradient orbs */
   .orb-peach {
     background: radial-gradient(circle, hsl(var(--peach)) 0%, transparent 70%);
