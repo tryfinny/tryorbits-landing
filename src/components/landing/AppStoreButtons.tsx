@@ -97,19 +97,9 @@ export function AppStoreButtons() {
         } : undefined}
         transition={{ duration: 0.3 }}
       >
-        {/* Continuous pulse glow on mobile for iOS users */}
-        {isMobile && deviceType === 'ios' && (
-          <motion.div
-            className="absolute inset-0 rounded-2xl"
-            style={{
-              background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.3), transparent 70%)',
-            }}
-            animate={{
-              opacity: [0, 0.4, 0],
-              scale: [1, 1.1, 1],
-            }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          />
+        {/* Platform ring animation for iOS users */}
+        {deviceType === 'ios' && (
+          <div className="platform-ring" />
         )}
         
         {/* Shimmer effect */}
@@ -150,19 +140,9 @@ export function AppStoreButtons() {
         } : undefined}
         transition={{ duration: 0.3 }}
       >
-        {/* Continuous pulse glow on mobile for Android users */}
-        {isMobile && deviceType === 'android' && (
-          <motion.div
-            className="absolute inset-0 rounded-2xl"
-            style={{
-              background: 'radial-gradient(circle at 50% 50%, hsl(var(--sage) / 0.3), transparent 70%)',
-            }}
-            animate={{
-              opacity: [0, 0.4, 0],
-              scale: [1, 1.1, 1],
-            }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          />
+        {/* Platform ring animation for Android users */}
+        {deviceType === 'android' && (
+          <div className="platform-ring" />
         )}
         
         {/* Shimmer effect */}
