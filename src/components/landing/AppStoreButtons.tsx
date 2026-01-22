@@ -8,12 +8,10 @@ function MagneticButton({
   children,
   className,
   href,
-  disabled = false,
 }: {
   children: React.ReactNode;
   className?: string;
   href: string;
-  disabled?: boolean;
 }) {
   const ref = useRef<HTMLAnchorElement>(null);
   const isMobile = useIsMobile();
@@ -54,23 +52,15 @@ function MagneticButton({
     setIsTapped(false);
   };
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (!disabled) return;
-    e.preventDefault();
-  };
-
   return (
     <motion.a
       ref={ref}
-      href={disabled ? "#" : href}
-      aria-disabled={disabled}
-      tabIndex={disabled ? -1 : 0}
-      onClick={handleClick}
-      onMouseMove={disabled ? undefined : handleMouseMove}
-      onMouseLeave={disabled ? undefined : handleMouseLeave}
-      onTouchStart={disabled ? undefined : handleTapStart}
-      onTouchEnd={disabled ? undefined : handleTapEnd}
-      onTouchCancel={disabled ? undefined : handleTapEnd}
+      href={href}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onTouchStart={handleTapStart}
+      onTouchEnd={handleTapEnd}
+      onTouchCancel={handleTapEnd}
       style={
         !isMobile
           ? {
@@ -82,7 +72,7 @@ function MagneticButton({
             }
           : undefined
       }
-      whileTap={disabled ? undefined : { scale: 0.95 }}
+      whileTap={{ scale: 0.95 }}
       className={`relative touch-manipulation ${className}`}
     >
       {children}
@@ -103,7 +93,6 @@ function MagneticButton({
 export function AppStoreButtons() {
   const isMobile = useIsMobile();
   const deviceType = useDeviceType();
-  const isGooglePlayDisabled = true;
 
   // Show Android button first if on Android device
   const isAndroid = deviceType === "android";
@@ -162,26 +151,18 @@ export function AppStoreButtons() {
   );
 
   const GooglePlayButton = (
-    <div className="relative inline-flex w-fit self-center overflow-visible sm:self-auto">
-      <span className="absolute -top-2 -right-2 z-20 rounded-full bg-black px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white shadow-sm pointer-events-none sm:-top-3 sm:-right-3">
-        Coming soon!
-      </span>
-      <MagneticButton
-        href="https://play.google.com/store/apps/details?id=com.orbits"
-        disabled={isGooglePlayDisabled}
-        className="group cursor-not-allowed"
+    <MagneticButton href="https://play.google.com/store/apps/details?id=com.orbits" className="group">
+      <motion.div
+        className="relative inline-flex items-center gap-4 px-7 py-4 bg-[#1a1a1a] text-white rounded-2xl overflow-hidden min-h-[60px]"
+        whileHover={
+          !isMobile
+            ? {
+                boxShadow: "0 25px 50px -12px hsl(var(--primary) / 0.3)",
+              }
+            : undefined
+        }
+        transition={{ duration: 0.3 }}
       >
-        <motion.div
-          className="relative inline-flex items-center gap-4 px-7 py-4 bg-[#1a1a1a] text-white rounded-2xl overflow-hidden min-h-[60px] opacity-60"
-          whileHover={
-            !isMobile && !isGooglePlayDisabled
-              ? {
-                  boxShadow: "0 25px 50px -12px hsl(var(--primary) / 0.3)",
-                }
-              : undefined
-          }
-          transition={{ duration: 0.3 }}
-        >
         {/* Continuous pulse glow on mobile for Android users */}
         {isMobile && deviceType === "android" && (
           <motion.div
@@ -206,8 +187,8 @@ export function AppStoreButtons() {
         />
 
         <motion.div
-          whileHover={!isMobile && !isGooglePlayDisabled ? { scale: 1.1, rotate: 5 } : undefined}
-          whileTap={isGooglePlayDisabled ? undefined : { scale: 0.9 }}
+          whileHover={!isMobile ? { scale: 1.1, rotate: 5 } : undefined}
+          whileTap={{ scale: 0.9 }}
           transition={{ type: "spring", stiffness: 300 }}
         >
           <svg className="w-7 h-7 relative z-10" viewBox="0 0 24 24" fill="currentColor">
@@ -218,9 +199,8 @@ export function AppStoreButtons() {
           <p className="text-xs opacity-70 leading-none">Get it on</p>
           <p className="text-lg font-semibold leading-tight">Google Play</p>
         </div>
-        </motion.div>
-      </MagneticButton>
-    </div>
+      </motion.div>
+    </MagneticButton>
   );
 
   return (
