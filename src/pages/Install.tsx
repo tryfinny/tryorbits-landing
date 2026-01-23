@@ -29,7 +29,7 @@ const Install = () => {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center px-6">
         <div className="text-center max-w-md space-y-4">
-          <h1 className="text-2xl font-semibold">Redirecting...</h1>
+          <h1 className="text-2xl font-serif font-normal">Redirecting...</h1>
           <p className="text-muted-foreground">
             We&apos;re sending you to the right place for your device.
           </p>
