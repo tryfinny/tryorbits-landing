@@ -146,7 +146,7 @@ export function AppStoreButtons() {
             </svg>
           </motion.div>
           <div className="text-left relative z-10">
-            <p className="text-lg font-semibold leading-tight">Download Orbits</p>
+            <p className="text-lg font-semibold leading-tight">Get Orbits</p>
           </div>
         </motion.div>
       </MagneticButton>
