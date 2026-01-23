@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Sparkles } from "lucide-react";
 import { useDeviceType } from "@/hooks/use-device-type";
-import { AppStoreButtons } from "@/components/landing/AppStoreButtons";
+import { DualStoreButtons } from "@/components/landing/AppStoreButtons";
 import iosQrCode from "@/assets/ios-qr-code.svg";
 import androidQrCode from "@/assets/android-qr-code.svg";
 
@@ -123,7 +123,7 @@ const Install = () => {
               Prefer clicking? Download directly:
             </p>
             <div className="flex justify-center">
-              <AppStoreButtons />
+              <DualStoreButtons appStoreUrl={APP_STORE_URL} playStoreUrl={PLAY_STORE_URL} />
             </div>
             <p className="mt-5 text-xs text-muted-foreground">
               Join 2,400+ early adopters building calmer homes.

@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import orbitsLogo from '@/assets/orbits-logo.png';
+import orbitsBanner from '@/assets/orbits-banner.png';
 
 export function Footer() {
   return (
@@ -14,8 +14,11 @@ export function Footer() {
             viewport={{ once: true }}
             className="flex items-center gap-2"
           >
-            <img src={orbitsLogo} alt="Orbits logo" className="w-8 h-8 object-contain aspect-square rounded-lg" />
-            <span className="font-semibold text-lg">Orbits</span>
+            <img
+              src={orbitsBanner}
+              alt="Orbits"
+              className="h-8 w-auto object-contain"
+            />
           </motion.div>
 
           {/* Links */}

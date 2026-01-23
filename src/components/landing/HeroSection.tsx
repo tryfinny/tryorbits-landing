@@ -385,23 +385,25 @@ export function HeroSection() {
 
       {/* Scroll indicator - desktop only */}
       {!isMobile && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.5 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex-col items-center gap-2 hidden sm:flex"
-        >
-          <span className="text-xs uppercase tracking-widest text-muted-foreground/50">
-            Scroll to explore
-          </span>
-          <div className="w-6 h-9 rounded-full border-2 border-muted-foreground/20 flex items-start justify-center p-1.5">
-            <motion.div
-              animate={{ y: [0, 12, 0] }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-              className="w-1.5 h-2.5 rounded-full bg-gradient-to-b from-primary/50 to-lavender/50"
-            />
-          </div>
-        </motion.div>
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 hidden sm:flex">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2, duration: 0.5 }}
+            className="flex flex-col items-center gap-2"
+          >
+            <span className="text-xs uppercase tracking-widest text-muted-foreground/50">
+              Scroll to explore
+            </span>
+            <div className="w-6 h-9 rounded-full border-2 border-muted-foreground/20 flex items-start justify-center p-1.5">
+              <motion.div
+                animate={{ y: [0, 12, 0] }}
+                transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+                className="w-1.5 h-2.5 rounded-full bg-gradient-to-b from-primary/50 to-lavender/50"
+              />
+            </div>
+          </motion.div>
+        </div>
       )}
     </section>
   );
