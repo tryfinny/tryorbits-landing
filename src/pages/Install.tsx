@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Sparkles } from "lucide-react";
 import { useDeviceType } from "@/hooks/use-device-type";
 import { DualStoreButtons } from "@/components/landing/AppStoreButtons";
@@ -7,19 +7,50 @@ import androidQrCode from "@/assets/android-qr-code.svg";
 
 const APP_STORE_URL = "https://apps.apple.com/us/app/orbits-ai-family-assistant/id6751995632";
 const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.orbits";
+const GA_MEASUREMENT_ID = "G-998792GX0C";
 
 const Install = () => {
   const deviceType = useDeviceType();
+  const hasTracked = useRef(false);
 
   const isDesktop = deviceType === "other";
 
   useEffect(() => {
-    if (typeof window === "undefined" || isDesktop) {
+    if (typeof window === "undefined" || hasTracked.current) {
       return;
     }
 
-    const targetUrl = deviceType === "android" ? PLAY_STORE_URL : APP_STORE_URL;
-    window.location.replace(targetUrl);
+    // Track the install page visit event
+    const targetUrl = deviceType === "android" ? PLAY_STORE_URL : deviceType === "ios" ? APP_STORE_URL : null;
+    const willRedirect = !isDesktop && targetUrl;
+
+    hasTracked.current = true;
+
+    // Use beacon transport to ensure event is sent even on redirect
+    gtag("event", "install_page_visit", {
+      event_category: "navigation",
+      event_label: deviceType,
+      device_type: deviceType,
+      will_redirect: willRedirect,
+      redirect_destination: willRedirect ? (deviceType === "android" ? "play_store" : "app_store") : "none",
+      send_to: GA_MEASUREMENT_ID,
+      transport_type: "beacon",
+      event_callback: () => {
+        // Redirect after event is tracked (for mobile devices)
+        if (willRedirect && targetUrl) {
+          window.location.replace(targetUrl);
+        }
+      },
+    });
+
+    // Fallback redirect in case callback doesn't fire within 1 second
+    if (willRedirect && targetUrl) {
+      const fallbackTimer = setTimeout(() => {
+        window.location.replace(targetUrl);
+      }, 1000);
+
+      return () => clearTimeout(fallbackTimer);
+    }
   }, [deviceType, isDesktop]);
 
   const fallbackUrl =
