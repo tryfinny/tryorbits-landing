@@ -65,7 +65,7 @@ export function CTASection() {
           transition={{ type: "spring", stiffness: 80, damping: 15, delay: 0.3 }}
           className="flex justify-center mb-12"
         >
-          <AppStoreButtons />
+          <AppStoreButtons location="cta_section" />
         </motion.div>
 
         {/* Secondary CTA */}

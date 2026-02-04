@@ -1,17 +1,24 @@
-import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
-import { useRef, useState } from "react";
-import { useIsMobile } from "@/hooks/use-device-motion";
-import { useDeviceType } from "@/hooks/use-device-type";
+import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
+import { useRef, useState, useMemo } from 'react';
+import { useIsMobile } from '@/hooks/use-device-motion';
+import { useDeviceType } from '@/hooks/use-device-type';
+import {
+  trackCtaClick,
+  trackAppStoreClick,
+  getOneLinkUrl,
+} from '@/lib/analytics';
 
 // Magnetic button with 3D tilt effect + mobile tap feedback
 function MagneticButton({
   children,
   className,
   href,
+  onClick,
 }: {
   children: React.ReactNode;
   className?: string;
   href: string;
+  onClick?: () => void;
 }) {
   const ref = useRef<HTMLAnchorElement>(null);
   const isMobile = useIsMobile();
@@ -52,10 +59,15 @@ function MagneticButton({
     setIsTapped(false);
   };
 
+  const handleClick = () => {
+    onClick?.();
+  };
+
   return (
     <motion.a
       ref={ref}
       href={href}
+      onClick={handleClick}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onTouchStart={handleTapStart}
@@ -68,7 +80,7 @@ function MagneticButton({
               y: ySpring,
               rotateX,
               rotateY,
-              transformStyle: "preserve-3d",
+              transformStyle: 'preserve-3d',
             }
           : undefined
       }
@@ -80,7 +92,7 @@ function MagneticButton({
       {/* Mobile tap ripple effect */}
       {isMobile && (
         <motion.div
-          className="absolute inset-0 rounded-2xl bg-white pointer-events-none"
+          className='absolute inset-0 rounded-2xl bg-white pointer-events-none'
           initial={{ opacity: 0 }}
           animate={{ opacity: isTapped ? 0.15 : 0 }}
           transition={{ duration: 0.15 }}
@@ -90,43 +102,69 @@ function MagneticButton({
   );
 }
 
-export function AppStoreButtons() {
+type AppStoreButtonsProps = {
+  location?: string;
+};
+
+export function AppStoreButtons({ location = 'hero' }: AppStoreButtonsProps) {
   const isMobile = useIsMobile();
   const deviceType = useDeviceType();
 
+  // Build OneLink URL with UTM params and button location
+  const oneLinkUrl = useMemo(
+    () => getOneLinkUrl({ af_sub4: location }),
+    [location]
+  );
+
+  const handleCtaClick = () => {
+    trackCtaClick(location);
+  };
+
   const appleIcon = (
-    <svg className="w-10 h-10 relative z-10" viewBox="0 0 800 800" fill="currentColor">
-      <path d="M396.6,183.8l16.2-28c10-17.5,32.3-23.4,49.8-13.4s23.4,32.3,13.4,49.8L319.9,462.4h112.9c36.6,0,57.1,43,41.2,72.8H143c-20.2,0-36.4-16.2-36.4-36.4c0-20.2,16.2-36.4,36.4-36.4h92.8l118.8-205.9l-37.1-64.4c-10-17.5-4.1-39.6,13.4-49.8c17.5-10,39.6-4.1,49.8,13.4L396.6,183.8L396.6,183.8z M256.2,572.7l-35,60.7c-10,17.5-32.3,23.4-49.8,13.4S148,614.5,158,597l26-45C213.4,542.9,237.3,549.9,256.2,572.7L256.2,572.7z M557.6,462.6h94.7c20.2,0,36.4,16.2,36.4,36.4c0,20.2-16.2,36.4-36.4,36.4h-52.6l35.5,61.6c10,17.5,4.1,39.6-13.4,49.8c-17.5,10-39.6,4.1-49.8-13.4c-59.8-103.7-104.7-181.3-134.5-233c-30.5-52.6-8.7-105.4,12.8-123.3C474.2,318.1,509.9,380,557.6,462.6L557.6,462.6z" />
+    <svg
+      className='w-10 h-10 relative z-10'
+      viewBox='0 0 800 800'
+      fill='currentColor'
+    >
+      <path d='M396.6,183.8l16.2-28c10-17.5,32.3-23.4,49.8-13.4s23.4,32.3,13.4,49.8L319.9,462.4h112.9c36.6,0,57.1,43,41.2,72.8H143c-20.2,0-36.4-16.2-36.4-36.4c0-20.2,16.2-36.4,36.4-36.4h92.8l118.8-205.9l-37.1-64.4c-10-17.5-4.1-39.6,13.4-49.8c17.5-10,39.6-4.1,49.8,13.4L396.6,183.8L396.6,183.8z M256.2,572.7l-35,60.7c-10,17.5-32.3,23.4-49.8,13.4S148,614.5,158,597l26-45C213.4,542.9,237.3,549.9,256.2,572.7L256.2,572.7z M557.6,462.6h94.7c20.2,0,36.4,16.2,36.4,36.4c0,20.2-16.2,36.4-36.4,36.4h-52.6l35.5,61.6c10,17.5,4.1,39.6-13.4,49.8c-17.5,10-39.6,4.1-49.8-13.4c-59.8-103.7-104.7-181.3-134.5-233c-30.5-52.6-8.7-105.4,12.8-123.3C474.2,318.1,509.9,380,557.6,462.6L557.6,462.6z' />
     </svg>
   );
 
   const googlePlayIcon = (
-    <svg className="w-9 h-9 relative z-10" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.807 1.626a1 1 0 0 1 0 1.73l-2.808 1.626L15.206 12l2.492-2.491zM5.864 2.658L16.8 8.99l-2.302 2.302-8.634-8.634z" />
+    <svg
+      className='w-9 h-9 relative z-10'
+      viewBox='0 0 24 24'
+      fill='currentColor'
+    >
+      <path d='M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.807 1.626a1 1 0 0 1 0 1.73l-2.808 1.626L15.206 12l2.492-2.491zM5.864 2.658L16.8 8.99l-2.302 2.302-8.634-8.634z' />
     </svg>
   );
 
   const storeIcons =
-    deviceType === "android"
+    deviceType === 'android'
       ? [
-          { id: "google-play", icon: googlePlayIcon },
-          { id: "app-store", icon: appleIcon },
+          { id: 'google-play', icon: googlePlayIcon },
+          { id: 'app-store', icon: appleIcon },
         ]
       : [
-          { id: "app-store", icon: appleIcon },
-          { id: "google-play", icon: googlePlayIcon },
+          { id: 'app-store', icon: appleIcon },
+          { id: 'google-play', icon: googlePlayIcon },
         ];
   const [leadingIcon, trailingIcon] = storeIcons;
 
   return (
-    <div className="flex justify-center lg:justify-start perspective-1000">
-      <MagneticButton href="/install" className="group">
+    <div className='flex justify-center lg:justify-start perspective-1000'>
+      <MagneticButton
+        href={oneLinkUrl}
+        className='group'
+        onClick={handleCtaClick}
+      >
         <motion.div
-          className="relative inline-flex items-center gap-5 px-10 py-5 bg-[#1a1a1a] text-white rounded-2xl overflow-hidden min-h-[72px]"
+          className='relative inline-flex items-center gap-5 px-10 py-5 bg-[#1a1a1a] text-white rounded-2xl overflow-hidden min-h-[72px]'
           whileHover={
             !isMobile
               ? {
-                  boxShadow: "0 25px 50px -12px hsl(var(--primary) / 0.3)",
+                  boxShadow: '0 25px 50px -12px hsl(var(--primary) / 0.3)',
                 }
               : undefined
           }
@@ -135,37 +173,47 @@ export function AppStoreButtons() {
           {/* Continuous pulse glow on mobile */}
           {isMobile && (
             <motion.div
-              className="absolute inset-0 rounded-2xl"
+              className='absolute inset-0 rounded-2xl'
               style={{
-                background: "radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.3), transparent 70%)",
+                background:
+                  'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.3), transparent 70%)',
               }}
               animate={{
                 opacity: [0, 0.4, 0],
                 scale: [1, 1.1, 1],
               }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
             />
           )}
 
           {/* Shimmer effect */}
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-            initial={{ x: "-200%" }}
-            animate={{ x: ["−200%", "200%"] }}
-            transition={{ duration: 3, repeat: Infinity, repeatDelay: 2, ease: "easeInOut" }}
+            className='absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent'
+            initial={{ x: '-200%' }}
+            animate={{ x: ['−200%', '200%'] }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              repeatDelay: 2,
+              ease: 'easeInOut',
+            }}
           />
 
           <motion.div
-            className="flex items-center gap-4"
+            className='flex items-center gap-4'
             whileHover={!isMobile ? { scale: 1.1 } : undefined}
             whileTap={{ scale: 0.9 }}
-            transition={{ type: "spring", stiffness: 300 }}
+            transition={{ type: 'spring', stiffness: 300 }}
           >
-            <span className="flex items-center justify-center w-10">{leadingIcon.icon}</span>
-            <div className="text-left relative z-10">
-              <p className="text-xl font-semibold leading-tight">Get Orbits</p>
+            <span className='flex items-center justify-center w-10'>
+              {leadingIcon.icon}
+            </span>
+            <div className='text-left relative z-10'>
+              <p className='text-xl font-semibold leading-tight'>Get Orbits</p>
             </div>
-            <span className="flex items-center justify-center w-10">{trailingIcon.icon}</span>
+            <span className='flex items-center justify-center w-10'>
+              {trailingIcon.icon}
+            </span>
           </motion.div>
         </motion.div>
       </MagneticButton>
@@ -174,123 +222,173 @@ export function AppStoreButtons() {
 }
 
 type DualStoreButtonsProps = {
-  appStoreUrl: string;
-  playStoreUrl: string;
+  appStoreUrl?: string;
+  playStoreUrl?: string;
+  location?: string;
 };
 
-export function DualStoreButtons({ appStoreUrl, playStoreUrl }: DualStoreButtonsProps) {
+export function DualStoreButtons({
+  location = 'install_page',
+}: DualStoreButtonsProps) {
   const isMobile = useIsMobile();
   const deviceType = useDeviceType();
-  const isAndroid = deviceType === "android";
+  const isAndroid = deviceType === 'android';
+
+  // Build OneLink URLs with UTM params and store/location info
+  const appStoreOneLinkUrl = useMemo(
+    () => getOneLinkUrl({ af_sub4: location, af_sub5: 'ios_button' }),
+    [location]
+  );
+
+  const playStoreOneLinkUrl = useMemo(
+    () => getOneLinkUrl({ af_sub4: location, af_sub5: 'android_button' }),
+    [location]
+  );
+
+  const handleAppStoreClick = () => {
+    trackAppStoreClick('app_store', location);
+  };
+
+  const handlePlayStoreClick = () => {
+    trackAppStoreClick('play_store', location);
+  };
 
   const appStoreButton = (
-    <MagneticButton href={appStoreUrl} className="group">
+    <MagneticButton
+      href={appStoreOneLinkUrl}
+      className='group'
+      onClick={handleAppStoreClick}
+    >
       <motion.div
-        className="relative inline-flex items-center gap-4 px-7 py-4 bg-[#1a1a1a] text-white rounded-2xl overflow-hidden min-h-[60px]"
+        className='relative inline-flex items-center gap-4 px-7 py-4 bg-[#1a1a1a] text-white rounded-2xl overflow-hidden min-h-[60px]'
         whileHover={
           !isMobile
             ? {
-                boxShadow: "0 25px 50px -12px hsl(var(--primary) / 0.3)",
+                boxShadow: '0 25px 50px -12px hsl(var(--primary) / 0.3)',
               }
             : undefined
         }
         transition={{ duration: 0.3 }}
       >
         {/* Continuous pulse glow on mobile for iOS users */}
-        {isMobile && deviceType === "ios" && (
+        {isMobile && deviceType === 'ios' && (
           <motion.div
-            className="absolute inset-0 rounded-2xl"
+            className='absolute inset-0 rounded-2xl'
             style={{
-              background: "radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.3), transparent 70%)",
+              background:
+                'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.3), transparent 70%)',
             }}
             animate={{
               opacity: [0, 0.4, 0],
               scale: [1, 1.1, 1],
             }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
           />
         )}
 
         {/* Shimmer effect */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-          initial={{ x: "-200%" }}
-          animate={{ x: ["−200%", "200%"] }}
-          transition={{ duration: 3, repeat: Infinity, repeatDelay: 2, ease: "easeInOut" }}
+          className='absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent'
+          initial={{ x: '-200%' }}
+          animate={{ x: ['−200%', '200%'] }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            repeatDelay: 2,
+            ease: 'easeInOut',
+          }}
         />
 
         <motion.div
           whileHover={!isMobile ? { scale: 1.1, rotate: -5 } : undefined}
           whileTap={{ scale: 0.9 }}
-          transition={{ type: "spring", stiffness: 300 }}
+          transition={{ type: 'spring', stiffness: 300 }}
         >
-          <svg className="w-9 h-9 relative z-10" viewBox="0 0 800 800" fill="currentColor">
-            <path d="M396.6,183.8l16.2-28c10-17.5,32.3-23.4,49.8-13.4s23.4,32.3,13.4,49.8L319.9,462.4h112.9c36.6,0,57.1,43,41.2,72.8H143c-20.2,0-36.4-16.2-36.4-36.4c0-20.2,16.2-36.4,36.4-36.4h92.8l118.8-205.9l-37.1-64.4c-10-17.5-4.1-39.6,13.4-49.8c17.5-10,39.6-4.1,49.8,13.4L396.6,183.8L396.6,183.8z M256.2,572.7l-35,60.7c-10,17.5-32.3,23.4-49.8,13.4S148,614.5,158,597l26-45C213.4,542.9,237.3,549.9,256.2,572.7L256.2,572.7z M557.6,462.6h94.7c20.2,0,36.4,16.2,36.4,36.4c0,20.2-16.2,36.4-36.4,36.4h-52.6l35.5,61.6c10,17.5,4.1,39.6-13.4,49.8c-17.5,10-39.6,4.1-49.8-13.4c-59.8-103.7-104.7-181.3-134.5-233c-30.5-52.6-8.7-105.4,12.8-123.3C474.2,318.1,509.9,380,557.6,462.6L557.6,462.6z" />
+          <svg
+            className='w-9 h-9 relative z-10'
+            viewBox='0 0 800 800'
+            fill='currentColor'
+          >
+            <path d='M396.6,183.8l16.2-28c10-17.5,32.3-23.4,49.8-13.4s23.4,32.3,13.4,49.8L319.9,462.4h112.9c36.6,0,57.1,43,41.2,72.8H143c-20.2,0-36.4-16.2-36.4-36.4c0-20.2,16.2-36.4,36.4-36.4h92.8l118.8-205.9l-37.1-64.4c-10-17.5-4.1-39.6,13.4-49.8c17.5-10,39.6-4.1,49.8,13.4L396.6,183.8L396.6,183.8z M256.2,572.7l-35,60.7c-10,17.5-32.3,23.4-49.8,13.4S148,614.5,158,597l26-45C213.4,542.9,237.3,549.9,256.2,572.7L256.2,572.7z M557.6,462.6h94.7c20.2,0,36.4,16.2,36.4,36.4c0,20.2-16.2,36.4-36.4,36.4h-52.6l35.5,61.6c10,17.5,4.1,39.6-13.4,49.8c-17.5,10-39.6,4.1-49.8-13.4c-59.8-103.7-104.7-181.3-134.5-233c-30.5-52.6-8.7-105.4,12.8-123.3C474.2,318.1,509.9,380,557.6,462.6L557.6,462.6z' />
           </svg>
         </motion.div>
-        <div className="text-left relative z-10">
-          <p className="text-xs opacity-70 leading-none">Download on the</p>
-          <p className="text-lg font-semibold leading-tight">App Store</p>
+        <div className='text-left relative z-10'>
+          <p className='text-xs opacity-70 leading-none'>Download on the</p>
+          <p className='text-lg font-semibold leading-tight'>App Store</p>
         </div>
       </motion.div>
     </MagneticButton>
   );
 
   const googlePlayButton = (
-    <MagneticButton href={playStoreUrl} className="group">
+    <MagneticButton
+      href={playStoreOneLinkUrl}
+      className='group'
+      onClick={handlePlayStoreClick}
+    >
       <motion.div
-        className="relative inline-flex items-center gap-4 px-7 py-4 bg-[#1a1a1a] text-white rounded-2xl overflow-hidden min-h-[60px]"
+        className='relative inline-flex items-center gap-4 px-7 py-4 bg-[#1a1a1a] text-white rounded-2xl overflow-hidden min-h-[60px]'
         whileHover={
           !isMobile
             ? {
-                boxShadow: "0 25px 50px -12px hsl(var(--primary) / 0.3)",
+                boxShadow: '0 25px 50px -12px hsl(var(--primary) / 0.3)',
               }
             : undefined
         }
         transition={{ duration: 0.3 }}
       >
         {/* Continuous pulse glow on mobile for Android users */}
-        {isMobile && deviceType === "android" && (
+        {isMobile && deviceType === 'android' && (
           <motion.div
-            className="absolute inset-0 rounded-2xl"
+            className='absolute inset-0 rounded-2xl'
             style={{
-              background: "radial-gradient(circle at 50% 50%, hsl(var(--sage) / 0.3), transparent 70%)",
+              background:
+                'radial-gradient(circle at 50% 50%, hsl(var(--sage) / 0.3), transparent 70%)',
             }}
             animate={{
               opacity: [0, 0.4, 0],
               scale: [1, 1.1, 1],
             }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
           />
         )}
 
         {/* Shimmer effect */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-          initial={{ x: "-200%" }}
-          animate={{ x: ["−200%", "200%"] }}
-          transition={{ duration: 3, repeat: Infinity, repeatDelay: 2.5, ease: "easeInOut" }}
+          className='absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent'
+          initial={{ x: '-200%' }}
+          animate={{ x: ['−200%', '200%'] }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            repeatDelay: 2.5,
+            ease: 'easeInOut',
+          }}
         />
 
         <motion.div
           whileHover={!isMobile ? { scale: 1.1, rotate: 5 } : undefined}
           whileTap={{ scale: 0.9 }}
-          transition={{ type: "spring", stiffness: 300 }}
+          transition={{ type: 'spring', stiffness: 300 }}
         >
-          <svg className="w-7 h-7 relative z-10" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.807 1.626a1 1 0 0 1 0 1.73l-2.808 1.626L15.206 12l2.492-2.491zM5.864 2.658L16.8 8.99l-2.302 2.302-8.634-8.634z" />
+          <svg
+            className='w-7 h-7 relative z-10'
+            viewBox='0 0 24 24'
+            fill='currentColor'
+          >
+            <path d='M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.807 1.626a1 1 0 0 1 0 1.73l-2.808 1.626L15.206 12l2.492-2.491zM5.864 2.658L16.8 8.99l-2.302 2.302-8.634-8.634z' />
           </svg>
         </motion.div>
-        <div className="text-left relative z-10">
-          <p className="text-xs opacity-70 leading-none">Get it on</p>
-          <p className="text-lg font-semibold leading-tight">Google Play</p>
+        <div className='text-left relative z-10'>
+          <p className='text-xs opacity-70 leading-none'>Get it on</p>
+          <p className='text-lg font-semibold leading-tight'>Google Play</p>
         </div>
       </motion.div>
     </MagneticButton>
   );
 
   return (
-    <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start perspective-1000">
+    <div className='flex flex-col sm:flex-row gap-4 justify-center lg:justify-start perspective-1000'>
       {isAndroid ? (
         <>
           {googlePlayButton}

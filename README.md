@@ -40,4 +40,5 @@ This project is built with:
 
 ## How can I deploy this project?
 
-Deploy using your preferred hosting provider for Vite apps.
+~~Deploy using your preferred hosting provider for Vite apps.~~
+Deploy by going to Lovable and hitting Publish. Git changes are synced there automatically.
