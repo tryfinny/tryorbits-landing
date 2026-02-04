@@ -2,11 +2,10 @@ import { useEffect, useRef, useMemo } from 'react';
 import { Sparkles } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import { useDeviceType } from '@/hooks/use-device-type';
-import { DualStoreButtons } from '@/components/landing/AppStoreButtons';
+import { AppStoreButtons } from '@/components/landing/AppStoreButtons';
 import {
   trackInstallPageVisit,
   trackQrCodeClick,
-  trackAppStoreClick,
   getOneLinkUrl,
 } from '@/lib/analytics';
 
@@ -18,20 +17,9 @@ const Install = () => {
 
   const isDesktop = deviceType === 'other';
 
-  // Build OneLink URL with UTM params (captures any params from landing page)
+  // Single OneLink URL - AppsFlyer auto-detects device and redirects to correct store
   const oneLinkUrl = useMemo(
-    () => getOneLinkUrl({ af_sub4: 'install_page_redirect' }),
-    []
-  );
-
-  // OneLink URLs for QR code click areas
-  const iosOneLinkUrl = useMemo(
-    () => getOneLinkUrl({ af_sub4: 'install_page', af_sub5: 'ios_qr' }),
-    []
-  );
-
-  const androidOneLinkUrl = useMemo(
-    () => getOneLinkUrl({ af_sub4: 'install_page', af_sub5: 'android_qr' }),
+    () => getOneLinkUrl({ af_sub4: 'install_page' }),
     []
   );
 
@@ -131,85 +119,75 @@ const Install = () => {
           <p className='mt-2 text-muted-foreground text-sm sm:text-base'>
             Scan the QR code with your phone to download the app.
           </p>
-          <div className='mt-10 grid gap-6 sm:gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,1fr)] lg:items-center'>
+
+          {/* Single QR Code */}
+          <div className='mt-10 flex justify-center'>
             <a
-              href={iosOneLinkUrl}
-              className='group glass border border-primary/10 rounded-2xl px-4 py-5 sm:px-5 sm:py-6 card-shadow-hover transition-transform duration-300 hover:-translate-y-1'
-              aria-label='Download Orbits on the App Store'
-              onClick={() => {
-                trackQrCodeClick('app_store');
-                trackAppStoreClick('app_store', 'install_page_qr');
-              }}
+              href={oneLinkUrl}
+              className='group glass border border-primary/10 rounded-2xl px-6 py-6 sm:px-8 sm:py-8 card-shadow-hover transition-transform duration-300 hover:-translate-y-1'
+              aria-label='Download Orbits'
+              onClick={() => trackQrCodeClick('qr_code')}
             >
-              <p className='text-sm font-medium text-muted-foreground'>iOS</p>
-              <p className='mt-1 text-lg font-medium text-foreground'>
-                App Store
-              </p>
-              <div className='mt-4 flex items-center justify-center'>
-                <div className='bg-white p-3 rounded-xl'>
+              <div className='flex items-center justify-center'>
+                <div className='bg-white p-4 rounded-xl'>
                   <QRCodeSVG
-                    value={iosOneLinkUrl}
-                    size={180}
+                    value={oneLinkUrl}
+                    size={200}
                     level='M'
                     marginSize={0}
                   />
                 </div>
               </div>
-            </a>
-
-            <div className='flex flex-col items-center justify-center gap-4 text-lg sm:text-xl text-muted-foreground'>
-              <span className='flex items-center gap-2'>
-                <span className='h-2 w-2 rounded-full bg-lavender' />
-                Grocery lists and reminders
-              </span>
-              <span className='flex items-center gap-2'>
-                <span className='h-2 w-2 rounded-full bg-peach' />
-                Family calendars in sync
-              </span>
-              <span className='flex items-center gap-2'>
-                <span className='h-2 w-2 rounded-full bg-sky' />
-                Save hours every week
-              </span>
-            </div>
-
-            <a
-              href={androidOneLinkUrl}
-              className='group glass border border-primary/10 rounded-2xl px-4 py-5 sm:px-5 sm:py-6 card-shadow-hover transition-transform duration-300 hover:-translate-y-1'
-              aria-label='Download Orbits on Google Play'
-              onClick={() => {
-                trackQrCodeClick('play_store');
-                trackAppStoreClick('play_store', 'install_page_qr');
-              }}
-            >
-              <p className='text-sm font-medium text-muted-foreground'>
-                Android
-              </p>
-              <p className='mt-1 text-lg font-medium text-foreground'>
-                Google Play
-              </p>
-              <div className='mt-4 flex items-center justify-center'>
-                <div className='bg-white p-3 rounded-xl'>
-                  <QRCodeSVG
-                    value={androidOneLinkUrl}
-                    size={180}
-                    level='M'
-                    marginSize={0}
-                  />
-                </div>
+              <div className='mt-4 flex items-center justify-center gap-4 text-muted-foreground'>
+                {/* Apple App Store Icon */}
+                <svg
+                  className='w-20 h-20'
+                  viewBox='0 0 800 800'
+                  fill='currentColor'
+                >
+                  <path d='M396.6,183.8l16.2-28c10-17.5,32.3-23.4,49.8-13.4s23.4,32.3,13.4,49.8L319.9,462.4h112.9c36.6,0,57.1,43,41.2,72.8H143c-20.2,0-36.4-16.2-36.4-36.4c0-20.2,16.2-36.4,36.4-36.4h92.8l118.8-205.9l-37.1-64.4c-10-17.5-4.1-39.6,13.4-49.8c17.5-10,39.6-4.1,49.8,13.4L396.6,183.8L396.6,183.8z M256.2,572.7l-35,60.7c-10,17.5-32.3,23.4-49.8,13.4S148,614.5,158,597l26-45C213.4,542.9,237.3,549.9,256.2,572.7L256.2,572.7z M557.6,462.6h94.7c20.2,0,36.4,16.2,36.4,36.4c0,20.2-16.2,36.4-36.4,36.4h-52.6l35.5,61.6c10,17.5,4.1,39.6-13.4,49.8c-17.5,10-39.6,4.1-49.8-13.4c-59.8-103.7-104.7-181.3-134.5-233c-30.5-52.6-8.7-105.4,12.8-123.3C474.2,318.1,509.9,380,557.6,462.6L557.6,462.6z' />
+                </svg>
+                {/* Google Play Icon */}
+                <svg
+                  className='w-[4.5rem] h-[4.5rem]'
+                  viewBox='0 0 24 24'
+                  fill='currentColor'
+                >
+                  <path d='M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.807 1.626a1 1 0 0 1 0 1.73l-2.808 1.626L15.206 12l2.492-2.491zM5.864 2.658L16.8 8.99l-2.302 2.302-8.634-8.634z' />
+                </svg>
               </div>
             </a>
           </div>
+
+          {/* Features */}
+          <div className='mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-base sm:text-lg text-muted-foreground'>
+            <span className='flex items-center gap-2'>
+              <span className='h-2 w-2 rounded-full bg-lavender' />
+              Grocery lists and reminders
+            </span>
+            <span className='flex items-center gap-2'>
+              <span className='h-2 w-2 rounded-full bg-peach' />
+              Family calendars in sync
+            </span>
+            <span className='flex items-center gap-2'>
+              <span className='h-2 w-2 rounded-full bg-sky' />
+              Save hours every week
+            </span>
+          </div>
+
+          {/* CTA Button */}
           <div className='mt-8'>
             <p className='text-sm text-muted-foreground mb-4'>
-              Prefer clicking? Download directly:
+              Or click to download directly:
             </p>
             <div className='flex justify-center'>
-              <DualStoreButtons />
+              <AppStoreButtons location='install_page' />
             </div>
-            <p className='mt-5 text-xs text-muted-foreground'>
-              Join 2,400+ early adopters building calmer homes.
-            </p>
           </div>
+
+          <p className='mt-6 text-xs text-muted-foreground'>
+            Join 2,400+ early adopters building calmer homes.
+          </p>
         </div>
       </div>
     </main>

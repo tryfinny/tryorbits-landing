@@ -63,9 +63,9 @@ export function trackAppStoreClick(
 }
 
 // QR code click on install page
-export function trackQrCodeClick(store: 'app_store' | 'play_store') {
+export function trackQrCodeClick(source: string = 'qr_code') {
   track('qr_code_clicked', {
-    store,
+    source,
     platform: 'web_landing_page',
   });
 }
