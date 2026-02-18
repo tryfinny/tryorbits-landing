@@ -9,6 +9,7 @@ import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
 import Install from "./pages/Install";
+import InstagramAds from "./pages/InstagramAds";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ const App = () => (
           <Route path="/install" element={<Install />} />
           <Route path="/tos" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />
+          <Route path="/instagram-ads" element={<InstagramAds />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
