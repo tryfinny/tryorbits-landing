@@ -234,15 +234,17 @@ export function HeroSection() {
                 <Sparkles className="w-4 h-4 text-primary" />
               </motion.div>
               <span className="text-xs sm:text-sm font-medium text-foreground/80 relative">
-                AI-Powered
+                Not a tracker. An operator.
               </span>
             </motion.div>
 
             {/* Headline */}
             <motion.h1 variants={fadeUpSpring} className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.1] mb-6 sm:mb-8">
-              <span>Orbits makes home
- </span>
-              <br className="hidden sm:block" />
+              <span>Are you running</span>
+              <br />
+              <span>your household,</span>
+              <br />
+              <span>or is it </span>
               <motion.span
                 className="underline-reveal"
                 style={{ "--underline-delay": "0.7s" } as React.CSSProperties}
@@ -284,15 +286,14 @@ export function HeroSection() {
                     backgroundClip: "text"
                   }}
                 >
-                  effortless
+                  running you?
                 </motion.span>
               </motion.span>
             </motion.h1>
 
             {/* Subheadline */}
             <motion.p variants={fadeUpSpring} className="text-base sm:text-lg lg:text-xl text-muted-foreground mb-8 sm:mb-10 max-w-lg mx-auto lg:mx-0 leading-relaxed">
-              Welcome to Orbits, the assistant for home. Whether its managing your grocery list, juggling your family
-              calendars, or finding a new babysitter, Orbits can take care of it for you all by itself (and more!)
+              Orbits is the AI assistant that handles your home — proactively. Groceries, maintenance, calendars, services. Not reminders. Done.
             </motion.p>
 
             {/* App Store Buttons */}

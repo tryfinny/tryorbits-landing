@@ -9,6 +9,7 @@ import {
   Sparkles,
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
   Play,
   Pause,
   RotateCcw,
@@ -18,6 +19,12 @@ import {
 } from 'lucide-react';
 import { track } from '@/lib/analytics';
 import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -276,6 +283,34 @@ const TEMPLATE_LABELS: Record<AdTemplate, string> = {
 };
 
 const ACCENT_COLORS: AccentColor[] = ['lavender', 'peach', 'sky', 'sage', 'golden', 'forest'];
+
+// Templates that have been approved / are ready to post on Instagram
+const IG_APPROVED: Set<AdTemplate> = new Set([
+  'at-a-glance',
+  'family-app',
+  'upkeep-app',
+  'helping-hand',
+  'ask-orbits',
+  'not-a-tracker',
+  'scenario',
+]);
+
+// Small Instagram-gradient checkmark badge
+function IgBadge() {
+  return (
+    <span
+      title="Ready to post on Instagram"
+      className="inline-flex items-center justify-center w-4 h-4 rounded-full shrink-0"
+      style={{
+        background: 'linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)',
+      }}
+    >
+      <svg width="9" height="7" viewBox="0 0 9 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 3.5L3.5 6L8 1" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </span>
+  );
+}
 
 // ─── Instagram captions ──────────────────────────────────────────────────────
 
@@ -2843,29 +2878,6 @@ function ControlsPanel({
     <div className="glass border border-primary/10 rounded-2xl p-6 space-y-6">
       <h3 className="text-lg font-serif font-medium">Ad Controls</h3>
 
-      {/* Template */}
-      <div className="space-y-2">
-        <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Template</label>
-        <div className="flex flex-wrap gap-2">
-          {(isReels ? REELS_TEMPLATE_ORDER : TEMPLATE_ORDER).map((t) => (
-            <button
-              key={t}
-              onClick={() => {
-                onChange({ template: t, ...TEMPLATES[t] });
-                track('instagram_ad_template_selected', { template: t });
-              }}
-              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
-                config.template === t
-                  ? 'bg-primary text-primary-foreground'
-                  : 'glass border border-primary/10 hover:border-primary/30'
-              }`}
-            >
-              {TEMPLATE_LABELS[t]}
-            </button>
-          ))}
-        </div>
-      </div>
-
       {/* Headline */}
       <div className="space-y-2">
         <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Headline</label>
@@ -2988,10 +3000,10 @@ const InstagramAds = () => {
 
   useEffect(() => () => clearInterval(intervalRef.current), []);
 
-  function handleToggleFormat() {
+  function handleSetFormat(next: AdFormat) {
+    if (next === format) return;
     clearInterval(intervalRef.current);
     setIsPlaying(false);
-    const next: AdFormat = isReels ? 'square' : 'reels';
     setFormat(next);
     const firstTemplate = next === 'reels' ? REELS_TEMPLATE_ORDER[0] : TEMPLATE_ORDER[0];
     setConfig({ template: firstTemplate, ...TEMPLATES[firstTemplate], dark, showChrome });
@@ -2999,12 +3011,12 @@ const InstagramAds = () => {
     track('instagram_ad_format_toggled', { format: next });
   }
 
-  function handleToggleDark() {
-    const next = !dark;
-    setDark(next);
-    setConfig((prev) => ({ ...prev, dark: next }));
+  function handleToggleDark(next?: boolean) {
+    const value = next ?? !dark;
+    setDark(value);
+    setConfig((prev) => ({ ...prev, dark: value }));
     setReplayKey((k) => k + 1);
-    track('instagram_ad_bg_toggled', { dark: next });
+    track('instagram_ad_bg_toggled', { dark: value });
   }
 
   function handleToggleChrome() {
@@ -3066,31 +3078,78 @@ const InstagramAds = () => {
             </span>
           </div>
           <div className="flex items-center gap-3">
-            {/* Format toggle */}
-            <button
-              onClick={handleToggleFormat}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-medium transition-all border ${
-                isReels
-                  ? 'bg-primary text-primary-foreground border-primary'
-                  : 'glass border-primary/10 hover:border-primary/25 text-muted-foreground'
-              }`}
-            >
-              {isReels ? '▮ Reels 9:16' : '▪ Posts 1:1'}
-            </button>
-            {/* Background toggle */}
-            <button
-              onClick={handleToggleDark}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xl glass border border-primary/10 hover:border-primary/25 transition-all"
-              title="Toggle background colour"
-            >
-              <span className="w-4 h-4 rounded-full border border-primary/20 shrink-0 transition-colors"
-                style={{ backgroundColor: dark ? BRAND.dark : BRAND.bg }} />
-              <span className="w-4 h-4 rounded-full border border-primary/20 shrink-0 transition-colors"
-                style={{ backgroundColor: dark ? BRAND.bg : BRAND.dark }} />
-              <span className="text-xs font-medium text-muted-foreground ml-0.5">
-                {dark ? '#071b24' : '#fefcf6'}
-              </span>
-            </button>
+            {/* Format dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="flex items-center gap-2 px-3 py-1.5 rounded-xl glass border border-primary/10 hover:border-primary/25 text-xs font-medium transition-all text-foreground/80">
+                  {isReels ? '▮ Reels 9:16' : '▪ Posts 1:1'}
+                  <ChevronDown className="w-3 h-3 text-muted-foreground" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-44 bg-background border-border/60 shadow-lg"
+                style={{ backgroundColor: 'hsl(var(--background))' }}
+              >
+                <DropdownMenuItem
+                  onSelect={() => handleSetFormat('square')}
+                  className="flex items-center justify-between gap-3 cursor-pointer"
+                >
+                  <span className="flex items-center gap-2">
+                    <span className="text-xs">▪</span>
+                    <span>Posts</span>
+                  </span>
+                  <span className="text-xs text-muted-foreground">1:1 · {TEMPLATE_ORDER.length} posts</span>
+                  {!isReels && <Check className="w-3.5 h-3.5 text-primary ml-1" />}
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onSelect={() => handleSetFormat('reels')}
+                  className="flex items-center justify-between gap-3 cursor-pointer"
+                >
+                  <span className="flex items-center gap-2">
+                    <span className="text-xs">▮</span>
+                    <span>Reels</span>
+                  </span>
+                  <span className="text-xs text-muted-foreground">9:16 · {REELS_TEMPLATE_ORDER.length} reels</span>
+                  {isReels && <Check className="w-3.5 h-3.5 text-primary ml-1" />}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            {/* Background dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="flex items-center gap-2 px-3 py-1.5 rounded-xl glass border border-primary/10 hover:border-primary/25 text-xs font-medium transition-all text-foreground/80">
+                  <span
+                    className="w-3.5 h-3.5 rounded-full border border-primary/20 shrink-0"
+                    style={{ backgroundColor: dark ? BRAND.dark : BRAND.bg }}
+                  />
+                  {dark ? 'Dark' : 'Light'}
+                  <ChevronDown className="w-3 h-3 text-muted-foreground" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-36 bg-background border-border/60 shadow-lg"
+                style={{ backgroundColor: 'hsl(var(--background))' }}
+              >
+                <DropdownMenuItem
+                  onSelect={() => !dark || handleToggleDark(false)}
+                  className="flex items-center justify-between gap-3 cursor-pointer"
+                >
+                  <span className="flex items-center gap-2">
+                    <span className="w-3.5 h-3.5 rounded-full border border-primary/20 shrink-0" style={{ backgroundColor: BRAND.bg }} />
+                    <span>Light</span>
+                  </span>
+                  {!dark && <Check className="w-3.5 h-3.5 text-primary" />}
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onSelect={() => dark || handleToggleDark(true)}
+                  className="flex items-center justify-between gap-3 cursor-pointer"
+                >
+                  <span className="flex items-center gap-2">
+                    <span className="w-3.5 h-3.5 rounded-full border border-primary/20 shrink-0" style={{ backgroundColor: BRAND.dark }} />
+                    <span>Dark</span>
+                  </span>
+                  {dark && <Check className="w-3.5 h-3.5 text-primary" />}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <span>{isReels ? '1080 × 1920' : '1080 × 1080'}</span>
               <span className="text-primary/30">·</span>
@@ -3118,8 +3177,9 @@ const InstagramAds = () => {
                     : 'hover:bg-secondary/60'
                 }`}
               >
-                <p className={`text-sm font-medium ${config.template === t ? 'text-foreground' : 'text-foreground/70'}`}>
+                <p className={`text-sm font-medium flex items-center gap-1.5 ${config.template === t ? 'text-foreground' : 'text-foreground/70'}`}>
                   {TEMPLATE_LABELS[t]}
+                  {IG_APPROVED.has(t) && <IgBadge />}
                 </p>
                 <p className="text-xs text-muted-foreground mt-0.5 truncate">
                   {TEMPLATES[t].headline}

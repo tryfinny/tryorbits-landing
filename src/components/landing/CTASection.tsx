@@ -33,20 +33,21 @@ export function CTASection() {
           className="relative inline-flex items-center gap-3 px-6 py-3 glass rounded-full border border-primary/10 mb-12 cursor-pointer"
         >
           <Sparkles className="w-5 h-5 text-golden" />
-          <span className="text-sm font-medium">Free to download</span>
+          <span className="text-sm font-medium">Free on iOS & Android</span>
           <Heart className="w-4 h-4 text-peach fill-peach" />
         </motion.div>
 
-        {/* Headline - simplified, no infinite animations */}
+        {/* Headline */}
         <motion.h2 
           className="text-3xl sm:text-4xl lg:text-6xl xl:text-7xl font-serif font-medium tracking-[-0.01em] mb-10 leading-tight"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ type: "spring", stiffness: 60, damping: 15, delay: 0.15 }}
         >
-          Ready to simplify your{' '}
+          Your home deserves better{' '}
           <br className="hidden sm:block" />
-          <span className="text-gradient">household</span>?
+          than a{' '}
+          <span className="text-gradient">notes app.</span>
         </motion.h2>
 
         <motion.p 
@@ -55,7 +56,7 @@ export function CTASection() {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ delay: 0.25 }}
         >
-          Download Orbits and join thousands of households running smoother every day.
+          Join 2,400+ households already running on Orbits. Free on iOS & Android.
         </motion.p>
 
         {/* App Store Buttons */}
@@ -79,7 +80,7 @@ export function CTASection() {
           className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-lg"
         >
           <span className="relative">
-            Learn more about our features
+            See what Orbits handles for you
             <motion.span
               className="absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-primary to-lavender"
               initial={{ width: 0 }}

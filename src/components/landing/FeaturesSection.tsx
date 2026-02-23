@@ -1,13 +1,13 @@
-import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { useIsMobile } from "@/hooks/use-device-motion";
 
 const features = [
   {
-    emoji: "📅",
-    title: "Household Calendar",
+    emoji: "🛒",
+    title: "Your groceries order themselves.",
     description:
-      "One family calendar. Zero confusion. See everyone's schedule, resolve conflicts instantly, and stop the endless group chats.",
+      "Orbits reads your calendar, tracks what's running low, and places the Instacart order before you even think to ask. No list. No reminders. Just done.",
     color: "bg-sage",
     gradient: "from-sage/20 to-sky/10",
     iconBg: "bg-sage/20",
@@ -15,33 +15,33 @@ const features = [
   },
   {
     emoji: "🏠",
-    title: "Home Maintenance",
+    title: "Your home maintains itself.",
     description:
-      "Add your appliances, home details, and routine tasks and let Orbits suggest maintenance, gather service quotes, or track your warranties.",
+      "Filter changes. Warranty expirations. Seasonal upkeep. All the things that 'can wait' — until they can't. Orbits tracks it and handles it before it becomes a problem.",
     color: "bg-sky",
     gradient: "from-sky/20 to-sage/10",
     iconBg: "bg-sky/20",
     bgOpacity: 0.28,
   },
   {
-    emoji: "✅",
-    title: "The Basics",
-    description: "Toss the whiteboard. Lists, tasks, reminders, documents - everything you need, finally in one place.",
+    emoji: "📅",
+    title: "One calendar. Zero confusion.",
+    description:
+      "Everyone's schedule, in one place. Orbits spots conflicts, sends reminders, and stops the endless group chats. Your family finally runs on the same page.",
     color: "bg-lavender",
     gradient: "from-lavender/20 to-peach/10",
     iconBg: "bg-lavender/20",
     bgOpacity: 0.28,
   },
   {
-    emoji: "✉️",
-    title: "Email Handling",
+    emoji: "🔧",
+    title: "Need it done? Orbits finds, vets, and books.",
     description:
-      "Dance class moved? Calendar updates itself. Dentist reminder? Orbits drafts your reply. You just hit send.",
+      "Snow removal. Babysitting. Appliance repair. Tell Orbits what you need — it reaches out, gets quotes, and coordinates. You just pick one. No Google. No phone tag.",
     color: "bg-peach",
     gradient: "from-peach/20 to-lavender/10",
     iconBg: "bg-peach/20",
     bgOpacity: 0.45,
-    comingSoon: true,
   },
 ];
 
@@ -323,7 +323,7 @@ export function FeaturesSection() {
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.1 }}
           >
-            ✨ Features
+            ✨ What Orbits does for you
           </motion.span>
           <motion.h2
             className="text-3xl sm:text-4xl lg:text-6xl mb-6"
@@ -331,7 +331,8 @@ export function FeaturesSection() {
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.15 }}
           >
-            Features to help you save{" "}
+            One app. Every corner{" "}
+            <br className="hidden sm:block" />
             <motion.span
               className={"underline-reveal"}
               style={{ "--underline-delay": "0.7s" } as React.CSSProperties}
@@ -352,10 +353,9 @@ export function FeaturesSection() {
                   backgroundClip: "text",
                 }}
               >
-                hours
+                of your home.
               </motion.span>
-            </motion.span>{" "}
-            every week.
+            </motion.span>
           </motion.h2>
           <motion.p
             className="text-base lg:text-xl text-muted-foreground max-w-2xl mx-auto"
@@ -363,7 +363,7 @@ export function FeaturesSection() {
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.2 }}
           >
-            Spend less time managing your home and more time enjoying it.
+            Orbits doesn't remind you. It handles it.
           </motion.p>
         </motion.div>
 
