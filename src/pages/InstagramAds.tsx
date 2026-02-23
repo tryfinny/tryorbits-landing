@@ -1,6 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import orbitsWordmark from '@/assets/orbits-wordmark-color.svg';
+import instacartLogo from '@/assets/instacart-logo.svg';
+import instacartCarrot from '@/assets/instacart-carrot.png';
+import amazonIcon from '@/assets/amazon-icon.png';
 import orbitsIcon from '@/assets/orbits-icon-color.svg';
 import {
   Sparkles,
@@ -21,11 +24,7 @@ import { Button } from '@/components/ui/button';
 type AdFormat = 'square' | 'reels';
 
 type AdTemplate =
-  | 'five-to-nine'
-  | 'list-problem'
-  | 'coo'
   | 'scenario'
-  | 'mental-load'
   | 'not-a-tracker'
   | 'manifesto'
   | 'helping-hand'
@@ -33,16 +32,28 @@ type AdTemplate =
   | 'family-app'
   | 'ask-orbits'
   | 'at-a-glance'
+  | 'instacart'
+  | 'amazon'
+  | 'group-chat'
+  | 'bills'
+  | 'ai-lists'
+  | 'app-features'
+  | 'service-requests'
+  | 'pets'
   | 'reel-hook'
   | 'reel-list'
   | 'reel-before-after'
   | 'reel-stat'
   | 'reel-cta'
+  | 'reel-instacart'
+  | 'reel-amazon'
   | 'reel-notification'
   | 'reel-workflow'
-  | 'reel-morning';
+  | 'reel-morning'
+  | 'reel-grocery-ai'
+  | 'vs-clawdbot';
 
-type AccentColor = 'lavender' | 'peach' | 'sky' | 'sage' | 'golden';
+type AccentColor = 'lavender' | 'peach' | 'sky' | 'sage' | 'golden' | 'forest';
 
 interface AdConfig {
   template: AdTemplate;
@@ -55,31 +66,11 @@ interface AdConfig {
 
 // ─── Template presets ────────────────────────────────────────────────────────
 
-const TEMPLATES: Record<AdTemplate, Omit<AdConfig, 'template'>> = {
-  'five-to-nine': {
-    headline: 'You work your 9-to-5.',
-    subheadline: 'Then you start your 5-to-9.',
-    accentColor: 'lavender',
-  },
-  'list-problem': {
-    headline: '"A list is only as good as what you put on it."',
-    subheadline: "You don't know what you don't know.",
-    accentColor: 'peach',
-  },
-  coo: {
-    headline: 'Your home needs a COO.',
-    subheadline: "You shouldn't have to be it.",
-    accentColor: 'sky',
-  },
+const TEMPLATES: Record<AdTemplate, Omit<AdConfig, 'template' | 'dark' | 'showChrome'>> = {
   scenario: {
     headline: 'Orbits, in action.',
     subheadline: 'Proactive. Automatic. Done.',
     accentColor: 'sage',
-  },
-  'mental-load': {
-    headline: 'The mental load is real.',
-    subheadline: 'Orbits carries it.',
-    accentColor: 'golden',
   },
   'not-a-tracker': {
     headline: 'Not a tracker.',
@@ -116,6 +107,46 @@ const TEMPLATES: Record<AdTemplate, Omit<AdConfig, 'template'>> = {
     subheadline: '',
     accentColor: 'lavender',
   },
+  instacart: {
+    headline: 'Your groceries order themselves.',
+    subheadline: 'Orbits reads your calendar and handles the shopping.',
+    accentColor: 'sage',
+  },
+  amazon: {
+    headline: 'Your home orders its own supplies.',
+    subheadline: 'No more running out of things.',
+    accentColor: 'sky',
+  },
+  'group-chat': {
+    headline: 'You know that friend who just... handles things?',
+    subheadline: "That's Orbits. For your home.",
+    accentColor: 'lavender',
+  },
+  bills: {
+    headline: 'That bill? Handled.',
+    subheadline: 'Orbits tracks, disputes, and resolves — so you never have to call.',
+    accentColor: 'peach',
+  },
+  'ai-lists': {
+    headline: 'Not a list. A system that knows what to add.',
+    subheadline: 'Your lists think ahead.',
+    accentColor: 'golden',
+  },
+  'app-features': {
+    headline: 'One app. Every corner of your home.',
+    subheadline: 'Meet your new household assistant.',
+    accentColor: 'sky',
+  },
+  'service-requests': {
+    headline: 'Need it done? Orbits finds, vets, and books.',
+    subheadline: 'No Google. No phone tag. No follow-ups.',
+    accentColor: 'sage',
+  },
+  pets: {
+    headline: 'Your whole family is in Orbits.',
+    subheadline: 'Including the members with four legs.',
+    accentColor: 'peach',
+  },
   // ── Reels templates ──
   'reel-hook': {
     headline: 'Are you running a household,',
@@ -142,6 +173,16 @@ const TEMPLATES: Record<AdTemplate, Omit<AdConfig, 'template'>> = {
     subheadline: 'Free on iOS & Android.',
     accentColor: 'golden',
   },
+  'reel-instacart': {
+    headline: 'Your groceries order themselves.',
+    subheadline: 'Orbits notices. Instacart delivers.',
+    accentColor: 'sage',
+  },
+  'reel-amazon': {
+    headline: 'Your home restocks itself.',
+    subheadline: 'Orbits notices. Amazon delivers.',
+    accentColor: 'golden',
+  },
   'reel-notification': {
     headline: 'What Orbits did while you slept.',
     subheadline: 'Proactive. Silent. Done.',
@@ -157,14 +198,20 @@ const TEMPLATES: Record<AdTemplate, Omit<AdConfig, 'template'>> = {
     subheadline: 'Everything handled. Nothing missed.',
     accentColor: 'peach',
   },
+  'reel-grocery-ai': {
+    headline: "You didn't write a single thing.",
+    subheadline: 'Orbits read your week and built the list.',
+    accentColor: 'sage',
+  },
+  'vs-clawdbot': {
+    headline: 'ClawdBot is for engineers.',
+    subheadline: 'Orbits is for your home.',
+    accentColor: 'lavender',
+  },
 };
 
 const TEMPLATE_ORDER: AdTemplate[] = [
-  'five-to-nine',
-  'list-problem',
-  'coo',
   'scenario',
-  'mental-load',
   'not-a-tracker',
   'manifesto',
   'helping-hand',
@@ -172,9 +219,21 @@ const TEMPLATE_ORDER: AdTemplate[] = [
   'family-app',
   'ask-orbits',
   'at-a-glance',
+  'instacart',
+  'amazon',
+  'group-chat',
+  'bills',
+  'ai-lists',
+  'app-features',
+  'service-requests',
+  'pets',
+  'vs-clawdbot',
 ];
 
 const REELS_TEMPLATE_ORDER: AdTemplate[] = [
+  'reel-grocery-ai',
+  'reel-instacart',
+  'reel-amazon',
   'reel-notification',
   'reel-workflow',
   'reel-morning',
@@ -186,11 +245,7 @@ const REELS_TEMPLATE_ORDER: AdTemplate[] = [
 ];
 
 const TEMPLATE_LABELS: Record<AdTemplate, string> = {
-  'five-to-nine': '5-to-9',
-  'list-problem': 'The List',
-  coo: 'COO',
   scenario: 'In Action',
-  'mental-load': 'Mental Load',
   'not-a-tracker': 'Operator',
   manifesto: 'Manifesto',
   'helping-hand': 'Helping Hand',
@@ -198,45 +253,33 @@ const TEMPLATE_LABELS: Record<AdTemplate, string> = {
   'family-app': 'Family',
   'ask-orbits': 'Ask Orbits',
   'at-a-glance': 'At a Glance',
+  instacart: 'Instacart',
+  amazon: 'Amazon',
+  'group-chat': 'The Friend',
+  bills: 'Bills',
+  'ai-lists': 'AI Lists',
+  'app-features': 'App Features',
+  'service-requests': 'Services',
+  pets: 'Pets',
+  'vs-clawdbot': 'vs. ClawdBot',
   'reel-hook': 'Hook',
   'reel-list': 'Feature List',
   'reel-before-after': 'Before / After',
   'reel-stat': 'Stat',
   'reel-cta': 'Download CTA',
+  'reel-instacart': 'Instacart',
+  'reel-amazon': 'Amazon',
   'reel-notification': 'While You Slept',
   'reel-workflow': 'Workflow',
   'reel-morning': 'Morning Dashboard',
+  'reel-grocery-ai': 'AI Grocery List',
 };
 
-const ACCENT_COLORS: AccentColor[] = ['lavender', 'peach', 'sky', 'sage', 'golden'];
+const ACCENT_COLORS: AccentColor[] = ['lavender', 'peach', 'sky', 'sage', 'golden', 'forest'];
 
 // ─── Instagram captions ──────────────────────────────────────────────────────
 
 const CAPTIONS: Record<AdTemplate, string> = {
-  'five-to-nine': `The 9-to-5 has a clock-out time. The 5-to-9 doesn't.
-
-Dinner. Dishes. Doctor appointments. Permission slips you forgot to sign. You didn't apply for a second shift — but here you are.
-
-Meet Orbits. Link in bio.
-
-#WorkingParents #MentalLoad #HomeLife #Orbits`,
-
-  'list-problem': `Your grocery list is only as good as what you remember to put on it.
-
-(You forgot the milk again. Not your fault — you're running a household on brain cells meant for living, not logistics.)
-
-Orbits figures out what needs doing before you do. Link in bio.
-
-#OrganizedHome #FamilyLife #SmartHome #Orbits`,
-
-  coo: `Your office has a COO. Your home doesn't. And it shows.
-
-Companies don't run themselves. Neither does your household. The difference is — nobody's paying you to run yours.
-
-Orbits. The COO your home never had. Download free. Link in bio.
-
-#HomeManagement #WorkingMom #AIHome #Orbits`,
-
   scenario: `It's snowing this weekend. Cool. Orbits already got you three plow quotes.
 
 Bake sale Thursday? Groceries are scheduled for Wednesday evening.
@@ -244,14 +287,6 @@ Bake sale Thursday? Groceries are scheduled for Wednesday evening.
 That's not a feature. That's the whole point. Download free. Link in bio.
 
 #AIAssistant #SmartHome #ProactiveAI #Orbits`,
-
-  'mental-load': `3+ hours a week. 4+ apps. On top of everything else.
-
-The invisible job nobody applied for — the one that follows you into the shower, to bed, and back again.
-
-Orbits carries it so you don't have to. Link in bio.
-
-#MentalLoad #BurnoutPrevention #WorkingParents #Orbits`,
 
   'not-a-tracker': `Your to-do list is not the problem.
 
@@ -298,6 +333,85 @@ You don't need to know the right question. Just ask. Orbits figures out the rest
 Download free. Link in bio.
 
 #AIAssistant #SmartHome #FamilyLife #Orbits`,
+
+  instacart: `Bake sale Thursday. Dog food running low. Jake's vitamins almost out.
+
+You didn't notice any of that. Orbits did — and already scheduled the Instacart delivery.
+
+No list. No reminders. No "I forgot." Just done.
+
+Download free. Link in bio.
+
+#GroceryShopping #Instacart #FamilyLife #Orbits`,
+
+  amazon: `Your HVAC filter was overdue. Your dishwasher pods were on their last pack. Your outdoor lightbulb burned out three weeks ago.
+
+Orbits noticed all of it. Ordered all of it. It's arriving Friday.
+
+Your home runs itself now.
+
+Download free. Link in bio.
+
+#Amazon #HomeOwner #SmartHome #Orbits`,
+
+  'group-chat': `You know that friend? The one who always knows the best plumber. Reminds you when your car registration is due. Notices your insurance went up and calls to dispute it.
+
+Most people don't have that friend. Every household should.
+
+Download Orbits free. Link in bio.
+
+#HomeLife #WorkingParents #AIHome #Orbits`,
+
+  bills: `"I should really deal with that bill."
+
+We know. You've said it 12 times. Orbits just... handled it. Reviewed the charge. Caught the error. Made the call.
+
+$43 back in your account. You're welcome.
+
+Download free. Link in bio.
+
+#Bills #HomeOwner #MoneyManagement #Orbits`,
+
+  'ai-lists': `A grocery list is only as smart as what you remember to add.
+
+Orbits' lists aren't like that. They notice the bake sale on Thursday and add the ingredients. They track what's running low and reorder it. They think ahead so you don't have to.
+
+Not a list. A living system.
+
+Download free. Link in bio.
+
+#Organization #SmartHome #FamilyLife #Orbits`,
+
+  'app-features': `One home. Four things that used to live in ten different apps.
+
+📅 Family calendar — unified, no conflicts
+🏠 Home upkeep — tracked, scheduled, done
+🛠️ Service requests — found, vetted, booked
+✨ Today view — your whole household at a glance
+
+Orbits. The OS for your home. Download free. Link in bio.
+
+#SmartHome #HomeOrganization #FamilyLife #Orbits`,
+
+  'service-requests': `Snow removal. Plumbing. Babysitting. HVAC. Cleaning. Pest control. Handyman.
+
+You used to Google all of these separately, play phone tag, and still end up unsure who to trust.
+
+Orbits finds, vets, and books — for every job, every time.
+
+Download free. Link in bio.
+
+#HomeServices #HomeOwner #HomeRepair #Orbits`,
+
+  pets: `Jake. Ellie. Lily. And Milo. 🐕
+
+Orbits tracks all of them — schedules, health, appointments, subscriptions. Milo's vet is January 15th. His heartworm prescription was auto-refilled. His food is set to deliver every 3 weeks.
+
+Your whole family. One place.
+
+Download free. Link in bio.
+
+#PetOwner #FamilyLife #SmartHome #Orbits`,
 
   'at-a-glance': `Weather. Dentist at noon. Soccer at 7. Garage repair Friday.
 
@@ -348,6 +462,22 @@ Orbits gives those hours back. Download free. Link in bio.
 
 #MentalLoad #WorkingParents #TimeManagement #Orbits`,
 
+  'reel-instacart': `Bake sale Thursday. Dog food running low. Jake's vitamins almost out. 🛒
+
+You didn't notice any of that. Orbits did — and already scheduled the Instacart delivery.
+
+Your groceries order themselves now. Download free. Link in bio.
+
+#Instacart #GroceryShopping #FamilyLife #AIHome #Orbits`,
+
+  'reel-amazon': `HVAC filter overdue. Dishwasher pods running low. Garage bulb burned out. 📦
+
+You didn't make a list. Orbits did — and already ordered everything on Amazon Prime.
+
+Your home restocks itself. Download free. Link in bio.
+
+#Amazon #HomeManagement #SmartHome #AIHome #Orbits`,
+
   'reel-notification': `POV: you wake up and Orbits already handled your Saturday. ❄️🔧🛒
 
 Your AI household assistant works while you sleep — booking services, scheduling deliveries, catching things you'd never even think to check.
@@ -358,7 +488,7 @@ Download free. Link in bio.
 
   'reel-workflow': `Orbits doesn't wait for you to ask. It notices, acts, and handles it — in a clean workflow built for your home. 🏠
 
-No chat. No rabbit holes. Just the right options, at the right time, handled the right way.
+Proactive. Structured. The right options, at the right time, handled the right way.
 
 Download free. Link in bio.
 
@@ -379,6 +509,28 @@ Orbits is. Groceries, family calendar, maintenance, services — one AI that han
 Free on iOS & Android. Link in bio.
 
 #SmartHome #AIHome #FamilyLife #Orbits`,
+
+  'vs-clawdbot': `ClawdBot and OpenClaw are impressive — if you have a computer science degree and a few hours to spare.
+
+Most people just want their home to run itself.
+
+Orbits doesn't need you to write prompts, set up integrations, or understand how AI works. It just handles your groceries, calendar, maintenance, and services — automatically.
+
+The AI for your home. Not your terminal.
+
+Download free. Link in bio.
+
+#AIHome #SmartHome #FamilyLife #HomeManagement #Orbits`,
+
+  'reel-grocery-ai': `You didn't write a single thing. Orbits did. 🛒✨
+
+Bake sale Thursday. Dog food running low. Jake's vitamins almost out. Orbits read your week — and built the whole grocery list automatically.
+
+No reminders. No mental load. Just done.
+
+Download free. Link in bio.
+
+#GroceryShopping #AIHome #FamilyLife #SmartHome #Orbits`,
 };
 
 // ─── Animation helpers ───────────────────────────────────────────────────────
@@ -489,156 +641,28 @@ const ACCENT_HEX: Record<AccentColor, string> = {
   sky:      BRAND.sky,
   sage:     BRAND.mint,
   golden:   BRAND.mint,
+  forest:   '#071b24',
+};
+
+// Richer CTA button colors — one per accent, with enough saturation to read as a real button
+const ACCENT_CTA_BG: Record<AccentColor, string> = {
+  lavender: '#7c6fcd',
+  peach:    '#c97c4a',
+  sky:      '#4a8fad',
+  sage:     '#3a7d55',
+  golden:   '#b8860b',
+  forest:   '#071b24',
+};
+const ACCENT_CTA_FG: Record<AccentColor, string> = {
+  lavender: '#ffffff',
+  peach:    '#ffffff',
+  sky:      '#ffffff',
+  sage:     '#ffffff',
+  golden:   '#ffffff',
+  forest:   '#fefcf6',
 };
 
 // ─── Ad templates ─────────────────────────────────────────────────────────────
-
-// 1. You work your 9-to-5. Then you start your 5-to-9.
-function FiveToNineAd({ config }: { config: AdConfig }) {
-  const { headline, subheadline, accentColor, dark } = config;
-  return (
-    <div className="relative w-[1080px] h-[1080px] overflow-hidden">
-      <CanvasBackground dark={dark} />
-      <div className="relative z-10 flex flex-col justify-center h-full px-[112px]">
-        <Eyebrow text="The Reality" dark={dark} />
-        <motion.h1
-          {...slideIn(0.3)}
-          style={{ color: c.fg(dark) }}
-          className="text-[78px] font-serif font-medium leading-[1.08] tracking-[-0.015em] mb-[56px]"
-        >
-          {headline}
-        </motion.h1>
-        <motion.div
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ delay: 0.6, duration: 0.55, ease: 'easeOut' }}
-          style={{ originX: 0, backgroundColor: ACCENT_HEX[accentColor] }}
-          className="h-[3px] w-[160px] rounded-full mb-[56px]"
-        />
-        <motion.h2
-          {...slideIn(0.75)}
-          style={{ color: c.fg(dark) }}
-          className="text-[78px] font-serif font-medium leading-[1.08] tracking-[-0.015em] mb-[56px]"
-        >
-          {subheadline}
-        </motion.h2>
-        <motion.p
-          {...fadeUp(1.05)}
-          style={{ color: c.fgSoft(dark) }}
-          className="text-[29px] leading-relaxed max-w-[680px]"
-        >
-          Running a household is a second job.
-          <br />
-          <span style={{ color: c.fg(dark) }} className="font-medium">Orbits is the one that clocks in for you.</span>
-        </motion.p>
-      </div>
-      <CanvasLogo delay={1.35} dark={dark} />
-    </div>
-  );
-}
-
-// 2. A list is only as good as what you put on it.
-function ListProblemAd({ config }: { config: AdConfig }) {
-  const { headline, subheadline, accentColor, dark } = config;
-  return (
-    <div className="relative w-[1080px] h-[1080px] overflow-hidden">
-      <CanvasBackground dark={dark} />
-      <div className="relative z-10 flex flex-col justify-center items-center h-full px-[100px] text-center">
-        <Eyebrow text="The problem with lists" dark={dark} />
-        <motion.h1
-          {...fadeUp(0.3)}
-          style={{ color: c.fg(dark) }}
-          className="text-[62px] font-serif font-medium leading-[1.12] tracking-[-0.01em] mb-[48px]"
-        >
-          {headline}
-        </motion.h1>
-        <motion.div
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ delay: 0.65, duration: 0.5 }}
-          style={{ originX: 0.5, backgroundColor: ACCENT_HEX[accentColor] }}
-          className="h-[2px] w-[100px] rounded-full mb-[48px]"
-        />
-        <motion.h2
-          {...fadeUp(0.82)}
-          style={{ color: c.fgMid(dark) }}
-          className="text-[54px] font-serif leading-[1.15] tracking-[-0.01em] mb-[52px]"
-        >
-          {subheadline}
-        </motion.h2>
-        <motion.p
-          {...fadeUp(1.04)}
-          style={{ color: c.fgSoft(dark) }}
-          className="text-[28px] leading-relaxed max-w-[730px]"
-        >
-          Reminders, notes, calendars — they only help if you know what to put in them.
-          <br />
-          <span style={{ color: c.fg(dark) }} className="font-medium">
-            Orbits identifies what needs doing before you even think to ask.
-          </span>
-        </motion.p>
-      </div>
-      <CanvasLogo delay={1.38} dark={dark} />
-    </div>
-  );
-}
-
-// 3. Your home needs a COO. You shouldn't have to be it.
-function COOAd({ config }: { config: AdConfig }) {
-  const { headline, subheadline, accentColor, dark } = config;
-  const pillars = ['Organize', 'Identify', 'Execute'];
-  return (
-    <div className="relative w-[1080px] h-[1080px] overflow-hidden">
-      <CanvasBackground dark={dark} />
-      <div className="relative z-10 flex flex-col justify-center items-center h-full px-[100px] text-center">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.88 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.1, type: 'spring', stiffness: 100, damping: 12 }}
-          style={{ backgroundColor: c.cardBg(dark), border: c.cardBorder(dark) }}
-          className="inline-flex items-center gap-3 px-8 py-4 rounded-full mb-[60px]"
-        >
-          <Sparkles className="w-6 h-6" style={{ color: BRAND.mint }} />
-          <span style={{ color: c.fgMid(dark) }} className="text-[21px] font-medium">AI-Native Home Intelligence</span>
-        </motion.div>
-        <motion.h1
-          {...fadeUp(0.3)}
-          style={{ color: c.fg(dark) }}
-          className="text-[82px] font-serif font-medium leading-[1.06] tracking-[-0.02em] mb-[24px]"
-        >
-          {headline}
-        </motion.h1>
-        <motion.p
-          {...fadeUp(0.5)}
-          style={{ color: c.fgSoft(dark) }}
-          className="text-[50px] font-serif font-light leading-[1.12] mb-[68px]"
-        >
-          {subheadline}
-        </motion.p>
-        <div className="flex gap-[26px] mb-[52px]">
-          {pillars.map((label, i) => (
-            <motion.div
-              key={label}
-              initial={{ opacity: 0, scale: 0.82 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.72 + i * 0.13, type: 'spring', stiffness: 110, damping: 14 }}
-              style={{ backgroundColor: c.cardBg(dark), border: c.cardBorder(dark) }}
-              className="rounded-2xl px-[44px] py-[28px]"
-            >
-              <span className="text-[38px] font-serif font-medium" style={{ color: ACCENT_HEX[accentColor] }}>
-                {label}
-              </span>
-            </motion.div>
-          ))}
-        </div>
-        <motion.p {...fadeUp(1.12)} style={{ color: c.fgSoft(dark) }} className="text-[27px]">
-          Orbits runs your home like a COO runs a company.
-        </motion.p>
-      </div>
-      <CanvasLogo delay={1.4} dark={dark} />
-    </div>
-  );
-}
 
 // 4. Orbits in action — the scenarios
 function ScenarioAd({ config }: { config: AdConfig }) {
@@ -714,65 +738,6 @@ function ScenarioAd({ config }: { config: AdConfig }) {
   );
 }
 
-// 5. The mental load is real. Orbits carries it.
-function MentalLoadAd({ config }: { config: AdConfig }) {
-  const { headline, subheadline, accentColor, dark } = config;
-  const accentHex = ACCENT_HEX[accentColor];
-  const tags = ['Constant context-switching', 'Reminding & following up', 'Things slip through cracks'];
-  return (
-    <div className="relative w-[1080px] h-[1080px] overflow-hidden">
-      <CanvasBackground dark={dark} />
-      <div className="relative z-10 flex flex-col justify-center items-center h-full px-[100px] text-center">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.65 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.1, type: 'spring', stiffness: 55, damping: 12 }}
-          className="mb-[6px]"
-        >
-          <span style={{ color: accentHex }} className="text-[152px] font-serif font-medium leading-none">3+</span>
-        </motion.div>
-        <motion.p {...fadeUp(0.38)} style={{ color: c.fgSoft(dark) }} className="text-[32px] mb-[60px]">
-          hours per week managing home across 4+ apps
-        </motion.p>
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.62 }}
-          className="flex flex-wrap gap-[16px] justify-center mb-[60px]"
-        >
-          {tags.map((tag, i) => (
-            <motion.div
-              key={tag}
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7 + i * 0.12 }}
-              style={{ backgroundColor: c.cardBg(dark), border: c.cardBorder(dark) }}
-              className="rounded-2xl px-[26px] py-[18px]"
-            >
-              <span style={{ color: c.fgMid(dark) }} className="text-[22px]">{tag}</span>
-            </motion.div>
-          ))}
-        </motion.div>
-        <motion.h1
-          {...fadeUp(1.06)}
-          style={{ color: c.fg(dark) }}
-          className="text-[54px] font-serif font-medium leading-[1.1] tracking-[-0.01em] mb-[14px]"
-        >
-          {headline}
-        </motion.h1>
-        <motion.p
-          {...fadeUp(1.2)}
-          style={{ color: accentHex }}
-          className="text-[46px] font-serif font-medium leading-[1.1] tracking-[-0.01em]"
-        >
-          {subheadline}
-        </motion.p>
-      </div>
-      <CanvasLogo delay={1.48} dark={dark} />
-    </div>
-  );
-}
-
 // 6. Not a tracker. An operator.
 function NotATrackerAd({ config }: { config: AdConfig }) {
   const { headline, subheadline, accentColor, dark } = config;
@@ -787,19 +752,19 @@ function NotATrackerAd({ config }: { config: AdConfig }) {
       <CanvasBackground dark={dark} />
       <div className="relative z-10 flex flex-col justify-center items-center h-full px-[100px] text-center">
         <Eyebrow text="There's a difference" dark={dark} />
-        <motion.div {...fadeUp(0.26)} className="grid grid-cols-[1fr_64px_1fr] w-full max-w-[820px] mb-[22px]">
-          <span style={{ color: c.fgSoft(dark) }} className="text-[23px] font-medium text-right pr-8">Most apps</span>
+        <motion.div {...fadeUp(0.26)} className="grid grid-cols-[1fr_64px_1fr] w-full max-w-[860px] mb-[24px]">
+          <span style={{ color: c.fgSoft(dark) }} className="text-[30px] font-medium text-right pr-8">Most apps</span>
           <div />
-          <span style={{ color: c.fgMid(dark) }} className="text-[23px] font-medium text-left pl-8">Orbits</span>
+          <span style={{ color: c.fgMid(dark) }} className="text-[30px] font-medium text-left pl-8">Orbits</span>
         </motion.div>
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ delay: 0.42, duration: 0.5 }}
           style={{ originX: 0.5, backgroundColor: c.rule(dark) }}
-          className="h-[1px] w-full max-w-[820px] mb-[22px]"
+          className="h-[1px] w-full max-w-[860px] mb-[24px]"
         />
-        <div className="w-full max-w-[820px] mb-[64px]">
+        <div className="w-full max-w-[860px] mb-[64px]">
           {rows.map(({ other, orbits }, i) => (
             <motion.div
               key={i}
@@ -807,27 +772,27 @@ function NotATrackerAd({ config }: { config: AdConfig }) {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.52 + i * 0.16 }}
               style={{ borderBottom: `1px solid ${c.rule(dark)}` }}
-              className="grid grid-cols-[1fr_64px_1fr] py-[22px] last:border-0"
+              className="grid grid-cols-[1fr_64px_1fr] py-[26px] last:border-0"
             >
-              <span style={{ color: c.fgSoft(dark) }} className="text-[30px] text-right pr-8">{other}</span>
+              <span style={{ color: c.fgSoft(dark) }} className="text-[40px] text-right pr-8">{other}</span>
               <div className="flex items-center justify-center">
-                <ArrowRight className="w-5 h-5" style={{ color: c.fgSoft(dark) }} />
+                <ArrowRight className="w-6 h-6" style={{ color: c.fgSoft(dark) }} />
               </div>
-              <span style={{ color: accentHex }} className="text-[30px] font-medium text-left pl-8">{orbits}</span>
+              <span style={{ color: accentHex }} className="text-[40px] font-medium text-left pl-8">{orbits}</span>
             </motion.div>
           ))}
         </div>
         <motion.h1
           {...fadeUp(1.02)}
           style={{ color: c.fg(dark) }}
-          className="text-[70px] font-serif font-medium leading-[1.1] tracking-[-0.02em]"
+          className="text-[82px] font-serif font-medium leading-[1.1] tracking-[-0.02em]"
         >
           {headline}
         </motion.h1>
         <motion.p
           {...fadeUp(1.16)}
           style={{ color: accentHex }}
-          className="text-[70px] font-serif font-medium leading-[1.1] tracking-[-0.02em]"
+          className="text-[82px] font-serif font-medium leading-[1.1] tracking-[-0.02em]"
         >
           {subheadline}
         </motion.p>
@@ -1435,7 +1400,7 @@ function ReelHookAd({ config }: { config: AdConfig }) {
   return (
     <div style={{ position: 'relative', width: 1080, height: 1920, overflow: 'hidden' }}>
       <ReelsBackground dark={dark} />
-      <div style={{ position: 'relative', zIndex: 10, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '0 90px', textAlign: 'center' }}>
+      <div style={{ position: 'absolute', top: 148, left: 64, right: 180, bottom: 400, zIndex: 10, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
         <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1, type: 'spring', stiffness: 80, damping: 14 }}
           style={{ marginBottom: 100 }}>
           <img src={orbitsIcon} alt="Orbits" style={{ height: 100, width: 100 }} />
@@ -1482,7 +1447,7 @@ function ReelListAd({ config }: { config: AdConfig }) {
   return (
     <div style={{ position: 'relative', width: 1080, height: 1920, overflow: 'hidden' }}>
       <ReelsBackground dark={dark} />
-      <div style={{ position: 'relative', zIndex: 10, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 96px' }}>
+      <div style={{ position: 'absolute', top: 148, left: 64, right: 180, bottom: 400, zIndex: 10, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 0.9 }} transition={{ delay: 0.05 }}
           style={{ marginBottom: 80 }}>
           {dark
@@ -1507,8 +1472,8 @@ function ReelListAd({ config }: { config: AdConfig }) {
           ))}
         </div>
 
-        <motion.div {...fadeUp(1.8)} style={{ display: 'inline-flex', alignItems: 'center', padding: '26px 52px', borderRadius: 100, backgroundColor: accentHex }}>
-          <span style={{ fontSize: 44, fontWeight: 700, color: BRAND.dark }}>Get it today →</span>
+        <motion.div {...fadeUp(1.8)} style={{ display: 'inline-flex', alignItems: 'center', padding: '26px 52px', borderRadius: 100, backgroundColor: ACCENT_CTA_BG[accentColor] }}>
+          <span style={{ fontSize: 44, fontWeight: 700, color: ACCENT_CTA_FG[accentColor] }}>Get it today →</span>
         </motion.div>
       </div>
       <ReelsChrome showChrome={showChrome} />
@@ -1525,18 +1490,18 @@ function ReelBeforeAfterAd({ config }: { config: AdConfig }) {
   return (
     <div style={{ position: 'relative', width: 1080, height: 1920, overflow: 'hidden' }}>
       <ReelsBackground dark={dark} />
-      <div style={{ position: 'relative', zIndex: 10, height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ position: 'absolute', top: 148, left: 64, right: 180, bottom: 400, zIndex: 10, display: 'flex', flexDirection: 'column' }}>
 
         {/* BEFORE */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '80px 96px 56px' }}>
-          <motion.p {...fadeUp(0.1)} style={{ fontSize: 36, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: c.fgSoft(dark), marginBottom: 40 }}>Before Orbits</motion.p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '24px 32px 24px 0' }}>
+          <motion.p {...fadeUp(0.1)} style={{ fontSize: 44, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: c.fgSoft(dark), marginBottom: 44 }}>Before Orbits</motion.p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 36 }}>
             {before.map((item, i) => (
               <motion.div key={item} initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2 + i * 0.15, type: 'spring', stiffness: 72, damping: 16 }}
                 style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
-                <span style={{ fontSize: 40, color: c.fgSoft(dark), flexShrink: 0 }}>✕</span>
-                <span style={{ fontSize: 56, color: c.fgMid(dark), lineHeight: 1.2 }}>{item}</span>
+                <span style={{ fontSize: 52, color: c.fgSoft(dark), flexShrink: 0 }}>✕</span>
+                <span style={{ fontSize: 72, color: c.fgMid(dark), lineHeight: 1.15 }}>{item}</span>
               </motion.div>
             ))}
           </div>
@@ -1544,18 +1509,18 @@ function ReelBeforeAfterAd({ config }: { config: AdConfig }) {
 
         {/* Divider */}
         <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ delay: 0.9, duration: 0.5 }}
-          style={{ height: 2, backgroundColor: c.rule(dark), margin: '0 96px', originX: 0 }} />
+          style={{ height: 2, backgroundColor: c.rule(dark), margin: '0 32px 0 0', originX: 0 }} />
 
         {/* AFTER */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '56px 96px 80px' }}>
-          <motion.p {...fadeUp(1.0)} style={{ fontSize: 36, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: accentHex, marginBottom: 40 }}>After Orbits</motion.p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '24px 32px 24px 0' }}>
+          <motion.p {...fadeUp(1.0)} style={{ fontSize: 44, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: accentHex, marginBottom: 44 }}>After Orbits</motion.p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 36 }}>
             {after.map((item, i) => (
               <motion.div key={item} initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.1 + i * 0.15, type: 'spring', stiffness: 72, damping: 16 }}
                 style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
-                <span style={{ fontSize: 40, color: accentHex, flexShrink: 0 }}>✓</span>
-                <span style={{ fontSize: 56, color: c.fg(dark), fontWeight: 500, lineHeight: 1.2 }}>{item}</span>
+                <span style={{ fontSize: 52, color: accentHex, flexShrink: 0 }}>✓</span>
+                <span style={{ fontSize: 72, color: c.fg(dark), fontWeight: 500, lineHeight: 1.15 }}>{item}</span>
               </motion.div>
             ))}
           </div>
@@ -1563,7 +1528,7 @@ function ReelBeforeAfterAd({ config }: { config: AdConfig }) {
 
         {/* Logo */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 0.9 }} transition={{ delay: 1.8 }}
-          style={{ display: 'flex', justifyContent: 'center', paddingBottom: 90 }}>
+          style={{ display: 'flex', justifyContent: 'center', paddingBottom: 16 }}>
           {dark
             ? <img src={orbitsIcon} alt="Orbits" style={{ height: 70, width: 70 }} />
             : <img src={orbitsWordmark} alt="Orbits" style={{ height: 48, width: 'auto' }} />}
@@ -1581,7 +1546,7 @@ function ReelStatAd({ config }: { config: AdConfig }) {
   return (
     <div style={{ position: 'relative', width: 1080, height: 1920, overflow: 'hidden' }}>
       <ReelsBackground dark={dark} />
-      <div style={{ position: 'relative', zIndex: 10, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '0 96px', textAlign: 'center' }}>
+      <div style={{ position: 'absolute', top: 148, left: 64, right: 180, bottom: 400, zIndex: 10, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
         <motion.div initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.15, type: 'spring', stiffness: 55, damping: 12 }}>
           <span style={{ fontSize: 420, fontFamily: 'Lora, serif', fontWeight: 400, color: accentHex, lineHeight: 0.88, display: 'block' }}>3+</span>
@@ -1618,7 +1583,7 @@ function ReelCtaAd({ config }: { config: AdConfig }) {
   return (
     <div style={{ position: 'relative', width: 1080, height: 1920, overflow: 'hidden' }}>
       <ReelsBackground dark={dark} />
-      <div style={{ position: 'relative', zIndex: 10, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '0 96px', textAlign: 'center' }}>
+      <div style={{ position: 'absolute', top: 148, left: 64, right: 180, bottom: 400, zIndex: 10, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
         <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, type: 'spring', stiffness: 80, damping: 14 }}
           style={{ marginBottom: 110 }}>
           <img src={orbitsIcon} alt="Orbits" style={{ height: 140, width: 140 }} />
@@ -1634,8 +1599,8 @@ function ReelCtaAd({ config }: { config: AdConfig }) {
 
         <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 1.0, type: 'spring', stiffness: 90, damping: 14 }}
-          style={{ backgroundColor: accentHex, borderRadius: 100, padding: '36px 80px', marginBottom: 52 }}>
-          <span style={{ fontSize: 52, fontWeight: 700, color: BRAND.dark }}>Get it today →</span>
+          style={{ backgroundColor: ACCENT_CTA_BG[accentColor], borderRadius: 100, padding: '36px 80px', marginBottom: 52 }}>
+          <span style={{ fontSize: 52, fontWeight: 700, color: ACCENT_CTA_FG[accentColor] }}>Get it today →</span>
         </motion.div>
 
         <motion.p {...fadeUp(1.3)} style={{ fontSize: 44, color: c.fgSoft(dark) }}>
@@ -1643,6 +1608,455 @@ function ReelCtaAd({ config }: { config: AdConfig }) {
         </motion.p>
       </div>
       <ReelsChrome showChrome={showChrome} />
+    </div>
+  );
+}
+
+// ─── New intent-based square posts (phone mockup style) ─────────────────────
+
+// Shared phone-layout wrapper for the 8 new posts
+function PhonePost({
+  bg, dark, headline, subheadline, logoDelay = 0.05, headDelay = 0.15, phoneDelay = 0.42, children,
+}: {
+  bg: string; dark: boolean; headline: string; subheadline?: string;
+  logoDelay?: number; headDelay?: number; phoneDelay?: number; children: React.ReactNode;
+}) {
+  return (
+    <div className="relative w-[1080px] h-[1080px] overflow-hidden" style={{ backgroundColor: bg }}>
+      {/* Compact header — keeps phone high so it bleeds off the bottom */}
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 0.85 }} transition={{ delay: logoDelay }}
+        style={{ display: 'flex', justifyContent: 'center', paddingTop: 44 }}>
+        <img src={dark ? orbitsIcon : orbitsWordmark} alt="Orbits"
+          style={{ height: dark ? 34 : 27, width: 'auto', filter: dark ? 'brightness(0) invert(1)' : 'brightness(0)' }} />
+      </motion.div>
+      <div style={{ padding: '14px 90px 32px', textAlign: 'center' }}>
+        <motion.h1 {...fadeUp(headDelay)} style={{ color: dark ? BRAND.bg : BRAND.dark }}
+          className="text-[62px] font-serif font-medium leading-[1.08] tracking-[-0.01em] mb-[10px]">
+          {headline}
+        </motion.h1>
+        {subheadline && (
+          <motion.p {...fadeUp(headDelay + 0.12)} style={{ color: dark ? `${BRAND.bg}99` : `${BRAND.dark}88` }}
+            className="text-[24px] leading-relaxed">
+            {subheadline}
+          </motion.p>
+        )}
+      </div>
+      {/* Phone scales up 1.12× so content always bleeds off the bottom edge */}
+      <motion.div initial={{ opacity: 0, y: 44 }} animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: phoneDelay, type: 'spring', stiffness: 55, damping: 18 }}
+        style={{ display: 'flex', justifyContent: 'center', transform: 'scale(1.12)', transformOrigin: 'top center' }}>
+        {children}
+      </motion.div>
+    </div>
+  );
+}
+
+// 1. Instacart — smart grocery list
+function InstacartAd({ config }: { config: AdConfig }) {
+  const { dark, accentColor } = config;
+  const accentHex = ACCENT_HEX[accentColor];
+  const items = [
+    { emoji: '🧁', text: 'Brown sugar + butter', tag: "Bake sale Thu" },
+    { emoji: '🥚', text: 'Eggs (2 dozen)', tag: "Bake sale Thu" },
+    { emoji: '🐾', text: 'Dog food (large)', tag: 'Milo running low' },
+    { emoji: '💊', text: "Jake's vitamins", tag: 'Subscription due' },
+    { emoji: '🧼', text: 'Dishwasher pods', tag: 'Last pack' },
+  ];
+  return (
+    <PhonePost bg={dark ? BRAND.dark : '#d0e8d4'} dark={dark}
+      headline="Your groceries order themselves."
+      subheadline="Orbits tracks what you need and handles the shopping.">
+      <PhoneFrame>
+        <PhoneTopBar title="Grocery List" accent={PH.accent} />
+        <div style={{ padding: '0 24px' }}>
+          <p style={{ fontSize: 19, color: PH.muted, fontStyle: 'italic', marginBottom: 14 }}>
+            Added automatically by Orbits:
+          </p>
+          {items.map(({ emoji, text, tag }, i) => (
+            <motion.div key={text} initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.55 + i * 0.12, type: 'spring', stiffness: 75, damping: 16 }}
+              style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0', borderBottom: i < items.length - 1 ? `1px solid ${PH.border}` : 'none' }}>
+              <span style={{ fontSize: 28 }}>{emoji}</span>
+              <div style={{ flex: 1 }}>
+                <p style={{ fontSize: 24, fontWeight: 600, color: PH.text, margin: 0 }}>{text}</p>
+                <p style={{ fontSize: 19, color: PH.muted, margin: '3px 0 0' }}>{tag}</p>
+              </div>
+              <div style={{ width: 26, height: 26, borderRadius: '50%', border: `2px solid ${PH.border}` }} />
+            </motion.div>
+          ))}
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2 }}
+            style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 20, backgroundColor: '#d0e8d4', borderRadius: 14, padding: '14px 18px', gap: 16 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
+              <img src={instacartLogo} alt="Instacart" style={{ height: 20, width: 'auto', flexShrink: 0 }} />
+              <span style={{ fontSize: 20, fontWeight: 600, color: PH.text, whiteSpace: 'nowrap' }}>delivery scheduled</span>
+            </div>
+            <span style={{ fontSize: 20, color: PH.accent, fontWeight: 700, whiteSpace: 'nowrap', flexShrink: 0 }}>Wed 6pm ✓</span>
+          </motion.div>
+        </div>
+      </PhoneFrame>
+    </PhonePost>
+  );
+}
+
+// 2. Amazon — home auto-orders supplies
+function AmazonAd({ config }: { config: AdConfig }) {
+  const { dark } = config;
+  const orders = [
+    { emoji: '🌀', item: 'HVAC filter (MERV 13)', reason: 'Overdue — 3 months', arrives: 'Fri' },
+    { emoji: '🧼', item: 'Dishwasher pods (90ct)', reason: 'Running low', arrives: 'Fri' },
+    { emoji: '💡', item: 'LED bulbs (6-pack)', reason: 'Burned out — garage', arrives: 'Fri' },
+    { emoji: '🐾', item: 'Dog flea treatment', reason: 'Monthly auto-refill', arrives: 'Fri' },
+  ];
+  return (
+    <PhonePost bg={dark ? BRAND.dark : '#c2d8e9'} dark={dark}
+      headline="Your home orders its own supplies."
+      subheadline="No more running out of things.">
+      <PhoneFrame>
+        <div style={{ padding: '0 24px 24px' }}>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
+            style={{ display: 'flex', alignItems: 'center', gap: 14, backgroundColor: '#e8f4ff', borderRadius: 14, padding: '14px 18px', marginBottom: 18 }}>
+            <span style={{ fontSize: 30 }}>📦</span>
+            <div>
+              <p style={{ fontSize: 22, fontWeight: 700, color: PH.text, margin: 0 }}>Orbits ordered overnight</p>
+              <p style={{ fontSize: 18, color: PH.accent, margin: '3px 0 0' }}>Amazon Prime · All arrive Friday</p>
+            </div>
+          </motion.div>
+          {orders.map(({ emoji, item, reason }, i) => (
+            <motion.div key={item} initial={{ opacity: 0, x: -18 }} animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.62 + i * 0.13, type: 'spring', stiffness: 75, damping: 16 }}
+              style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0', borderBottom: i < orders.length - 1 ? `1px solid ${PH.border}` : 'none' }}>
+              <span style={{ fontSize: 30, flexShrink: 0 }}>{emoji}</span>
+              <div style={{ flex: 1 }}>
+                <p style={{ fontSize: 23, fontWeight: 600, color: PH.text, margin: 0 }}>{item}</p>
+                <p style={{ fontSize: 18, color: PH.muted, margin: '3px 0 0' }}>{reason}</p>
+              </div>
+              <span style={{ fontSize: 20, color: PH.accent, fontWeight: 700 }}>✓</span>
+            </motion.div>
+          ))}
+        </div>
+      </PhoneFrame>
+    </PhonePost>
+  );
+}
+
+// 3. Group chat friend analogy
+function GroupChatAd({ config }: { config: AdConfig }) {
+  const { dark } = config;
+  const suggestions = [
+    { emoji: '🔧', text: 'Best plumber in your area', sub: '⭐ 4.9 · Dave\'s Plumbing' },
+    { emoji: '🔔', text: 'Furnace filter due in 5 days', sub: 'Ordered replacement — arrives Tue' },
+    { emoji: '📋', text: 'Insurance claim #4821', sub: 'Found error · Called & disputed' },
+    { emoji: '🚗', text: 'Car registration expires Jan 31', sub: 'Added reminder + DMV link' },
+  ];
+  return (
+    <PhonePost bg={dark ? BRAND.dark : '#f0e8ff'} dark={dark}
+      headline="You know that friend who handles everything?"
+      subheadline="That's Orbits. For your home.">
+      <PhoneFrame>
+        <PhoneTopBar title="Orbits Suggestions" />
+        <div style={{ padding: '0 24px 20px' }}>
+          <p style={{ fontSize: 19, color: PH.muted, fontStyle: 'italic', marginBottom: 14 }}>
+            ✦ Proactively identified for you
+          </p>
+          {suggestions.map(({ emoji, text, sub }, i) => (
+            <motion.div key={text} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 + i * 0.16, type: 'spring', stiffness: 75, damping: 16 }}
+              style={{ backgroundColor: PH.bg, border: `1px solid ${PH.border}`, borderRadius: 14, padding: '14px 18px', marginBottom: 12 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <span style={{ fontSize: 26 }}>{emoji}</span>
+                <div>
+                  <p style={{ fontSize: 23, fontWeight: 600, color: PH.text, margin: 0 }}>{text}</p>
+                  <p style={{ fontSize: 18, color: PH.accent, margin: '3px 0 0' }}>{sub}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </PhoneFrame>
+    </PhonePost>
+  );
+}
+
+// 4. Bills — tracked, disputed, handled
+function BillsAd({ config }: { config: AdConfig }) {
+  const { dark } = config;
+  const bills = [
+    { emoji: '⚡', name: 'Electricity · Con Ed', amount: '$184', status: '✓ Reviewed', statusColor: PH.muted },
+    { emoji: '📡', name: 'Internet · Optimum', amount: '$89→$54', status: '↓ Negotiated down', statusColor: PH.accent },
+    { emoji: '🏥', name: 'Medical · NYP', amount: '$340', status: '⚠ Error found · Disputed', statusColor: '#c0622a' },
+    { emoji: '🏠', name: 'Home Insurance', amount: '$210', status: '✓ Renewed on time', statusColor: PH.muted },
+  ];
+  return (
+    <PhonePost bg={dark ? BRAND.dark : '#f0d8c8'} dark={dark}
+      headline="That bill? Handled."
+      subheadline="Orbits tracks, disputes, and resolves for you.">
+      <PhoneFrame>
+        <PhoneTopBar title="Bills & Payments" />
+        <div style={{ padding: '0 24px 24px' }}>
+          {bills.map(({ emoji, name, amount, status, statusColor }, i) => (
+            <motion.div key={name} initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.5 + i * 0.14, type: 'spring', stiffness: 75, damping: 16 }}
+              style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '16px 0', borderBottom: i < bills.length - 1 ? `1px solid ${PH.border}` : 'none' }}>
+              <span style={{ fontSize: 30, flexShrink: 0 }}>{emoji}</span>
+              <div style={{ flex: 1 }}>
+                <p style={{ fontSize: 22, fontWeight: 600, color: PH.text, margin: 0 }}>{name}</p>
+                <p style={{ fontSize: 19, color: statusColor, margin: '4px 0 0', fontWeight: 500 }}>{status}</p>
+              </div>
+              <p style={{ fontSize: 24, fontWeight: 700, color: PH.text, margin: 0 }}>{amount}</p>
+            </motion.div>
+          ))}
+        </div>
+      </PhoneFrame>
+    </PhonePost>
+  );
+}
+
+// 5. AI Lists — context-aware, self-populating
+function AiListsAd({ config }: { config: AdConfig }) {
+  const { dark } = config;
+  const listItems = [
+    { emoji: '🧁', text: 'Brown sugar (2 cups)', ctx: "Lily's bake sale Thu" },
+    { emoji: '💊', text: "Jake's prescription", ctx: 'Last one ends Friday' },
+    { emoji: '🐾', text: 'Dog food (large bag)', ctx: 'Milo running low' },
+    { emoji: '💡', text: 'LED bulbs (6-pack)', ctx: 'Garage bulb burned out' },
+    { emoji: '🌀', text: 'HVAC filter (MERV 13)', ctx: '90-day reminder hit' },
+  ];
+  return (
+    <PhonePost bg={dark ? BRAND.dark : '#e8d8f8'} dark={dark}
+      headline="Lists that know what to add."
+      subheadline="Orbits reads your home and fills in the blanks.">
+      <PhoneFrame>
+        <PhoneTopBar title="My Lists" />
+        <div style={{ padding: '0 24px' }}>
+          <p style={{ fontSize: 19, fontWeight: 700, color: PH.muted, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12 }}>GROCERY</p>
+          {listItems.map(({ emoji, text, ctx }, i) => (
+            <motion.div key={text} initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+              transition={{ delay: 0.48 + i * 0.14 }}
+              style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '13px 0', borderBottom: i < listItems.length - 1 ? `1px solid ${PH.border}` : 'none' }}>
+              <span style={{ fontSize: 26 }}>{emoji}</span>
+              <div style={{ flex: 1 }}>
+                <p style={{ fontSize: 23, fontWeight: 600, color: PH.text, margin: 0 }}>{text}</p>
+                <p style={{ fontSize: 18, color: PH.accent, margin: '3px 0 0' }}>← {ctx}</p>
+              </div>
+              <div style={{ width: 24, height: 24, borderRadius: '50%', border: `2px solid ${PH.border}` }} />
+            </motion.div>
+          ))}
+        </div>
+      </PhoneFrame>
+    </PhonePost>
+  );
+}
+
+// 6. App features — feature showcase with phone
+function AppFeaturesAd({ config }: { config: AdConfig }) {
+  const { dark } = config;
+  const sections = [
+    { emoji: '☀️', title: 'Today', items: ['Soccer Game · 7pm', 'Dentist · Nov 27', 'Grocery delivery · 6pm'] },
+    { emoji: '🔧', title: 'Upkeep', items: ['HVAC filter due', 'Kitchen renovation · 0/4', 'Appliance library'] },
+    { emoji: '👥', title: 'Family', items: ["Lily · Dance class Fri", 'Jake · Dr. Rogers ref.', 'Milo · Vet Jan 15'] },
+  ];
+  return (
+    <PhonePost bg={dark ? BRAND.dark : '#f0ebe0'} dark={dark}
+      headline="One app. Every corner of your home."
+      subheadline="Meet your new household assistant.">
+      <PhoneFrame>
+        <div style={{ padding: '0 24px 20px' }}>
+          <p style={{ fontSize: 22, fontWeight: 700, color: PH.text, marginBottom: 14 }}>✦ Orbits Overview</p>
+          {sections.map(({ emoji, title, items }, i) => (
+            <motion.div key={title} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.45 + i * 0.18, type: 'spring', stiffness: 75, damping: 16 }}
+              style={{ backgroundColor: PH.bg, border: `1px solid ${PH.border}`, borderRadius: 16, padding: '14px 18px', marginBottom: 12 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <span style={{ fontSize: 24 }}>{emoji}</span>
+                  <p style={{ fontSize: 22, fontWeight: 700, color: PH.text, margin: 0 }}>{title}</p>
+                </div>
+                <span style={{ fontSize: 20, color: PH.muted }}>›</span>
+              </div>
+              {items.map((item) => (
+                <p key={item} style={{ fontSize: 19, color: PH.muted, margin: '5px 0 0', paddingLeft: 6 }}>· {item}</p>
+              ))}
+            </motion.div>
+          ))}
+        </div>
+      </PhoneFrame>
+    </PhonePost>
+  );
+}
+
+// 7. Service requests — find, vet, book
+function ServiceRequestsAd({ config }: { config: AdConfig }) {
+  const { dark } = config;
+  const categories1 = [['🔧','Plumbing'],['❄️','HVAC'],['🏠','Roofing'],['⚡','Electrical'],['🔩','Appliance']];
+  const categories2 = [['🧹','Cleaning'],['🐛','Pest control'],['👶','Babysitting'],['🌿','Landscaping'],['📦','Moving']];
+  return (
+    <PhonePost bg={dark ? BRAND.dark : '#bfd4e5'} dark={dark}
+      headline="Everyone deserves a helping hand."
+      subheadline="Orbits finds, vets, and books every service you need.">
+      <PhoneFrame>
+        <PhoneTopBar title="Request Help" />
+        <div style={{ padding: '0 24px 24px' }}>
+          <p style={{ fontSize: 19, color: PH.muted, marginBottom: 16 }}>Tell us what you need. We'll follow up and coordinate.</p>
+          <p style={{ fontSize: 18, fontWeight: 700, color: PH.text, marginBottom: 10, letterSpacing: '0.06em' }}>HOME & REPAIRS</p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 18 }}>
+            {categories1.map(([e, l], i) => (
+              <motion.div key={l} initial={{ opacity: 0, scale: 0.88 }} animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.5 + i * 0.08, type: 'spring', stiffness: 110, damping: 14 }}
+                style={{ backgroundColor: PH.pill, borderRadius: 100, padding: '9px 16px', display: 'flex', alignItems: 'center', gap: 7 }}>
+                <span style={{ fontSize: 18 }}>{e}</span>
+                <span style={{ fontSize: 20, color: PH.text }}>{l}</span>
+              </motion.div>
+            ))}
+          </div>
+          <p style={{ fontSize: 18, fontWeight: 700, color: PH.text, marginBottom: 10, letterSpacing: '0.06em' }}>UPKEEP & FAMILY</p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+            {categories2.map(([e, l], i) => (
+              <motion.div key={l} initial={{ opacity: 0, scale: 0.88 }} animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.9 + i * 0.08, type: 'spring', stiffness: 110, damping: 14 }}
+                style={{ backgroundColor: PH.pill, borderRadius: 100, padding: '9px 16px', display: 'flex', alignItems: 'center', gap: 7 }}>
+                <span style={{ fontSize: 18 }}>{e}</span>
+                <span style={{ fontSize: 20, color: PH.text }}>{l}</span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </PhoneFrame>
+    </PhonePost>
+  );
+}
+
+// 8. Pets — your whole family, including the ones with paws
+function PetsAd({ config }: { config: AdConfig }) {
+  const { dark } = config;
+  const family = [
+    { initials: 'JM', bg: '#b4e0cb', name: 'Jake' },
+    { initials: 'EK', bg: '#e0b2df', name: 'Ellie' },
+    { initials: 'LM', bg: '#89acbe', name: 'Lily' },
+  ];
+  const petItems = [
+    { emoji: '🏥', label: 'Vet appointment', value: 'Jan 15 · Booked' },
+    { emoji: '💊', label: 'Heartworm prescription', value: 'Auto-refilled' },
+    { emoji: '🛒', label: 'Dog food delivery', value: 'Every 3 weeks' },
+    { emoji: '✂️', label: 'Grooming', value: 'Jan 22 · Scheduled' },
+  ];
+  return (
+    <PhonePost bg={dark ? BRAND.dark : '#f5d0c0'} dark={dark}
+      headline="Your whole family is in Orbits."
+      subheadline="Including the members with four legs. 🐾">
+      <PhoneFrame>
+        <PhoneTopBar title="Family" accent={PH.accent} />
+        <div style={{ padding: '0 24px 24px' }}>
+          <div style={{ display: 'flex', gap: 14, marginBottom: 18 }}>
+            {family.map(({ initials, bg, name }) => (
+              <div key={name} style={{ flex: 1, textAlign: 'center', backgroundColor: PH.bg, border: `1px solid ${PH.border}`, borderRadius: 14, padding: '12px 8px' }}>
+                <div style={{ width: 44, height: 44, borderRadius: '50%', backgroundColor: bg, margin: '0 auto 8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <span style={{ fontSize: 18, fontWeight: 700, color: BRAND.dark }}>{initials}</span>
+                </div>
+                <p style={{ fontSize: 20, fontWeight: 600, color: PH.text, margin: 0 }}>{name}</p>
+              </div>
+            ))}
+          </div>
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, type: 'spring', stiffness: 70, damping: 16 }}
+            style={{ backgroundColor: '#fff8f0', border: '1px solid #f0c8a0', borderRadius: 16, padding: '16px 18px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
+              <span style={{ fontSize: 28 }}>🐕</span>
+              <div>
+                <p style={{ fontSize: 22, fontWeight: 700, color: PH.text, margin: 0 }}>Milo</p>
+                <p style={{ fontSize: 17, color: PH.muted, margin: 0 }}>Golden Retriever · 3 yrs</p>
+              </div>
+            </div>
+            {petItems.map(({ emoji, label, value }, i) => (
+              <motion.div key={label} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.78 + i * 0.12 }}
+                style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '9px 0', borderTop: `1px solid ${PH.border}` }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <span style={{ fontSize: 20 }}>{emoji}</span>
+                  <p style={{ fontSize: 20, color: PH.text, margin: 0 }}>{label}</p>
+                </div>
+                <p style={{ fontSize: 18, color: PH.accent, fontWeight: 600, margin: 0 }}>{value}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </PhoneFrame>
+    </PhonePost>
+  );
+}
+
+// "ClawdBot is for engineers. Orbits is for your home."
+function VsClawdbotAd({ config }: { config: AdConfig }) {
+  const { accentColor, dark } = config;
+  const accentHex = ACCENT_HEX[accentColor];
+
+  const rows: Array<{ clawdbot: string; orbits: string }> = [
+    { clawdbot: 'Write your own prompts', orbits: 'Just works automatically' },
+    { clawdbot: 'Set up integrations', orbits: 'Connected out of the box' },
+    { clawdbot: 'Built for developers', orbits: 'Built for families' },
+    { clawdbot: 'You manage the AI', orbits: 'AI manages your home' },
+  ];
+
+  return (
+    <div className="relative w-[1080px] h-[1080px] overflow-hidden">
+      <CanvasBackground dark={dark} />
+      <div className="relative z-10 flex flex-col justify-center items-center h-full px-[88px]">
+        <Eyebrow text="There's an easier way" dark={dark} />
+
+        {/* Column headers */}
+        <motion.div {...fadeUp(0.22)} className="grid grid-cols-[1fr_2px_1fr] w-full max-w-[900px] mb-[20px]">
+          <div className="text-right pr-8">
+            <span style={{ color: c.fgSoft(dark) }} className="text-[26px] font-medium">ClawdBot / OpenClaw</span>
+          </div>
+          <div />
+          <div className="text-left pl-8">
+            <span style={{ color: accentHex }} className="text-[26px] font-medium">Orbits</span>
+          </div>
+        </motion.div>
+
+        {/* Divider */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ delay: 0.38, duration: 0.45 }}
+          style={{ originX: 0.5, backgroundColor: c.rule(dark) }}
+          className="h-[1px] w-full max-w-[900px] mb-[20px]"
+        />
+
+        {/* Comparison rows */}
+        <div className="w-full max-w-[900px] mb-[52px]">
+          {rows.map(({ clawdbot, orbits }, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.46 + i * 0.14 }}
+              style={{ borderBottom: `1px solid ${c.rule(dark)}` }}
+              className="grid grid-cols-[1fr_48px_1fr] py-[22px] last:border-0"
+            >
+              <div className="flex items-center justify-end pr-8 gap-3">
+                <span style={{ color: c.fgSoft(dark) }} className="text-[28px] text-right leading-snug">{clawdbot}</span>
+                <span style={{ color: c.fgSoft(dark) }} className="text-[24px] shrink-0">✕</span>
+              </div>
+              <div className="flex items-center justify-center">
+                <div style={{ width: 2, height: '100%', backgroundColor: c.rule(dark) }} />
+              </div>
+              <div className="flex items-center pl-8 gap-3">
+                <span style={{ color: accentHex }} className="text-[24px] shrink-0">✓</span>
+                <span style={{ color: c.fg(dark) }} className="text-[28px] font-medium leading-snug">{orbits}</span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Closing statement */}
+        <motion.div {...fadeUp(1.06)} className="text-center">
+          <p style={{ color: c.fg(dark) }} className="text-[52px] font-serif font-medium leading-[1.12] tracking-[-0.01em]">
+            The AI for your home.
+          </p>
+          <p style={{ color: accentHex }} className="text-[52px] font-serif font-medium leading-[1.12] tracking-[-0.01em]">
+            Not your terminal.
+          </p>
+        </motion.div>
+      </div>
+      <CanvasLogo delay={1.42} dark={dark} />
     </div>
   );
 }
@@ -1696,6 +2110,210 @@ function NotifCard({ emoji, title, body, delay }: { emoji: string; title: string
   );
 }
 
+// Instacart reel — detect needs → build cart → schedule delivery
+function ReelInstacartAd({ config }: { config: AdConfig }) {
+  const { dark, showChrome, accentColor } = config;
+  const accentHex = ACCENT_HEX[accentColor];
+
+  const triggers = [
+    { emoji: '🎂', label: 'School bake sale', detail: 'Thursday' },
+    { emoji: '🐾', label: 'Dog food running low', detail: 'Milo — 2 days left' },
+  ];
+
+  const cartItems = [
+    { emoji: '🧁', text: 'Brown sugar + butter', qty: '1 pack each' },
+    { emoji: '🐾', text: 'Dog food (large bag)', qty: '×1' },
+  ];
+
+  return (
+    <div style={{ position: 'relative', width: 1080, height: 1920, overflow: 'hidden', backgroundColor: dark ? BRAND.dark : BRAND.bg }}>
+      {/* Subtle bg tint */}
+      <div style={{ position: 'absolute', inset: 0, background: dark ? 'radial-gradient(ellipse at 20% 30%, rgba(58,125,85,0.18) 0%, transparent 60%)' : 'radial-gradient(ellipse at 20% 30%, rgba(189,229,210,0.45) 0%, transparent 65%)' }} />
+
+      {/* Safe-area content: top 148px, right 180px (clears action bar), bottom 400px (clears caption+nav) */}
+      <div style={{ position: 'absolute', top: 148, left: 60, right: 180, bottom: 400, display: 'flex', flexDirection: 'column', gap: 28 }}>
+
+        {/* Header */}
+        <motion.div {...fadeUp(0.05)}>
+          <p style={{ fontSize: 84, fontFamily: 'Lora, serif', fontWeight: 400, color: c.fg(dark), margin: '0 0 14px', lineHeight: 1.08 }}>
+            Your groceries<br />order themselves.
+          </p>
+          <p style={{ fontSize: 44, color: c.fgSoft(dark), margin: 0 }}>Orbits notices. Instacart delivers.</p>
+        </motion.div>
+
+        {/* Step 1 — Orbits detects */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35, type: 'spring', stiffness: 65, damping: 16 }}
+          style={{ backgroundColor: dark ? 'rgba(254,252,246,0.07)' : DP.card, border: `1px solid ${dark ? 'rgba(254,252,246,0.13)' : DP.border}`, borderRadius: 28, padding: '26px 32px', flexShrink: 0 }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 18 }}>
+            <img src={orbitsIcon} alt="" style={{ width: 44, height: 44 }} />
+            <p style={{ fontSize: 30, fontWeight: 700, color: ACCENT_CTA_BG[accentColor], margin: 0, letterSpacing: '0.06em' }}>ORBITS NOTICED</p>
+          </div>
+          {triggers.map(({ emoji, label, detail }, i) => (
+            <motion.div
+              key={label}
+              initial={{ opacity: 0, x: -18 }} animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.5 + i * 0.18, type: 'spring', stiffness: 72, damping: 16 }}
+              style={{ display: 'flex', alignItems: 'center', gap: 20, padding: '16px 0', borderBottom: i < triggers.length - 1 ? `1px solid ${dark ? 'rgba(254,252,246,0.08)' : DP.border}` : 'none' }}
+            >
+              <span style={{ fontSize: 48, flexShrink: 0 }}>{emoji}</span>
+              <div>
+                <p style={{ fontSize: 40, fontWeight: 600, color: c.fg(dark), margin: 0 }}>{label}</p>
+                <p style={{ fontSize: 32, color: c.fgSoft(dark), margin: '4px 0 0' }}>{detail}</p>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Step 2 — Cart built */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.0, type: 'spring', stiffness: 65, damping: 16 }}
+          style={{ backgroundColor: dark ? 'rgba(254,252,246,0.07)' : DP.card, border: `1px solid ${dark ? 'rgba(254,252,246,0.13)' : DP.border}`, borderRadius: 28, flexShrink: 0 }}
+        >
+          <div style={{ padding: '20px 32px', borderBottom: `1px solid ${dark ? 'rgba(254,252,246,0.08)' : DP.border}`, display: 'flex', alignItems: 'center', gap: 14 }}>
+            <span style={{ fontSize: 34 }}>🛒</span>
+            <p style={{ fontSize: 30, fontWeight: 700, color: c.fgSoft(dark), letterSpacing: '0.08em', margin: 0, textTransform: 'uppercase' as const }}>Cart built automatically</p>
+          </div>
+          {cartItems.map(({ emoji, text, qty }, i) => (
+            <motion.div
+              key={text}
+              initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 1.15 + i * 0.15, type: 'spring', stiffness: 72, damping: 16 }}
+              style={{ display: 'flex', alignItems: 'center', gap: 18, padding: '16px 32px', borderBottom: i < cartItems.length - 1 ? `1px solid ${dark ? 'rgba(254,252,246,0.07)' : DP.border}` : 'none', justifyContent: 'space-between' }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
+                <span style={{ fontSize: 44 }}>{emoji}</span>
+                <div>
+                  <p style={{ fontSize: 38, fontWeight: 600, color: c.fg(dark), margin: 0 }}>{text}</p>
+                  <p style={{ fontSize: 30, color: c.fgSoft(dark), margin: '3px 0 0' }}>{qty}</p>
+                </div>
+              </div>
+              <span style={{ fontSize: 36, color: DP.green, fontWeight: 700 }}>✓</span>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Step 3 — Instacart delivery confirmed (hero card) */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.92, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ delay: 1.8, type: 'spring', stiffness: 60, damping: 14 }}
+          style={{ backgroundColor: dark ? 'rgba(58,125,85,0.22)' : '#e8f5ee', border: `2.5px solid ${DP.green}66`, borderRadius: 32, padding: '36px 36px', flexShrink: 0 }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginBottom: 20 }}>
+            <div style={{ width: 100, height: 100, borderRadius: 24, overflow: 'hidden', flexShrink: 0 }}>
+              <img src={instacartCarrot} alt="Instacart" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </div>
+            <div>
+              <p style={{ fontSize: 48, fontWeight: 800, color: DP.green, margin: '0 0 6px', lineHeight: 1 }}>Delivery scheduled</p>
+              <p style={{ fontSize: 34, color: c.fgMid(dark), margin: 0, fontWeight: 500 }}>via Instacart</p>
+            </div>
+          </div>
+          <div style={{ backgroundColor: dark ? 'rgba(58,125,85,0.2)' : 'rgba(58,125,85,0.1)', borderRadius: 20, padding: '20px 24px', display: 'flex', alignItems: 'center', gap: 16 }}>
+            <span style={{ fontSize: 44 }}>📅</span>
+            <p style={{ fontSize: 40, fontWeight: 700, color: dark ? '#fff' : DP.text, margin: 0 }}>Wednesday at 6pm</p>
+          </div>
+          <p style={{ fontSize: 32, color: c.fgSoft(dark), margin: '16px 0 0', textAlign: 'center' }}>You didn't lift a finger. ✓</p>
+        </motion.div>
+
+      </div>
+      <ReelsChrome showChrome={showChrome} />
+    </div>
+  );
+}
+
+// Amazon reel — detect low supplies → order overnight → arrives tomorrow
+function ReelAmazonAd({ config }: { config: AdConfig }) {
+  const { dark, showChrome, accentColor } = config;
+
+  const noticed = [
+    { emoji: '🌀', label: 'HVAC filter overdue', detail: '3 months past due' },
+    { emoji: '💡', label: 'Garage bulb burned out', detail: 'Flagged from your last note' },
+    { emoji: '🧼', label: 'Dishwasher pods low', detail: 'Running out this week' },
+  ];
+
+  return (
+    <div style={{ position: 'relative', width: 1080, height: 1920, overflow: 'hidden', backgroundColor: dark ? BRAND.dark : BRAND.bg }}>
+      <div style={{ position: 'absolute', inset: 0, background: dark ? 'radial-gradient(ellipse at 25% 30%, rgba(184,134,11,0.15) 0%, transparent 60%)' : 'radial-gradient(ellipse at 25% 30%, rgba(255,220,100,0.3) 0%, transparent 65%)' }} />
+
+      <div style={{ position: 'absolute', top: 148, left: 60, right: 180, bottom: 400, display: 'flex', flexDirection: 'column', gap: 28 }}>
+
+        {/* Header */}
+        <motion.div {...fadeUp(0.05)}>
+          <p style={{ fontSize: 68, fontFamily: 'Lora, serif', fontWeight: 400, color: c.fg(dark), margin: '0 0 12px', lineHeight: 1.1, whiteSpace: 'nowrap' }}>
+            Your home restocks itself.
+          </p>
+          <p style={{ fontSize: 40, color: c.fgSoft(dark), margin: 0 }}>Orbits notices. Amazon delivers.</p>
+        </motion.div>
+
+        {/* Step 1 — Orbits noticed 3 things */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35, type: 'spring', stiffness: 65, damping: 16 }}
+          style={{ backgroundColor: dark ? 'rgba(254,252,246,0.07)' : DP.card, border: `1px solid ${dark ? 'rgba(254,252,246,0.13)' : DP.border}`, borderRadius: 28, padding: '26px 32px', flexShrink: 0 }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 18 }}>
+            <img src={orbitsIcon} alt="" style={{ width: 44, height: 44 }} />
+            <p style={{ fontSize: 30, fontWeight: 700, color: ACCENT_CTA_BG[accentColor], margin: 0, letterSpacing: '0.06em' }}>ORBITS NOTICED</p>
+          </div>
+          {noticed.map(({ emoji, label, detail }, i) => (
+            <motion.div
+              key={label}
+              initial={{ opacity: 0, x: -18 }} animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.5 + i * 0.16, type: 'spring', stiffness: 72, damping: 16 }}
+              style={{ display: 'flex', alignItems: 'center', gap: 18, padding: '13px 0', borderBottom: i < noticed.length - 1 ? `1px solid ${dark ? 'rgba(254,252,246,0.08)' : DP.border}` : 'none' }}
+            >
+              <span style={{ fontSize: 42, flexShrink: 0 }}>{emoji}</span>
+              <div>
+                <p style={{ fontSize: 36, fontWeight: 600, color: c.fg(dark), margin: 0 }}>{label}</p>
+                <p style={{ fontSize: 28, color: c.fgSoft(dark), margin: '3px 0 0' }}>{detail}</p>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Step 2 — What Orbits did about it */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.1, type: 'spring', stiffness: 65, damping: 16 }}
+          style={{ backgroundColor: dark ? 'rgba(254,252,246,0.07)' : DP.card, border: `1px solid ${dark ? 'rgba(254,252,246,0.13)' : DP.border}`, borderRadius: 28, padding: '30px 32px', flexShrink: 0 }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 20 }}>
+            <span style={{ fontSize: 38 }}>📦</span>
+            <p style={{ fontSize: 30, fontWeight: 700, color: c.fgSoft(dark), letterSpacing: '0.08em', margin: 0, textTransform: 'uppercase' as const }}>Orbits ordered all 3</p>
+          </div>
+          <p style={{ fontSize: 38, color: c.fg(dark), margin: '0 0 12px', lineHeight: 1.35 }}>
+            Found the right products, compared options, and placed the order — while you were asleep.
+          </p>
+          <p style={{ fontSize: 32, color: c.fgSoft(dark), margin: 0 }}>No list. No tabs. No thinking required.</p>
+        </motion.div>
+
+        {/* Step 3 — Amazon delivery confirmed */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.92, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ delay: 1.9, type: 'spring', stiffness: 60, damping: 14 }}
+          style={{ backgroundColor: dark ? 'rgba(184,134,11,0.18)' : '#fff8e6', border: `2.5px solid ${ACCENT_CTA_BG[accentColor]}55`, borderRadius: 32, padding: '32px 36px', flexShrink: 0 }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginBottom: 20 }}>
+            <div style={{ width: 100, height: 100, borderRadius: 24, overflow: 'hidden', flexShrink: 0 }}>
+              <img src={amazonIcon} alt="Amazon" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </div>
+            <div>
+              <p style={{ fontSize: 48, fontWeight: 800, color: ACCENT_CTA_BG[accentColor], margin: '0 0 6px', lineHeight: 1 }}>On its way</p>
+              <p style={{ fontSize: 34, color: c.fgMid(dark), margin: 0, fontWeight: 500 }}>Amazon Prime · arrives Friday</p>
+            </div>
+          </div>
+          <p style={{ fontSize: 34, color: c.fgSoft(dark), margin: 0, textAlign: 'center' }}>Your home handled it. You didn't have to. ✓</p>
+        </motion.div>
+
+      </div>
+      <ReelsChrome showChrome={showChrome} />
+    </div>
+  );
+}
+
 // 6. Notification — "What Orbits did while you slept"
 function ReelNotificationAd({ config }: { config: AdConfig }) {
   const { dark, showChrome } = config;
@@ -1709,7 +2327,7 @@ function ReelNotificationAd({ config }: { config: AdConfig }) {
       {/* Background gradient */}
       <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 30% 20%, rgba(137,172,190,0.3) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(189,229,210,0.2) 0%, transparent 60%)' }} />
 
-      <div style={{ position: 'relative', zIndex: 10, height: '100%', display: 'flex', flexDirection: 'column', padding: '160px 64px 320px' }}>
+      <div style={{ position: 'absolute', top: 148, left: 64, right: 180, bottom: 400, zIndex: 10, display: 'flex', flexDirection: 'column' }}>
         {/* Time + lock screen */}
         <motion.div {...fadeUp(0.1)} style={{ textAlign: 'center', marginBottom: 80 }}>
           <p style={{ fontSize: 46, color: 'rgba(255,255,255,0.55)', margin: '0 0 8px', letterSpacing: '0.08em' }}>MONDAY 7:43 AM</p>
@@ -1740,6 +2358,7 @@ function ReelNotificationAd({ config }: { config: AdConfig }) {
 function ReelWorkflowAd({ config }: { config: AdConfig }) {
   const { dark, showChrome, accentColor } = config;
   const accentHex = ACCENT_HEX[accentColor];
+  const tapDelay = 1.05; // seconds after mount when the tap fires
 
   const providers = [
     { name: "Fast Snow Services", stars: '⭐ 4.9', avail: 'Sat 8am', price: '$95', tag: 'Recommended', accent: true },
@@ -1749,14 +2368,14 @@ function ReelWorkflowAd({ config }: { config: AdConfig }) {
 
   return (
     <div style={{ position: 'relative', width: 1080, height: 1920, overflow: 'hidden', backgroundColor: dark ? BRAND.dark : BRAND.bg }}>
-      <div style={{ position: 'relative', zIndex: 10, height: '100%', display: 'flex', flexDirection: 'column', padding: '148px 56px 280px', gap: 40 }}>
+      <div style={{ position: 'absolute', top: 148, left: 56, right: 180, bottom: 400, zIndex: 10, display: 'flex', flexDirection: 'column', gap: 40 }}>
 
         {/* Header */}
         <motion.div {...fadeUp(0.05)} style={{ textAlign: 'center', marginBottom: 8 }}>
-          <p style={{ fontSize: 72, fontFamily: 'Lora, serif', fontWeight: 400, color: c.fg(dark), margin: '0 0 14px', lineHeight: 1.1 }}>
-            How Orbits<br />handles it.
+          <p style={{ fontSize: 72, fontFamily: 'Lora, serif', fontWeight: 400, color: c.fg(dark), margin: '0 0 14px', lineHeight: 1.1, whiteSpace: 'nowrap' }}>
+            How Orbits handles it.
           </p>
-          <p style={{ fontSize: 42, color: c.fgSoft(dark), margin: 0 }}>No chat. Just the right workflow.</p>
+          <p style={{ fontSize: 42, color: c.fgSoft(dark), margin: 0 }}>Proactive. Structured. Done.</p>
         </motion.div>
 
         {/* Step 1 — Orbits detects */}
@@ -1765,7 +2384,7 @@ function ReelWorkflowAd({ config }: { config: AdConfig }) {
           style={{ backgroundColor: dark ? 'rgba(254,252,246,0.07)' : DP.card, border: `1px solid ${dark ? 'rgba(254,252,246,0.13)' : DP.border}`, borderRadius: 28, padding: '32px 36px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 18 }}>
             <img src={orbitsIcon} alt="" style={{ width: 52, height: 52 }} />
-            <p style={{ fontSize: 30, fontWeight: 700, color: accentHex, margin: 0, letterSpacing: '0.06em' }}>ORBITS NOTICED</p>
+            <p style={{ fontSize: 30, fontWeight: 700, color: ACCENT_CTA_BG[accentColor], margin: 0, letterSpacing: '0.06em' }}>ORBITS NOTICED</p>
           </div>
           <p style={{ fontSize: 42, color: c.fg(dark), margin: '0 0 24px', lineHeight: 1.3 }}>
             ❄️ Snow expected this Saturday. Your driveway isn't scheduled for service yet.
@@ -1773,9 +2392,31 @@ function ReelWorkflowAd({ config }: { config: AdConfig }) {
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.9, type: 'spring', stiffness: 80, damping: 14 }}
             style={{ display: 'flex', gap: 16 }}>
-            <div style={{ flex: 1, backgroundColor: accentHex, borderRadius: 16, padding: '18px 24px', textAlign: 'center' }}>
-              <span style={{ fontSize: 34, fontWeight: 700, color: BRAND.dark }}>Find services →</span>
-            </div>
+            {/* Button with tap press animation */}
+            <motion.div
+              animate={{ scale: [1, 0.93, 1] }}
+              transition={{ delay: tapDelay, duration: 0.28, ease: 'easeInOut', times: [0, 0.45, 1] }}
+              style={{ flex: 1, position: 'relative', borderRadius: 16, overflow: 'hidden' }}
+            >
+              <div style={{ backgroundColor: ACCENT_CTA_BG[accentColor], borderRadius: 16, padding: '18px 24px', textAlign: 'center' }}>
+                <span style={{ fontSize: 34, fontWeight: 700, color: ACCENT_CTA_FG[accentColor] }}>Find services →</span>
+              </div>
+              {/* Ripple */}
+              <motion.div
+                initial={{ opacity: 0.55, scale: 0 }}
+                animate={{ opacity: 0, scale: 3.5 }}
+                transition={{ delay: tapDelay + 0.05, duration: 0.55, ease: 'easeOut' }}
+                style={{
+                  position: 'absolute',
+                  top: '50%', left: '38%',
+                  width: 80, height: 80,
+                  borderRadius: '50%',
+                  backgroundColor: ACCENT_CTA_FG[accentColor],
+                  transform: 'translate(-50%, -50%)',
+                  pointerEvents: 'none',
+                }}
+              />
+            </motion.div>
             <div style={{ backgroundColor: dark ? 'rgba(254,252,246,0.1)' : DP.bg, border: `1px solid ${dark ? 'rgba(254,252,246,0.15)' : DP.border}`, borderRadius: 16, padding: '18px 24px', textAlign: 'center' }}>
               <span style={{ fontSize: 34, color: c.fgMid(dark) }}>Later</span>
             </div>
@@ -1841,7 +2482,7 @@ function ReelMorningAd({ config }: { config: AdConfig }) {
   ];
   return (
     <div style={{ position: 'relative', width: 1080, height: 1920, overflow: 'hidden', backgroundColor: dark ? BRAND.dark : BRAND.bg }}>
-      <div style={{ position: 'relative', zIndex: 10, height: '100%', display: 'flex', flexDirection: 'column', padding: '150px 56px 280px', gap: 36 }}>
+      <div style={{ position: 'absolute', top: 148, left: 56, right: 180, bottom: 400, zIndex: 10, display: 'flex', flexDirection: 'column', gap: 36 }}>
 
         {/* Logo + greeting */}
         <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
@@ -1905,8 +2546,8 @@ function ReelMorningAd({ config }: { config: AdConfig }) {
 
         {/* CTA */}
         <motion.div {...fadeUp(1.9)} style={{ textAlign: 'center' }}>
-          <div style={{ display: 'inline-block', backgroundColor: accentHex, borderRadius: 100, padding: '28px 72px', marginBottom: 18 }}>
-            <span style={{ fontSize: 46, fontWeight: 700, color: BRAND.dark }}>Get it today →</span>
+          <div style={{ display: 'inline-block', backgroundColor: ACCENT_CTA_BG[accentColor], borderRadius: 100, padding: '28px 72px', marginBottom: 18 }}>
+            <span style={{ fontSize: 46, fontWeight: 700, color: ACCENT_CTA_FG[accentColor] }}>Get it today →</span>
           </div>
           <p style={{ fontSize: 34, color: c.fgSoft(dark), margin: 0 }}>Free · tryorbits.com</p>
         </motion.div>
@@ -1918,13 +2559,190 @@ function ReelMorningAd({ config }: { config: AdConfig }) {
 
 // ─── Ad Canvas router ────────────────────────────────────────────────────────
 
+// AI Grocery List — items stream in one by one as if generated by AI
+function ReelGroceryAiAd({ config }: { config: AdConfig }) {
+  const { dark, showChrome, accentColor } = config;
+  const accentHex = ACCENT_HEX[accentColor];
+
+  const context = [
+    { emoji: '📅', label: "Lily's bake sale", detail: 'Thursday' },
+    { emoji: '🐾', label: 'Dog food running low', detail: 'Milo — 2 days left' },
+  ];
+
+  const groceryItems = [
+    { emoji: '🧁', text: 'Brown sugar (2 cups)', reason: "Lily's bake sale" },
+    { emoji: '🧈', text: 'Unsalted butter', reason: "Lily's bake sale" },
+    { emoji: '🥚', text: 'Eggs (1 dozen)', reason: "Lily's bake sale" },
+    { emoji: '🐾', text: 'Dog food — large bag', reason: 'Milo running low' },
+  ];
+
+  // Each item streams in with a staggered delay
+  const itemBaseDelay = 1.1;
+  const itemStagger = 0.22;
+
+  return (
+    <div style={{ position: 'relative', width: 1080, height: 1920, overflow: 'hidden', backgroundColor: dark ? BRAND.dark : BRAND.bg }}>
+      <div style={{ position: 'absolute', top: 148, left: 56, right: 180, zIndex: 10, display: 'flex', flexDirection: 'column', gap: 24 }}>
+
+        {/* Headline */}
+        <motion.div {...fadeUp(0.05)}>
+          <p style={{ fontSize: 72, fontFamily: 'Lora, serif', fontWeight: 400, color: c.fg(dark), margin: '0 0 12px', lineHeight: 1.1 }}>
+            You didn't write<br />a single thing.
+          </p>
+          <p style={{ fontSize: 40, color: c.fgSoft(dark), margin: 0 }}>
+            Orbits read your week and built the list.
+          </p>
+        </motion.div>
+
+        {/* Context card — what Orbits detected */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, type: 'spring', stiffness: 65, damping: 16 }}
+          style={{
+            backgroundColor: dark ? 'rgba(254,252,246,0.07)' : DP.card,
+            border: `1px solid ${dark ? 'rgba(254,252,246,0.13)' : DP.border}`,
+            borderRadius: 28, padding: '24px 32px',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 14 }}>
+            <img src={orbitsIcon} alt="" style={{ width: 44, height: 44 }} />
+            <p style={{ fontSize: 28, fontWeight: 700, color: ACCENT_CTA_BG[accentColor], margin: 0, letterSpacing: '0.06em' }}>
+              ORBITS NOTICED
+            </p>
+          </div>
+          {context.map(({ emoji, label, detail }, i) => (
+            <motion.div
+              key={label}
+              initial={{ opacity: 0, x: -18 }} animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.55 + i * 0.18, type: 'spring', stiffness: 72, damping: 16 }}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 18,
+                padding: '13px 0',
+                borderBottom: i < context.length - 1 ? `1px solid ${dark ? 'rgba(254,252,246,0.08)' : DP.border}` : 'none',
+              }}
+            >
+              <span style={{ fontSize: 42, flexShrink: 0 }}>{emoji}</span>
+              <div>
+                <p style={{ fontSize: 36, fontWeight: 600, color: c.fg(dark), margin: 0 }}>{label}</p>
+                <p style={{ fontSize: 28, color: c.fgSoft(dark), margin: '3px 0 0' }}>{detail}</p>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* AI generating label */}
+        <motion.div
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+          transition={{ delay: itemBaseDelay - 0.2 }}
+          style={{ display: 'flex', alignItems: 'center', gap: 14 }}
+        >
+          <Sparkles style={{ width: 32, height: 32, color: accentHex, flexShrink: 0 }} />
+          <p style={{ fontSize: 28, fontWeight: 700, color: ACCENT_CTA_BG[accentColor], margin: 0, letterSpacing: '0.06em' }}>
+            GENERATING GROCERY LIST
+          </p>
+          <div style={{ display: 'flex', gap: 7, alignItems: 'center' }}>
+            {[0, 1, 2].map((i) => (
+              <motion.div
+                key={i}
+                animate={{ opacity: [0.25, 1, 0.25] }}
+                transition={{ duration: 1.1, delay: i * 0.22, repeat: Infinity, ease: 'easeInOut' }}
+                style={{ width: 9, height: 9, borderRadius: '50%', backgroundColor: ACCENT_CTA_BG[accentColor] }}
+              />
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Grocery list card — items stream in */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: itemBaseDelay - 0.05, type: 'spring', stiffness: 65, damping: 16 }}
+          style={{
+            backgroundColor: dark ? 'rgba(254,252,246,0.07)' : DP.card,
+            border: `1px solid ${dark ? 'rgba(254,252,246,0.13)' : DP.border}`,
+            borderRadius: 28, overflow: 'hidden',
+          }}
+        >
+          <div style={{
+            padding: '18px 28px',
+            borderBottom: `1px solid ${dark ? 'rgba(254,252,246,0.08)' : DP.border}`,
+            display: 'flex', alignItems: 'center', gap: 14,
+          }}>
+            <span style={{ fontSize: 30 }}>🛒</span>
+            <p style={{ fontSize: 28, fontWeight: 700, color: c.fgSoft(dark), letterSpacing: '0.08em', margin: 0, textTransform: 'uppercase' as const }}>
+              Cart built automatically
+            </p>
+          </div>
+          {groceryItems.map(({ emoji, text, reason }, i) => (
+            <motion.div
+              key={text}
+              initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: itemBaseDelay + i * itemStagger, type: 'spring', stiffness: 72, damping: 16 }}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 16,
+                padding: '13px 28px',
+                borderBottom: i < groceryItems.length - 1 ? `1px solid ${dark ? 'rgba(254,252,246,0.07)' : DP.border}` : 'none',
+                justifyContent: 'space-between',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                <span style={{ fontSize: 38, flexShrink: 0 }}>{emoji}</span>
+                <div>
+                  <p style={{ fontSize: 34, fontWeight: 600, color: c.fg(dark), margin: 0 }}>{text}</p>
+                  <p style={{ fontSize: 26, color: c.fgSoft(dark), margin: '2px 0 0' }}>{reason}</p>
+                </div>
+              </div>
+              <motion.span
+                initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: itemBaseDelay + i * itemStagger + 0.18, type: 'spring', stiffness: 90, damping: 12 }}
+                style={{ fontSize: 32, color: DP.green, fontWeight: 700, flexShrink: 0 }}
+              >
+                ✓
+              </motion.span>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Completion badge */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.94 }} animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: itemBaseDelay + groceryItems.length * itemStagger + 0.2, type: 'spring', stiffness: 60, damping: 14 }}
+          style={{
+            backgroundColor: dark ? 'rgba(58,125,85,0.18)' : 'rgba(58,125,85,0.08)',
+            border: `2px solid ${DP.green}44`,
+            borderRadius: 28, padding: '24px 32px',
+            display: 'flex', alignItems: 'center', gap: 22,
+          }}
+        >
+          <div style={{ width: 72, height: 72, borderRadius: 18, overflow: 'hidden', flexShrink: 0 }}>
+            <img src={instacartCarrot} alt="Instacart" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          </div>
+          <div>
+            <p style={{ fontSize: 36, fontWeight: 700, color: DP.green, margin: '0 0 5px', lineHeight: 1 }}>
+              Ready to order
+            </p>
+            <p style={{ fontSize: 28, color: c.fgMid(dark), margin: 0, fontWeight: 500 }}>
+              4 items · via Instacart
+            </p>
+          </div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: itemBaseDelay + groceryItems.length * itemStagger + 0.5 }}
+            style={{ marginLeft: 'auto', fontSize: 52 }}
+          >
+            ✅
+          </motion.div>
+        </motion.div>
+
+      </div>
+      <ReelsChrome showChrome={showChrome} />
+    </div>
+  );
+}
+
 function AdCanvas({ config }: { config: AdConfig }) {
   switch (config.template) {
-    case 'five-to-nine':   return <FiveToNineAd config={config} />;
-    case 'list-problem':   return <ListProblemAd config={config} />;
-    case 'coo':            return <COOAd config={config} />;
     case 'scenario':       return <ScenarioAd config={config} />;
-    case 'mental-load':    return <MentalLoadAd config={config} />;
     case 'not-a-tracker':  return <NotATrackerAd config={config} />;
     case 'manifesto':      return <ManifestoAd config={config} />;
     case 'helping-hand':   return <HelpingHandAd config={config} />;
@@ -1932,14 +2750,26 @@ function AdCanvas({ config }: { config: AdConfig }) {
     case 'family-app':     return <FamilyAppAd config={config} />;
     case 'ask-orbits':     return <AskOrbitsAd config={config} />;
     case 'at-a-glance':        return <AtAGlanceAd config={config} />;
+    case 'instacart':          return <InstacartAd config={config} />;
+    case 'amazon':             return <AmazonAd config={config} />;
+    case 'group-chat':         return <GroupChatAd config={config} />;
+    case 'bills':              return <BillsAd config={config} />;
+    case 'ai-lists':           return <AiListsAd config={config} />;
+    case 'app-features':       return <AppFeaturesAd config={config} />;
+    case 'service-requests':   return <ServiceRequestsAd config={config} />;
+    case 'pets':               return <PetsAd config={config} />;
+    case 'vs-clawdbot':        return <VsClawdbotAd config={config} />;
     case 'reel-hook':          return <ReelHookAd config={config} />;
     case 'reel-list':          return <ReelListAd config={config} />;
     case 'reel-before-after':  return <ReelBeforeAfterAd config={config} />;
     case 'reel-stat':          return <ReelStatAd config={config} />;
     case 'reel-cta':           return <ReelCtaAd config={config} />;
+    case 'reel-instacart':     return <ReelInstacartAd config={config} />;
+    case 'reel-amazon':        return <ReelAmazonAd config={config} />;
     case 'reel-notification':  return <ReelNotificationAd config={config} />;
     case 'reel-workflow':          return <ReelWorkflowAd config={config} />;
     case 'reel-morning':       return <ReelMorningAd config={config} />;
+    case 'reel-grocery-ai':    return <ReelGroceryAiAd config={config} />;
   }
 }
 
@@ -2017,7 +2847,7 @@ function ControlsPanel({
       <div className="space-y-2">
         <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Template</label>
         <div className="flex flex-wrap gap-2">
-          {TEMPLATE_ORDER.map((t) => (
+          {(isReels ? REELS_TEMPLATE_ORDER : TEMPLATE_ORDER).map((t) => (
             <button
               key={t}
               onClick={() => {
@@ -2125,8 +2955,8 @@ const InstagramAds = () => {
   const [dark, setDark] = useState(false);
   const [showChrome, setShowChrome] = useState(false);
   const [config, setConfig] = useState<AdConfig>({
-    template: 'five-to-nine',
-    ...TEMPLATES['five-to-nine'],
+    template: 'scenario',
+    ...TEMPLATES['scenario'],
     dark: false,
     showChrome: false,
   });
@@ -2271,12 +3101,38 @@ const InstagramAds = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8 items-start">
-          {/* Ad preview */}
-          <div className="space-y-4">
+        <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr_340px] gap-6 items-start">
+
+          {/* Left — set list */}
+          <div className="lg:sticky lg:top-[76px] glass border border-primary/10 rounded-2xl p-4 space-y-2">
+            <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider px-1 pb-1">
+              {isReels ? 'Reels in this set' : 'Posts in this set'}
+            </h4>
+            {activeOrder.map((t) => (
+              <button
+                key={t}
+                onClick={() => handleChange({ template: t, ...TEMPLATES[t] })}
+                className={`w-full text-left px-3 py-2.5 rounded-xl transition-all ${
+                  config.template === t
+                    ? 'bg-primary/8 border border-primary/15'
+                    : 'hover:bg-secondary/60'
+                }`}
+              >
+                <p className={`text-sm font-medium ${config.template === t ? 'text-foreground' : 'text-foreground/70'}`}>
+                  {TEMPLATE_LABELS[t]}
+                </p>
+                <p className="text-xs text-muted-foreground mt-0.5 truncate">
+                  {TEMPLATES[t].headline}
+                </p>
+              </button>
+            ))}
+          </div>
+
+          {/* Center — Ad preview + nav */}
+          <div className="space-y-4 flex flex-col items-center">
             <div
               ref={containerRef}
-              className="relative glass border border-primary/10 rounded-2xl overflow-hidden flex items-center justify-center"
+              className="relative glass border border-primary/10 rounded-2xl overflow-hidden flex items-center justify-center w-full"
               style={{ aspectRatio: isReels ? '9/16' : '1', maxHeight: '680px' }}
             >
               <div
@@ -2302,7 +3158,7 @@ const InstagramAds = () => {
               </div>
             </div>
 
-            {/* Navigation dots */}
+            {/* Navigation */}
             <div className="flex items-center justify-center gap-4">
               <Button variant="outline" size="icon" onClick={() => handleNav(-1)} className="rounded-full">
                 <ChevronLeft className="w-4 h-4" />
@@ -2327,7 +3183,7 @@ const InstagramAds = () => {
             </div>
           </div>
 
-          {/* Right sidebar */}
+          {/* Right sidebar — controls + caption + tips */}
           <div className="space-y-4 lg:sticky lg:top-[76px]">
             <ControlsPanel
               config={config}
@@ -2343,42 +3199,15 @@ const InstagramAds = () => {
             {/* Caption */}
             <CaptionPanel template={config.template} />
 
-            {/* Post summaries */}
-            <div className="glass border border-primary/10 rounded-2xl p-6 space-y-3">
-              <h4 className="text-sm font-medium">{isReels ? 'Reels in this set' : 'Posts in this set'}</h4>
-              <div className="space-y-2">
-                {activeOrder.map((t) => (
-                  <button
-                    key={t}
-                    onClick={() => handleChange({ template: t, ...TEMPLATES[t] })}
-                    className={`w-full text-left px-4 py-3 rounded-xl transition-all ${
-                      config.template === t
-                        ? 'bg-primary/8 border border-primary/15'
-                        : 'hover:bg-secondary/60'
-                    }`}
-                  >
-                    <p
-                      className={`text-sm font-medium ${config.template === t ? 'text-foreground' : 'text-foreground/70'}`}
-                    >
-                      {TEMPLATE_LABELS[t]}
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-0.5 truncate">
-                      {TEMPLATES[t].headline}
-                    </p>
-                  </button>
-                ))}
-              </div>
-            </div>
-
             {/* Tips */}
             <div className="glass border border-primary/10 rounded-2xl p-6 space-y-3">
-              <h4 className="text-sm font-medium">Recording Tips</h4>
+              <h4 className="text-sm font-medium">Tips</h4>
               <ul className="text-sm text-muted-foreground space-y-2">
                 {[
-                  { color: 'bg-lavender', tip: 'Use QuickTime → New Screen Recording, crop to the ad canvas' },
-                  { color: 'bg-peach', tip: 'Hit Replay to retrigger animations right before you start recording' },
-                  { color: 'bg-sky', tip: 'Auto-cycle records a full set without stopping' },
-                  { color: 'bg-sage', tip: 'Tweak copy in the inputs for A/B messaging variants' },
+                  { color: 'bg-lavender', tip: 'Hit Replay to retrigger animations before recording' },
+                  { color: 'bg-peach', tip: 'Auto-cycle records a full set without stopping' },
+                  { color: 'bg-sky', tip: 'Tweak copy in the inputs for A/B messaging variants' },
+                  { color: 'bg-sage', tip: 'Download PNG exports the full 1080px canvas' },
                 ].map(({ color, tip }) => (
                   <li key={tip} className="flex gap-2">
                     <span className={`h-1.5 w-1.5 rounded-full ${color} mt-1.5 shrink-0`} />
@@ -2388,6 +3217,7 @@ const InstagramAds = () => {
               </ul>
             </div>
           </div>
+
         </div>
       </div>
     </main>

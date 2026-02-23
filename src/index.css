@@ -55,6 +55,10 @@
     --golden: 40 70% 60%;
     --golden-foreground: 40 70% 15%;
 
+    /* Forest dark navy */
+    --forest: 200 67% 9%;
+    --forest-foreground: 200 30% 90%;
+
     --destructive: 0 60% 55%;
     --destructive-foreground: 0 0% 100%;
 
@@ -120,6 +124,10 @@
     --golden: 40 60% 45%;
     --golden-foreground: 40 70% 90%;
 
+    /* Forest dark navy */
+    --forest: 200 67% 9%;
+    --forest-foreground: 200 30% 90%;
+
     --destructive: 0 50% 40%;
     --destructive-foreground: 0 0% 100%;
 
@@ -158,7 +166,12 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-serif);
     font-weight: 500;
     letter-spacing: -0.01em;
@@ -169,26 +182,36 @@
   /* Text gradients */
   .text-gradient {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(245 40% 35%), hsl(260 50% 45%), hsl(200 60% 40%));
+    background-image: linear-gradient(
+      135deg,
+      hsl(245 40% 35%),
+      hsl(260 50% 45%),
+      hsl(200 60% 40%)
+    );
     background-size: 200% 200%;
   }
 
   .text-gradient-warm {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(var(--peach-foreground)), hsl(var(--golden)), hsl(var(--peach-foreground)));
+    background-image: linear-gradient(
+      135deg,
+      hsl(var(--peach-foreground)),
+      hsl(var(--golden)),
+      hsl(var(--peach-foreground))
+    );
     background-size: 200% 200%;
   }
 
   /* Soft shadows for pastel aesthetic */
   .card-shadow {
-    box-shadow: 
+    box-shadow:
       0 4px 40px -12px hsl(var(--primary) / 0.08),
       0 0 0 1px hsl(var(--border) / 0.5),
       inset 0 1px 0 hsl(0 0% 100% / 0.5);
   }
 
   .card-shadow-hover {
-    box-shadow: 
+    box-shadow:
       0 20px 60px -15px hsl(var(--primary) / 0.15),
       0 0 0 1px hsl(var(--primary) / 0.1),
       inset 0 1px 0 hsl(0 0% 100% / 0.5);
@@ -258,7 +281,11 @@
     left: 0;
     width: 0;
     height: 2px;
-    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--lavender)));
+    background: linear-gradient(
+      90deg,
+      hsl(var(--primary)),
+      hsl(var(--lavender))
+    );
     transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
@@ -297,16 +324,20 @@
       hsl(var(--primary)),
       hsl(var(--lavender))
     );
-    animation: underline-reveal 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation: underline-reveal 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+      forwards;
     animation-delay: var(--underline-delay, 0s);
     /* Removed will-change to reduce compositor layer overhead on iOS */
   }
 
-
   /* Shimmer animation */
   @keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
   }
 
   .shimmer {
@@ -318,14 +349,24 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.2), transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(0 0% 100% / 0.2),
+      transparent
+    );
     animation: shimmer 2s infinite;
   }
 
   /* Float animation */
   @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
   }
 
   .animate-float {
@@ -334,11 +375,12 @@
 
   /* Pulse glow animation */
   @keyframes pulse-glow {
-    0%, 100% { 
+    0%,
+    100% {
       opacity: 0.4;
       transform: scale(1);
     }
-    50% { 
+    50% {
       opacity: 0.7;
       transform: scale(1.05);
     }
@@ -354,7 +396,11 @@
   }
 
   .orb-lavender {
-    background: radial-gradient(circle, hsl(var(--lavender)) 0%, transparent 70%);
+    background: radial-gradient(
+      circle,
+      hsl(var(--lavender)) 0%,
+      transparent 70%
+    );
   }
 
   .orb-sky {
