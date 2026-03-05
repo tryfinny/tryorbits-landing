@@ -150,6 +150,15 @@ export function getOneLinkUrl(
     params.set('af_sub3', utmParams.utm_campaign);
   }
 
+  // Pass Google Click ID for web-to-app conversion matching
+  if (typeof window !== 'undefined') {
+    const urlParams = new URLSearchParams(window.location.search);
+    const gclid = urlParams.get('gclid');
+    if (gclid) {
+      params.set('af_sub5', gclid);
+    }
+  }
+
   // Add any additional params (e.g., button location)
   if (additionalParams) {
     Object.entries(additionalParams).forEach(([key, value]) => {
