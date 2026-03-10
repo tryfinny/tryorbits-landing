@@ -79,8 +79,8 @@ function OrbitingMergeAnimation() {
   return (
     <div
       ref={ref}
-      className="relative flex items-center justify-center"
-      style={{ width: 320, height: 420, margin: '0 auto' }}
+      className="relative flex items-center justify-center w-full transition-all duration-700"
+      style={{ height: phase === 'logo' ? 120 : 280, overflow: phase === 'logo' ? 'hidden' : 'visible' }}
     >
       {ORBIT_ICONS.map((icon, i) => {
         const currentAngle = BASE_ANGLES[i] + orbitAngle;
@@ -173,15 +173,6 @@ function OrbitingMergeAnimation() {
         </svg>
       </motion.div>
 
-      {/* "Welcome to Orbits." text - fades up after logo lands */}
-      <motion.p
-        className="absolute inset-x-0 bottom-0 text-center font-serif text-3xl sm:text-4xl lg:text-5xl font-medium text-foreground tracking-[-0.01em]"
-        initial={{ opacity: 0, y: 16 }}
-        animate={phase === 'logo' ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-        transition={{ duration: 0.6, delay: 0.7, ease: 'easeOut' }}
-      >
-        Welcome to Orbits.
-      </motion.p>
     </div>
   );
 }
@@ -617,11 +608,18 @@ export default function About() {
 
           {/* Section 1: The Problem */}
           <StorySection>
-            <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-              <div className="flex justify-center">
-                <OrbitingMergeAnimation />
-              </div>
-              <div className="text-center lg:text-left">
+            <div className="flex flex-col items-center">
+              <OrbitingMergeAnimation />
+              <motion.h2
+                className="text-center font-serif text-3xl sm:text-4xl lg:text-5xl font-medium text-foreground tracking-[-0.01em] mt-6"
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 4.5, ease: 'easeOut' }}
+              >
+                Welcome to Orbits.
+              </motion.h2>
+              <div className="text-center max-w-2xl mx-auto mt-10">
                 <p className="text-lg lg:text-xl text-foreground/90 leading-relaxed">
                   If you're reading this, you probably manage a household. And if you do,
                   you know the feeling: juggling a calendar app, a grocery list, a to-do app,
