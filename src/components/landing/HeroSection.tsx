@@ -291,8 +291,8 @@ export function HeroSection() {
 
             {/* Subheadline */}
             <motion.p variants={fadeUpSpring} className="text-base sm:text-lg lg:text-xl text-muted-foreground mb-8 sm:mb-10 max-w-lg mx-auto lg:mx-0 leading-relaxed">
-              Welcome to Orbits, the assistant for home. Whether its managing your grocery list, juggling your family
-              calendars, or finding a new babysitter, Orbits can take care of it for you all by itself (and more!)
+              One AI-powered app for your entire household. Family calendars, grocery lists, home maintenance, service
+              requests — Orbits connects it all and handles the coordination so you don't have to.
             </motion.p>
 
             {/* App Store Buttons */}

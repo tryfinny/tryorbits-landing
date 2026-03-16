@@ -1,6 +1,4 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import orbitsBanner from '@/assets/orbits-banner.png';
 
 export function Footer() {
   return (
@@ -15,7 +13,7 @@ export function Footer() {
             className="flex items-center gap-2"
           >
             <img
-              src={orbitsBanner}
+              src="/orbits-banner.png"
               alt="Orbits"
               className="h-8 w-auto object-contain"
             />
@@ -23,9 +21,10 @@ export function Footer() {
 
           {/* Links */}
           <div className="flex flex-wrap justify-center gap-6 text-sm text-muted-foreground">
-            <Link to="/about" className="hover:text-foreground transition-colors">About</Link>
-            <Link to="/privacy" className="hover:text-foreground transition-colors">Privacy Policy</Link>
-            <Link to="/tos" className="hover:text-foreground transition-colors">Terms of Service</Link>
+            <a href="/about" className="hover:text-foreground transition-colors">About</a>
+            <a href="/blog" className="hover:text-foreground transition-colors">Blog</a>
+            <a href="/privacy" className="hover:text-foreground transition-colors">Privacy Policy</a>
+            <a href="/tos" className="hover:text-foreground transition-colors">Terms of Service</a>
           </div>
 
           {/* Copyright */}

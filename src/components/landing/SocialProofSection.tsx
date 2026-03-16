@@ -1,6 +1,6 @@
-import { motion, useInView, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
-import { Star, Quote, Sparkles } from "lucide-react";
+import { Quote, Sparkles } from "lucide-react";
 
 const testimonials = [
   {
@@ -256,87 +256,6 @@ function TestimonialCarousel() {
   );
 }
 
-// Live signup notification - simplified animation
-function LiveNotification() {
-  const [visible, setVisible] = useState(false);
-  const count = 24;
-
-  useEffect(() => {
-    const timer = setTimeout(() => setVisible(true), 1500);
-    return () => clearTimeout(timer);
-  }, []);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={visible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      transition={{ type: "spring", stiffness: 150, damping: 15 }}
-      className="inline-flex items-center gap-4 px-6 py-4 glass rounded-full border border-border/30 cursor-pointer"
-    >
-      {/* Simple static dot */}
-      <div className="w-3 h-3 rounded-full bg-sage" />
-      <span className="text-muted-foreground">
-        <span className="font-semibold text-foreground">{count}</span> people signed up today
-      </span>
-      <Sparkles className="w-4 h-4 text-golden" />
-    </motion.div>
-  );
-}
-
-// Rating badge with hover effects
-function FloatingRatingBadge({
-  rating,
-  store,
-  delay,
-  gradient,
-}: {
-  rating: string;
-  store: string;
-  delay: number;
-  gradient: string;
-}) {
-  const [isHovered, setIsHovered] = useState(false);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 40, scale: 0.9 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true }}
-      transition={{
-        type: "spring",
-        stiffness: 80,
-        damping: 15,
-        delay,
-      }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-      whileHover={{ y: -8, scale: 1.02 }}
-      className={`flex items-center gap-4 px-8 py-5 bg-gradient-to-br ${gradient} rounded-2xl border border-border/30 cursor-pointer relative overflow-hidden backdrop-blur-sm`}
-    >
-      {/* Shimmer */}
-      <motion.div
-        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-        initial={{ x: "-200%" }}
-        animate={isHovered ? { x: "200%" } : { x: "-200%" }}
-        transition={{ duration: 0.8, ease: "easeInOut" }}
-      />
-
-      <div className="flex gap-1 relative z-10">
-        {[...Array(5)].map((_, i) => (
-          <motion.div
-            key={i}
-            animate={isHovered ? { rotate: [0, 20, -20, 0], scale: [1, 1.2, 1] } : {}}
-            transition={{ delay: i * 0.05, duration: 0.5 }}
-          >
-            <Star className="w-5 h-5 fill-golden text-golden" />
-          </motion.div>
-        ))}
-      </div>
-      <span className="font-bold text-xl relative z-10">{rating}</span>
-      <span className="text-muted-foreground relative z-10">{store}</span>
-    </motion.div>
-  );
-}
 
 export function SocialProofSection() {
   const containerRef = useRef(null);
@@ -396,7 +315,6 @@ export function SocialProofSection() {
           >
             Join thousands of households running smoother with Orbits.
           </motion.p>
-          <LiveNotification />
         </motion.div>
 
         {/* Testimonials carousel */}

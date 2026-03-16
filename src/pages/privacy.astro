@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PrivacyPage from '../components/pages/PrivacyPage';
+---
+
+<BaseLayout
+  title="Privacy Policy - Orbits"
+  description="Privacy Policy for the Orbits household management app."
+  canonicalUrl="https://tryorbits.com/privacy"
+>
+  <PrivacyPage client:only="react" />
+</BaseLayout>

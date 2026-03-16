@@ -1,7 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { AppStoreButtons } from './AppStoreButtons';
-import { ArrowUp, Sparkles, Heart } from 'lucide-react';
+import { ArrowRight, Sparkles, Heart } from 'lucide-react';
 
 export function CTASection() {
   const ref = useRef(null);
@@ -70,7 +70,7 @@ export function CTASection() {
 
         {/* Secondary CTA */}
         <motion.a
-          href="#"
+          href="/about"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ delay: 0.4 }}
@@ -79,7 +79,7 @@ export function CTASection() {
           className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-lg"
         >
           <span className="relative">
-            Learn more about our features
+            Learn more about our story
             <motion.span
               className="absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-primary to-lavender"
               initial={{ width: 0 }}
@@ -88,10 +88,10 @@ export function CTASection() {
             />
           </span>
           <motion.div
-            animate={isArrowHovered ? { y: -6 } : { y: 0 }}
+            animate={isArrowHovered ? { x: 4 } : { x: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 15 }}
           >
-            <ArrowUp className="w-5 h-5" />
+            <ArrowRight className="w-5 h-5" />
           </motion.div>
         </motion.a>
       </motion.div>
