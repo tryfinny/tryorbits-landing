@@ -14,6 +14,12 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await post.render();
 
+const allPosts = await getCollection('blog');
+const relatedPosts = allPosts
+  .filter((p) => p.slug !== post.slug)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
 const canonicalUrl = `https://tryorbits.com/blog/${post.slug}`;
 const publishedTime = post.data.date.toISOString();
 
@@ -58,8 +64,12 @@ const articleJsonLd = {
 >
   <div class="min-h-screen bg-background">
     <header class="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
-      <div class="max-w-4xl mx-auto px-6 py-4">
-        <a href="/blog" class="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm">
+      <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <img src="/favicon.svg" alt="Orbits" width="24" height="24" />
+          <span class="font-serif font-medium text-foreground">Orbits</span>
+        </a>
+        <a href="/blog" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
           ← All posts
         </a>
       </div>
@@ -99,7 +109,27 @@ const articleJsonLd = {
       <BlogCTA client:only="react" />
     </main>
 
-    <footer class="border-t border-border py-8 px-6 mt-8">
+    {relatedPosts.length > 0 && (
+      <section class="border-t border-border mt-8 py-16 px-6">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-sm uppercase tracking-widest text-muted-foreground font-medium mb-8">More from Orbits</h2>
+          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {relatedPosts.map((p) => (
+              <a href={`/blog/${p.slug}`} class="group block border border-border rounded-xl p-5 hover:border-primary/30 transition-colors">
+                <time class="text-xs text-muted-foreground">
+                  {p.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                </time>
+                <h3 class="font-serif font-medium mt-2 leading-snug group-hover:text-primary transition-colors">
+                  {p.data.title}
+                </h3>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <footer class="border-t border-border py-8 px-6">
       <div class="max-w-4xl mx-auto text-center text-sm text-muted-foreground">
         © 2026 Orbits. All rights reserved.
       </div>
