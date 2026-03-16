@@ -1,7 +1,7 @@
 ---
 title: "Why Your Family Group Chat Is Making Home Coordination Worse"
 description: "Group chats feel productive but they're a terrible tool for running a household. Here's what's going wrong and what actually works instead."
-date: 2026-03-16
+date: 2026-03-10
 tags: ["family organization", "household management", "group chat", "communication", "home coordination"]
 ---
 

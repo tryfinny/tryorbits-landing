@@ -1,7 +1,7 @@
 ---
 title: "How to Actually Share Household Tasks With Your Partner (Without the Argument)"
 description: "The real reason chore-splitting fails isn't laziness — it's invisible work, mismatched standards, and no shared system. Here's how to fix it."
-date: 2026-03-16
+date: 2026-02-24
 tags: ["household tasks", "chore sharing", "relationship", "family organization", "mental load"]
 ---
 
