@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TermsPage from '../components/pages/TermsPage';
+---
+
+<BaseLayout
+  title="Terms of Service - Orbits"
+  description="Terms of Service for the Orbits household management app."
+  canonicalUrl="https://tryorbits.com/tos"
+>
+  <TermsPage client:only="react" />
+</BaseLayout>

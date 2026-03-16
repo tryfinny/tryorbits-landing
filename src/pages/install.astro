@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import InstallPage from '../components/pages/InstallPage';
+---
+
+<BaseLayout
+  title="Download Orbits - iOS & Android"
+  description="Download Orbits for free. Scan the QR code to get the app on iOS or Android."
+  canonicalUrl="https://tryorbits.com/install"
+>
+  <InstallPage client:only="react" />
+</BaseLayout>

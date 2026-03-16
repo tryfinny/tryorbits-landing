@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AboutPage from '../components/pages/AboutPage';
+---
+
+<BaseLayout
+  title="About Orbits - A Story of Home"
+  description="Learn about Orbits and how we're building the future of household management with AI."
+  canonicalUrl="https://tryorbits.com/about"
+>
+  <AboutPage client:only="react" />
+</BaseLayout>

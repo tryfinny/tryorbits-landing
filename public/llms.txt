@@ -1,0 +1,145 @@
+# Orbits
+
+> Orbits is an AI-powered household management app that brings your family calendar, grocery lists, home maintenance, tasks, and service requests into one place.
+
+## Overview
+
+Orbits is the all-in-one household assistant for modern families. It replaces the patchwork of disconnected apps — calendar, grocery list, to-do app, home maintenance reminders, group chats — with a single AI-powered experience. AI is embedded directly into every workflow: it pre-fills details, suggests items, surfaces proactive recommendations, and extracts household-relevant information from your email. There is no chatbot; AI works in context as you use the app.
+
+The app is organized around three "orbits":
+
+- **Family** — Shared calendars, family member profiles, household invites, event coordination, and pet profiles.
+- **Upkeep** — Home maintenance tracking for appliances, vehicles, and properties. Log repairs, track warranties, set maintenance reminders, and coordinate service requests.
+- **You** — Personal lists, reminders, notes, and events. Supports personal-only or household-shared visibility.
+
+A central "Today" screen provides a daily overview with your schedule, tasks, AI recommendations, calendar conflicts, email insights, and weather.
+
+Orbits is available on iOS and Android. A web experience is planned. Free 7-day trial, then subscription.
+
+- Website: https://tryorbits.com
+- Contact: contact@tryorbits.com
+
+## Core Features
+
+### Household Calendar
+
+Syncs with Google Calendar and Microsoft Outlook so your existing events appear automatically. Shared household calendars let the whole family see one schedule. Orbits detects calendar conflicts (overlapping events) and surfaces them on the home screen. Events can be assigned to specific family members.
+
+### Smart Lists and Tasks
+
+Shared grocery lists, to-do lists, and custom checklists with sections. AI can generate list items from natural language prompts (e.g., "Taco night for 4" generates an ingredient list). Context-aware quick prompts suggest items for grocery, gift, travel, home, baby, party, school, health, and pet lists. Lists support personal or household visibility. Grocery lists integrate directly with Instacart for one-tap ordering.
+
+### Home Maintenance
+
+Track appliances, vehicles, and property details in the Upkeep orbit. Orbits reminds you about maintenance schedules, helps track warranties, and logs repairs so you have a complete history. Entity types include appliances, vehicles, homes/properties, and repairs.
+
+### AI Built In
+
+AI is woven into every part of the app — not a separate chatbot:
+
+- **Natural language creation:** Type "Family dinner Friday at 6pm" and Orbits creates the event with the right details pre-filled. Works for events, appliances, pets, vehicles, and more via the central FAB (floating action button).
+- **Smart list generation:** AI generates list items from prompts, with context-aware quick prompts based on list type.
+- **Proactive recommendations:** AI analyzes your household context (members, appliances, vehicles, pets, location, season) and surfaces actionable recommendations — maintenance reminders, seasonal tips, data completion suggestions. You approve or dismiss; it never acts without your say.
+- **Email reply drafts:** AI drafts friendly, action-oriented replies to household-relevant emails.
+- **Form pre-fill:** When you add an entity, AI pre-fills details from your input to reduce manual entry.
+
+### Email Intelligence
+
+Connect Gmail or Outlook and Orbits automatically scans for household-relevant emails — dentist appointments, shipping updates, school schedule changes, bills, deliveries. It extracts key details and creates calendar events or reminders so nothing slips through the cracks. Emails are categorized (bills, education, health, home, shipping, childcare, etc.) and surfaced as actionable insights on the home screen.
+
+### Service Requests
+
+Need a plumber, electrician, or handyman? Describe what you need in Orbits and it coordinates with service providers, gathers quotes, and tracks the process from start to finish. Supported categories include: snow removal, plumbing, electrical, appliance repair, HVAC, roofing, yard work, babysitting, pet care, handyman, IT support, car help, pest control, cleaning, painting, moving, and more.
+
+### Family Coordination
+
+Invite family members to your household. Everyone sees the same calendars, lists, and tasks. Household invites with pending invite management. Lists and notes can be personal (only you) or shared with the household.
+
+### Pets
+
+Add pet profiles with breed, age, vet info, vaccine records, and more. Orbits reminds you about vet appointments, medications, and pet care tasks.
+
+### Notes
+
+Create and organize notes. Notes support personal or household visibility and can be linked to other entities.
+
+### Weather
+
+Weather widget on the home screen shows current conditions. Temperature units are configurable in settings.
+
+### Service Providers
+
+Track household service providers like insurance companies, utilities, and other recurring services.
+
+## Integrations
+
+- **Google Calendar** — Two-way sync for personal and household calendars.
+- **Microsoft Outlook** — Calendar sync and email intelligence.
+- **Gmail** — Email intelligence scans for household-relevant emails.
+- **Instacart** — Grocery lists link directly to Instacart for ordering.
+- **Apple Sign-In and Google Sign-In** — Authentication options alongside email/password.
+
+## Frequently Asked Questions
+
+### How is Orbits different from Google Calendar + Reminders?
+
+Google Calendar is great for scheduling, but it doesn't know about your grocery list, your HVAC filter, or your kid's soccer schedule. Orbits connects your calendar, tasks, lists, home maintenance, and family coordination in one place — and uses AI to handle the busy work between them.
+
+### Is Orbits free?
+
+Orbits is free to download with a 7-day trial so you can experience the full product. After that, a subscription keeps everything running — including AI features, email intelligence, and service request coordination.
+
+### Does it work with Google Calendar and Outlook?
+
+Yes. Orbits syncs with both Google Calendar and Microsoft Outlook so your existing events appear automatically. You can manage everything from Orbits without switching between apps.
+
+### Can my whole family use it?
+
+Absolutely. Orbits is built around your household. Invite family members, share calendars and lists, and coordinate schedules — everyone sees the same information, no group chat required.
+
+### How does the AI actually work?
+
+There's no chatbot — AI is built directly into the flows you're already using. When you add an appliance, it pre-fills the details. When you open a grocery list, it suggests items based on context. It proactively surfaces recommendations and actions for you to approve, so you spend less time telling it what to do.
+
+### What are service requests?
+
+Need a plumber, electrician, or handyman? Tap "Find Help" in Orbits, describe what you need, and we'll coordinate with service providers, gather quotes, and track the whole process from start to finish — so you don't have to make a dozen phone calls.
+
+### Can I track my appliances, vehicles, and home details?
+
+Yes — head to Upkeep and add your appliances, vehicles, and home details. Orbits will remind you about maintenance schedules, help you track warranties, and log repairs so you have a complete history.
+
+### How does email intelligence work?
+
+Connect your Gmail or Outlook and Orbits automatically scans for household-relevant emails — dentist appointments, shipping updates, school schedule changes, bills. It extracts the key details and adds them to your calendar or creates reminders, so nothing slips through the cracks.
+
+### Is there a web app?
+
+Orbits is currently available on iOS and Android. A web experience is on our roadmap — join us now and you'll be the first to know when it launches.
+
+### Can I add pets to Orbits?
+
+Of course! Add pet profiles with breed, age, vet info, vaccine records, and more. Orbits can remind you about vet appointments, medications, and other pet care tasks.
+
+### Is my data secure?
+
+Your data is encrypted and stored securely. We use industry-standard security practices and never sell your personal information. You can read our full privacy policy for details.
+
+## About
+
+Orbits was born from the observation that managing a household still feels fragmented. For decades, households ran on whiteboards, sticky notes, and the family calendar on the kitchen wall — imperfect, but shared. Then we went digital and traded one shared fridge door for ten disconnected apps.
+
+AI changed the equation. For the first time, technology can understand context — "The dentist emailed about Tuesday's appointment? I'll update your calendar and remind you to leave early because of school pickup." Orbits was built to be the one app your household actually needs: calendar, tasks, grocery lists, home maintenance, family coordination — all in one place, powered by AI that understands how it all connects.
+
+The vision: every household deserves an assistant — not a luxury, but a practical tool that gives families their time back. Less time coordinating, more time living.
+
+## Pages
+
+- [Home](https://tryorbits.com): Main landing page with product overview, features, testimonials, and FAQ
+- [About](https://tryorbits.com/about): The story behind Orbits and the company vision
+- [Install](https://tryorbits.com/install): Download links for iOS and Android
+
+## Legal
+
+- [Terms of Service](https://tryorbits.com/tos)
+- [Privacy Policy](https://tryorbits.com/privacy)

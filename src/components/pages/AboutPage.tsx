@@ -1,6 +1,5 @@
 import { motion, useInView } from 'framer-motion';
 import { ArrowLeft, Sparkles, Clock, Heart } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { useRef, useEffect, useState } from 'react';
 import { AppStoreButtons } from '@/components/landing/AppStoreButtons';
 
@@ -459,7 +458,7 @@ function OrbitsPhoneIllustration() {
       <rect x="161" y="242" width="50" height="6" rx="2" fill="hsl(25 60% 85%)" />
 
       {/* AI sparkle badge */}
-      <rect x="151" y="259" width="98" height="30" rx="8" fill="hsl(245 25% 45% / 0.08)" />
+      <rect x="141" y="259" width="118" height="30" rx="8" fill="hsl(245 25% 45% / 0.08)" />
       <text x="200" y="278" textAnchor="middle" fontSize="9" fill="hsl(245 25% 45%)" fontFamily="var(--font-sans)">✨ AI handling 3 items</text>
 
       {/* Floating feature badges around phone */}
@@ -568,13 +567,13 @@ export default function About() {
       {/* Header */}
       <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
         <div className="max-w-4xl mx-auto px-6 py-4">
-          <Link
-            to="/"
+          <a
+            href="/"
             className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Back
-          </Link>
+          </a>
         </div>
       </header>
 

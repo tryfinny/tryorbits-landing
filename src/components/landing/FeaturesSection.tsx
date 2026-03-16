@@ -7,7 +7,7 @@ const features = [
     emoji: "📅",
     title: "Household Calendar",
     description:
-      "One family calendar. Zero confusion. See everyone's schedule, resolve conflicts instantly, and stop the endless group chats.",
+      "One family calendar. Zero confusion. Sync with Google and Outlook, see everyone's schedule, and resolve conflicts before they happen.",
     color: "bg-sage",
     gradient: "from-sage/20 to-sky/10",
     iconBg: "bg-sage/20",
@@ -17,16 +17,27 @@ const features = [
     emoji: "🏠",
     title: "Home Maintenance",
     description:
-      "Add your appliances, home details, and routine tasks and let Orbits suggest maintenance, gather service quotes, or track your warranties.",
+      "Track your appliances, vehicles, and home details. Orbits reminds you when things need attention and gathers service quotes so you don't have to.",
     color: "bg-sky",
     gradient: "from-sky/20 to-sage/10",
     iconBg: "bg-sky/20",
     bgOpacity: 0.28,
   },
   {
-    emoji: "✅",
-    title: "The Basics",
-    description: "Toss the whiteboard. Lists, tasks, reminders, documents - everything you need, finally in one place.",
+    emoji: "✨",
+    title: "AI Built In",
+    description:
+      "No chatbot. No \"I can't do that.\" Orbits handles things proactively and lets you approve — auto-filling forms, suggesting grocery items, and surfacing the right action at the right time.",
+    color: "bg-lavender",
+    gradient: "from-lavender/20 to-primary/10",
+    iconBg: "bg-lavender/20",
+    bgOpacity: 0.22,
+  },
+  {
+    emoji: "📝",
+    title: "Smart Lists & Tasks",
+    description:
+      "Shared grocery lists, to-dos, and reminders that the whole household can see and edit. AI can even suggest items for you.",
     color: "bg-lavender",
     gradient: "from-lavender/20 to-peach/10",
     iconBg: "bg-lavender/20",
@@ -34,14 +45,23 @@ const features = [
   },
   {
     emoji: "✉️",
-    title: "Email Handling",
+    title: "Email Intelligence",
     description:
-      "Dance class moved? Calendar updates itself. Dentist reminder? Orbits drafts your reply. You just hit send.",
+      "Dance class moved? Your calendar updates itself. Dentist reminder? Orbits extracts the details and adds them to your schedule automatically.",
     color: "bg-peach",
     gradient: "from-peach/20 to-lavender/10",
     iconBg: "bg-peach/20",
-    bgOpacity: 0.45,
-    comingSoon: true,
+    bgOpacity: 0.35,
+  },
+  {
+    emoji: "🔧",
+    title: "Find Help",
+    description:
+      "Need a plumber or an electrician? Submit a service request and let Orbits coordinate with providers, gather quotes, and track progress.",
+    color: "bg-sage",
+    gradient: "from-sage/20 to-sky/10",
+    iconBg: "bg-sage/20",
+    bgOpacity: 0.22,
   },
 ];
 
@@ -128,7 +148,6 @@ interface Feature {
   gradient: string;
   iconBg: string;
   bgOpacity: number;
-  comingSoon?: boolean;
 }
 
 function FeatureCard({ feature, index, isMobile }: { feature: Feature; index: number; isMobile: boolean }) {
@@ -248,12 +267,6 @@ function FeatureCard({ feature, index, isMobile }: { feature: Feature; index: nu
               {feature.title}
             </motion.h3>
 
-            {/* Coming Soon chip */}
-            {feature.comingSoon && (
-              <span className="ml-auto px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide bg-foreground/80 text-background rounded-full relative z-10 whitespace-nowrap shrink-0">
-                Soon
-              </span>
-            )}
           </div>
 
           {/* Description */}
@@ -266,8 +279,7 @@ function FeatureCard({ feature, index, isMobile }: { feature: Feature; index: nu
           </motion.p>
 
           {/* Corner dot - static on mobile for iOS performance, animated on desktop */}
-          {!feature.comingSoon && (
-            <div className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center">
+          <div className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center">
               {/* Ripple rings - desktop only */}
               {!isMobile && (
                 <>
@@ -288,7 +300,6 @@ function FeatureCard({ feature, index, isMobile }: { feature: Feature; index: nu
               {/* Center dot */}
               <div className={`w-2.5 h-2.5 rounded-full ${feature.color} relative z-10`} />
             </div>
-          )}
         </motion.div>
       </TiltCard>
     </motion.div>
