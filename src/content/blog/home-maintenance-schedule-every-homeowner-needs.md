@@ -1,7 +1,7 @@
 ---
 title: "The Home Maintenance Schedule Every Homeowner Needs (But Nobody Has)"
 description: "Most home maintenance happens reactively — when something breaks. Here's the seasonal schedule that keeps small problems from becoming expensive ones."
-date: 2026-03-16
+date: 2026-03-07
 tags: ["home maintenance", "homeowner tips", "house upkeep", "seasonal maintenance", "home management"]
 ---
 

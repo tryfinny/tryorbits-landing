@@ -1,7 +1,7 @@
 ---
 title: "How to Meal Plan for a Family Without Spending Your Whole Sunday"
 description: "Meal planning doesn't have to be a two-hour production. Here's a lighter system that actually fits into a busy family's week."
-date: 2026-03-23
+date: 2026-03-12
 tags: ["meal planning", "family meals", "grocery list", "family organization", "weekly planning"]
 ---
 

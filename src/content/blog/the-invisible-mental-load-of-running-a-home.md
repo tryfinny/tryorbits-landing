@@ -1,7 +1,7 @@
 ---
 title: "The Invisible Mental Load of Running a Home (And How to Share It)"
 description: "One person in most households is quietly carrying the full cognitive weight of keeping everything running. Here's what that actually means and how to change it."
-date: 2026-03-30
+date: 2026-03-15
 tags: ["mental load", "household management", "relationship", "cognitive labor", "family organization"]
 ---
 
