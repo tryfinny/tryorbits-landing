@@ -1,0 +1,4 @@
+# Force www → non-www (canonical: https://tryorbits.com)
+https://www.tryorbits.com/* https://tryorbits.com/:splat 301!
+http://www.tryorbits.com/* https://tryorbits.com/:splat 301!
+http://tryorbits.com/* https://tryorbits.com/:splat 301!

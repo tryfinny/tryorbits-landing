@@ -1,0 +1,6 @@
+import{r as p}from"./index.7sDP9NVU.js";import{r as g}from"./AppStoreButtons.Dxyim2wl.js";import{c as m}from"./createLucideIcon.W2cQUCtZ.js";const I={some:0,all:1};function h(s,r,{root:i,margin:a,amount:t="some"}={}){const u=g(s),n=new WeakMap,f=c=>{c.forEach(e=>{const l=n.get(e.target);if(e.isIntersecting!==!!l)if(e.isIntersecting){const d=r(e.target,e);typeof d=="function"?n.set(e.target,d):o.unobserve(e.target)}else typeof l=="function"&&(l(e),n.delete(e.target))})},o=new IntersectionObserver(f,{root:i,rootMargin:a,threshold:typeof t=="number"?t:I[t]});return u.forEach(c=>o.observe(c)),()=>o.disconnect()}function b(s,{root:r,margin:i,amount:a,once:t=!1,initial:u=!1}={}){const[n,f]=p.useState(u);return p.useEffect(()=>{if(!s.current||t&&n)return;const o=()=>(f(!0),t?void 0:()=>f(!1)),c={root:r&&r.current||void 0,margin:i,amount:a};return h(s.current,o,c)},[r,s,i,t,a]),n}/**
+ * @license lucide-react v0.462.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const V=m("Heart",[["path",{d:"M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z",key:"c3ymky"}]]);export{V as H,b as u};
