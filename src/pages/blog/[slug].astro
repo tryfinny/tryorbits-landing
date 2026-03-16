@@ -21,7 +21,12 @@ const relatedPosts = allPosts
   .slice(0, 3);
 
 const canonicalUrl = `https://tryorbits.com/blog/${post.slug}`;
+const ogImage = `https://tryorbits.com/og/${post.slug}.png`;
 const publishedTime = post.data.date.toISOString();
+
+// Reading time: ~200 words per minute
+const wordCount = post.body.trim().split(/\s+/).length;
+const readingTime = Math.max(1, Math.round(wordCount / 200));
 
 const articleJsonLd = {
   "@context": "https://schema.org",
@@ -29,8 +34,9 @@ const articleJsonLd = {
   "headline": post.data.title,
   "description": post.data.description,
   "datePublished": publishedTime,
+  "dateModified": publishedTime,
   "url": canonicalUrl,
-  "image": "https://tryorbits.com/banner.jpg",
+  "image": ogImage,
   "author": {
     "@type": "Organization",
     "name": "Orbits",
@@ -57,6 +63,7 @@ const articleJsonLd = {
   title={`${post.data.title} | Orbits Blog`}
   description={post.data.description}
   canonicalUrl={canonicalUrl}
+  ogImage={ogImage}
   ogType="article"
   publishedTime={publishedTime}
   tags={post.data.tags}
@@ -67,7 +74,7 @@ const articleJsonLd = {
       <div class="max-w-4xl mx-auto px-6 py-3 flex items-center justify-between">
         <a href="/" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
           <img src="/favicon.svg" alt="Orbits" width="48" height="48" />
-          <span class="font-serif font-medium text-foreground text-xl">Orbits</span>
+          <span class="font-serif font-medium text-foreground text-2xl">Orbits</span>
         </a>
         <a href="/blog" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
           ← All posts
@@ -77,9 +84,13 @@ const articleJsonLd = {
 
     <main class="max-w-3xl mx-auto px-6 py-16 lg:py-24">
       <div class="mb-10">
-        <time class="text-sm text-muted-foreground" datetime={publishedTime}>
-          {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-        </time>
+        <div class="flex items-center gap-3 text-sm text-muted-foreground">
+          <time datetime={publishedTime}>
+            {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </time>
+          <span>·</span>
+          <span>{readingTime} min read</span>
+        </div>
         <h1 class="text-3xl lg:text-4xl xl:text-5xl font-serif font-medium tracking-tight mt-3 mb-4 leading-tight">
           {post.data.title}
         </h1>
