@@ -1,7 +1,7 @@
 ---
 title: "Stop Using 5 Different Apps to Run Your Household"
 description: "Most families are duct-taping Google Calendar, iMessage, Reminders, and Notes together to manage their home. There's a better way."
-date: 2026-02-03
+date: 2026-01-14
 tags: ["household management", "family organization", "productivity", "home management apps"]
 ---
 
