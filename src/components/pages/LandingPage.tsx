@@ -14,6 +14,14 @@ import { LazySection } from '@/components/landing/LazySection';
 
 const queryClient = new QueryClient();
 
+function SoftDivider({ className = "" }: { className?: string }) {
+  return (
+    <div className={`w-full flex justify-center py-6 ${className}`} aria-hidden>
+      <div className="w-24 h-[2px] rounded-full bg-gradient-to-r from-transparent via-border to-transparent" />
+    </div>
+  );
+}
+
 const Index = () => {
   return (
     <QueryClientProvider client={queryClient}>
@@ -33,6 +41,7 @@ const Index = () => {
         <AiCalloutSection />
       </LazySection>
 
+      <SoftDivider />
       <LazySection minHeight="600px" rootMargin="0px 0px 300px 0px">
         <FeaturesSection />
       </LazySection>
@@ -41,6 +50,7 @@ const Index = () => {
         <SocialProofSection />
       </LazySection>
 
+      <SoftDivider />
       <LazySection minHeight="400px" rootMargin="0px 0px 300px 0px">
         <FAQSection />
       </LazySection>
