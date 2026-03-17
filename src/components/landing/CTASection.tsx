@@ -33,7 +33,7 @@ export function CTASection() {
           className="relative inline-flex items-center gap-3 px-6 py-3 glass rounded-full border border-primary/10 mb-12 cursor-pointer"
         >
           <Sparkles className="w-5 h-5 text-golden" />
-          <span className="text-sm font-medium">Free to download</span>
+          <span className="text-sm font-medium">Try it free</span>
           <Heart className="w-4 h-4 text-peach fill-peach" />
         </motion.div>
 
@@ -44,9 +44,9 @@ export function CTASection() {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ type: "spring", stiffness: 60, damping: 15, delay: 0.15 }}
         >
-          Ready to simplify your{' '}
+          Ready for a calmer{' '}
           <br className="hidden sm:block" />
-          <span className="text-gradient">household</span>?
+          <span className="text-gradient">home</span>?
         </motion.h2>
 
         <motion.p 
@@ -55,7 +55,7 @@ export function CTASection() {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ delay: 0.25 }}
         >
-          Download Orbits and join thousands of households running smoother every day.
+          Download Orbits and see how much easier your week can feel.
         </motion.p>
 
         {/* App Store Buttons */}
@@ -79,7 +79,7 @@ export function CTASection() {
           className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-lg"
         >
           <span className="relative">
-            Learn more about our story
+            Learn more about us
             <motion.span
               className="absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-primary to-lavender"
               initial={{ width: 0 }}

@@ -8,7 +8,7 @@ const orbits = [
     icon: Users,
     title: "Family",
     description:
-      "Shared calendars, family members, pet profiles, and household events — everyone stays in sync without the group chat chaos.",
+      "Shared calendars, pet info, and family schedules — everyone stays on the same page without the endless group chat.",
     color: "peach",
     gradient: "from-peach/20 to-lavender/10",
   },
@@ -16,7 +16,7 @@ const orbits = [
     icon: Wrench,
     title: "Upkeep",
     description:
-      "Track appliances, vehicles, and home details. Get maintenance reminders, submit service requests, and let Orbits gather quotes for you.",
+      "Keep track of your home, your car, your appliances. Orbits remembers the maintenance so you don't have to.",
     color: "sky",
     gradient: "from-sky/20 to-sage/10",
   },
@@ -24,7 +24,7 @@ const orbits = [
     icon: User,
     title: "You",
     description:
-      "Your personal space for lists, reminders, notes, and events. Everything you need to stay on top of your own life, in one place.",
+      "Your own corner for lists, reminders, and notes. A little breathing room just for you.",
     color: "lavender",
     gradient: "from-lavender/20 to-sky/10",
   },
@@ -54,7 +54,7 @@ export function HowItWorksSection() {
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.1 }}
           >
-            How It Works
+            How it all comes together
           </motion.span>
           <motion.h2
             className="text-3xl sm:text-4xl lg:text-6xl mb-6"
@@ -62,7 +62,7 @@ export function HowItWorksSection() {
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.15 }}
           >
-            Everything your household needs,{" "}
+            Spaces for{" "}
             <motion.span
               className="underline-reveal"
               style={{ "--underline-delay": "0.7s" } as React.CSSProperties}
@@ -76,16 +76,17 @@ export function HowItWorksSection() {
                 animate={isHeaderInView ? { backgroundPosition: "0% 50%" } : { backgroundPosition: "100% 50%" }}
                 transition={{ delay: 0.5, duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
                 style={{
-                  background: "linear-gradient(90deg, hsl(260 45% 40%), hsl(var(--primary)), hsl(260 45% 40%))",
+                    background: "linear-gradient(90deg, hsl(170 30% 35%), hsl(var(--primary)), hsl(170 30% 35%))",
                   backgroundSize: "200% 100%",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
                 }}
               >
-                organized
+                every
               </motion.span>
-            </motion.span>
+            </motion.span>{" "}
+            part of home
           </motion.h2>
           <motion.p
             className="text-base lg:text-xl text-muted-foreground max-w-2xl mx-auto"
@@ -93,7 +94,7 @@ export function HowItWorksSection() {
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.2 }}
           >
-            Three dedicated spaces that work together — so nothing falls through the cracks.
+            Everything your household needs, all in one place — no more bouncing between apps.
           </motion.p>
         </motion.div>
 
@@ -167,7 +168,7 @@ function OrbitCard({
           {orbit.title}
         </h3>
 
-        <p className="text-muted-foreground leading-relaxed relative z-10 text-sm lg:text-base">
+        <p className="text-muted-foreground leading-relaxed relative z-10 text-base lg:text-lg">
           {orbit.description}
         </p>
 

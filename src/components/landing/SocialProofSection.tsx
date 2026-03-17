@@ -287,7 +287,7 @@ export function SocialProofSection() {
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.1 }}
           >
-            <Heart className="w-4 h-4 inline-block mr-1 fill-current" /> Testimonials
+            <Heart className="w-4 h-4 inline-block mr-1 fill-current" /> What families are saying
           </motion.span>
           <motion.h2
             className="text-3xl sm:text-4xl lg:text-6xl font-lora font-medium tracking-[-0.01em] mb-8"
@@ -305,7 +305,8 @@ export function SocialProofSection() {
               style={{ backgroundSize: "200% 200%" }}
             >
               <AnimatedCounter value={2400} />+
-            </motion.span>
+            </motion.span>{" "}
+            families
           </motion.h2>
           <motion.p
             className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-6"
@@ -313,7 +314,7 @@ export function SocialProofSection() {
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.2 }}
           >
-            Join thousands of households running smoother with Orbits.
+            Real families finding a little more calm in their day.
           </motion.p>
         </motion.div>
 
@@ -330,7 +331,7 @@ export function SocialProofSection() {
         >
           <div className="inline-flex items-center gap-3 px-6 py-4 bg-gradient-to-br from-sage/20 to-sky/10 rounded-2xl border border-border/30">
             <Sparkles className="w-5 h-5 text-primary" />
-            <span className="text-muted-foreground">Join our growing community of early adopters</span>
+            <span className="text-muted-foreground">Join our growing family</span>
           </div>
         </motion.div>
       </div>

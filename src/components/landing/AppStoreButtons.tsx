@@ -209,7 +209,7 @@ export function AppStoreButtons({ location = 'hero' }: AppStoreButtonsProps) {
               {leadingIcon.icon}
             </span>
             <div className='text-left relative z-10'>
-              <p className='text-xl font-semibold leading-tight'>Get Orbits</p>
+              <p className='text-xl font-bold leading-tight'>Get Orbits</p>
             </div>
             <span className='flex items-center justify-center w-10'>
               {trailingIcon.icon}

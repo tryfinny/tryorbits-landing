@@ -102,7 +102,7 @@ function FAQItem({ faq, index }: { faq: (typeof faqs)[number]; index: number }) 
               transition={{ type: "spring", stiffness: 150, damping: 20 }}
               className="overflow-hidden"
             >
-              <p className="text-muted-foreground leading-relaxed pt-3 text-sm lg:text-base">
+              <p className="text-muted-foreground leading-relaxed pt-3 text-base lg:text-lg">
                 {faq.answer}
               </p>
             </motion.div>
@@ -135,7 +135,7 @@ export function FAQSection() {
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.1 }}
           >
-            FAQ
+            Questions? We've got you
           </motion.span>
           <motion.h2
             className="text-3xl sm:text-4xl lg:text-5xl mb-6"
@@ -143,7 +143,7 @@ export function FAQSection() {
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.15 }}
           >
-            Common questions
+            A few things you might be wondering
           </motion.h2>
         </motion.div>
 

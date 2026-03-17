@@ -32,13 +32,13 @@ export function AiCalloutSection() {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ delay: 0.1, type: "spring", stiffness: 80, damping: 18 }}
         >
-          "Most apps give you a blank text box{" "}
+          "Most apps give you a text box and wait.{" "}
           <span className="text-muted-foreground">
-            and wish you luck.
+            Orbits doesn't wait — it handles things before you even ask.
           </span>{" "}
-          Orbits does the work.{" "}
+          You just{" "}
           <span className="text-gradient">
-            You just say yes."
+            say yes."
           </span>
         </motion.p>
         <motion.p

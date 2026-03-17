@@ -193,7 +193,7 @@ function CompletedActionsFeed() {
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.8, type: "spring", stiffness: 100, damping: 20 }}
-        className="absolute right-[calc(50%+190px)] top-[18%] w-[230px] hidden lg:flex flex-col z-20"
+        className="absolute right-[calc(50%+160px)] top-[18%] w-[200px] hidden lg:flex flex-col z-20"
       >
         <AnimatePresence initial={false} mode="popLayout">
           {items.map((item, i) => {
@@ -202,9 +202,9 @@ function CompletedActionsFeed() {
               <motion.div
                 key={item.id}
                 layout
-                initial={{ opacity: 0, scale: 0.8, y: -20 }}
-                animate={{ opacity: 1 - i * 0.15, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.8 }}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1 - i * 0.15, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
                 transition={{ type: "spring", stiffness: 300, damping: 25 }}
                 className="glass rounded-xl px-3.5 py-3 mb-3 flex items-center gap-3 border border-white/15 shadow-sm"
               >
@@ -349,15 +349,14 @@ export function HeroSection() {
                 <Sparkles className="w-4 h-4 text-primary" />
               </motion.div>
               <span className="text-xs sm:text-sm font-medium text-foreground/80 relative">
-                AI-Powered
+                A calmer home starts here
               </span>
             </motion.div>
 
             {/* Headline */}
             <motion.h1 variants={fadeUpSpring} className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.1] mb-6 sm:mb-8">
-              <span>Orbits makes home
- </span>
-              <br className="hidden sm:block" />
+              <span>Less juggling,</span>
+              <br />
               <motion.span
                 className="underline-reveal"
                 style={{ "--underline-delay": "0.7s" } as React.CSSProperties}
@@ -392,22 +391,21 @@ export function HeroSection() {
                     ease: [0.25, 0.46, 0.45, 0.94]
                   }}
                   style={{
-                    background: "linear-gradient(90deg, hsl(260 45% 40%), hsl(var(--primary)), hsl(260 45% 40%))",
+                    background: "linear-gradient(90deg, hsl(170 30% 35%), hsl(var(--primary)), hsl(170 30% 35%))",
                     backgroundSize: "200% 100%",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text"
                   }}
                 >
-                  effortless
+                  more living
                 </motion.span>
               </motion.span>
             </motion.h1>
 
             {/* Subheadline */}
             <motion.p variants={fadeUpSpring} className="text-base sm:text-lg lg:text-xl text-muted-foreground mb-8 sm:mb-10 max-w-lg mx-auto lg:mx-0 leading-relaxed">
-              One AI-powered app for your entire household. Family calendars, grocery lists, home maintenance, service
-              requests — Orbits connects it all and handles the coordination so you don't have to.
+              Groceries, school forms, appointments, home repairs — Orbits takes care of the details so your family can enjoy the moments.
             </motion.p>
 
             {/* App Store Buttons */}
@@ -470,7 +468,7 @@ export function HeroSection() {
                   <span className="font-semibold text-foreground">
                     <AnimatedNumber value={2400} />+
                   </span>{" "}
-                  early adopters
+                  families running calmer homes
                 </p>
               </motion.div>
             </motion.div>

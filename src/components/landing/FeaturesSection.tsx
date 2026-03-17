@@ -6,9 +6,9 @@ import { useIsMobile } from "@/hooks/use-device-motion";
 const features = [
   {
     icon: Calendar,
-    title: "Household Calendar",
+    title: "One family calendar, zero surprises",
     description:
-      "One family calendar. Zero confusion. Sync with Google and Outlook, see everyone's schedule, and resolve conflicts before they happen.",
+      "See everyone's schedule in one place. Catch conflicts before they become 'I thought you were picking them up' moments.",
     color: "bg-sage",
     gradient: "from-sage/20 to-sky/10",
     iconBg: "bg-sage/20",
@@ -16,9 +16,9 @@ const features = [
   },
   {
     icon: Home,
-    title: "Home Maintenance",
+    title: "Your home, quietly looked after",
     description:
-      "Track your appliances, vehicles, and home details. Orbits reminds you when things need attention and gathers service quotes so you don't have to.",
+      "Filter changes, oil changes, warranty dates — Orbits remembers so you don't have to. It'll even find repair quotes for you.",
     color: "bg-sky",
     gradient: "from-sky/20 to-sage/10",
     iconBg: "bg-sky/20",
@@ -26,9 +26,9 @@ const features = [
   },
   {
     icon: Sparkles,
-    title: "AI Built In",
+    title: "A helper, not a chatbot",
     description:
-      "No chatbot. No \"I can't do that.\" Orbits handles things proactively and lets you approve — auto-filling forms, suggesting grocery items, and surfacing the right action at the right time.",
+      "No typing prompts. No weird conversations with a robot. Orbits works behind the scenes — suggesting, filling in, and nudging at the right time.",
     color: "bg-lavender",
     gradient: "from-lavender/20 to-primary/10",
     iconBg: "bg-lavender/20",
@@ -36,9 +36,9 @@ const features = [
   },
   {
     icon: ClipboardList,
-    title: "Smart Lists & Tasks",
+    title: "Grocery lists everyone can actually see",
     description:
-      "Shared grocery lists, to-dos, and reminders that the whole household can see and edit. AI can even suggest items for you.",
+      "Shared lists the whole family can add to. Orbits even suggests the things you always forget — like coffee filters.",
     color: "bg-lavender",
     gradient: "from-lavender/20 to-peach/10",
     iconBg: "bg-lavender/20",
@@ -46,9 +46,9 @@ const features = [
   },
   {
     icon: Mail,
-    title: "Email Intelligence",
+    title: "Your inbox, sorted for you",
     description:
-      "Dance class moved? Your calendar updates itself. Dentist reminder? Orbits extracts the details and adds them to your schedule automatically.",
+      "Dance class rescheduled? Doctor appointment confirmed? Orbits catches it in your email and updates your calendar — no copy-pasting required.",
     color: "bg-peach",
     gradient: "from-peach/20 to-lavender/10",
     iconBg: "bg-peach/20",
@@ -56,9 +56,9 @@ const features = [
   },
   {
     icon: Wrench,
-    title: "Find Help",
+    title: "Need a plumber? Just say so",
     description:
-      "Need a plumber or an electrician? Submit a service request and let Orbits coordinate with providers, gather quotes, and track progress.",
+      "Tell Orbits what you need fixed. It finds providers, gets quotes, and keeps track — so your Saturday isn't spent on hold.",
     color: "bg-sage",
     gradient: "from-sage/20 to-sky/10",
     iconBg: "bg-sage/20",
@@ -273,7 +273,7 @@ function FeatureCard({ feature, index, isMobile }: { feature: Feature; index: nu
 
           {/* Description */}
           <motion.p
-            className="text-muted-foreground leading-relaxed relative z-10 text-sm lg:text-lg"
+            className="text-muted-foreground leading-relaxed relative z-10 text-base lg:text-lg"
             animate={isActive ? { x: isMobile ? 0 : 4 } : { x: 0 }}
             transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.02 }}
           >
@@ -336,7 +336,7 @@ export function FeaturesSection() {
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.1 }}
           >
-            <Sparkles className="w-4 h-4 inline-block mr-1" /> Features
+            <Sparkles className="w-4 h-4 inline-block mr-1" /> What you get
           </motion.span>
           <motion.h2
             className="text-3xl sm:text-4xl lg:text-6xl mb-6"
@@ -344,7 +344,8 @@ export function FeaturesSection() {
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.15 }}
           >
-            Features to help you save{" "}
+            Less to manage,
+            <br />
             <motion.span
               className={"underline-reveal"}
               style={{ "--underline-delay": "0.7s" } as React.CSSProperties}
@@ -358,17 +359,16 @@ export function FeaturesSection() {
                 animate={isHeaderInView ? { backgroundPosition: "0% 50%" } : { backgroundPosition: "100% 50%" }}
                 transition={{ delay: 0.5, duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
                 style={{
-                  background: "linear-gradient(90deg, hsl(260 45% 40%), hsl(var(--primary)), hsl(260 45% 40%))",
+                    background: "linear-gradient(90deg, hsl(170 30% 35%), hsl(var(--primary)), hsl(170 30% 35%))",
                   backgroundSize: "200% 100%",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
                 }}
               >
-                hours
+                more to enjoy
               </motion.span>
-            </motion.span>{" "}
-            every week.
+            </motion.span>
           </motion.h2>
           <motion.p
             className="text-base lg:text-xl text-muted-foreground max-w-2xl mx-auto"
@@ -376,7 +376,7 @@ export function FeaturesSection() {
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.2 }}
           >
-            Spend less time managing your home and more time enjoying it.
+            More Saturday mornings, fewer Tuesday night scrambles.
           </motion.p>
         </motion.div>
 
