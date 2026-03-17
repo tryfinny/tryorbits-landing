@@ -1,10 +1,11 @@
 import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
 import { useRef, useState } from "react";
+import { Calendar, Home, Sparkles, ClipboardList, Mail, Wrench, type LucideIcon } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-device-motion";
 
 const features = [
   {
-    emoji: "📅",
+    icon: Calendar,
     title: "Household Calendar",
     description:
       "One family calendar. Zero confusion. Sync with Google and Outlook, see everyone's schedule, and resolve conflicts before they happen.",
@@ -14,7 +15,7 @@ const features = [
     bgOpacity: 0.18,
   },
   {
-    emoji: "🏠",
+    icon: Home,
     title: "Home Maintenance",
     description:
       "Track your appliances, vehicles, and home details. Orbits reminds you when things need attention and gathers service quotes so you don't have to.",
@@ -24,7 +25,7 @@ const features = [
     bgOpacity: 0.28,
   },
   {
-    emoji: "✨",
+    icon: Sparkles,
     title: "AI Built In",
     description:
       "No chatbot. No \"I can't do that.\" Orbits handles things proactively and lets you approve — auto-filling forms, suggesting grocery items, and surfacing the right action at the right time.",
@@ -34,7 +35,7 @@ const features = [
     bgOpacity: 0.22,
   },
   {
-    emoji: "📝",
+    icon: ClipboardList,
     title: "Smart Lists & Tasks",
     description:
       "Shared grocery lists, to-dos, and reminders that the whole household can see and edit. AI can even suggest items for you.",
@@ -44,7 +45,7 @@ const features = [
     bgOpacity: 0.28,
   },
   {
-    emoji: "✉️",
+    icon: Mail,
     title: "Email Intelligence",
     description:
       "Dance class moved? Your calendar updates itself. Dentist reminder? Orbits extracts the details and adds them to your schedule automatically.",
@@ -54,7 +55,7 @@ const features = [
     bgOpacity: 0.35,
   },
   {
-    emoji: "🔧",
+    icon: Wrench,
     title: "Find Help",
     description:
       "Need a plumber or an electrician? Submit a service request and let Orbits coordinate with providers, gather quotes, and track progress.",
@@ -141,7 +142,7 @@ function TiltCard({
 }
 
 interface Feature {
-  emoji: string;
+  icon: LucideIcon;
   title: string;
   description: string;
   color: string;
@@ -151,6 +152,7 @@ interface Feature {
 }
 
 function FeatureCard({ feature, index, isMobile }: { feature: Feature; index: number; isMobile: boolean }) {
+  const Icon = feature.icon;
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
   const [isActive, setIsActive] = useState(false);
@@ -255,7 +257,7 @@ function FeatureCard({ feature, index, isMobile }: { feature: Feature; index: nu
                   animate={isActive ? { opacity: 0.5, scale: 1.3 } : { opacity: 0, scale: 1 }}
                   transition={{ duration: 0.25 }}
                 />
-                <span className="text-xl lg:text-2xl relative z-10">{feature.emoji}</span>
+                <Icon className="w-6 h-6 lg:w-7 lg:h-7 relative z-10 text-foreground/70" />
               </motion.div>
             </motion.div>
 
@@ -334,7 +336,7 @@ export function FeaturesSection() {
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.1 }}
           >
-            ✨ Features
+            <Sparkles className="w-4 h-4 inline-block mr-1" /> Features
           </motion.span>
           <motion.h2
             className="text-3xl sm:text-4xl lg:text-6xl mb-6"

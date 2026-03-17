@@ -1,5 +1,5 @@
 import { motion, useInView } from 'framer-motion';
-import { ArrowLeft, Sparkles, Clock, Heart } from 'lucide-react';
+import { ArrowLeft, Sparkles, Clock, Heart, Calendar, ShoppingCart, Home, CheckCircle2, Mail, Wrench, Users, type LucideIcon } from 'lucide-react';
 import { useRef, useEffect, useState } from 'react';
 import { AppStoreButtons } from '@/components/landing/AppStoreButtons';
 
@@ -29,10 +29,10 @@ function StorySection({
 }
 
 const ORBIT_ICONS = [
-  { emoji: '📅', label: 'Calendar', bg: 'hsl(260 30% 88%)' },
-  { emoji: '🛒', label: 'Grocery', bg: 'hsl(25 60% 90%)' },
-  { emoji: '🏠', label: 'Home', bg: 'hsl(200 40% 85%)' },
-  { emoji: '✅', label: 'Tasks', bg: 'hsl(170 25% 70% / 0.5)' },
+  { icon: Calendar, label: 'Calendar', bg: 'hsl(260 30% 88%)' },
+  { icon: ShoppingCart, label: 'Grocery', bg: 'hsl(25 60% 90%)' },
+  { icon: Home, label: 'Home', bg: 'hsl(200 40% 85%)' },
+  { icon: CheckCircle2, label: 'Tasks', bg: 'hsl(170 25% 70% / 0.5)' },
 ];
 
 const BASE_ANGLES = [0, 1, 2, 3].map(
@@ -112,7 +112,7 @@ function OrbitingMergeAnimation() {
               damping: 15,
             }}
           >
-            <span className="text-2xl">{icon.emoji}</span>
+            {(() => { const Icon = icon.icon; return <Icon className="w-6 h-6 text-foreground/70" />; })()}
             <span className="text-[9px] font-medium text-foreground/70 mt-0.5">
               {icon.label}
             </span>
@@ -227,9 +227,9 @@ function OldWaysIllustration() {
       <rect x="220" y="145" width="90" height="120" rx="8" fill="hsl(200 40% 85% / 0.4)" stroke="hsl(200 40% 75%)" strokeWidth="2" />
       <rect x="260" y="155" width="3" height="20" rx="1.5" fill="hsl(200 40% 70%)" />
       <rect x="228" y="180" width="75" height="12" rx="3" fill="white" />
-      <text x="265" y="189" textAnchor="middle" fontSize="8" fill="hsl(220 15% 50%)" fontFamily="var(--font-sans)">🥛 Milk, eggs...</text>
+      <text x="265" y="189" textAnchor="middle" fontSize="8" fill="hsl(220 15% 50%)" fontFamily="var(--font-sans)">Milk, eggs...</text>
       <rect x="228" y="200" width="75" height="12" rx="3" fill="hsl(40 70% 60% / 0.25)" />
-      <text x="265" y="209" textAnchor="middle" fontSize="8" fill="hsl(220 15% 50%)" fontFamily="var(--font-sans)">📞 Dr. Smith</text>
+      <text x="265" y="209" textAnchor="middle" fontSize="8" fill="hsl(220 15% 50%)" fontFamily="var(--font-sans)">Dr. Smith appt</text>
 
       {/* Connection arrows (chaotic) */}
       <path d="M190 85 Q 210 110, 220 75" stroke="hsl(25 60% 75%)" strokeWidth="1.5" strokeDasharray="4 3" fill="none" />
@@ -246,16 +246,17 @@ function FragmentedAppsIllustration() {
 
       {/* Phone outlines - scattered */}
       {[
-        { x: 60, y: 50, rotate: -12, color: 'hsl(260 30% 88%)', emoji: '📅', label: 'Calendar' },
-        { x: 240, y: 30, rotate: 8, color: 'hsl(25 60% 90%)', emoji: '🛒', label: 'Grocery' },
-        { x: 40, y: 170, rotate: -5, color: 'hsl(170 25% 70% / 0.4)', emoji: '🔧', label: 'Repairs' },
-        { x: 260, y: 160, rotate: 10, color: 'hsl(200 40% 85%)', emoji: '✅', label: 'Tasks' },
-        { x: 150, y: 200, rotate: -3, color: 'hsl(40 70% 60% / 0.3)', emoji: '✉️', label: 'Email' },
+        { x: 60, y: 50, rotate: -12, color: 'hsl(260 30% 88%)', label: 'Calendar' },
+        { x: 240, y: 30, rotate: 8, color: 'hsl(25 60% 90%)', label: 'Grocery' },
+        { x: 40, y: 170, rotate: -5, color: 'hsl(170 25% 70% / 0.4)', label: 'Repairs' },
+        { x: 260, y: 160, rotate: 10, color: 'hsl(200 40% 85%)', label: 'Tasks' },
+        { x: 150, y: 200, rotate: -3, color: 'hsl(40 70% 60% / 0.3)', label: 'Email' },
       ].map((phone, i) => (
         <g key={i} transform={`translate(${phone.x}, ${phone.y}) rotate(${phone.rotate})`}>
           <rect width="80" height="120" rx="12" fill="white" stroke="hsl(35 25% 85%)" strokeWidth="2" />
           <rect x="8" y="20" width="64" height="80" rx="4" fill={phone.color} />
-          <text x="40" y="68" textAnchor="middle" fontSize="24">{phone.emoji}</text>
+          <circle cx="40" cy="60" r="14" fill="hsl(220 15% 50% / 0.12)" />
+          <text x="40" y="64" textAnchor="middle" fontSize="10" fill="hsl(220 15% 50%)" fontFamily="var(--font-sans)">{phone.label.charAt(0)}</text>
           <text x="40" y="115" textAnchor="middle" fontSize="8" fill="hsl(220 15% 50%)" fontFamily="var(--font-sans)">
             {phone.label}
           </text>
@@ -281,12 +282,12 @@ function FragmentedAppsIllustration() {
 }
 
 const AI_NODES = [
-  { angle: -90, emoji: '📅', label: 'Calendar', color: 'bg-lavender/40', border: 'border-lavender/50' },
-  { angle: -30, emoji: '🛒', label: 'Grocery', color: 'bg-peach/40', border: 'border-peach/50' },
-  { angle: 30, emoji: '🏠', label: 'Home', color: 'bg-sky/40', border: 'border-sky/50' },
-  { angle: 90, emoji: '✉️', label: 'Email', color: 'bg-sage/40', border: 'border-sage/50' },
-  { angle: 150, emoji: '✅', label: 'Tasks', color: 'bg-golden/20', border: 'border-golden/30' },
-  { angle: 210, emoji: '👨‍👩‍👧‍👦', label: 'Family', color: 'bg-peach/30', border: 'border-peach/40' },
+  { angle: -90, icon: Calendar, label: 'Calendar', color: 'bg-lavender/40', border: 'border-lavender/50' },
+  { angle: -30, icon: ShoppingCart, label: 'Grocery', color: 'bg-peach/40', border: 'border-peach/50' },
+  { angle: 30, icon: Home, label: 'Home', color: 'bg-sky/40', border: 'border-sky/50' },
+  { angle: 90, icon: Mail, label: 'Email', color: 'bg-sage/40', border: 'border-sage/50' },
+  { angle: 150, icon: CheckCircle2, label: 'Tasks', color: 'bg-golden/20', border: 'border-golden/30' },
+  { angle: 210, icon: Users, label: 'Family', color: 'bg-peach/30', border: 'border-peach/40' },
 ];
 
 function AiMomentIllustration() {
@@ -371,7 +372,7 @@ function AiMomentIllustration() {
               delay: 0.5 + i * 0.1,
             }}
           >
-            <span className="text-xl leading-none">{node.emoji}</span>
+            {(() => { const Icon = node.icon; return <Icon className="w-5 h-5 text-foreground/60" />; })()}
             <span className="text-[8px] font-medium text-foreground/60 mt-0.5">{node.label}</span>
           </motion.div>
         );
@@ -459,14 +460,14 @@ function OrbitsPhoneIllustration() {
 
       {/* AI sparkle badge */}
       <rect x="141" y="259" width="118" height="30" rx="8" fill="hsl(245 25% 45% / 0.08)" />
-      <text x="200" y="278" textAnchor="middle" fontSize="9" fill="hsl(245 25% 45%)" fontFamily="var(--font-sans)">✨ AI handling 3 items</text>
+      <text x="200" y="278" textAnchor="middle" fontSize="9" fill="hsl(245 25% 45%)" fontFamily="var(--font-sans)">AI handling 3 items</text>
 
       {/* Floating feature badges around phone */}
       {[
-        { x: 60, y: 110, text: '📅 Calendar', color: 'hsl(260 30% 88%)' },
-        { x: 290, y: 130, text: '🛒 Grocery', color: 'hsl(25 60% 90%)' },
-        { x: 55, y: 230, text: '🏠 Home', color: 'hsl(200 40% 85%)' },
-        { x: 295, y: 250, text: '✅ Tasks', color: 'hsl(170 25% 70% / 0.5)' },
+        { x: 60, y: 110, text: 'Calendar', color: 'hsl(260 30% 88%)' },
+        { x: 290, y: 130, text: 'Grocery', color: 'hsl(25 60% 90%)' },
+        { x: 55, y: 230, text: 'Home', color: 'hsl(200 40% 85%)' },
+        { x: 295, y: 250, text: 'Tasks', color: 'hsl(170 25% 70% / 0.5)' },
       ].map((badge, i) => (
         <g key={i}>
           <line
@@ -493,10 +494,10 @@ function OrbitsPhoneIllustration() {
 }
 
 const VISION_ITEMS = [
-  { emoji: '📅', label: 'Synced', sublabel: 'calendars', color: 'bg-lavender/30', border: 'border-lavender/40' },
-  { emoji: '🏠', label: 'Auto', sublabel: 'maintenance', color: 'bg-sky/30', border: 'border-sky/40' },
-  { emoji: '🛒', label: 'Smart', sublabel: 'grocery', color: 'bg-peach/30', border: 'border-peach/40' },
-  { emoji: '✅', label: 'Shared', sublabel: 'tasks', color: 'bg-sage/30', border: 'border-sage/40' },
+  { icon: Calendar, label: 'Synced', sublabel: 'calendars', color: 'bg-lavender/30', border: 'border-lavender/40' },
+  { icon: Home, label: 'Auto', sublabel: 'maintenance', color: 'bg-sky/30', border: 'border-sky/40' },
+  { icon: ShoppingCart, label: 'Smart', sublabel: 'grocery', color: 'bg-peach/30', border: 'border-peach/40' },
+  { icon: CheckCircle2, label: 'Shared', sublabel: 'tasks', color: 'bg-sage/30', border: 'border-sage/40' },
 ];
 
 function VisionIllustration() {
@@ -538,7 +539,7 @@ function VisionIllustration() {
               delay: 0.25 + i * 0.1,
             }}
           >
-            <span className="text-2xl mb-2">{item.emoji}</span>
+            {(() => { const Icon = item.icon; return <Icon className="w-6 h-6 text-foreground/60 mb-2" />; })()}
             <p className="text-xs font-semibold text-foreground leading-tight">{item.label}</p>
             <p className="text-[11px] text-muted-foreground">{item.sublabel}</p>
           </motion.div>

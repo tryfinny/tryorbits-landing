@@ -1,7 +1,7 @@
-import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, useInView, AnimatePresence } from "framer-motion";
 import { PhoneMockup } from "./PhoneMockup";
 import { AppStoreButtons } from "./AppStoreButtons";
-import { Sparkles, Star } from "lucide-react";
+import { Sparkles, Star, CheckCircle2, Calendar, Bell, TrendingUp, Wrench, Users, ShoppingCart, Clock, Mail, Home, Package } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import { useIsMobile } from "@/hooks/use-device-motion";
 
@@ -140,6 +140,121 @@ function AnimatedNumber({
   }, [value, isInView]);
   return <span ref={ref}>{displayValue.toLocaleString()}</span>;
 }
+
+const COMPLETED_ACTIONS = [
+  { icon: ShoppingCart, text: "Grocery list sent to Instacart", iconBg: "bg-sage/80" },
+  { icon: Calendar, text: "Synced family calendars", iconBg: "bg-sky/80" },
+  { icon: Wrench, text: "HVAC service booked for Tuesday", iconBg: "bg-peach/80" },
+  { icon: Bell, text: "School form reminder set", iconBg: "bg-lavender/80" },
+  { icon: Users, text: "Reminded Jon to renew car registration", iconBg: "bg-peach/80" },
+  { icon: Star, text: "Fixed soccer and parent-teacher night overlap", iconBg: "bg-sky/80" },
+  { icon: Clock, text: "Rescheduled dentist appointments", iconBg: "bg-sage/80" },
+  { icon: CheckCircle2, text: "Ordered birthday gift for Lily", iconBg: "bg-lavender/80" },
+  { icon: Users, text: "Re-assigned Tuesday's school pickup to Ellie", iconBg: "bg-sky/80" },
+  { icon: Mail, text: "Extracted school newsletter details", iconBg: "bg-lavender/80" },
+  { icon: Home, text: "Scheduled spring lawn care service", iconBg: "bg-sage/80" },
+  { icon: TrendingUp, text: "Water bill down 15% this month", iconBg: "bg-sky/80" },
+  { icon: Package, text: "Amazon delivery arriving Thursday", iconBg: "bg-peach/80" },
+  { icon: Sparkles, text: "AI auto-sorted 12 inbox emails", iconBg: "bg-lavender/80" },
+];
+
+const FEED_VISIBLE_COUNT = 4;
+
+function CompletedActionsFeed() {
+  const nextIdRef = useRef(FEED_VISIBLE_COUNT);
+  const isMobile = useIsMobile();
+  const [items, setItems] = useState(
+    COMPLETED_ACTIONS.slice(0, FEED_VISIBLE_COUNT).map((action, i) => ({ ...action, id: i }))
+  );
+
+  useEffect(() => {
+    let intervalId: ReturnType<typeof setInterval>;
+    const timeoutId = setTimeout(() => {
+      intervalId = setInterval(() => {
+        const id = nextIdRef.current;
+        const action = COMPLETED_ACTIONS[id % COMPLETED_ACTIONS.length];
+        setItems(prev => [{ ...action, id }, ...prev.slice(0, FEED_VISIBLE_COUNT - 1)]);
+        nextIdRef.current++;
+      }, 2000);
+    }, 1500);
+    return () => {
+      clearTimeout(timeoutId);
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, []);
+
+  const currentItem = items[0];
+  const CurrentIcon = currentItem.icon;
+
+  return (
+    <>
+      {/* Desktop: column to the left of phone */}
+      <motion.div
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.8, type: "spring", stiffness: 100, damping: 20 }}
+        className="absolute right-[calc(50%+190px)] top-[18%] w-[230px] hidden lg:flex flex-col z-20"
+      >
+        <AnimatePresence initial={false} mode="popLayout">
+          {items.map((item, i) => {
+            const Icon = item.icon;
+            return (
+              <motion.div
+                key={item.id}
+                layout
+                initial={{ opacity: 0, scale: 0.8, y: -20 }}
+                animate={{ opacity: 1 - i * 0.15, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                className="glass rounded-xl px-3.5 py-3 mb-3 flex items-center gap-3 border border-white/15 shadow-sm"
+              >
+                <div className={`w-8 h-8 rounded-lg ${item.iconBg} flex items-center justify-center shrink-0`}>
+                  <Icon className="w-4 h-4 text-white" />
+                </div>
+                <span className="text-xs font-medium text-foreground/80 leading-tight">
+                  {item.text}
+                </span>
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
+      </motion.div>
+
+      {/* Mobile/tablet: 2 cycling notifications above phone */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.0, type: "spring", stiffness: 100, damping: 20 }}
+        className="lg:hidden flex flex-col items-center gap-2 mb-6 relative z-10"
+      >
+        <AnimatePresence initial={false} mode="popLayout">
+          {items.slice(0, 2).map((item, i) => {
+            const Icon = item.icon;
+            return (
+              <motion.div
+                key={item.id}
+                layout
+                initial={{ opacity: 0, scale: 0.9, y: -12 }}
+                animate={{ opacity: 1 - i * 0.15, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                className="glass rounded-xl px-4 py-2.5 flex items-center gap-2.5 border border-white/15 shadow-sm"
+              >
+                <div className={`w-7 h-7 rounded-lg ${item.iconBg} flex items-center justify-center shrink-0`}>
+                  <Icon className="w-3.5 h-3.5 text-white" />
+                </div>
+                <span className="text-xs font-medium text-foreground/80">
+                  {item.text}
+                </span>
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
+      </motion.div>
+    </>
+  );
+}
+
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
@@ -204,7 +319,7 @@ export function HeroSection() {
       <motion.div className="relative z-10 max-w-7xl mx-auto w-full" style={{
       scale
     }}>
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
+        <div className="grid lg:grid-cols-2 gap-4 lg:gap-20 items-center">
           {/* Left content */}
           <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="text-center lg:text-left">
             {/* Badge with tap feedback */}
@@ -361,7 +476,7 @@ export function HeroSection() {
             </motion.div>
           </motion.div>
 
-          {/* Right - Phone Mockup */}
+          {/* Right - Phone Mockup + Completed Actions */}
           <motion.div initial={{
           opacity: 0,
           scale: 0.9,
@@ -377,8 +492,9 @@ export function HeroSection() {
           delay: 0.2
         }} style={{
           y: phoneY
-        }} className="relative mt-4 lg:mt-0">
-            <PhoneMockup className="w-full h-[450px] sm:h-[500px] lg:h-[650px] flex items-center justify-center" />
+        }} className="relative lg:mt-0">
+            <CompletedActionsFeed />
+            <PhoneMockup className="w-full h-[450px] sm:h-[500px] lg:h-[650px] flex items-start lg:items-center justify-center overflow-hidden lg:overflow-visible" />
           </motion.div>
         </div>
       </motion.div>

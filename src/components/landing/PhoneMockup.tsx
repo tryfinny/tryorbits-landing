@@ -1,6 +1,6 @@
 import { motion, useMotionValue, useSpring, useTransform, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { CheckCircle2, Calendar, Bell, Star, TrendingUp, Wrench, Users, RefreshCw } from "lucide-react";
+import { CheckCircle2, Calendar, RefreshCw, Sun, Star, Smile, PartyPopper, BarChart3, Home } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-device-motion";
 
 interface PhoneMockupProps {
@@ -67,44 +67,6 @@ function NotificationItem({
   );
 }
 
-// Floating badge component - simplified animation
-function FloatingBadge({
-  children,
-  className,
-  delay,
-  x,
-  y,
-  isMobile,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  delay: number;
-  x: number;
-  y: number;
-  isMobile: boolean;
-}) {
-  // Skip entirely on mobile for performance
-  if (isMobile) return null;
-  
-  const mobileX = Math.max(10, Math.min(x, 70));
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay, type: "spring", stiffness: 150, damping: 15 }}
-      className={`absolute ${className}`}
-      style={{
-        left: `${x}%`,
-        top: `${y}%`,
-      }}
-    >
-      <div className="glass rounded-xl px-3 py-2 shadow-lg border border-white/20">
-        {children}
-      </div>
-    </motion.div>
-  );
-}
 
 // AI Card component matching reference design
 function AICard({
@@ -168,12 +130,11 @@ function ActionButton({
   );
 }
 
-// Animated emoji component - shows immediately, bounces when scrolled into view
-function AnimatedEmoji({
+function AnimatedIcon({
   children,
   delay,
   isInView,
-  className = "text-base",
+  className = "",
 }: {
   children: React.ReactNode;
   delay: number;
@@ -182,9 +143,9 @@ function AnimatedEmoji({
 }) {
   return (
     <motion.span
-      className={className}
+      className={`inline-flex items-center justify-center ${className}`}
       animate={isInView ? { 
-        scale: [1, 1.6, 1],
+        scale: [1, 1.4, 1],
       } : {}}
       transition={{
         delay,
@@ -238,32 +199,6 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
       onMouseLeave={!isMobile ? handleMouseLeave : undefined}
       style={!isMobile ? { perspective: "1200px" } : undefined}
     >
-      {/* Floating badges around phone - visible on tablet+ */}
-      <FloatingBadge x={-15} y={20} delay={0.8} className="z-20 hidden sm:block" isMobile={isMobile}>
-        <div className="flex items-center gap-2">
-          <Calendar className="w-4 h-4 text-sky" />
-          <span className="text-[10px] sm:text-xs font-medium text-foreground">2 calendars synced</span>
-        </div>
-      </FloatingBadge>
-
-      <FloatingBadge x={85} y={35} delay={1.2} className="z-20 hidden sm:block" isMobile={isMobile}>
-        <div className="flex items-center gap-2">
-          <div className="flex -space-x-1">
-            {[...Array(3)].map((_, i) => (
-              <Star key={i} className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-golden text-golden" />
-            ))}
-          </div>
-          <span className="text-[10px] sm:text-xs font-medium text-foreground">4.9 rating</span>
-        </div>
-      </FloatingBadge>
-
-      <FloatingBadge x={-10} y={70} delay={1.6} className="z-20 hidden sm:block" isMobile={isMobile}>
-        <div className="flex items-center gap-2">
-          <Wrench className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sage" />
-          <span className="text-[10px] sm:text-xs font-medium text-foreground">HVAC scheduled ✓</span>
-        </div>
-      </FloatingBadge>
-
       {/* Phone frame with 3D tilt - static on mobile */}
       <motion.div style={!isMobile ? { rotateX, rotateY } : undefined} className="relative mx-auto w-[260px] sm:w-[280px] lg:w-[290px]">
         {/* Glow effect behind phone - static on mobile */}
@@ -297,7 +232,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                   Good morning, Ellie
                 </h3>
                 <p className="text-xs text-[#6b6b6b] whitespace-nowrap">
-                  Tuesday, April 9 · <span className="text-golden">☀️ 72°</span>
+                  Tuesday, April 9 · <span className="text-golden inline-flex items-center gap-0.5"><Sun className="w-3 h-3" /> 72°</span>
                 </p>
               </div>
 
@@ -307,7 +242,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                 className="mb-2"
               >
                 <div className="flex items-center gap-2 mb-2">
-                  <AnimatedEmoji delay={0.6} isInView={isInView}>📅</AnimatedEmoji>
+                  <AnimatedIcon delay={0.6} isInView={isInView}><Calendar className="w-5 h-5 text-[#2a7d9c]" /></AnimatedIcon>
                   <span className="text-[13px] font-sans font-medium text-[#1a1a1a] whitespace-nowrap">
                     Family Calendar
                   </span>
@@ -320,7 +255,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                   </motion.div>
                 </div>
                 
-                {/* Single row calendar with emoji markers */}
+                {/* Single row calendar with icon markers */}
                 <div className="bg-white/60 rounded-2xl px-3 py-2 mb-2">
                   <div className="flex justify-between text-[9px] text-[#999] mb-1.5">
                     <span>S</span>
@@ -333,14 +268,14 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                   </div>
                   <div className="flex justify-between items-center text-[11px]">
                     <span className="text-[#555] w-4 text-center">8</span>
-                    <AnimatedEmoji delay={0.8} isInView={isInView} className="text-[11px]">🌟</AnimatedEmoji>
-                    <AnimatedEmoji delay={0.9} isInView={isInView} className="text-[11px]">😊</AnimatedEmoji>
+                    <AnimatedIcon delay={0.8} isInView={isInView}><Star className="w-3.5 h-3.5 text-[#b8860b] fill-[#daa520]" /></AnimatedIcon>
+                    <AnimatedIcon delay={0.9} isInView={isInView}><Smile className="w-3.5 h-3.5 text-[#c47a4a]" /></AnimatedIcon>
                     <motion.span 
                       className="bg-peach/60 rounded-full w-6 h-6 flex items-center justify-center"
                       animate={isInView ? { scale: [1, 1.5, 1] } : {}}
                       transition={{ delay: 1.0, duration: 0.5, ease: "easeOut" }}
                     >
-                      🎉
+                      <PartyPopper className="w-3.5 h-3.5 text-[#c47a4a]" />
                     </motion.span>
                     <span className="text-[#555] w-4 text-center">12</span>
                     <span className="text-[#555] w-4 text-center">13</span>
@@ -350,7 +285,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
 
                 {/* Event item */}
                 <div className="flex items-center gap-2.5 bg-white/60 rounded-2xl px-3 py-2">
-                  <AnimatedEmoji delay={1.1} isInView={isInView}>🎉</AnimatedEmoji>
+                  <AnimatedIcon delay={1.1} isInView={isInView}><PartyPopper className="w-5 h-5 text-[#c47a4a]" /></AnimatedIcon>
                   <div>
                     <p className="text-[12px] font-medium text-[#2a2a2a]">Birthday Party (Lily)</p>
                     <p className="text-[10px] text-[#6a6a6a]">3:00 PM</p>
@@ -364,7 +299,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                 className="mb-2"
               >
                 <div className="flex items-center gap-2 mb-2">
-                  <AnimatedEmoji delay={0.8} isInView={isInView}>📊</AnimatedEmoji>
+                  <AnimatedIcon delay={0.8} isInView={isInView}><BarChart3 className="w-5 h-5 text-[#6b5b95]" /></AnimatedIcon>
                   <span className="text-[13px] font-sans font-medium text-[#1a1a1a]">Progress Tracker</span>
                 </div>
                 <div className="space-y-2">
@@ -402,7 +337,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
                   className="mb-2"
                 >
                   <div className="flex items-center gap-2 mb-1.5">
-                    <AnimatedEmoji delay={1.0} isInView={isInView}>🏠</AnimatedEmoji>
+                    <AnimatedIcon delay={1.0} isInView={isInView}><Home className="w-5 h-5 text-[#4a7c6f]" /></AnimatedIcon>
                     <span className="text-[13px] font-sans font-medium text-[#1a1a1a]">HVAC Service Booked</span>
                   </div>
                   <p className="text-[13px] text-[#3a3a3a] leading-relaxed mb-2">

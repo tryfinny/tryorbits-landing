@@ -1,6 +1,6 @@
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
-import { Quote, Sparkles } from "lucide-react";
+import { Quote, Sparkles, Heart } from "lucide-react";
 
 const testimonials = [
   {
@@ -287,7 +287,7 @@ export function SocialProofSection() {
             animate={isHeaderInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.1 }}
           >
-            💜 Testimonials
+            <Heart className="w-4 h-4 inline-block mr-1 fill-current" /> Testimonials
           </motion.span>
           <motion.h2
             className="text-3xl sm:text-4xl lg:text-6xl font-lora font-medium tracking-[-0.01em] mb-8"

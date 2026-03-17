@@ -1,10 +1,11 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { Users, Wrench, User, type LucideIcon } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-device-motion";
 
 const orbits = [
   {
-    emoji: "👨‍👩‍👧‍👦",
+    icon: Users,
     title: "Family",
     description:
       "Shared calendars, family members, pet profiles, and household events — everyone stays in sync without the group chat chaos.",
@@ -12,7 +13,7 @@ const orbits = [
     gradient: "from-peach/20 to-lavender/10",
   },
   {
-    emoji: "🛠️",
+    icon: Wrench,
     title: "Upkeep",
     description:
       "Track appliances, vehicles, and home details. Get maintenance reminders, submit service requests, and let Orbits gather quotes for you.",
@@ -20,7 +21,7 @@ const orbits = [
     gradient: "from-sky/20 to-sage/10",
   },
   {
-    emoji: "🙋",
+    icon: User,
     title: "You",
     description:
       "Your personal space for lists, reminders, notes, and events. Everything you need to stay on top of your own life, in one place.",
@@ -159,7 +160,7 @@ function OrbitCard({
             backgroundColor: `hsl(var(--${orbit.color}) / 0.25)`,
           }}
         >
-          <span className="text-3xl lg:text-4xl">{orbit.emoji}</span>
+          {(() => { const Icon = orbit.icon; return <Icon className="w-8 h-8 lg:w-10 lg:h-10 text-foreground/70" />; })()}
         </motion.div>
 
         <h3 className="text-2xl lg:text-3xl font-medium tracking-[-0.01em] mb-3 relative z-10">
