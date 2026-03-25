@@ -12,7 +12,7 @@ The user will provide a topic or title. If only a topic is given, craft a compel
 
 ```yaml
 ---
-title: "Title Here — naturally include primary keywords"
+title: "Title Here (naturally include primary keywords)"
 description: "155 characters max. Compelling meta description with keywords for SERP click-through."
 date: YYYY-MM-DD  # Use today's date unless the user specifies otherwise
 tags: ["tag1", "tag2", "tag3", "tag4", "tag5"]  # 4-6 relevant tags for filtering and SEO
@@ -21,16 +21,16 @@ tags: ["tag1", "tag2", "tag3", "tag4", "tag5"]  # 4-6 relevant tags for filterin
 
 ### Content Structure
 
-1. **Opening paragraph** — Hook the reader with a relatable scenario or surprising fact. No generic intros. Make it specific and vivid.
-2. **3-5 H2 sections** — Each section should be substantive (150-250 words). Use descriptive H2 headings that include secondary keywords where natural.
-3. **Orbits mention** — Naturally reference Orbits in ONE section (not the intro, not the conclusion). Frame it as a solution to the problem being discussed, not a sales pitch. Match the tone of existing posts — informative, not promotional.
-4. **No explicit CTA conclusion** — The last section should wrap up the ideas naturally. The blog page already has a `<BlogCTA />` component that renders below the article.
+1. **Opening paragraph**.Hook the reader with a relatable scenario or surprising fact. No generic intros. Make it specific and vivid.
+2. **3-5 H2 sections**.Each section should be substantive (150-250 words). Use descriptive H2 headings that include secondary keywords where natural.
+3. **Orbits mention**.Naturally reference Orbits in ONE section (not the intro, not the conclusion). Frame it as a solution to the problem being discussed, not a sales pitch. Match the tone of existing posts.informative, not promotional.
+4. **No explicit CTA conclusion**.The last section should wrap up the ideas naturally. The blog page already has a `<BlogCTA />` component that renders below the article.
 
 ### Writing Style (match existing posts exactly)
 
 - **Tone**: Conversational but authoritative. Like explaining something to a smart friend.
 - **Voice**: Second person ("you") and first person plural ("most families", "we").
-- **Sentences**: Mix short punchy sentences with longer explanatory ones. Use em dashes liberally.
+- **Sentences**: Mix short punchy sentences with longer explanatory ones. NEVER use em dashes (—) as they are a telltale sign of AI-generated content. Use periods, commas, semicolons, colons, or parentheses instead.
 - **Paragraphs**: 2-4 sentences each. Never walls of text.
 - **Bold text**: Use `**bold**` for key phrases within paragraphs (1-2 per section max).
 - **Lists**: Use sparingly and only when listing 3+ parallel items. Prefer prose.
@@ -60,7 +60,7 @@ Orbits is a household management app (iOS + Android) that uses AI to help famili
 - Home upkeep tracking (appliances, maintenance schedules, warranties)
 - Service request coordination (find providers, get quotes, track repairs)
 - Email intelligence (auto-extracts household-relevant info from inbox)
-- AI that works in the background — not a chatbot, but proactive automation
+- AI that works in the background.not a chatbot, but proactive automation
 
 Target audience: busy families, couples managing a household, homeowners.
 
@@ -76,7 +76,7 @@ Target audience: busy families, couples managing a household, homeowners.
 
 1. Write the markdown file to `src/content/blog/{slug}.md`
 2. Confirm the file was created with the title, slug, date, and word count
-3. Do NOT commit — the user will decide when to commit
+3. Do NOT commit.the user will decide when to commit
 
 ## Topic
 
