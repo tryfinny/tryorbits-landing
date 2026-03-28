@@ -1,9 +1,11 @@
-import * as amplitude from '@amplitude/analytics-browser';
+import * as amplitude from "@amplitude/analytics-browser";
 
-const AMPLITUDE_API_KEY = 'd9d4c952d27ebbfbd7756d0f2748952';
+import { getOrbPromoFromSearch, type OrbPromoValue } from "@/lib/orb-promo";
+
+const AMPLITUDE_API_KEY = "d9d4c952d27ebbfbd7756d0f2748952";
 
 // AppsFlyer OneLink configuration
-const ONELINK_BASE_URL = 'https://orbits.onelink.me/dhsI/vhlrrfou';
+const ONELINK_BASE_URL = "https://orbits.onelink.me/dhsI/vhlrrfou";
 
 let isInitialized = false;
 
@@ -21,7 +23,7 @@ export function initAnalytics() {
 
   // Set platform as a user property so ALL events (including auto-tracked) are tagged
   const identifyEvent = new amplitude.Identify();
-  identifyEvent.set('platform', 'web_landing_page');
+  identifyEvent.set("platform", "web_landing_page");
   amplitude.identify(identifyEvent);
 
   isInitialized = true;
@@ -34,39 +36,61 @@ export function track(eventName: string, properties?: Record<string, unknown>) {
 
 // Page view tracking (called on route changes)
 export function trackPageView(pageName: string, path: string) {
-  track('page_viewed', {
+  track("page_viewed", {
     page_name: pageName,
     page_path: path,
-    platform: 'web_landing_page',
+    platform: "web_landing_page",
   });
 }
 
 // CTA button click (the main "Get Orbits" button)
 export function trackCtaClick(location: string) {
-  track('cta_clicked', {
+  track("cta_clicked", {
     location,
-    cta_type: 'get_orbits',
-    platform: 'web_landing_page',
+    cta_type: "get_orbits",
+    platform: "web_landing_page",
   });
 }
 
 // App store button click (when user clicks iOS or Android download)
 export function trackAppStoreClick(
-  store: 'app_store' | 'play_store',
-  location: string
+  store: "app_store" | "play_store",
+  location: string,
 ) {
-  track('app_store_button_clicked', {
+  track("app_store_button_clicked", {
     store,
     location,
-    platform: 'web_landing_page',
+    platform: "web_landing_page",
   });
 }
 
 // QR code click on install page
-export function trackQrCodeClick(source: string = 'qr_code') {
-  track('qr_code_clicked', {
+export function trackQrCodeClick(source: string = "qr_code") {
+  track("qr_code_clicked", {
     source,
-    platform: 'web_landing_page',
+    platform: "web_landing_page",
+  });
+}
+
+/** Fired when the `orb_promo` top banner is shown (valid param present). */
+export function trackPromoBannerShown(properties: {
+  promo_variant: OrbPromoValue;
+  page_path: string;
+}) {
+  track("promo_banner_shown", {
+    ...properties,
+    platform: "web_landing_page",
+  });
+}
+
+/** Fired when the user taps the `orb_promo` banner (navigates to install). */
+export function trackPromoBannerClicked(properties: {
+  promo_variant: OrbPromoValue;
+  page_path: string;
+}) {
+  track("promo_banner_clicked", {
+    ...properties,
+    platform: "web_landing_page",
   });
 }
 
@@ -74,13 +98,13 @@ export function trackQrCodeClick(source: string = 'qr_code') {
 export function trackInstallPageVisit(
   deviceType: string,
   willRedirect: boolean,
-  redirectDestination: string | null
+  redirectDestination: string | null,
 ) {
-  track('install_page_visited', {
+  track("install_page_visited", {
     device_type: deviceType,
     will_redirect: willRedirect,
     redirect_destination: redirectDestination,
-    platform: 'web_landing_page',
+    platform: "web_landing_page",
   });
 }
 
@@ -90,18 +114,18 @@ export function trackInstallPageVisit(
 
 // Get UTM parameters from the current URL
 export function getUtmParams(): Record<string, string> {
-  if (typeof window === 'undefined') return {};
+  if (typeof window === "undefined") return {};
 
   const urlParams = new URLSearchParams(window.location.search);
   const utmParams: Record<string, string> = {};
 
   // Standard UTM params
   const utmKeys = [
-    'utm_source',
-    'utm_medium',
-    'utm_campaign',
-    'utm_content',
-    'utm_term',
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_content",
+    "utm_term",
   ];
 
   utmKeys.forEach((key) => {
@@ -116,7 +140,7 @@ export function getUtmParams(): Record<string, string> {
 
 // Build the AppsFlyer OneLink URL with attribution params
 export function getOneLinkUrl(
-  additionalParams?: Record<string, string>
+  additionalParams?: Record<string, string>,
 ): string {
   const utmParams = getUtmParams();
   const params = new URLSearchParams();
@@ -124,38 +148,42 @@ export function getOneLinkUrl(
   // Map UTM params to AppsFlyer params
   // c = campaign, af_channel = source, af_adset = content, af_ad = term
   if (utmParams.utm_campaign) {
-    params.set('c', utmParams.utm_campaign);
+    params.set("c", utmParams.utm_campaign);
   }
   if (utmParams.utm_source) {
-    params.set('af_channel', utmParams.utm_source);
+    params.set("af_channel", utmParams.utm_source);
   }
   if (utmParams.utm_medium) {
-    params.set('af_adset', utmParams.utm_medium);
+    params.set("af_adset", utmParams.utm_medium);
   }
   if (utmParams.utm_content) {
-    params.set('af_ad', utmParams.utm_content);
+    params.set("af_ad", utmParams.utm_content);
   }
   if (utmParams.utm_term) {
-    params.set('af_keywords', utmParams.utm_term);
+    params.set("af_keywords", utmParams.utm_term);
   }
 
   // Also pass raw UTM params in sub params for reference
   if (utmParams.utm_source) {
-    params.set('af_sub1', utmParams.utm_source);
+    params.set("af_sub1", utmParams.utm_source);
   }
   if (utmParams.utm_medium) {
-    params.set('af_sub2', utmParams.utm_medium);
+    params.set("af_sub2", utmParams.utm_medium);
   }
   if (utmParams.utm_campaign) {
-    params.set('af_sub3', utmParams.utm_campaign);
+    params.set("af_sub3", utmParams.utm_campaign);
   }
 
   // Pass Google Click ID for web-to-app conversion matching
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     const urlParams = new URLSearchParams(window.location.search);
-    const gclid = urlParams.get('gclid');
+    const gclid = urlParams.get("gclid");
     if (gclid) {
-      params.set('af_sub5', gclid);
+      params.set("af_sub5", gclid);
+    }
+    const orbPromo = getOrbPromoFromSearch(window.location.search);
+    if (orbPromo) {
+      params.set("deep_link_value", orbPromo);
     }
   }
 
