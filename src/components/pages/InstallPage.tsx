@@ -7,6 +7,10 @@ import {
   trackInstallPageVisit,
   trackQrCodeClick,
   getOneLinkUrl,
+  getUtmParams,
+  setAttributionCookie,
+  trackMetaLead,
+  trackTikTokClickButton,
 } from '@/lib/analytics';
 
 const GA_MEASUREMENT_ID = 'G-998792GX0C';
@@ -39,8 +43,16 @@ const Install = () => {
 
     hasTracked.current = true;
 
-    // Track with Amplitude
-    trackInstallPageVisit(deviceType, willRedirect, redirectDestination);
+    // Get UTM params and store attribution cookie
+    const utmParams = getUtmParams();
+    setAttributionCookie(utmParams);
+
+    // Fire pixel events with UTM data
+    trackMetaLead(utmParams);
+    trackTikTokClickButton(utmParams);
+
+    // Track with Amplitude (now includes UTM params)
+    trackInstallPageVisit(deviceType, willRedirect, redirectDestination, utmParams);
 
     // Use beacon transport to ensure event is sent even on redirect (GA)
     gtag('event', 'install_page_visit', {
@@ -71,17 +83,19 @@ const Install = () => {
 
   if (!isDesktop) {
     return (
-      <div className='min-h-screen bg-background flex items-center justify-center px-6'>
-        <div className='text-center max-w-md space-y-4'>
-          <h1 className='text-2xl font-serif font-normal'>Redirecting...</h1>
-          <p className='text-muted-foreground'>
-            We&apos;re sending you to the right place for your device.
-          </p>
-          <a
-            href={oneLinkUrl}
-            className='text-primary underline hover:text-primary/90'
-          >
-            Continue
+      <div className='min-h-screen flex items-center justify-center px-6'
+           style={{ backgroundColor: '#071b24' }}>
+        <div className='text-center max-w-md space-y-6'>
+          <div className='flex justify-center'>
+            <div className='w-10 h-10 border-4 border-t-transparent rounded-full animate-spin'
+                 style={{ borderColor: '#b4e0cb', borderTopColor: 'transparent' }} />
+          </div>
+          <h1 className='text-2xl font-sans font-medium text-white'>
+            Taking you to the App Store...
+          </h1>
+          <a href={oneLinkUrl} className='text-sm underline hover:opacity-80'
+             style={{ color: '#b4e0cb' }}>
+            Tap here if nothing happens
           </a>
         </div>
       </div>

@@ -9,8 +9,9 @@
  * Allowed values (must match app `lib/orb-promo.ts`):
  * - `group_chat` — Orbits in group chats (reminders, events, lists).
  * - `family_chores` — Family chores inside Orbits (Tody/Sweepy-style).
+ * - `instacart` — Instacart grocery ordering promo ($20 off first order).
  */
-export const ORB_PROMO_VALUES = ["group_chat", "family_chores"] as const;
+export const ORB_PROMO_VALUES = ["group_chat", "family_chores", "instacart"] as const;
 
 export type OrbPromoValue = (typeof ORB_PROMO_VALUES)[number];
 
@@ -46,6 +47,11 @@ export function getOrbPromoBannerLabel(promo: OrbPromoValue): {
         title:
           "Get more done with Orbits family tasks. Scheduled. Reminded. Done.",
         hint: "Your family clean routine, now actually done with Orbits.",
+      };
+    case "instacart":
+      return {
+        title: "Let Orbits handle the groceries (and save $20!)",
+        hint: "Tap to order your grocery list using Instacart and get $20 off your first order through Orbits!",
       };
     default:
       return { title: "Get Orbits", hint: "Tap to download" };
