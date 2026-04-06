@@ -2,6 +2,13 @@ import * as amplitude from "@amplitude/analytics-browser";
 
 import { getOrbPromoFromSearch, type OrbPromoValue } from "@/lib/orb-promo";
 
+declare global {
+  interface Window {
+    fbq?: (...args: unknown[]) => void;
+    ttq?: { track: (event: string, params?: Record<string, unknown>) => void };
+  }
+}
+
 const AMPLITUDE_API_KEY = "d9d4c952d27ebbfbd7756d0f2748952";
 
 // AppsFlyer OneLink configuration
@@ -99,12 +106,14 @@ export function trackInstallPageVisit(
   deviceType: string,
   willRedirect: boolean,
   redirectDestination: string | null,
+  utmParams?: Record<string, string>,
 ) {
   track("install_page_visited", {
     device_type: deviceType,
     will_redirect: willRedirect,
     redirect_destination: redirectDestination,
     platform: "web_landing_page",
+    ...utmParams,
   });
 }
 
@@ -196,4 +205,51 @@ export function getOneLinkUrl(
 
   const queryString = params.toString();
   return queryString ? `${ONELINK_BASE_URL}?${queryString}` : ONELINK_BASE_URL;
+}
+
+// ============================================
+// Attribution Cookie
+// ============================================
+
+const ATTRIBUTION_COOKIE_NAME = "orbits_attribution";
+const ATTRIBUTION_COOKIE_DAYS = 30;
+
+export function setAttributionCookie(utmParams: Record<string, string>): void {
+  if (typeof document === "undefined" || Object.keys(utmParams).length === 0) return;
+  const expires = new Date();
+  expires.setDate(expires.getDate() + ATTRIBUTION_COOKIE_DAYS);
+  document.cookie = `${ATTRIBUTION_COOKIE_NAME}=${encodeURIComponent(JSON.stringify(utmParams))}; expires=${expires.toUTCString()}; path=/; SameSite=Lax; Secure`;
+}
+
+export function getAttributionCookie(): Record<string, string> {
+  if (typeof document === "undefined") return {};
+  const match = document.cookie.match(new RegExp("(?:^|; )" + ATTRIBUTION_COOKIE_NAME + "=([^;]*)"));
+  if (!match) return {};
+  try { return JSON.parse(decodeURIComponent(match[1])); } catch { return {}; }
+}
+
+// ============================================
+// Meta Pixel Events
+// ============================================
+
+export function trackMetaLead(utmParams: Record<string, string>): void {
+  if (typeof window !== "undefined" && window.fbq) {
+    window.fbq("track", "Lead", {
+      content_name: "install_page",
+      ...utmParams,
+    });
+  }
+}
+
+// ============================================
+// TikTok Pixel Events
+// ============================================
+
+export function trackTikTokClickButton(utmParams: Record<string, string>): void {
+  if (typeof window !== "undefined" && window.ttq) {
+    window.ttq.track("ClickButton", {
+      content_name: "install_page",
+      ...utmParams,
+    });
+  }
 }
