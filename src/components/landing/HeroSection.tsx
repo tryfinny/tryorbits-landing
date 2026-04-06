@@ -354,7 +354,7 @@ export function HeroSection() {
             </motion.div>
 
             {/* Headline */}
-            <motion.h1 variants={fadeUpSpring} className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.1] mb-6 sm:mb-8">
+            <motion.h1 variants={fadeUpSpring} className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.3] mb-6 sm:mb-8">
               <span>Less juggling,</span>
               <br />
               <motion.span
