@@ -25,7 +25,7 @@ export default function Privacy() {
             <section>
               <h2 className="text-xl font-semibold mb-3 font-sans">1. Information We Collect</h2>
               <p className="text-muted-foreground leading-relaxed">
-                We collect personal information that you provide when using Orbits, such as your name, email address, and payment details (for subscriptions). We may also collect usage data, device information, and communications you have with us (for example, when you contact support or submit feedback).
+                We collect personal information that you provide when using Orbits, such as your name, email address, and payment details (for subscriptions). We may also collect usage data, device information, and communications you have with us (for example, when you contact support or submit feedback). We also collect phone numbers you register in the app for text message features, and the content of text messages sent to the Orbits phone number by you or members of your household.
               </p>
             </section>
 
@@ -39,6 +39,7 @@ export default function Privacy() {
                 <li>Process payments and manage subscriptions</li>
                 <li>Communicate with you about updates, support, and account-related matters</li>
                 <li>Personalize your experience and deliver relevant features</li>
+                <li>Analyze text messages sent to the Orbits phone number to identify events, reminders, and to-dos for your household using artificial intelligence</li>
                 <li>Comply with legal and regulatory obligations</li>
               </ul>
             </section>
@@ -59,6 +60,8 @@ export default function Privacy() {
                 <li>Operating and maintaining the Orbits app</li>
                 <li>Processing payments</li>
                 <li>Providing analytics or cloud infrastructure</li>
+                <li>Delivering and receiving text messages (e.g., Telnyx, Twilio)</li>
+                <li>Processing message content using AI services (e.g., OpenAI) to extract actionable household information</li>
                 <li>Complying with legal requests when required</li>
               </ul>
               <p className="text-muted-foreground leading-relaxed mt-3">
@@ -99,14 +102,21 @@ export default function Privacy() {
             </section>
 
             <section>
-              <h2 className="text-xl font-semibold mb-3 font-sans">8. Changes to This Privacy Policy</h2>
+              <h2 className="text-xl font-semibold mb-3 font-sans">8. Text Message Data</h2>
+              <p className="text-muted-foreground leading-relaxed">
+                When you register a phone number in the Orbits app, you opt in to the text message feature. Orbits receives and processes text messages sent to the Orbits phone number from registered phone numbers only. Message content is analyzed using AI to identify events, reminders, and to-dos relevant to your household. We store message content and sender information for processing purposes and retain it in accordance with our data retention practices. We do not read, store, or process messages from unregistered phone numbers. You may opt out at any time by removing your phone number in the app settings or by texting STOP to the Orbits number.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold mb-3 font-sans">9. Changes to This Privacy Policy</h2>
               <p className="text-muted-foreground leading-relaxed">
                 We may update this Privacy Policy periodically. If material changes are made, we will notify you by posting the updated version within the Orbits app or through other appropriate channels. Continued use of Orbits after such updates means you accept the revised policy.
               </p>
             </section>
 
             <section>
-              <h2 className="text-xl font-semibold mb-3 font-sans">9. Account Deletion</h2>
+              <h2 className="text-xl font-semibold mb-3 font-sans">10. Account Deletion</h2>
               <p className="text-muted-foreground leading-relaxed">
                 To delete your account, please contact us at{' '}
                 <a href="mailto:contact@tryorbits.com" className="text-primary hover:underline">
@@ -116,7 +126,7 @@ export default function Privacy() {
             </section>
 
             <section>
-              <h2 className="text-xl font-semibold mb-3 font-sans">10. Contact Information</h2>
+              <h2 className="text-xl font-semibold mb-3 font-sans">11. Contact Information</h2>
               <p className="text-muted-foreground leading-relaxed">
                 If you have questions, concerns, or requests about this Privacy Policy, please contact us at:
               </p>
