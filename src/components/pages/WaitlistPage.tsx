@@ -65,18 +65,18 @@ export default function WaitlistPage() {
           style={{ width: 140, height: 'auto' }}
         />
 
-        <h1 className="text-3xl font-bold mb-2 tracking-tight">{copy.title}</h1>
+        <h1 className="text-3xl font-bold mb-2 tracking-tight" style={{ fontFamily: 'var(--font-sans)' }}>{copy.title}</h1>
 
-        <p className="text-muted-foreground text-sm font-medium mb-4">
+        <p className="text-muted-foreground text-base font-medium mb-4">
           {copy.subtitle}
         </p>
 
-        <p className="text-muted-foreground text-base leading-relaxed mb-8">
+        <p className="text-muted-foreground text-lg leading-relaxed mb-8">
           {copy.description}
         </p>
 
         <div className="rounded-2xl border border-border/50 bg-card p-5 text-left">
-          <p className="text-sm text-muted-foreground leading-relaxed">
+          <p className="text-base text-muted-foreground leading-relaxed">
             <span className="font-semibold text-foreground">You're on the list.</span>{" "}
             We'll send you an email when it's your turn. In the meantime, make sure you have the latest version of Orbits.
           </p>
