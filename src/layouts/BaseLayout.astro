@@ -6,6 +6,7 @@ export interface Props {
   description?: string;
   ogImage?: string;
   canonicalUrl?: string;
+  noIndex?: boolean;
   // Article-specific SEO
   ogType?: 'website' | 'article';
   publishedTime?: string;
@@ -22,6 +23,7 @@ const {
   publishedTime,
   tags,
   articleJsonLd,
+  noIndex,
 } = Astro.props;
 ---
 
@@ -33,6 +35,7 @@ const {
 
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
 
     <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonicalUrl} />

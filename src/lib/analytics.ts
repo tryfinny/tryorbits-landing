@@ -130,6 +130,19 @@ export function trackInstallPageVisit(
   });
 }
 
+// Waitlist interest (user wants early access to an upcoming feature)
+export function trackWaitlistInterest(properties: {
+  feature: string;
+  source?: string;
+  campaign?: string;
+  email?: string;
+}) {
+  track("waitlist_interest", {
+    ...properties,
+    platform: "web_landing_page",
+  });
+}
+
 // ============================================
 // AppsFlyer OneLink Attribution
 // ============================================

@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WaitlistPage from '../components/pages/WaitlistPage';
+---
+
+<BaseLayout
+  title="You're on the list - Orbits"
+  description="Thanks for your interest. We'll let you know when this feature is ready."
+  noIndex={true}
+>
+  <WaitlistPage client:only="react" />
+</BaseLayout>
