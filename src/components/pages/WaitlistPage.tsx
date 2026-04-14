@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { initAnalytics, trackWaitlistInterest } from "@/lib/analytics";
+import { initAnalytics, trackWaitlistInterest, getOneLinkUrl } from "@/lib/analytics";
 
 const FEATURE_COPY: Record<string, { title: string; subtitle: string; description: string }> = {
   sms: {
@@ -81,6 +81,13 @@ export default function WaitlistPage() {
             We'll send you an email when it's your turn. In the meantime, make sure you have the latest version of Orbits.
           </p>
         </div>
+
+        <a
+          href={getOneLinkUrl({ af_sub4: 'waitlist_page' })}
+          className="inline-flex items-center justify-center mt-8 px-8 py-3 rounded-full bg-primary text-primary-foreground font-semibold text-base hover:opacity-90 transition-opacity"
+        >
+          Get Orbits
+        </a>
       </div>
     </section>
   );
