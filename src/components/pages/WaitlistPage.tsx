@@ -1,19 +1,20 @@
 import { useEffect, useMemo } from "react";
 import { initAnalytics, trackWaitlistInterest } from "@/lib/analytics";
-import { CheckCircle2 } from "lucide-react";
 
-const FEATURE_COPY: Record<string, { title: string; description: string }> = {
+const FEATURE_COPY: Record<string, { title: string; subtitle: string; description: string }> = {
   sms: {
     title: "Your assistant, over text",
+    subtitle: "We're slowly rolling out Bit over text.",
     description:
-      "We're slowly rolling out Bit over SMS. Text Bit directly or add Bit to your group chat. Bit will automatically pick up any reminders, events, grocery list items, and more. We'll let you know once this launches in your region.",
+      "Text Bit directly or add Bit to your group chat. Bit will automatically pick up any reminders, events, grocery list items, and more. We'll let you know once this launches in your region.",
   },
 };
 
 const DEFAULT_COPY = {
   title: "Something new is coming",
+  subtitle: "We're rolling this out gradually.",
   description:
-    "We're working on something exciting and rolling it out gradually. We'll let you know once it's ready for you.",
+    "We're working on something exciting. We'll let you know once it's ready for you.",
 };
 
 export default function WaitlistPage() {
@@ -50,11 +51,25 @@ export default function WaitlistPage() {
   return (
     <section className="min-h-screen flex items-center justify-center px-6 py-20">
       <div className="max-w-md w-full text-center">
-        <div className="mx-auto mb-6 w-16 h-16 rounded-full bg-sage/20 flex items-center justify-center">
-          <CheckCircle2 className="w-8 h-8 text-primary" />
-        </div>
+        <img
+          src="/orbits-banner.png"
+          alt="Orbits"
+          className="mx-auto mb-8"
+          style={{ maxWidth: 160 }}
+        />
 
-        <h1 className="text-3xl font-bold mb-3 tracking-tight">{copy.title}</h1>
+        <img
+          src="/bit-happy.gif"
+          alt="Bit"
+          className="mx-auto mb-6"
+          style={{ width: 140, height: 'auto' }}
+        />
+
+        <h1 className="text-3xl font-bold mb-2 tracking-tight">{copy.title}</h1>
+
+        <p className="text-muted-foreground text-sm font-medium mb-4">
+          {copy.subtitle}
+        </p>
 
         <p className="text-muted-foreground text-base leading-relaxed mb-8">
           {copy.description}
@@ -66,13 +81,6 @@ export default function WaitlistPage() {
             We'll send you an email when it's your turn. In the meantime, make sure you have the latest version of Orbits.
           </p>
         </div>
-
-        <a
-          href="/"
-          className="inline-block mt-8 text-sm font-medium text-primary hover:opacity-80 transition-opacity"
-        >
-          &larr; Back to Orbits
-        </a>
       </div>
     </section>
   );
