@@ -4,7 +4,7 @@ import { AppStoreButtons } from "@/components/landing/AppStoreButtons";
 
 const FEATURE_COPY: Record<string, { title: string; subtitle: string; description: string }> = {
   sms: {
-    title: "Your assistant, over text",
+    title: "Your assistant, right where you need it most",
     subtitle: "We're slowly rolling out Bit over text.",
     description:
       "Text Bit directly or add Bit to your group chat. Bit will automatically pick up any reminders, events, grocery list items, and more. We'll let you know once this launches in your region.",
@@ -83,7 +83,7 @@ export default function WaitlistPage() {
           </p>
         </div>
 
-        <div className="mt-8">
+        <div className="mt-8 flex justify-center">
           <AppStoreButtons location="waitlist_page" />
         </div>
       </div>
