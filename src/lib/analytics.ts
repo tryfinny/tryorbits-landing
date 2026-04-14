@@ -6,6 +6,7 @@ declare global {
   interface Window {
     fbq?: (...args: unknown[]) => void;
     ttq?: { track: (event: string, params?: Record<string, unknown>) => void };
+    gtag?: (...args: unknown[]) => void;
   }
 }
 
@@ -41,6 +42,16 @@ export function track(eventName: string, properties?: Record<string, unknown>) {
   amplitude.track(eventName, properties);
 }
 
+// GA4 event for Google Ads conversion tracking
+function trackGA4GetOrbitsClick(location: string, store?: string) {
+  if (typeof window !== "undefined" && window.gtag) {
+    window.gtag("event", "get_orbits_click", {
+      button_location: location,
+      store: store ?? "combined",
+    });
+  }
+}
+
 // Page view tracking (called on route changes)
 export function trackPageView(pageName: string, path: string) {
   track("page_viewed", {
@@ -57,6 +68,7 @@ export function trackCtaClick(location: string) {
     cta_type: "get_orbits",
     platform: "web_landing_page",
   });
+  trackGA4GetOrbitsClick(location);
 }
 
 // App store button click (when user clicks iOS or Android download)
@@ -69,6 +81,7 @@ export function trackAppStoreClick(
     location,
     platform: "web_landing_page",
   });
+  trackGA4GetOrbitsClick(location, store);
 }
 
 // QR code click on install page
