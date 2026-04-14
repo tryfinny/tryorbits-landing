@@ -11,7 +11,7 @@
  * - `family_chores` — Family chores inside Orbits (Tody/Sweepy-style).
  * - `instacart` — Instacart grocery ordering promo ($20 off first order).
  */
-export const ORB_PROMO_VALUES = ["group_chat", "family_chores", "instacart"] as const;
+export const ORB_PROMO_VALUES = ["group_chat", "family_chores", "instacart", "sms"] as const;
 
 export type OrbPromoValue = (typeof ORB_PROMO_VALUES)[number];
 
@@ -30,6 +30,15 @@ export function getOrbPromoFromSearch(search: string): OrbPromoValue | null {
   const raw = params.get("orb_promo");
   return isValidOrbPromo(raw) ? raw : null;
 }
+
+/**
+ * Apple App Store Custom Product Page IDs keyed by promo variant.
+ * Pass as `af_cp` in the AppsFlyer OneLink URL so users land on the
+ * variant-specific App Store page with the right screenshots.
+ */
+export const ORB_PROMO_CPP_IDS: Partial<Record<OrbPromoValue, string>> = {
+  sms: "264256b4-4495-4c33-a964-9057d04c1028",
+};
 
 /** Short labels for the top banner (matches site tone). */
 export function getOrbPromoBannerLabel(promo: OrbPromoValue): {
@@ -52,6 +61,11 @@ export function getOrbPromoBannerLabel(promo: OrbPromoValue): {
       return {
         title: "Let Orbits handle the groceries (and save $20!)",
         hint: "Tap to order your grocery list using Instacart and get $20 off your first order through Orbits!",
+      };
+    case "sms":
+      return {
+        title: "Text Orbits. Get it done.",
+        hint: "Tap to download Orbits and start texting your household assistant.",
       };
     default:
       return { title: "Get Orbits", hint: "Tap to download" };

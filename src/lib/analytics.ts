@@ -1,6 +1,6 @@
 import * as amplitude from "@amplitude/analytics-browser";
 
-import { getOrbPromoFromSearch, type OrbPromoValue } from "@/lib/orb-promo";
+import { getOrbPromoFromSearch, ORB_PROMO_CPP_IDS, type OrbPromoValue } from "@/lib/orb-promo";
 
 declare global {
   interface Window {
@@ -206,6 +206,10 @@ export function getOneLinkUrl(
     const orbPromo = getOrbPromoFromSearch(window.location.search);
     if (orbPromo) {
       params.set("deep_link_value", orbPromo);
+      const cppId = ORB_PROMO_CPP_IDS[orbPromo];
+      if (cppId) {
+        params.set("af_cp", cppId);
+      }
     }
   }
 
