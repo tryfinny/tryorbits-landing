@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from "react";
-import { initAnalytics, trackWaitlistInterest, getOneLinkUrl } from "@/lib/analytics";
+import { initAnalytics, trackWaitlistInterest } from "@/lib/analytics";
+import { AppStoreButtons } from "@/components/landing/AppStoreButtons";
 
 const FEATURE_COPY: Record<string, { title: string; subtitle: string; description: string }> = {
   sms: {
@@ -82,12 +83,9 @@ export default function WaitlistPage() {
           </p>
         </div>
 
-        <a
-          href={getOneLinkUrl({ af_sub4: 'waitlist_page' })}
-          className="inline-flex items-center justify-center mt-8 px-8 py-3 rounded-full bg-primary text-primary-foreground font-semibold text-base hover:opacity-90 transition-opacity"
-        >
-          Get Orbits
-        </a>
+        <div className="mt-8">
+          <AppStoreButtons location="waitlist_page" />
+        </div>
       </div>
     </section>
   );
