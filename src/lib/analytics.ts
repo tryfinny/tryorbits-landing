@@ -21,6 +21,7 @@ export function initAnalytics() {
   if (isInitialized) return;
 
   amplitude.init(AMPLITUDE_API_KEY, {
+    transport: "beacon",
     defaultTracking: {
       sessions: true,
       pageViews: true,
