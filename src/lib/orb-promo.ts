@@ -33,7 +33,7 @@ export function getOrbPromoFromSearch(search: string): OrbPromoValue | null {
 
 /**
  * Apple App Store Custom Product Page IDs keyed by promo variant.
- * Pass as `af_cp` in the AppsFlyer OneLink URL so users land on the
+ * Pass as `af_ios_store_cpp` in the AppsFlyer OneLink URL so users land on the
  * variant-specific App Store page with the right screenshots.
  */
 export const ORB_PROMO_CPP_IDS: Partial<Record<OrbPromoValue, string>> = {
