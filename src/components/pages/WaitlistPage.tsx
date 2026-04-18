@@ -162,6 +162,11 @@ export default function WaitlistPage() {
                   }
                 : undefined
             }
+            iosOverrideHref={
+              isValidOrbPromo(params.feature) && ORB_PROMO_CPP_IDS[params.feature]
+                ? `https://apps.apple.com/us/app/orbits-ai-family-assistant/id6751995632?ppid=${ORB_PROMO_CPP_IDS[params.feature]}`
+                : undefined
+            }
           />
         </div>
       </div>

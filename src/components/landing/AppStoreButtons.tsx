@@ -105,9 +105,10 @@ function MagneticButton({
 type AppStoreButtonsProps = {
   location?: string;
   oneLinkParams?: Record<string, string>;
+  iosOverrideHref?: string;
 };
 
-export function AppStoreButtons({ location = 'hero', oneLinkParams }: AppStoreButtonsProps) {
+export function AppStoreButtons({ location = 'hero', oneLinkParams, iosOverrideHref }: AppStoreButtonsProps) {
   const isMobile = useIsMobile();
   const deviceType = useDeviceType();
 
@@ -116,6 +117,8 @@ export function AppStoreButtons({ location = 'hero', oneLinkParams }: AppStoreBu
     () => getOneLinkUrl({ af_sub4: location, ...oneLinkParams }),
     [location, oneLinkParams]
   );
+
+  const finalHref = iosOverrideHref && deviceType === 'ios' ? iosOverrideHref : oneLinkUrl;
 
   const handleCtaClick = () => {
     trackCtaClick(location);
@@ -156,7 +159,7 @@ export function AppStoreButtons({ location = 'hero', oneLinkParams }: AppStoreBu
   return (
     <div className='flex justify-center lg:justify-start perspective-1000'>
       <MagneticButton
-        href={oneLinkUrl}
+        href={finalHref}
         className='group'
         onClick={handleCtaClick}
       >
