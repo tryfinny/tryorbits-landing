@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { initAnalytics, trackWaitlistInterest } from "@/lib/analytics";
 import { AppStoreButtons } from "@/components/landing/AppStoreButtons";
 import { getOrbPromoWaitlistCopy, isValidOrbPromo } from "@/lib/orb-promo";
@@ -44,6 +44,16 @@ export default function WaitlistPage() {
     : DEFAULT_COPY;
 
   const isSms = params.feature === "sms";
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!lightboxSrc) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightboxSrc(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [lightboxSrc]);
 
   return (
     <section
@@ -82,7 +92,8 @@ export default function WaitlistPage() {
                 <img
                   src="/waitlist/sms-before.png"
                   alt="A chaotic family group chat in iMessage"
-                  className="w-full h-auto rounded-lg"
+                  className="w-full h-auto rounded-lg cursor-zoom-in"
+                  onClick={() => setLightboxSrc("/waitlist/sms-before.png")}
                 />
               </div>
               <div>
@@ -92,7 +103,8 @@ export default function WaitlistPage() {
                 <img
                   src="/waitlist/sms-after.png"
                   alt="The same group chat with Bit organizing reminders, lists, and addresses"
-                  className="w-full h-auto rounded-lg"
+                  className="w-full h-auto rounded-lg cursor-zoom-in"
+                  onClick={() => setLightboxSrc("/waitlist/sms-after.png")}
                 />
               </div>
             </div>
@@ -143,6 +155,21 @@ export default function WaitlistPage() {
           <AppStoreButtons location="waitlist_page" />
         </div>
       </div>
+
+      {lightboxSrc && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
+          onClick={() => setLightboxSrc(null)}
+          role="dialog"
+          aria-modal="true"
+        >
+          <img
+            src={lightboxSrc}
+            alt=""
+            className="max-h-full max-w-full object-contain"
+          />
+        </div>
+      )}
     </section>
   );
 }
