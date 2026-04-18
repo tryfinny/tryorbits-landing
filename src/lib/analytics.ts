@@ -228,7 +228,7 @@ export function getOneLinkUrl(
       params.set("deep_link_value", orbPromo);
       const cppId = ORB_PROMO_CPP_IDS[orbPromo];
       if (cppId) {
-        params.set("af_cp", cppId);
+        params.set("af_ios_store_cpp", cppId);
       }
     }
   }

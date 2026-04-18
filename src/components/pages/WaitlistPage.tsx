@@ -158,7 +158,7 @@ export default function WaitlistPage() {
               isValidOrbPromo(params.feature) && ORB_PROMO_CPP_IDS[params.feature]
                 ? {
                     deep_link_value: params.feature,
-                    af_cp: ORB_PROMO_CPP_IDS[params.feature]!,
+                    af_ios_store_cpp: ORB_PROMO_CPP_IDS[params.feature]!,
                   }
                 : undefined
             }
