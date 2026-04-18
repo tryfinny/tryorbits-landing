@@ -104,16 +104,17 @@ function MagneticButton({
 
 type AppStoreButtonsProps = {
   location?: string;
+  oneLinkParams?: Record<string, string>;
 };
 
-export function AppStoreButtons({ location = 'hero' }: AppStoreButtonsProps) {
+export function AppStoreButtons({ location = 'hero', oneLinkParams }: AppStoreButtonsProps) {
   const isMobile = useIsMobile();
   const deviceType = useDeviceType();
 
   // Build OneLink URL with UTM params and button location
   const oneLinkUrl = useMemo(
-    () => getOneLinkUrl({ af_sub4: location }),
-    [location]
+    () => getOneLinkUrl({ af_sub4: location, ...oneLinkParams }),
+    [location, oneLinkParams]
   );
 
   const handleCtaClick = () => {
