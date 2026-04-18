@@ -9,8 +9,6 @@ import {
   getOneLinkUrl,
   getUtmParams,
   setAttributionCookie,
-  trackMetaLead,
-  trackTikTokClickButton,
 } from '@/lib/analytics';
 
 const GA_MEASUREMENT_ID = 'G-998792GX0C';
@@ -46,10 +44,6 @@ const Install = () => {
     // Get UTM params and store attribution cookie
     const utmParams = getUtmParams();
     setAttributionCookie(utmParams);
-
-    // Fire pixel events with UTM data
-    trackMetaLead(utmParams);
-    trackTikTokClickButton(utmParams);
 
     // Track with Amplitude (now includes UTM params)
     trackInstallPageVisit(deviceType, willRedirect, redirectDestination, utmParams);

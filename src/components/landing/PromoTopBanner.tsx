@@ -18,11 +18,17 @@ export function PromoTopBanner() {
     return getOrbPromoFromSearch(window.location.search);
   }, []);
 
-  const installHref = useMemo(() => {
-    if (typeof window === "undefined") return "/install";
-    const search = window.location.search;
-    return search ? `/install${search}` : "/install";
-  }, []);
+  const waitlistHref = useMemo(() => {
+    if (typeof window === "undefined" || !promo) return "/waitlist";
+    const current = new URLSearchParams(window.location.search);
+    const next = new URLSearchParams();
+    next.set("feature", promo);
+    for (const key of ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"]) {
+      const value = current.get(key);
+      if (value) next.set(key, value);
+    }
+    return `/waitlist?${next.toString()}`;
+  }, [promo]);
 
   const pagePath =
     typeof window !== "undefined" ? window.location.pathname : "/";
@@ -44,7 +50,7 @@ export function PromoTopBanner() {
     <aside className="w-full border-b border-primary/10 bg-gradient-to-r from-secondary/40 via-background to-secondary/40">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <a
-          href={installHref}
+          href={waitlistHref}
           className="flex min-h-[52px] items-center justify-center gap-3 py-3 sm:min-h-[56px] sm:py-3.5 transition-opacity hover:opacity-90 active:opacity-80"
           onClick={() =>
             trackPromoBannerClicked({

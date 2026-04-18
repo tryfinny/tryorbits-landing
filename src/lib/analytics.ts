@@ -70,6 +70,9 @@ export function trackCtaClick(location: string) {
     platform: "web_landing_page",
   });
   trackGA4GetOrbitsClick(location);
+  const utmParams = getUtmParams();
+  trackMetaLead(utmParams);
+  trackTikTokClickButton(utmParams);
 }
 
 // App store button click (when user clicks iOS or Android download)
@@ -83,6 +86,9 @@ export function trackAppStoreClick(
     platform: "web_landing_page",
   });
   trackGA4GetOrbitsClick(location, store);
+  const utmParams = getUtmParams();
+  trackMetaLead(utmParams);
+  trackTikTokClickButton(utmParams);
 }
 
 // QR code click on install page
