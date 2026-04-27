@@ -198,7 +198,7 @@ export default function WaitlistPage() {
               />
               <button
                 type="submit"
-                className="w-full rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background shadow-sm hover:opacity-90 active:scale-[0.99] transition"
+                className="w-full rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-sm hover:opacity-90 active:scale-[0.99] transition"
               >
                 Notify me
               </button>
