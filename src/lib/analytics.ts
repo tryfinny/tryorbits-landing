@@ -7,6 +7,15 @@ declare global {
     fbq?: (...args: unknown[]) => void;
     ttq?: { track: (event: string, params?: Record<string, unknown>) => void };
     gtag?: (...args: unknown[]) => void;
+    lintrk?: (action: string, params?: Record<string, unknown>) => void;
+  }
+}
+
+const LINKEDIN_CTA_CLICK_CONVERSION_ID = 27174290;
+
+function trackLinkedInCtaConversion() {
+  if (typeof window !== "undefined" && window.lintrk) {
+    window.lintrk("track", { conversion_id: LINKEDIN_CTA_CLICK_CONVERSION_ID });
   }
 }
 
@@ -73,6 +82,7 @@ export function trackCtaClick(location: string) {
   const utmParams = getUtmParams();
   trackMetaLead(utmParams);
   trackTikTokClickButton(utmParams);
+  trackLinkedInCtaConversion();
 }
 
 // App store button click (when user clicks iOS or Android download)
@@ -89,6 +99,7 @@ export function trackAppStoreClick(
   const utmParams = getUtmParams();
   trackMetaLead(utmParams);
   trackTikTokClickButton(utmParams);
+  trackLinkedInCtaConversion();
 }
 
 // QR code click on install page
