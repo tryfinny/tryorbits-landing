@@ -154,6 +154,7 @@ export function trackWaitlistInterest(properties: {
   source?: string;
   campaign?: string;
   email?: string;
+  email_source?: "url" | "user_input" | "none";
 }) {
   track("waitlist_interest", {
     ...properties,

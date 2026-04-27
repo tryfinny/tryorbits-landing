@@ -22,6 +22,10 @@ export default function WaitlistPage() {
     };
   }, []);
 
+  const [submittedEmail, setSubmittedEmail] = useState<string | null>(null);
+  const [emailInput, setEmailInput] = useState("");
+  const [emailError, setEmailError] = useState<string | null>(null);
+
   useEffect(() => {
     if (!params.feature) {
       window.location.replace("/");
@@ -34,8 +38,27 @@ export default function WaitlistPage() {
       source: params.source || undefined,
       campaign: params.campaign || undefined,
       email: params.email || undefined,
+      email_source: params.email ? "url" : "none",
     });
   }, [params]);
+
+  const handleEmailSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const email = emailInput.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setEmailError("Please enter a valid email address.");
+      return;
+    }
+    setEmailError(null);
+    trackWaitlistInterest({
+      feature: params.feature,
+      source: params.source || undefined,
+      campaign: params.campaign || undefined,
+      email,
+      email_source: "user_input",
+    });
+    setSubmittedEmail(email);
+  };
 
   if (!params.feature) return null;
 
@@ -139,16 +162,53 @@ export default function WaitlistPage() {
             isSms ? "p-3" : "p-5"
           }`}
         >
-          <p
-            className={`text-muted-foreground leading-snug ${
-              isSms ? "text-sm" : "text-base leading-relaxed"
-            }`}
-          >
-            <span className="font-semibold text-foreground">You're on the list.</span>{" "}
-            {isSms
-              ? "Get the app to find out when it's your turn."
-              : "We'll send you an email when it's your turn. In the meantime, make sure you have the latest version of Orbits."}
-          </p>
+          {(params.email || submittedEmail) ? (
+            <p
+              className={`text-muted-foreground leading-snug ${
+                isSms ? "text-sm" : "text-base leading-relaxed"
+              }`}
+            >
+              <span className="font-semibold text-foreground">You're on the list.</span>{" "}
+              {isSms
+                ? "Get the app to find out when it's your turn."
+                : "We'll send you an email when it's your turn. In the meantime, make sure you have the latest version of Orbits."}
+            </p>
+          ) : (
+            <form onSubmit={handleEmailSubmit} className="flex flex-col gap-2">
+              <label
+                htmlFor="waitlist-email"
+                className={`leading-snug ${
+                  isSms ? "text-sm" : "text-base leading-relaxed"
+                }`}
+              >
+                <span className="text-muted-foreground">
+                  Drop your email below and we'll let you know when it's your turn.
+                </span>
+              </label>
+              <div className="flex gap-2">
+                <input
+                  id="waitlist-email"
+                  type="email"
+                  required
+                  autoComplete="email"
+                  inputMode="email"
+                  placeholder="you@example.com"
+                  value={emailInput}
+                  onChange={(e) => setEmailInput(e.target.value)}
+                  className="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                />
+                <button
+                  type="submit"
+                  className="rounded-md bg-foreground px-4 py-2 text-sm font-semibold text-background hover:opacity-90"
+                >
+                  Notify me
+                </button>
+              </div>
+              {emailError && (
+                <p className="text-xs text-red-500">{emailError}</p>
+              )}
+            </form>
+          )}
         </div>
 
         <div className={`flex justify-center ${isSms ? "mt-3" : "mt-8"}`}>
