@@ -195,6 +195,7 @@ export function getUtmParams(): Record<string, string> {
 // Build the AppsFlyer OneLink URL with attribution params
 export function getOneLinkUrl(
   additionalParams?: Record<string, string>,
+  baseUrlOverride?: string,
 ): string {
   const utmParams = getUtmParams();
   const params = new URLSearchParams();
@@ -253,7 +254,8 @@ export function getOneLinkUrl(
   }
 
   const queryString = params.toString();
-  return queryString ? `${ONELINK_BASE_URL}?${queryString}` : ONELINK_BASE_URL;
+  const base = baseUrlOverride ?? ONELINK_BASE_URL;
+  return queryString ? `${base}?${queryString}` : base;
 }
 
 // ============================================

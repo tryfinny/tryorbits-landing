@@ -100,7 +100,7 @@ export const ORB_PROMO_CONTENT: Record<OrbPromoValue, OrbPromoContent> = {
     },
     waitlist: {
       title: "Your assistant, right where you need it most",
-      subtitle: "We're slowly rolling out Bit over text.",
+      subtitle: "",
       description:
         "Text Bit directly or add Bit to your group chat. Bit will automatically pick up any reminders, events, grocery list items, and more. We'll let you know once this launches in your region.",
     },
