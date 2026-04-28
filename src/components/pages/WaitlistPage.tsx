@@ -143,13 +143,15 @@ export default function WaitlistPage() {
           </h1>
         )}
 
-        <p
-          className={`text-muted-foreground font-medium ${
-            isSms ? "text-sm mb-3" : "text-base mb-4"
-          }`}
-        >
-          {copy.subtitle}
-        </p>
+        {copy.subtitle && (
+          <p
+            className={`text-muted-foreground font-medium ${
+              isSms ? "text-sm mb-3" : "text-base mb-4"
+            }`}
+          >
+            {copy.subtitle}
+          </p>
+        )}
 
         {!isSms && (
           <p className="text-muted-foreground text-lg leading-relaxed mb-8">
@@ -165,24 +167,32 @@ export default function WaitlistPage() {
           {(params.email || submittedEmail) ? (
             <p
               className={`text-muted-foreground leading-snug ${
-                isSms ? "text-sm" : "text-base leading-relaxed"
+                isSms ? "text-base" : "text-base leading-relaxed"
               }`}
             >
-              <span className="font-semibold text-foreground">You're on the list.</span>{" "}
-              {isSms
-                ? "Get the app to find out when it's your turn."
-                : "We'll email you when it's your turn. In the meantime, explore everything else Orbits can do for your home — get the app below."}
+              {isSms ? (
+                <>
+                  We're gradually rolling out Chat with Bit over the next few days — get the app below to start using it once it's live!
+                </>
+              ) : (
+                <>
+                  <span className="font-semibold text-foreground">You're on the list.</span>{" "}
+                  We'll email you when it's your turn. In the meantime, explore everything else Orbits can do for your home — get the app below.
+                </>
+              )}
             </p>
           ) : (
             <form onSubmit={handleEmailSubmit} className="flex flex-col gap-3">
               <label
                 htmlFor="waitlist-email"
                 className={`leading-snug ${
-                  isSms ? "text-sm" : "text-base leading-relaxed"
+                  isSms ? "text-base" : "text-base leading-relaxed"
                 }`}
               >
-                <span className="text-muted-foreground">
-                  Drop your email below and we'll let you know when it's your turn.
+                <span className={`text-muted-foreground ${isSms ? "block text-center" : ""}`}>
+                  {isSms
+                    ? "Drop your email below to get started."
+                    : "Drop your email below and we'll let you know when it's your turn."}
                 </span>
               </label>
               <input
@@ -200,7 +210,7 @@ export default function WaitlistPage() {
                 type="submit"
                 className="w-full rounded-2xl bg-[#1a1a1a] px-6 py-4 text-base font-bold text-white shadow-sm hover:opacity-90 active:scale-[0.99] transition"
               >
-                Notify me
+                {isSms ? "Get started" : "Notify me"}
               </button>
               {emailError && (
                 <p className="text-xs text-red-500">{emailError}</p>
@@ -213,11 +223,14 @@ export default function WaitlistPage() {
           <div className={`flex justify-center ${isSms ? "mt-3" : "mt-8"}`}>
             <AppStoreButtons
               location="waitlist_page"
+              oneLinkBaseUrl={isSms ? "https://orbits.onelink.me/dhsI/sms" : undefined}
               oneLinkParams={
-                isValidOrbPromo(params.feature) && ORB_PROMO_CPP_IDS[params.feature]
+                isValidOrbPromo(params.feature)
                   ? {
                       deep_link_value: params.feature,
-                      af_ios_store_cpp: ORB_PROMO_CPP_IDS[params.feature]!,
+                      ...(ORB_PROMO_CPP_IDS[params.feature]
+                        ? { af_ios_store_cpp: ORB_PROMO_CPP_IDS[params.feature]! }
+                        : {}),
                     }
                   : undefined
               }
