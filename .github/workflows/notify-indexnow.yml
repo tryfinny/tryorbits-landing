@@ -1,0 +1,49 @@
+name: Notify IndexNow
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      test_url:
+        description: "Submit a single URL to IndexNow (skips diff logic)"
+        required: false
+        type: string
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install script dependencies
+        run: npm install fast-xml-parser@4
+        working-directory: .github/scripts
+
+      - name: Wait for Vercel deploy
+        if: github.event_name == 'push'
+        run: sleep 90
+
+      - name: Restore sitemap cache
+        id: cache
+        uses: actions/cache/restore@v4
+        with:
+          path: .github/scripts/sitemap-cache.json
+          key: indexnow-sitemap-v1
+
+      - name: Run IndexNow notify
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+          TEST_URL: ${{ inputs.test_url || '' }}
+        run: node .github/scripts/notify-indexnow.mjs
+
+      - name: Save sitemap cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .github/scripts/sitemap-cache.json
+          key: indexnow-sitemap-v1-${{ github.run_id }}
