@@ -8,6 +8,8 @@ import { AiCalloutSection } from "@/components/landing/AiCalloutSection";
 import { FeaturesSection } from "@/components/landing/FeaturesSection";
 import { SocialProofSection } from "@/components/landing/SocialProofSection";
 import { FAQSection } from "@/components/landing/FAQSection";
+import { LatestBlogSection } from "@/components/landing/LatestBlogSection";
+import type { BlogPostPreview } from "@/components/landing/LatestBlogSection";
 import { CTASection } from "@/components/landing/CTASection";
 import { Footer } from "@/components/landing/Footer";
 import { LazySection } from "@/components/landing/LazySection";
@@ -23,7 +25,7 @@ function SoftDivider({ className = "" }: { className?: string }) {
   );
 }
 
-const Index = () => {
+const Index = ({ latestPosts = [] }: { latestPosts?: BlogPostPreview[] }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -56,6 +58,15 @@ const Index = () => {
           <LazySection minHeight="400px" rootMargin="0px 0px 300px 0px">
             <FAQSection />
           </LazySection>
+
+          {latestPosts.length > 0 && (
+            <>
+              <SoftDivider />
+              <LazySection minHeight="300px" rootMargin="0px 0px 300px 0px">
+                <LatestBlogSection posts={latestPosts} />
+              </LazySection>
+            </>
+          )}
 
           <LazySection minHeight="400px" rootMargin="0px 0px 300px 0px">
             <CTASection />

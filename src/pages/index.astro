@@ -1,6 +1,18 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LandingPage from '../components/pages/LandingPage';
+
+const latestPosts = (await getCollection('blog'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3)
+  .map((post) => ({
+    slug: post.slug,
+    title: post.data.title,
+    description: post.data.description,
+    date: post.data.date.toISOString(),
+    tags: post.data.tags,
+  }));
 ---
 
 <BaseLayout
@@ -8,5 +20,5 @@ import LandingPage from '../components/pages/LandingPage';
   description="Orbits manages your home so you don't have to. Calendar, tasks, grocery lists, and home maintenance — all in one place, powered by AI."
   canonicalUrl="https://tryorbits.com"
 >
-  <LandingPage client:only="react" />
+  <LandingPage client:only="react" latestPosts={latestPosts} />
 </BaseLayout>
