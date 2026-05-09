@@ -11,7 +11,7 @@ const faqs = [
   {
     question: "Is Orbits free?",
     answer:
-      "Orbits is free to download with a 7-day trial so you can experience the full product. After that, a subscription keeps everything running — including AI features, email intelligence, and service request coordination.",
+      "You can try Orbits for free today! Download the app, set up your household, and see how it works for your family — no commitment required.",
   },
   {
     question: "Does it work with Google Calendar and Outlook?",
@@ -21,7 +21,7 @@ const faqs = [
   {
     question: "Can my whole family use it?",
     answer:
-      "Absolutely. Orbits is built around your household. Invite family members, share calendars and lists, and coordinate schedules — everyone sees the same information, no group chat required.",
+      "Absolutely. Orbits is built around your household. Invite family members, share calendars and lists, and coordinate schedules — you can even add Orbits to your family group chat so it picks up reminders, events, and lists automatically.",
   },
   {
     question: "How does the AI actually work?",

@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform, useSpring, useInView, AnimatePresence } from "framer-motion";
 import { PhoneMockup } from "./PhoneMockup";
 import { AppStoreButtons } from "./AppStoreButtons";
-import { Sparkles, Star, CheckCircle2, Calendar, Bell, TrendingUp, Wrench, Users, ShoppingCart, Clock, Mail, Home, Package } from "lucide-react";
+import { Sparkles, Star, CheckCircle2, Calendar, Bell, TrendingUp, Wrench, Users, ShoppingCart, Clock, Mail, Home, Package, MessageCircle } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import { useIsMobile } from "@/hooks/use-device-motion";
 
@@ -279,7 +279,7 @@ export function HeroSection() {
   return (
     <section
       ref={containerRef}
-      className="relative z-10 min-h-screen flex flex-col items-center justify-center px-5 sm:px-6 py-16 sm:py-20 pb-32 sm:pb-40 overflow-visible"
+      className="relative z-10 min-h-screen flex flex-col items-center justify-center px-5 sm:px-6 py-16 sm:py-20 pb-12 sm:pb-40 overflow-visible"
     >
       {/* Layered gradient backgrounds */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-secondary/50" />
@@ -492,7 +492,21 @@ export function HeroSection() {
           y: phoneY
         }} className="relative lg:mt-0">
             <CompletedActionsFeed />
-            <PhoneMockup className="w-full h-[450px] sm:h-[500px] lg:h-[650px] flex items-start lg:items-center justify-center overflow-hidden lg:overflow-visible" />
+            <PhoneMockup className="w-full flex items-center justify-center overflow-visible" />
+            <motion.a
+              href="sms:+14153234565&body=Hey%20Bit%2C%20its%20great%20to%20meet%20you!"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              whileHover={{ scale: 1.05, boxShadow: "0 25px 50px -12px hsl(var(--primary) / 0.3)" }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ delay: 1.0, type: "spring", stiffness: 200, damping: 15 }}
+              className="relative z-30 block mx-auto mt-4 w-fit px-6 py-3 bg-[#1a1a1a] text-white rounded-2xl text-sm font-bold text-center cursor-pointer"
+            >
+              <span className="flex items-center gap-2 justify-center">
+                <MessageCircle className="w-4 h-4" />
+                Message Bit →
+              </span>
+            </motion.a>
           </motion.div>
         </div>
       </motion.div>

@@ -25,7 +25,17 @@ export function CTASection() {
         transition={{ type: "spring", stiffness: 60, damping: 20 }}
         className="relative z-10 max-w-5xl mx-auto text-center"
       >
-        {/* Badge - simplified, no continuous animations */}
+        {/* Bit mascot */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8, y: 20 }}
+          animate={isInView ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.8, y: 20 }}
+          transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.05 }}
+          className="mb-6"
+        >
+          <img src="/bit-happy.gif" alt="Bit" className="w-16 h-16 lg:w-20 lg:h-20 mx-auto" />
+        </motion.div>
+
+        {/* Badge */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}

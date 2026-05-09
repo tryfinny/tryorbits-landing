@@ -8,7 +8,7 @@ const orbits = [
     icon: Users,
     title: "Family",
     description:
-      "Shared calendars, pet info, and family schedules — everyone stays on the same page without the endless group chat.",
+      "Shared calendars, pet info, and family schedules — coordinate in the app or right from your family group chat.",
     color: "peach",
     gradient: "from-peach/20 to-lavender/10",
   },

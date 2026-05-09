@@ -1,9 +1,19 @@
 import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Calendar, Home, Sparkles, ClipboardList, Mail, Wrench, type LucideIcon } from "lucide-react";
+import { Calendar, Home, Sparkles, ClipboardList, Mail, Wrench, MessageCircle, type LucideIcon } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-device-motion";
 
 const features = [
+  {
+    icon: MessageCircle,
+    title: "Works in your group chat",
+    description:
+      "Add Orbits to your family's group chat or text it directly. It picks up reminders, events, and grocery items from your conversations automatically.",
+    color: "bg-sage",
+    gradient: "from-sage/20 to-sky/10",
+    iconBg: "bg-sage/20",
+    bgOpacity: 0.18,
+  },
   {
     icon: Calendar,
     title: "One family calendar, zero surprises",
@@ -33,6 +43,7 @@ const features = [
     gradient: "from-lavender/20 to-primary/10",
     iconBg: "bg-lavender/20",
     bgOpacity: 0.22,
+    image: "/bit-thinking.gif",
   },
   {
     icon: ClipboardList,
@@ -149,6 +160,7 @@ interface Feature {
   gradient: string;
   iconBg: string;
   bgOpacity: number;
+  image?: string;
 }
 
 function FeatureCard({ feature, index, isMobile }: { feature: Feature; index: number; isMobile: boolean }) {
@@ -279,6 +291,17 @@ function FeatureCard({ feature, index, isMobile }: { feature: Feature; index: nu
           >
             {feature.description}
           </motion.p>
+
+          {/* Optional mascot image */}
+          {feature.image && (
+            <motion.div
+              className="flex justify-end mt-3 relative z-10"
+              animate={isActive ? { scale: 1.05, y: -2 } : { scale: 1, y: 0 }}
+              transition={{ type: "spring", stiffness: 200, damping: 15 }}
+            >
+              <img src={feature.image} alt="" className="w-16 h-16 lg:w-20 lg:h-20 object-contain" />
+            </motion.div>
+          )}
 
           {/* Corner dot - static on mobile for iOS performance, animated on desktop */}
           <div className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center">
