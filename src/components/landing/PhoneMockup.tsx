@@ -523,7 +523,7 @@ export function PhoneMockup({ className }: PhoneMockupProps) {
           <div className="absolute -right-[3px] top-36 w-[3px] h-16 bg-[#2a2a2a] rounded-r-sm" />
 
           {/* Screen - force light mode */}
-          <div className="relative rounded-[2.5rem] overflow-hidden h-[560px] sm:h-[520px]" style={{ backgroundColor: showDashboard ? "#F9F3E9" : "#FFFFFF" }}>
+          <div className="relative rounded-[2.5rem] overflow-hidden h-[560px] sm:h-[570px]" style={{ backgroundColor: showDashboard ? "#F9F3E9" : "#FFFFFF" }}>
             <AnimatePresence mode="wait">
               {!showDashboard ? (
                 <motion.div
