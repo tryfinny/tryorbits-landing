@@ -16,7 +16,7 @@ const orbits = [
     icon: Wrench,
     title: "Upkeep",
     description:
-      "Keep track of your home, your car, your appliances. Orbits remembers the maintenance so you don't have to.",
+      "Chores, maintenance, your car, your appliances. Orbits remembers what needs doing so you don't have to.",
     color: "sky",
     gradient: "from-sky/20 to-sage/10",
   },
