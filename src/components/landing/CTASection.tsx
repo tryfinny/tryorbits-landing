@@ -32,7 +32,7 @@ export function CTASection() {
           transition={{ type: "spring", stiffness: 100, damping: 12, delay: 0.05 }}
           className="mb-6"
         >
-          <img src="/bit-happy.gif" alt="Bit" className="w-16 h-16 lg:w-20 lg:h-20 mx-auto" />
+          <img src="/bit-happy.gif" alt="Bit" className="w-28 h-28 sm:w-32 sm:h-32 lg:w-40 lg:h-40 mx-auto" />
         </motion.div>
 
         {/* Badge */}
@@ -43,7 +43,7 @@ export function CTASection() {
           className="relative inline-flex items-center gap-3 px-6 py-3 glass rounded-full border border-primary/10 mb-12 cursor-pointer"
         >
           <Sparkles className="w-5 h-5 text-golden" />
-          <span className="text-sm font-medium">Try it free</span>
+          <span className="text-sm font-medium">Download now</span>
           <Heart className="w-4 h-4 text-peach fill-peach" />
         </motion.div>
 

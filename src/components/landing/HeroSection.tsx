@@ -255,6 +255,87 @@ function CompletedActionsFeed() {
   );
 }
 
+const CYCLING_WORDS = [
+  "schedule",
+  "group chat",
+  "calendar",
+  "grocery list",
+  "chores",
+  "repairs",
+  "maintenance",
+  "pick ups",
+  "drop offs",
+  "appointments",
+  "deliveries",
+  "emails",
+  "home",
+];
+
+function CyclingHeadlineWord() {
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setReducedMotion(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    if (reducedMotion || paused) return;
+    const id = window.setInterval(() => {
+      setIndex((i) => (i + 1) % CYCLING_WORDS.length);
+    }, 2500);
+    return () => window.clearInterval(id);
+  }, [reducedMotion, paused]);
+
+  const word = reducedMotion ? CYCLING_WORDS[0] : CYCLING_WORDS[index];
+
+  const longest = CYCLING_WORDS.reduce((a, b) => (a.length >= b.length ? a : b));
+
+  return (
+    <span
+      className="relative inline-block align-baseline"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {/* Invisible sizer: reserves width of the longest word (+ comma) so layout never shifts */}
+      <span aria-hidden="true" className="invisible whitespace-nowrap">
+        {longest},
+      </span>
+      <span className="absolute inset-0 flex items-baseline justify-center whitespace-nowrap">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.span
+            key={word}
+            initial={reducedMotion ? false : { opacity: 0, y: "0.35em", filter: "blur(12px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: "-0.35em", filter: "blur(12px)" }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            style={{
+              willChange: "filter, transform, opacity",
+              background:
+                "linear-gradient(90deg, hsl(170 30% 35%), hsl(var(--primary)), hsl(170 30% 35%))",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              borderBottom: "4px solid hsl(var(--primary))",
+              borderRadius: 2,
+              paddingBottom: 2,
+            }}
+            className="whitespace-nowrap"
+          >
+            {word},
+          </motion.span>
+        </AnimatePresence>
+      </span>
+    </span>
+  );
+}
+
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
@@ -322,12 +403,22 @@ export function HeroSection() {
         <div className="grid lg:grid-cols-2 gap-4 lg:gap-20 items-center">
           {/* Left content */}
           <motion.div variants={staggerContainer} initial="hidden" animate="visible" className="text-center lg:text-left">
-            {/* Badge with tap feedback */}
+            {/* Badge with Bit peeking from behind */}
             <motion.div
               variants={fadeUpSpring}
-              whileTap={{ scale: 0.97 }}
-              className="relative inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-primary/10 mb-6 sm:mb-8 overflow-hidden cursor-pointer touch-manipulation"
+              className="relative inline-block mb-6 sm:mb-8"
             >
+              <img
+                src="/bit-waving.svg"
+                alt=""
+                aria-hidden="true"
+                draggable={false}
+                className="pointer-events-none absolute left-1/2 -translate-x-1/2 bottom-[40%] z-0 w-14 h-14 sm:w-16 sm:h-16 object-contain select-none"
+              />
+              <motion.div
+                whileTap={{ scale: 0.97 }}
+                className="relative z-10 inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-primary/10 overflow-hidden cursor-pointer touch-manipulation"
+              >
               {/* Shimmer - desktop only */}
               {!isMobile && (
                 <motion.div
@@ -349,58 +440,16 @@ export function HeroSection() {
                 <Sparkles className="w-4 h-4 text-primary" />
               </motion.div>
               <span className="text-xs sm:text-sm font-medium text-foreground/80 relative">
-                A calmer home starts here
+                Your home, handled.
               </span>
+              </motion.div>
             </motion.div>
 
             {/* Headline */}
-            <motion.h1 variants={fadeUpSpring} className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.3] mb-6 sm:mb-8">
-              <span>Less juggling,</span>
-              <br />
-              <motion.span
-                className="underline-reveal"
-                style={{ "--underline-delay": "0.7s" } as React.CSSProperties}
-                initial={{
-                  opacity: 0,
-                  scale: 0.8,
-                  y: 20
-                }}
-                animate={{
-                  opacity: 1,
-                  scale: 1,
-                  y: 0
-                }}
-                transition={{
-                  delay: 0.3,
-                  type: "spring",
-                  stiffness: 100,
-                  damping: 12
-                }}
-              >
-                <motion.span
-                  className="relative z-10"
-                  initial={{
-                    backgroundPosition: "100% 50%"
-                  }}
-                  animate={{
-                    backgroundPosition: "0% 50%"
-                  }}
-                  transition={{
-                    delay: 0.5,
-                    duration: 1.2,
-                    ease: [0.25, 0.46, 0.45, 0.94]
-                  }}
-                  style={{
-                    background: "linear-gradient(90deg, hsl(170 30% 35%), hsl(var(--primary)), hsl(170 30% 35%))",
-                    backgroundSize: "200% 100%",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text"
-                  }}
-                >
-                  more living
-                </motion.span>
-              </motion.span>
+            <motion.h1 variants={fadeUpSpring} className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.15] mb-6 sm:mb-8">
+              <span className="block text-3xl sm:text-4xl lg:text-5xl xl:text-6xl text-foreground/80">Orbits manages the</span>
+              <CyclingHeadlineWord />
+              <span className="block mt-3 sm:mt-4 text-3xl sm:text-4xl lg:text-5xl xl:text-6xl text-foreground/80">so you don't have to.</span>
             </motion.h1>
 
             {/* Subheadline */}

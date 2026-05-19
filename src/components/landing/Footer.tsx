@@ -6,18 +6,23 @@ export function Footer() {
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo/Brand */}
-          <motion.div
+          <motion.a
+            href="/"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="flex items-center gap-2"
+            className="hover:opacity-80 transition-opacity inline-flex items-center gap-1 leading-none"
           >
             <img
-              src="/orbits-banner.png"
-              alt="Orbits"
-              className="h-8 w-auto object-contain"
+              src="/bit-planet-peek.gif"
+              alt=""
+              aria-hidden="true"
+              className="h-16 w-auto shrink-0 block"
             />
-          </motion.div>
+            <span className="font-sans font-bold text-4xl tracking-tight text-foreground leading-none mt-3">
+              Orbits
+            </span>
+          </motion.a>
 
           {/* Links */}
           <div className="flex flex-wrap justify-center gap-6 text-sm text-muted-foreground">
