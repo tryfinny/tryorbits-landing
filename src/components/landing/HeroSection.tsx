@@ -454,7 +454,7 @@ export function HeroSection() {
 
             {/* Subheadline */}
             <motion.p variants={fadeUpSpring} className="text-base sm:text-lg lg:text-xl text-muted-foreground mb-8 sm:mb-10 max-w-lg mx-auto lg:mx-0 leading-relaxed">
-              Groceries, school forms, appointments, home repairs — Orbits takes care of the details so your family can enjoy the moments.
+              Orbits takes care of the details so your family can enjoy the moments. Saving families hours every day.
             </motion.p>
 
             {/* App Store Buttons */}
