@@ -16,7 +16,7 @@ export interface Props {
 
 const {
   title = 'Orbits - Your Home, Handled',
-  description = "Orbits manages your home so you don't have to.",
+  description = "Orbits takes care of your home's endless details—bills, appointments, repairs, and reminders—so your family saves hours every single day.",
   ogImage = 'https://tryorbits.com/banner.jpg',
   canonicalUrl = 'https://tryorbits.com',
   ogType = 'website',
@@ -42,6 +42,9 @@ const {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="960" />
+    <meta property="og:image:height" content="540" />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:alt" content={title} />
     <meta property="og:site_name" content="Orbits" />
     <meta property="og:locale" content="en_US" />
@@ -75,7 +78,7 @@ const {
       "@type": "WebApplication",
       "name": "Orbits",
       "url": "https://tryorbits.com",
-      "description": "Orbits manages your home so you don't have to.",
+      "description": "Orbits takes care of your home's endless details—bills, appointments, repairs, and reminders—so your family saves hours every single day.",
       "applicationCategory": "LifestyleApplication",
       "operatingSystem": "iOS, Android",
       "image": "https://tryorbits.com/banner.jpg",
