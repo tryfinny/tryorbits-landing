@@ -34,4 +34,15 @@ import StartPage from '../components/start/StartPage';
   [role="dialog"] :is(input, textarea, [role="combobox"]) {
     font-size: 1.125rem;
   }
+  /* Keep native controls (date/time pickers) in light mode with a brand accent,
+     regardless of the user's OS dark-mode preference. */
+  #start-demo,
+  [role="dialog"],
+  [role="listbox"] {
+    color-scheme: light;
+  }
+  #start-demo input,
+  [role="dialog"] input {
+    accent-color: hsl(97 17% 42%);
+  }
 </style>

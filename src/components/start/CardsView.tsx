@@ -1,6 +1,14 @@
 import type { ReactNode } from "react";
 import type { Card, ActionType } from "@/lib/start/schemas";
-import { Star, ChevronLeft, MessageSquare, Phone, ShoppingCart } from "lucide-react";
+import { Share2, ChevronLeft, MessageSquare, Phone, ShoppingCart, type LucideIcon } from "lucide-react";
+
+type CardAction = "text_guest" | "call_reserve" | "order_instacart";
+
+const ACTIONS: Record<CardAction, { label: string; Icon: LucideIcon }> = {
+  text_guest: { label: "Ask Bit to text", Icon: MessageSquare },
+  call_reserve: { label: "Ask Bit to call & reserve", Icon: Phone },
+  order_instacart: { label: "Ask Bit to order", Icon: ShoppingCart },
+};
 
 function pickEmoji(title: string): string {
   const t = title.toLowerCase();
@@ -17,19 +25,35 @@ export function CardsView({
   cards,
   title,
   onAction,
+  onBack,
 }: {
   cards: Card[];
   title: string;
   onAction: (a: ActionType) => void;
+  onBack: () => void;
 }) {
   const emoji = pickEmoji(title);
   return (
-    <div className="pb-28">
+    <div className="pb-10">
       {/* nav header */}
       <div className="flex items-center justify-between px-4 pt-4 pb-2">
-        <ChevronLeft className="h-6 w-6 text-foreground" />
+        <button
+          type="button"
+          onClick={onBack}
+          aria-label="Back"
+          className="-ml-1.5 flex h-9 w-9 items-center justify-center rounded-full text-foreground transition-colors hover:bg-secondary"
+        >
+          <ChevronLeft className="h-6 w-6" />
+        </button>
         <span className="text-base font-bold text-foreground">Plan</span>
-        <span className="text-base font-semibold text-muted-foreground">Options</span>
+        <button
+          type="button"
+          onClick={() => onAction("share")}
+          aria-label="Share"
+          className="-mr-1.5 flex h-9 w-9 items-center justify-center rounded-full text-foreground transition-colors hover:bg-secondary"
+        >
+          <Share2 className="h-[20px] w-[20px]" />
+        </button>
       </div>
 
       {/* hero cover */}
@@ -42,15 +66,9 @@ export function CardsView({
         </div>
 
         <h1 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-foreground">{title}</h1>
-        <p className="mt-1 text-base text-muted-foreground">Everything Bit pulled together for you.</p>
-
-        {/* members row */}
-        <div className="mt-4 flex items-center gap-3">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[hsl(330_32%_84%)] text-sm font-bold text-foreground">
-            N
-          </span>
-          <span className="text-base text-muted-foreground">Shared just with you</span>
-        </div>
+        <p className="mt-1 text-base text-muted-foreground">
+          Tap any card — Bit can text, call, and order it for you.
+        </p>
       </div>
 
       {/* masonry of plan cards */}
@@ -63,12 +81,6 @@ export function CardsView({
   );
 }
 
-const ACTION_ICON = {
-  text_guest: MessageSquare,
-  call_reserve: Phone,
-  order_instacart: ShoppingCart,
-} as const;
-
 function Tile({
   cardTitle,
   count,
@@ -79,21 +91,14 @@ function Tile({
 }: {
   cardTitle: string;
   count: string;
-  action?: ActionType;
+  action?: CardAction;
   emoji: string;
   onAction: (a: ActionType) => void;
   children: ReactNode;
 }) {
-  const ActionIcon = action ? ACTION_ICON[action] : null;
+  const a = action ? ACTIONS[action] : null;
   return (
-    <div
-      role={action ? "button" : undefined}
-      tabIndex={action ? 0 : undefined}
-      onClick={action ? () => onAction(action) : undefined}
-      className={`break-inside-avoid overflow-hidden rounded-2xl border border-border bg-white shadow-sm ${
-        action ? "cursor-pointer transition-shadow hover:shadow-md" : ""
-      }`}
-    >
+    <div className="break-inside-avoid overflow-hidden rounded-2xl border border-border bg-white shadow-sm">
       <div className="px-4 pt-4">
         <h3 className="text-lg font-bold leading-tight text-foreground">{cardTitle}</h3>
         <p className="text-sm text-muted-foreground">just now</p>
@@ -106,17 +111,22 @@ function Tile({
         </div>
       </div>
 
-      <div className="flex items-center justify-between px-4 py-3">
-        <span className="flex items-center gap-1.5 text-sm font-semibold text-muted-foreground">
-          <span className="h-2 w-2 rounded-full bg-[hsl(200_55%_60%)]" />
-          {emoji}
-        </span>
-        {ActionIcon ? (
-          <ActionIcon className="h-[18px] w-[18px] text-primary" />
-        ) : (
-          <Star className="h-[18px] w-[18px] text-muted-foreground/40" />
-        )}
-      </div>
+      {a && action ? (
+        <div className="p-3">
+          <button
+            type="button"
+            onClick={() => onAction(action)}
+            className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-[hsl(96_20%_82%)] bg-[hsl(96_26%_91%)] px-2 py-2.5 text-sm font-bold text-[hsl(96_32%_28%)] transition-colors hover:bg-[hsl(96_26%_86%)]"
+          >
+            <a.Icon className="h-4 w-4 shrink-0" />
+            <span>{a.label}</span>
+          </button>
+        </div>
+      ) : (
+        <div className="flex items-center gap-1.5 px-4 py-3 text-sm font-semibold text-muted-foreground">
+          <span className="h-2 w-2 rounded-full bg-[hsl(200_55%_60%)]" /> {emoji} Itinerary
+        </div>
+      )}
     </div>
   );
 }

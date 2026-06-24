@@ -80,7 +80,7 @@ function Field({
           <SelectTrigger aria-label={clean(field.label)}>
             <SelectValue placeholder={placeholder ?? "Select…"} />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="bg-white">
             {field.options.map((opt) => (
               <SelectItem key={opt} value={opt}>{clean(opt)}</SelectItem>
             ))}
