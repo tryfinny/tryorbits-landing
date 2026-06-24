@@ -133,7 +133,7 @@ export function PaywallModal({
             <DialogHeader>
               <DialogTitle>Almost there!</DialogTitle>
               <DialogDescription className="text-foreground">
-                Whoops, this isn&apos;t available in your region yet — we&apos;ll keep you posted!
+                I&apos;m rolling out across your region over the next week — I&apos;ll let you know the moment I&apos;m ready to get to work for you!
               </DialogDescription>
             </DialogHeader>
             <div className="flex flex-col gap-4 pt-2">
