@@ -13,14 +13,6 @@ const SUGGESTIONS: { label: string; prompt: string }[] = [
   { label: "Camping trip", prompt: "Plan a weekend camping trip in Yosemite for 4 friends next month" },
 ];
 
-// Brand pastel tokens, rotated across the suggestion chips.
-const CHIP_STYLES = [
-  "bg-sage text-sage-foreground",
-  "bg-sky text-sky-foreground",
-  "bg-peach text-peach-foreground",
-  "bg-lavender text-lavender-foreground",
-];
-
 export function IntroScreen({ onSubmit }: { onSubmit: (prompt: string) => void }) {
   const [value, setValue] = useState("");
   const trimmed = value.trim();
@@ -48,12 +40,12 @@ export function IntroScreen({ onSubmit }: { onSubmit: (prompt: string) => void }
           />
 
           <div className="flex flex-wrap justify-center gap-2">
-            {SUGGESTIONS.map((s, i) => (
+            {SUGGESTIONS.map((s) => (
               <button
                 key={s.label}
                 type="button"
                 onClick={() => setValue(s.prompt)}
-                className={`rounded-full px-4 py-2 text-sm font-semibold transition-opacity hover:opacity-90 ${CHIP_STYLES[i % CHIP_STYLES.length]}`}
+                className="rounded-full bg-sage px-4 py-2 text-sm font-semibold text-sage-foreground transition hover:brightness-95"
               >
                 {s.label}
               </button>
