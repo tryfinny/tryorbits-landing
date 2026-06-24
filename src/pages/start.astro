@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StartPage from '../components/start/StartPage';
+---
+
+<BaseLayout
+  title="Orbits — Get Started"
+  description="Tell Bit what you need. Watch it get handled."
+  canonicalUrl="https://tryorbits.com/start"
+  noIndex={true}
+>
+  <StartPage client:only="react" />
+</BaseLayout>
+
+<style is:global>
+  /* The /start demo is intentionally all-Nunito — override the site's serif h1/h2 within it. */
+  #start-demo,
+  #start-demo :is(h1, h2, h3, h4, h5, h6) {
+    font-family: var(--font-sans);
+  }
+</style>
