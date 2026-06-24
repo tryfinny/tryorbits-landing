@@ -14,15 +14,20 @@ const QUESTIONS_SYSTEM =
   "planning. Respond with 3-5 short form fields covering the key details. Use field types: " +
   "text, number, date, select, or location. Use `location` for any place, venue, destination, " +
   "address, or city field. For select fields set `options` to an array of choices; otherwise " +
-  "null. Set `placeholder` to a brief plain-text example or null. " +
+  "null. Set `placeholder` to a brief plain-text example or null. Avoid fields that merely " +
+  "restate what the user already said — prefer fields that add value (a specific spot, an " +
+  "area, a budget, a vibe). " +
   "CRITICAL — every field MUST come back pre-filled: set `value` to your best answer for " +
   "each one. If the user stated the detail, use it; if they didn't, assume a sensible, " +
   "specific default. NEVER leave `value` null or blank — the user only confirms or tweaks. " +
   "For `date` fields, `value` MUST be ISO format YYYY-MM-DD; resolve relative or partial " +
   "dates ('next Saturday', 'July 4', 'tomorrow') using the current date provided, and if no " +
   "date is implied pick a reasonable upcoming one. For `number` fields, `value` is digits " +
-  "only. For `select` fields, `value` must be one of `options`. Keep each label under 6 " +
-  "words. Return a short `title` naming the task.";
+  "only. For `select` fields, `value` must be one of `options`. For `location` fields, prefill " +
+  "a SPECIFIC place — if the user only gave a broad city or area, suggest a concrete " +
+  "neighborhood, district, or notable spot within it (e.g. 'Fisherman's Wharf, San Francisco'), " +
+  "never just the bare city the user already named. Keep each label under 6 words. Return a " +
+  "short `title` naming the task.";
 
 const CARDS_SYSTEM =
   "You are Bit, a household assistant. Given a task and the user's answers, produce activity " +

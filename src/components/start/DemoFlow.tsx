@@ -30,6 +30,7 @@ async function callPlan(body: Record<string, unknown>) {
 
 export function DemoFlow() {
   const [step, setStep] = useState<"intro" | "questions" | "cards">("intro");
+  const [dir, setDir] = useState<"fwd" | "back">("fwd");
   const [loading, setLoading] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [questions, setQuestions] = useState<Questions | null>(null);
@@ -44,6 +45,7 @@ export function DemoFlow() {
 
   const handlePrompt = async (p: string) => {
     setPrompt(p);
+    setDir("fwd");
     trackPromptSubmitted(p);
     setLoading(true);
     const data = (await withMinDelay(callPlan({ mode: "questions", prompt: p }), MIN_LOADER_MS)) as Questions;
@@ -54,6 +56,7 @@ export function DemoFlow() {
   };
 
   const handleAnswers = async (answers: Record<string, string>) => {
+    setDir("fwd");
     trackAnswersSubmitted(Object.keys(answers).length);
     setLoading(true);
     const data = (await withMinDelay(callPlan({ mode: "cards", prompt, answers }), MIN_LOADER_MS)) as Cards;
@@ -74,6 +77,7 @@ export function DemoFlow() {
   };
 
   const handleBack = () => {
+    setDir("back");
     setStep("intro");
     setCards([]);
     setHeroUrl(null);
@@ -83,19 +87,26 @@ export function DemoFlow() {
 
   return (
     <PhoneFrame>
-      {loading ? (
-        <div className="flex flex-1 items-center justify-center">
-          <ThinkingLoader />
-        </div>
-      ) : step === "intro" ? (
-        <IntroScreen onSubmit={handlePrompt} />
-      ) : step === "questions" && questions ? (
-        <QuestionsForm questions={questions} onSubmit={handleAnswers} />
-      ) : (
-        <div className="flex-1 overflow-y-auto">
-          <CardsView cards={cards} title={questions?.title ?? "Your Plan"} heroUrl={heroUrl} onAction={handleAction} onBack={handleBack} />
-        </div>
-      )}
+      <div
+        key={loading ? "loading" : step}
+        className={`flex min-h-0 flex-1 flex-col duration-300 ease-out animate-in fade-in ${
+          dir === "back" ? "slide-in-from-left-8" : "slide-in-from-right-8"
+        }`}
+      >
+        {loading ? (
+          <div className="flex flex-1 items-center justify-center">
+            <ThinkingLoader />
+          </div>
+        ) : step === "intro" ? (
+          <IntroScreen onSubmit={handlePrompt} />
+        ) : step === "questions" && questions ? (
+          <QuestionsForm questions={questions} onSubmit={handleAnswers} />
+        ) : (
+          <div className="flex-1 overflow-y-auto">
+            <CardsView cards={cards} title={questions?.title ?? "Your Plan"} heroUrl={heroUrl} onAction={handleAction} onBack={handleBack} />
+          </div>
+        )}
+      </div>
 
       <PaywallModal
         open={paywall.open}
