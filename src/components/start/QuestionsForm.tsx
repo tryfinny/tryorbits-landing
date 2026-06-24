@@ -90,7 +90,8 @@ function Field({
     );
   }
 
-  const inputType = field.type === "number" ? "number" : field.type === "date" ? "date" : "text";
+  const inputType =
+    field.type === "number" ? "number" : field.type === "date" ? "date" : field.type === "time" ? "time" : "text";
   return (
     <div className="flex flex-col gap-2">
       <Label htmlFor={field.id}>{clean(field.label)}</Label>

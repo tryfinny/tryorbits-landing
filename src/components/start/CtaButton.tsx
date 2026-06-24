@@ -8,11 +8,13 @@ export function CtaButton({
   onClick,
   disabled = false,
   variant = "primary",
+  className = "",
 }: {
   children: ReactNode;
   onClick?: () => void;
   disabled?: boolean;
   variant?: "primary" | "outline";
+  className?: string;
 }) {
   const base =
     "inline-flex h-12 w-full items-center justify-center rounded-full text-lg font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(82_25%_55%)] focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed";
@@ -24,7 +26,7 @@ export function CtaButton({
       : "bg-[hsl(97_17%_42%)] text-white hover:bg-[hsl(97_20%_37%)]";
 
   return (
-    <button type="button" disabled={disabled} onClick={onClick} className={`${base} ${styles}`}>
+    <button type="button" disabled={disabled} onClick={onClick} className={`${base} ${styles} ${className}`}>
       {children}
     </button>
   );

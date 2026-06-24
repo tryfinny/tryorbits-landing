@@ -1,12 +1,12 @@
 "use client";
 import { useState, type ReactNode } from "react";
 import type { Card, ActionType } from "@/lib/start/schemas";
-import { Share2, ChevronLeft, MessageSquare, Phone, ShoppingCart, ArrowRight, MapPin, Check, CalendarPlus, type LucideIcon } from "lucide-react";
+import { Share2, ChevronLeft, Send, Phone, ShoppingCart, ArrowRight, MapPin, Check, CalendarPlus, type LucideIcon } from "lucide-react";
 
 type CardAction = "text_guest" | "call_reserve" | "order_instacart" | "add_calendar";
 
 const ACTIONS: Record<CardAction, { label: string; Icon: LucideIcon }> = {
-  text_guest: { label: "Text the guests", Icon: MessageSquare },
+  text_guest: { label: "Email or text guests", Icon: Send },
   call_reserve: { label: "Call & reserve", Icon: Phone },
   order_instacart: { label: "Order on Instacart", Icon: ShoppingCart },
   add_calendar: { label: "Add to my calendar", Icon: CalendarPlus },
@@ -194,7 +194,7 @@ function LocationTile({
           onClick={() => onAction("call_reserve")}
           className={`mt-3 flex w-full items-center justify-center gap-2 rounded-full px-4 py-3 text-base font-bold transition-colors ${
             selected === null
-              ? "cursor-not-allowed bg-muted text-muted-foreground"
+              ? "cursor-not-allowed bg-[hsl(26_14%_82%)] text-[hsl(26_8%_54%)]"
               : "bg-[hsl(97_17%_42%)] text-white hover:bg-[hsl(97_20%_37%)]"
           }`}
         >
@@ -229,21 +229,21 @@ function PlanTile({
   onAction: (a: ActionType) => void;
 }) {
   switch (card.type) {
-    case "guest_list": {
-      const shown = card.guests.slice(0, 4).map((g) => g.name);
-      const extra = card.guests.length - shown.length;
+    case "guest_list":
       return (
         <Tile
           cardTitle={card.title}
-          count={`${card.guests.length} guests`}
+          count={`${card.count} guests`}
           action="text_guest"
-          description={`I'll text all ${card.guests.length} guests their invites and keep track of who's coming.`}
+          description={`I'll email or text all ${card.count} guests their invites and keep track of who's coming.`}
           onAction={onAction}
         >
-          <Rows items={extra > 0 ? [...shown, `+${extra} more`] : shown} />
+          <div className="px-3 py-3">
+            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Draft invite</p>
+            <p className="mt-1 text-base leading-relaxed text-foreground">{card.inviteMessage}</p>
+          </div>
         </Tile>
       );
-    }
     case "location":
       return <LocationTile card={card} onAction={onAction} />;
     case "shopping_list": {

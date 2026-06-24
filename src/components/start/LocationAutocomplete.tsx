@@ -72,7 +72,7 @@ export function LocationAutocomplete({
         id={id}
         type="text"
         autoComplete="off"
-        placeholder={placeholder ?? "Search a place…"}
+        placeholder={placeholder ?? "Enter an address to look up…"}
         value={value}
         className="pl-10"
         onChange={(e) => {

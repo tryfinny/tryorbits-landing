@@ -19,7 +19,8 @@ export function fallbackCards(): Cards {
       {
         type: "guest_list",
         title: "Guest List",
-        guests: [{ name: "Emma Carter" }, { name: "Liam Patel" }, { name: "Sophia Nguyen" }, { name: "Noah Kim" }],
+        count: 12,
+        inviteMessage: "Hi there! You're invited to a celebration this weekend — hope you can make it. RSVP and I'll send over all the details!",
       },
       {
         type: "location",

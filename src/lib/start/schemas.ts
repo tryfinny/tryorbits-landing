@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const FieldTypeEnum = z.enum(["text", "number", "date", "select", "location"]);
+export const FieldTypeEnum = z.enum(["text", "number", "date", "time", "select", "location"]);
 
 export const QuestionFieldSchema = z.object({
   id: z.string(),
@@ -20,7 +20,9 @@ export const QuestionsSchema = z.object({
 export const GuestListCardSchema = z.object({
   type: z.literal("guest_list"),
   title: z.string(),
-  guests: z.array(z.object({ name: z.string() })),
+  // Don't fabricate guest identities — carry a count and the draft invite instead.
+  count: z.number(),
+  inviteMessage: z.string(),
 });
 
 export const LocationCardSchema = z.object({
