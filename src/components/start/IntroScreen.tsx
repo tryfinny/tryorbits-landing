@@ -30,7 +30,21 @@ export function IntroScreen({ onSubmit }: { onSubmit: (prompt: string) => void }
           </p>
         </div>
 
-        <div className="mt-8 flex flex-col gap-4">
+        <div className="mt-8 flex flex-col gap-3">
+          {/* subtle, horizontally-scrollable suggestion chips (AI-chat style) */}
+          <div className="-mx-6 flex gap-2 overflow-x-auto px-6 pb-1 [&::-webkit-scrollbar]:hidden">
+            {SUGGESTIONS.map((s) => (
+              <button
+                key={s.label}
+                type="button"
+                onClick={() => setValue(s.prompt)}
+                className="shrink-0 whitespace-nowrap rounded-full border border-border bg-muted px-4 py-2 text-sm font-medium text-muted-foreground transition hover:brightness-95"
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+
           <Textarea
             value={value}
             onChange={(e) => setValue(e.target.value)}
@@ -38,19 +52,6 @@ export function IntroScreen({ onSubmit }: { onSubmit: (prompt: string) => void }
             rows={3}
             className="resize-none rounded-2xl border-border bg-card text-lg shadow-sm"
           />
-
-          <div className="flex flex-wrap justify-center gap-2">
-            {SUGGESTIONS.map((s) => (
-              <button
-                key={s.label}
-                type="button"
-                onClick={() => setValue(s.prompt)}
-                className="rounded-full bg-sage px-4 py-2 text-sm font-semibold text-sage-foreground transition hover:brightness-95"
-              >
-                {s.label}
-              </button>
-            ))}
-          </div>
         </div>
       </div>
 
