@@ -15,7 +15,7 @@ export function CtaButton({
   variant?: "primary" | "outline";
 }) {
   const base =
-    "inline-flex h-12 w-full items-center justify-center rounded-full text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(82_25%_55%)] focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed";
+    "inline-flex h-12 w-full items-center justify-center rounded-full text-lg font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(82_25%_55%)] focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed";
 
   const styles = disabled
     ? "bg-[hsl(26_15%_86%)] text-[hsl(0_0%_52%)]"

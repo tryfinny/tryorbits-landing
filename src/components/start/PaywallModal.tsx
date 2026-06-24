@@ -74,13 +74,13 @@ export function PaywallModal({
           <>
             <DialogHeader className="items-center text-center">
               <img src="/bit-happy.gif" alt="Bit" width={112} height={112} className="mx-auto h-28 w-28 select-none object-contain" />
-              <DialogTitle className="font-heading text-xl">Orbits Premium</DialogTitle>
+              <DialogTitle className="font-heading text-2xl">Orbits Premium</DialogTitle>
               <DialogDescription>Let Bit text guests, call venues, and place orders for you.</DialogDescription>
             </DialogHeader>
             <div className="flex flex-col gap-4 pt-2">
               <div className="rounded-2xl border border-border bg-secondary p-4 text-center">
-                <p className="text-3xl font-semibold text-foreground">$9.99<span className="text-base font-normal text-muted-foreground">/mo</span></p>
-                <p className="mt-1 text-sm text-muted-foreground">Cancel anytime</p>
+                <p className="text-4xl font-semibold text-foreground">$9.99<span className="text-lg font-normal text-muted-foreground">/mo</span></p>
+                <p className="mt-1 text-base text-muted-foreground">Cancel anytime</p>
               </div>
               <CtaButton onClick={payNow}>Pay now</CtaButton>
             </div>

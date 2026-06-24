@@ -8,7 +8,7 @@ export function ScheduleCard({
 }) {
   return (
     <Card className="border-border bg-[hsl(28_24%_96%)] shadow-md">
-      <CardHeader><CardTitle className="text-base">{title}</CardTitle></CardHeader>
+      <CardHeader><CardTitle className="text-lg">{title}</CardTitle></CardHeader>
       <CardContent>
         <ol className="flex flex-col">
           {events.map((e, i) => (
@@ -18,8 +18,8 @@ export function ScheduleCard({
                 {i < events.length - 1 && <span className="w-px flex-1 bg-border" />}
               </div>
               <div className="-mt-0.5">
-                <p className="text-xs font-semibold text-primary">{e.time}</p>
-                <p className="text-sm">{e.label}</p>
+                <p className="text-sm font-semibold text-primary">{e.time}</p>
+                <p className="text-base">{e.label}</p>
               </div>
             </li>
           ))}

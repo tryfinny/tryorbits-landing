@@ -11,7 +11,7 @@ export function LocationCard({
 }) {
   return (
     <Card className="border-border bg-[hsl(28_24%_96%)] shadow-md">
-      <CardHeader><CardTitle className="text-base">{title}</CardTitle></CardHeader>
+      <CardHeader><CardTitle className="text-lg">{title}</CardTitle></CardHeader>
       <CardContent className="flex flex-col gap-3">
         <div className="relative h-36 w-full overflow-hidden rounded-xl">
           <img src="/map.svg" alt="Map" className="h-full w-full object-cover" />
@@ -21,7 +21,7 @@ export function LocationCard({
         <button
           type="button"
           onClick={() => onAction("call_reserve")}
-          className="inline-flex w-fit items-center gap-1.5 rounded-full bg-sage px-3 py-1.5 text-xs font-semibold text-sage-foreground transition-opacity hover:opacity-90"
+          className="inline-flex w-fit items-center gap-1.5 rounded-full bg-sage px-3 py-1.5 text-sm font-semibold text-sage-foreground transition-opacity hover:opacity-90"
         >
           <Phone className="h-3.5 w-3.5" /> Ask Bit to call and reserve
         </button>

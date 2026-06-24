@@ -31,8 +31,8 @@ export function QuestionsForm({
 
   return (
     <div className="flex flex-1 flex-col px-5 pt-10 pb-6">
-      <h2 className="text-xl font-semibold tracking-tight">{clean(questions.title)}</h2>
-      <p className="mt-1 text-sm text-muted-foreground">A few quick details so Bit can help.</p>
+      <h2 className="text-2xl font-semibold tracking-tight">{clean(questions.title)}</h2>
+      <p className="mt-1 text-base text-muted-foreground">A few quick details so Bit can help.</p>
 
       <div className="mt-6 flex flex-col gap-5">
         {questions.fields.map((f) => (

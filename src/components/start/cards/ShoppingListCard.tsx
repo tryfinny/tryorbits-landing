@@ -11,11 +11,11 @@ export function ShoppingListCard({
 }) {
   return (
     <Card className="border-border bg-[hsl(28_24%_96%)] shadow-md">
-      <CardHeader><CardTitle className="text-base">{title}</CardTitle></CardHeader>
+      <CardHeader><CardTitle className="text-lg">{title}</CardTitle></CardHeader>
       <CardContent className="flex flex-col gap-3">
         <ul className="flex flex-col gap-2">
           {items.map((it, i) => (
-            <li key={i} className="flex items-center justify-between text-sm">
+            <li key={i} className="flex items-center justify-between text-base">
               <span>{it.name}</span>
               {it.qty && <span className="text-muted-foreground">{it.qty}</span>}
             </li>
@@ -24,7 +24,7 @@ export function ShoppingListCard({
         <button
           type="button"
           onClick={() => onAction("order_instacart")}
-          className="inline-flex w-fit items-center gap-1.5 rounded-full bg-peach px-3 py-1.5 text-xs font-semibold text-peach-foreground transition-opacity hover:opacity-90"
+          className="inline-flex w-fit items-center gap-1.5 rounded-full bg-peach px-3 py-1.5 text-sm font-semibold text-peach-foreground transition-opacity hover:opacity-90"
         >
           <ShoppingCart className="h-3.5 w-3.5" /> Ask Bit to order via Instacart
         </button>
