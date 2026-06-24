@@ -21,7 +21,12 @@ export function fallbackCards(): Cards {
         title: "Guest List",
         guests: [{ name: "Emma Carter" }, { name: "Liam Patel" }, { name: "Sophia Nguyen" }, { name: "Noah Kim" }],
       },
-      { type: "location", title: "Venue", placeName: "Bella's Trattoria" },
+      {
+        type: "location",
+        title: "Venue",
+        placeName: "Downtown",
+        suggestions: ["Bella's Trattoria", "The Garden Room", "Lakeside Pavilion"],
+      },
       {
         type: "shopping_list",
         title: "Shopping",

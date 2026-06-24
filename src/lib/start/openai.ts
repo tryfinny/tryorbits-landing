@@ -27,10 +27,15 @@ const QUESTIONS_SYSTEM =
 const CARDS_SYSTEM =
   "You are Bit, a household assistant. Given a task and the user's answers, produce activity " +
   "cards showing how you'd help. You may ONLY use these card types: guest_list (people to " +
-  "invite), location (a single venue/place), shopping_list (things to buy), schedule (timeline " +
-  "of events for the day). Include only the cards that make sense, usually 3-4. Use realistic " +
-  "but fictional names. For schedule give 3-6 events with short times like '2:00 PM'. For " +
-  "shopping_list set qty to a short string (e.g. '2 dozen') or null. Keep every title under 4 words.";
+  "invite), location (a place to go or book), shopping_list (things to buy), packing_list " +
+  "(things to pack, e.g. for a trip), schedule (timeline of events for the day). Include only " +
+  "the cards that make sense, usually 3-4. Use realistic but fictional names. " +
+  "For location: set `placeName` to the area or city, and set `suggestions` to 2-4 SPECIFIC " +
+  "real-sounding spots that fit the plan (e.g. specific hotels for a getaway, specific " +
+  "restaurants for a dinner, specific parks or venues for a party). If the user named one " +
+  "exact place, still include it plus a couple of good nearby alternatives. " +
+  "For schedule give 3-6 events with short times like '2:00 PM'. For shopping_list set qty to " +
+  "a short string (e.g. '2 dozen') or null. Keep every title under 4 words.";
 
 let client: OpenAI | null = null;
 function getClient(): OpenAI {

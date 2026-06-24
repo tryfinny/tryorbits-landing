@@ -167,14 +167,14 @@ function PlanTile({
       return (
         <Tile
           cardTitle={card.title}
-          count="Venue"
+          count={`${card.suggestions.length} suggestions`}
           action="call_reserve"
-          description={`I'll call ${card.placeName} and lock in your reservation.`}
+          description={`Pick one and I'll call to book it — or I'll reserve my top suggestion in ${card.placeName}.`}
           onAction={onAction}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/map.svg" alt="Map" className="h-28 w-full object-cover" />
-          <p className="px-3 py-2.5 text-base font-semibold text-foreground">{card.placeName}</p>
+          <img src="/map.svg" alt="Map" className="h-24 w-full border-b border-border object-cover" />
+          <Rows items={card.suggestions} />
         </Tile>
       );
     case "shopping_list": {
@@ -197,6 +197,15 @@ function PlanTile({
       return (
         <Tile cardTitle={card.title} count={`${card.events.length} events`} onAction={onAction}>
           <Rows items={shown} />
+        </Tile>
+      );
+    }
+    case "packing_list": {
+      const shown = card.items.slice(0, 6).map((it) => it.name);
+      const extra = card.items.length - shown.length;
+      return (
+        <Tile cardTitle={card.title} count={`${card.items.length} to pack`} onAction={onAction}>
+          <Rows items={extra > 0 ? [...shown, `+${extra} more`] : shown} />
         </Tile>
       );
     }

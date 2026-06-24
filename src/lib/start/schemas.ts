@@ -27,6 +27,8 @@ export const LocationCardSchema = z.object({
   type: z.literal("location"),
   title: z.string(),
   placeName: z.string(),
+  // Specific suggested spots/venues — more useful than a bare city name.
+  suggestions: z.array(z.string()),
 });
 
 export const ShoppingListCardSchema = z.object({
@@ -41,11 +43,18 @@ export const ScheduleCardSchema = z.object({
   events: z.array(z.object({ time: z.string(), label: z.string() })),
 });
 
+export const PackingListCardSchema = z.object({
+  type: z.literal("packing_list"),
+  title: z.string(),
+  items: z.array(z.object({ name: z.string() })),
+});
+
 export const CardSchema = z.discriminatedUnion("type", [
   GuestListCardSchema,
   LocationCardSchema,
   ShoppingListCardSchema,
   ScheduleCardSchema,
+  PackingListCardSchema,
 ]);
 
 export const CardsSchema = z.object({
