@@ -19,11 +19,14 @@ export function IntroScreen({ onSubmit }: { onSubmit: (prompt: string) => void }
   const send = () => trimmed && onSubmit(trimmed);
 
   return (
-    <div className="flex flex-1 flex-col px-5 pt-12 pb-5">
+    <div className="flex flex-1 flex-col px-5 pt-6 pb-5">
+      <p className="text-center text-[1.875rem] font-bold leading-tight tracking-tight text-foreground">
+        Welcome to Orbits
+      </p>
       <div className="flex flex-1 flex-col items-center justify-center text-center">
-        <BitAvatar size={112} />
-        <h1 className="mt-4 text-[2rem] font-bold leading-tight tracking-tight text-foreground">
-          What can I help you with?
+        <BitAvatar size={168} src="/bit-idle.gif" />
+        <h1 className="mt-4 text-2xl font-bold leading-tight tracking-tight text-foreground">
+          I&apos;m Bit. What can I help you with?
         </h1>
         <p className="mt-3 text-base leading-relaxed text-muted-foreground">
           Other assistants just tell you what to do. I actually do it — I&apos;ll make the
@@ -31,48 +34,49 @@ export function IntroScreen({ onSubmit }: { onSubmit: (prompt: string) => void }
         </p>
       </div>
 
-      {/* composer: textarea + send on one row, scrollable chips on their own row below */}
+      {/* composer: textarea on top; chips + send share the bottom row */}
       <div className="rounded-3xl border border-border bg-card px-2.5 pb-2.5 pt-1 shadow-sm">
-        <div className="flex items-end gap-1.5">
-          <Textarea
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                send();
-              }
-            }}
-            placeholder="e.g. Plan a birthday party for my daughter…"
-            rows={2}
-            className="flex-1 resize-none border-0 bg-transparent px-2 pt-3 text-lg shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
-          />
+        <Textarea
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              send();
+            }
+          }}
+          placeholder="e.g. Plan a birthday party for my daughter…"
+          rows={2}
+          className="w-full resize-none border-0 bg-transparent px-2 pt-3 text-lg shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+        />
+
+        <div className="flex items-center gap-2">
+          <div className="flex min-w-0 flex-1 gap-2 overflow-x-auto px-1 [mask-image:linear-gradient(to_right,#000_90%,transparent)] [&::-webkit-scrollbar]:hidden">
+            {SUGGESTIONS.map((s) => (
+              <button
+                key={s.label}
+                type="button"
+                onClick={() => setValue(s.prompt)}
+                className="shrink-0 whitespace-nowrap rounded-full border border-border bg-muted px-3 py-1.5 text-sm font-medium text-muted-foreground transition hover:brightness-95"
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+
           <button
             type="button"
             onClick={send}
             disabled={!trimmed}
             aria-label="Send"
-            className={`mb-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-colors ${
+            className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-colors ${
               trimmed
                 ? "bg-[hsl(97_17%_42%)] text-white hover:bg-[hsl(97_20%_37%)]"
                 : "cursor-not-allowed bg-muted text-muted-foreground"
             }`}
           >
-            <ArrowUp className="h-5 w-5" strokeWidth={2.5} />
+            <ArrowUp className="h-[18px] w-[18px]" strokeWidth={2.5} />
           </button>
-        </div>
-
-        <div className="flex gap-2 overflow-x-auto px-1 pb-1 [&::-webkit-scrollbar]:hidden">
-          {SUGGESTIONS.map((s) => (
-            <button
-              key={s.label}
-              type="button"
-              onClick={() => setValue(s.prompt)}
-              className="shrink-0 whitespace-nowrap rounded-full border border-border bg-muted px-3 py-1.5 text-sm font-medium text-muted-foreground transition hover:brightness-95"
-            >
-              {s.label}
-            </button>
-          ))}
         </div>
       </div>
     </div>
