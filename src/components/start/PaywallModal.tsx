@@ -51,8 +51,8 @@ export function PaywallModal({
         {phase === "form" && (
           <>
             <DialogHeader>
-              <DialogTitle>Unlock Bit</DialogTitle>
-              <DialogDescription>Create your account to let Bit take action for you.</DialogDescription>
+              <DialogTitle className="text-2xl font-bold">Sign up to get started</DialogTitle>
+              <DialogDescription className="text-base">Create your free account and Bit gets to work — texting guests, calling venues, and placing orders, all handled for you.</DialogDescription>
             </DialogHeader>
             <div className="flex flex-col gap-4 pt-2">
               <div className="flex flex-col gap-2">

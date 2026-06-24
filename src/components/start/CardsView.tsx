@@ -1,6 +1,7 @@
-import type { ReactNode } from "react";
+"use client";
+import { useState, type ReactNode } from "react";
 import type { Card, ActionType } from "@/lib/start/schemas";
-import { Share2, ChevronLeft, MessageSquare, Phone, ShoppingCart, ArrowRight, type LucideIcon } from "lucide-react";
+import { Share2, ChevronLeft, MessageSquare, Phone, ShoppingCart, ArrowRight, MapPin, Check, type LucideIcon } from "lucide-react";
 
 type CardAction = "text_guest" | "call_reserve" | "order_instacart";
 
@@ -48,20 +49,16 @@ export function CardsView({
 
       {/* hero cover — AI-generated, with a gradient placeholder while it loads */}
       {heroUrl ? (
-        // eslint-disable-next-line @next/next/no-img-element
         <img src={heroUrl} alt="" className="h-36 w-full object-cover" />
       ) : (
         <div className="h-36 w-full animate-pulse bg-gradient-to-br from-sky via-peach to-lavender" />
       )}
 
       <div className="px-5">
-        {/* Bit avatar */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/bit-face.png"
-          alt="Bit"
-          className="-mt-9 h-[72px] w-[72px] rounded-full border-4 border-white bg-white object-cover shadow-sm"
-        />
+        {/* Bit avatar — image sits in a circular container (its source has padding) */}
+        <div className="-mt-9 h-[76px] w-[76px] overflow-hidden rounded-full border-4 border-white bg-[hsl(150_36%_82%)] shadow-sm">
+          <img src="/bit-face.png" alt="Bit" className="h-full w-full scale-[1.5] object-cover" />
+        </div>
 
         <h1 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-foreground">{title}</h1>
         <p className="mt-1 text-base text-muted-foreground">
@@ -130,6 +127,89 @@ function Tile({
   );
 }
 
+const MAPS = ["/map.svg", "/map-2.svg", "/map-3.svg", "/map-4.svg"];
+function pickMap(seed: string): string {
+  let h = 0;
+  for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
+  return MAPS[h % MAPS.length];
+}
+
+function LocationTile({
+  card,
+  onAction,
+}: {
+  card: Extract<Card, { type: "location" }>;
+  onAction: (a: ActionType) => void;
+}) {
+  const [selected, setSelected] = useState<number | null>(null);
+  const map = pickMap(card.placeName + card.title);
+  const desc =
+    selected !== null
+      ? `I'll call ${card.suggestions[selected]} and lock in your reservation.`
+      : "Pick a spot above and I'll call to book it.";
+
+  return (
+    <div className="overflow-hidden rounded-2xl border border-border bg-white shadow-sm">
+      <div className="px-4 pt-4">
+        <h3 className="text-xl font-bold leading-tight text-foreground">{card.title}</h3>
+      </div>
+
+      <div className="px-4 pt-3">
+        <div className="overflow-hidden rounded-xl border border-border">
+          <div className="bg-sky px-3 py-1.5 text-sm font-bold text-sky-foreground">Pick a spot</div>
+          <div className="relative border-b border-border">
+            <img src={map} alt="Map" className="h-24 w-full object-cover" />
+            <MapPin
+              className="absolute left-1/2 top-1/2 h-7 w-7 -translate-x-1/2 -translate-y-full text-rose-600 drop-shadow"
+              fill="#e11d48"
+            />
+          </div>
+          <div className="divide-y divide-border">
+            {card.suggestions.map((s, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setSelected(i)}
+                className={`flex w-full items-center justify-between gap-2 px-3 py-2.5 text-left text-base transition-colors ${
+                  selected === i ? "bg-[hsl(150_38%_93%)] font-bold text-foreground" : "text-foreground hover:bg-secondary"
+                }`}
+              >
+                <span>{s}</span>
+                {selected === i && <Check className="h-5 w-5 shrink-0 text-primary" />}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-4 border-t border-border bg-secondary px-4 py-4">
+        <p className="flex items-start gap-2 text-base font-semibold text-foreground">
+          <Phone className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+          <span>{desc}</span>
+        </p>
+        <button
+          type="button"
+          disabled={selected === null}
+          onClick={() => onAction("call_reserve")}
+          className={`mt-3 flex w-full items-center justify-center gap-2 rounded-full px-4 py-3 text-base font-bold transition-colors ${
+            selected === null
+              ? "cursor-not-allowed bg-muted text-muted-foreground"
+              : "bg-[hsl(97_17%_42%)] text-white hover:bg-[hsl(97_20%_37%)]"
+          }`}
+        >
+          Call &amp; reserve
+          <ArrowRight className="h-[18px] w-[18px]" />
+        </button>
+        <p className="mt-2 text-center text-sm leading-snug text-muted-foreground">
+          Bit will call in the background and let you know when finished.
+          <br />
+          A transcript will be provided.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 function Rows({ items }: { items: string[] }) {
   return (
     <div className="divide-y divide-border">
@@ -164,19 +244,7 @@ function PlanTile({
       );
     }
     case "location":
-      return (
-        <Tile
-          cardTitle={card.title}
-          count={`${card.suggestions.length} suggestions`}
-          action="call_reserve"
-          description={`Pick one and I'll call to book it — or I'll reserve my top suggestion in ${card.placeName}.`}
-          onAction={onAction}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/map.svg" alt="Map" className="h-24 w-full border-b border-border object-cover" />
-          <Rows items={card.suggestions} />
-        </Tile>
-      );
+      return <LocationTile card={card} onAction={onAction} />;
     case "shopping_list": {
       const shown = card.items.slice(0, 4).map((it) => it.name);
       const extra = card.items.length - shown.length;

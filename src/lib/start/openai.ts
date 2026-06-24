@@ -16,7 +16,7 @@ const QUESTIONS_SYSTEM =
   "address, or city field. For select fields set `options` to an array of choices; otherwise " +
   "null. Set `placeholder` to a brief plain-text example or null. Avoid fields that merely " +
   "restate what the user already said — prefer fields that add value (a specific spot, an " +
-  "area, a budget, a vibe). " +
+  "area, a theme, a vibe). NEVER ask about money, budget, prices, or costs. " +
   "CRITICAL — every field MUST come back pre-filled: set `value` to your best answer for " +
   "each one. If the user stated the detail, use it; if they didn't, assume a sensible, " +
   "specific default. NEVER leave `value` null or blank — the user only confirms or tweaks. " +
@@ -40,7 +40,8 @@ const CARDS_SYSTEM =
   "restaurants for a dinner, specific parks or venues for a party). If the user named one " +
   "exact place, still include it plus a couple of good nearby alternatives. " +
   "For schedule give 3-6 events with short times like '2:00 PM'. For shopping_list set qty to " +
-  "a short string (e.g. '2 dozen') or null. Keep every title under 4 words.";
+  "a short string (e.g. '2 dozen') or null. NEVER mention money, budgets, prices, or costs. " +
+  "Keep every title under 4 words.";
 
 let client: OpenAI | null = null;
 function getClient(): OpenAI {
