@@ -24,4 +24,14 @@ import StartPage from '../components/start/StartPage';
   [role="dialog"] {
     font-weight: 600;
   }
+  /* Form controls use shadcn defaults (text-sm / font-medium) — make them bigger + semibold. */
+  #start-demo label,
+  [role="dialog"] label {
+    font-size: 1.0625rem;
+    font-weight: 600;
+  }
+  #start-demo :is(input, textarea, [role="combobox"]),
+  [role="dialog"] :is(input, textarea, [role="combobox"]) {
+    font-size: 1.125rem;
+  }
 </style>
