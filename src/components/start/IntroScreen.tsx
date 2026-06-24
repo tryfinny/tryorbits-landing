@@ -6,8 +6,19 @@ import { CtaButton } from "./CtaButton";
 
 const SUGGESTIONS: { label: string; prompt: string }[] = [
   { label: "Birthday party", prompt: "Plan a 7th birthday party for my daughter this Saturday afternoon for 12 kids" },
-  { label: "Weekend trip", prompt: "Plan a weekend getaway in San Francisco for my wife and I next month" },
+  { label: "Weekend getaway", prompt: "Plan a weekend getaway in San Francisco for my wife and I next month" },
   { label: "Dinner party", prompt: "Plan a dinner party for 8 friends at my place this Friday at 7pm" },
+  { label: "Baby shower", prompt: "Plan a baby shower for my sister next Sunday afternoon for 15 guests" },
+  { label: "Game night", prompt: "Plan a game night for 6 friends this Friday at 8pm" },
+  { label: "Camping trip", prompt: "Plan a weekend camping trip in Yosemite for 4 friends next month" },
+];
+
+// Brand pastel tokens, rotated across the suggestion chips.
+const CHIP_STYLES = [
+  "bg-sage text-sage-foreground",
+  "bg-sky text-sky-foreground",
+  "bg-peach text-peach-foreground",
+  "bg-lavender text-lavender-foreground",
 ];
 
 export function IntroScreen({ onSubmit }: { onSubmit: (prompt: string) => void }) {
@@ -37,12 +48,12 @@ export function IntroScreen({ onSubmit }: { onSubmit: (prompt: string) => void }
           />
 
           <div className="flex flex-wrap justify-center gap-2">
-            {SUGGESTIONS.map((s) => (
+            {SUGGESTIONS.map((s, i) => (
               <button
                 key={s.label}
                 type="button"
                 onClick={() => setValue(s.prompt)}
-                className="rounded-full border border-[hsl(96_20%_82%)] bg-[hsl(96_26%_91%)] px-4 py-2 text-sm font-semibold text-[hsl(96_32%_28%)] transition-colors hover:bg-[hsl(96_26%_86%)]"
+                className={`rounded-full px-4 py-2 text-sm font-semibold transition-opacity hover:opacity-90 ${CHIP_STYLES[i % CHIP_STYLES.length]}`}
               >
                 {s.label}
               </button>

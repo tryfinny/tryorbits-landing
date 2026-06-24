@@ -51,7 +51,7 @@ export function CardsView({
         // eslint-disable-next-line @next/next/no-img-element
         <img src={heroUrl} alt="" className="h-36 w-full object-cover" />
       ) : (
-        <div className="h-36 w-full animate-pulse bg-gradient-to-br from-[hsl(202_70%_84%)] via-[hsl(24_78%_88%)] to-[hsl(282_45%_88%)]" />
+        <div className="h-36 w-full animate-pulse bg-gradient-to-br from-sky via-peach to-lavender" />
       )}
 
       <div className="px-5">
@@ -103,13 +103,13 @@ function Tile({
 
       <div className="px-4 pt-3">
         <div className="overflow-hidden rounded-xl border border-border">
-          <div className="bg-[hsl(200_58%_87%)] px-3 py-1.5 text-sm font-bold text-foreground">{count}</div>
+          <div className="bg-sky px-3 py-1.5 text-sm font-bold text-sky-foreground">{count}</div>
           {children}
         </div>
       </div>
 
       {a && action ? (
-        <div className="mt-4 border-t border-border bg-[hsl(96_34%_97%)] px-4 py-4">
+        <div className="mt-4 border-t border-border bg-secondary px-4 py-4">
           <p className="flex items-start gap-2 text-base font-semibold text-foreground">
             <a.Icon className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
             <span>{description}</span>
