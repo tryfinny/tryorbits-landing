@@ -10,7 +10,7 @@ export function ShoppingListCard({
   onAction: (a: ActionType) => void;
 }) {
   return (
-    <Card className="border-border bg-white shadow-md">
+    <Card className="border-border bg-[hsl(28_24%_96%)] shadow-md">
       <CardHeader><CardTitle className="text-base">{title}</CardTitle></CardHeader>
       <CardContent className="flex flex-col gap-3">
         <ul className="flex flex-col gap-2">
