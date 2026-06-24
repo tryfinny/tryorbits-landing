@@ -1,14 +1,15 @@
 "use client";
 import { useState, type ReactNode } from "react";
 import type { Card, ActionType } from "@/lib/start/schemas";
-import { Share2, ChevronLeft, MessageSquare, Phone, ShoppingCart, ArrowRight, MapPin, Check, type LucideIcon } from "lucide-react";
+import { Share2, ChevronLeft, MessageSquare, Phone, ShoppingCart, ArrowRight, MapPin, Check, CalendarPlus, type LucideIcon } from "lucide-react";
 
-type CardAction = "text_guest" | "call_reserve" | "order_instacart";
+type CardAction = "text_guest" | "call_reserve" | "order_instacart" | "add_calendar";
 
 const ACTIONS: Record<CardAction, { label: string; Icon: LucideIcon }> = {
   text_guest: { label: "Text the guests", Icon: MessageSquare },
   call_reserve: { label: "Call & reserve", Icon: Phone },
   order_instacart: { label: "Order on Instacart", Icon: ShoppingCart },
+  add_calendar: { label: "Add to my calendar", Icon: CalendarPlus },
 };
 
 export function CardsView({
@@ -62,7 +63,7 @@ export function CardsView({
 
         <h1 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-foreground">{title}</h1>
         <p className="mt-1 text-base text-muted-foreground">
-          Here&apos;s your plan. Tap a card and I&apos;ll text, call, or order it for you.
+          Here&apos;s your plan. Tap a card and I&apos;ll text, call, order, or schedule it for you.
         </p>
       </div>
 
@@ -263,7 +264,13 @@ function PlanTile({
     case "schedule": {
       const shown = card.events.slice(0, 6).map((e) => `${e.time} · ${e.label}`);
       return (
-        <Tile cardTitle={card.title} count={`${card.events.length} events`} onAction={onAction}>
+        <Tile
+          cardTitle={card.title}
+          count={`${card.events.length} events`}
+          action="add_calendar"
+          description="I'll add every event to your calendar and send invites to everyone involved."
+          onAction={onAction}
+        >
           <Rows items={shown} />
         </Tile>
       );

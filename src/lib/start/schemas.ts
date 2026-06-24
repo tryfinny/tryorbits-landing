@@ -65,4 +65,4 @@ export type QuestionField = z.infer<typeof QuestionFieldSchema>;
 export type Questions = z.infer<typeof QuestionsSchema>;
 export type Card = z.infer<typeof CardSchema>;
 export type Cards = z.infer<typeof CardsSchema>;
-export type ActionType = "text_guest" | "call_reserve" | "order_instacart" | "share";
+export type ActionType = "text_guest" | "call_reserve" | "order_instacart" | "add_calendar" | "share";
