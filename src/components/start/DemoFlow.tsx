@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { Plus } from "lucide-react";
 import type { Questions, Cards, Card, ActionType } from "@/lib/start/schemas";
 import { PhoneFrame } from "./PhoneFrame";
 import { ThinkingLoader } from "./ThinkingLoader";
@@ -78,8 +79,13 @@ export function DemoFlow() {
       ) : step === "questions" && questions ? (
         <QuestionsForm questions={questions} onSubmit={handleAnswers} />
       ) : (
-        <div className="flex-1 overflow-y-auto">
-          <CardsView cards={cards} onAction={handleAction} />
+        <div className="relative flex-1 overflow-hidden">
+          <div className="h-full overflow-y-auto">
+            <CardsView cards={cards} title={questions?.title ?? "Your Plan"} onAction={handleAction} />
+          </div>
+          <div className="pointer-events-none absolute bottom-5 right-5 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white shadow-lg">
+            <Plus className="h-7 w-7" strokeWidth={2.5} />
+          </div>
         </div>
       )}
 

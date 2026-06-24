@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
 // Build a readable label from a Photon feature's properties.
@@ -66,12 +67,14 @@ export function LocationAutocomplete({
 
   return (
     <div ref={boxRef} className="relative">
+      <Search className="pointer-events-none absolute left-3.5 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground" />
       <Input
         id={id}
         type="text"
         autoComplete="off"
-        placeholder={placeholder}
+        placeholder={placeholder ?? "Search a place…"}
         value={value}
+        className="pl-10"
         onChange={(e) => {
           typing.current = true;
           onChange(e.target.value);
