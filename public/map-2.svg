@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="240" viewBox="0 0 400 240">
+  <rect width="400" height="240" fill="#eaf0f0"/>
+  <polygon points="250,0 400,0 400,140 300,120 270,40" fill="#cfe8d2"/>
+  <polygon points="0,0 90,0 60,120 0,150" fill="#bcd9f0"/>
+  <g stroke="#ffffff" stroke-width="11" fill="none">
+    <path d="M-10,120 Q200,90 410,130"/>
+    <path d="M120,-10 L140,250"/>
+    <path d="M300,-10 L300,250"/>
+    <path d="M-10,40 L410,55"/>
+  </g>
+  <g stroke="#ffffff" stroke-width="4" fill="none" opacity="0.8">
+    <path d="M210,-10 L225,250"/>
+    <path d="M-10,185 L410,200"/>
+  </g>
+  <g fill="#dde6e4">
+    <rect x="150" y="135" width="44" height="40"/><rect x="240" y="150" width="38" height="34"/>
+    <rect x="150" y="65" width="36" height="30"/><rect x="320" y="160" width="44" height="42"/>
+    <rect x="40" y="170" width="40" height="36"/>
+  </g>
+</svg>

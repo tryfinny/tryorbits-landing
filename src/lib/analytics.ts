@@ -1,6 +1,7 @@
 import * as amplitude from "@amplitude/analytics-browser";
 
 import { getOrbPromoFromSearch, ORB_PROMO_CPP_IDS, type OrbPromoValue } from "@/lib/orb-promo";
+import type { ActionType } from "@/lib/start/schemas";
 
 declare global {
   interface Window {
@@ -304,3 +305,24 @@ export function trackTikTokClickButton(utmParams: Record<string, string>): void 
     });
   }
 }
+
+// ============================================
+// Start Demo (tryorbits.com/start) funnel
+// ============================================
+
+const START_SURFACE = "start_demo";
+
+function trackStart(name: string, props?: Record<string, unknown>) {
+  track(name, { surface: START_SURFACE, platform: "web_landing_page", ...props });
+}
+
+export const trackDemoStarted = () => trackStart("demo_started");
+export const trackPromptSubmitted = (prompt: string) => trackStart("prompt_submitted", { prompt });
+export const trackQuestionsShown = (fieldCount: number) => trackStart("questions_shown", { field_count: fieldCount });
+export const trackAnswersSubmitted = (fieldCount: number) => trackStart("answers_submitted", { field_count: fieldCount });
+export const trackCardsShown = (cardTypes: string[]) => trackStart("cards_shown", { card_types: cardTypes });
+export const trackActionChipTapped = (action: ActionType) => trackStart("action_chip_tapped", { action });
+export const trackPaywallSubmitted = (email: string, action: ActionType) =>
+  trackStart("paywall_submitted", { email, action });
+export const trackPayNowClicked = (action: ActionType) => trackStart("pay_now_clicked", { action });
+export const trackRegionBlockedShown = () => trackStart("region_blocked_shown");
