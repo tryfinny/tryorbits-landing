@@ -13,8 +13,9 @@ const QUESTIONS_SYSTEM =
   "You are Bit, a friendly household assistant. The user tells you a task they want help " +
   "planning. Respond with 3-4 short clarifying questions as form fields you need answered. " +
   "Use field types: text, number, date, or select. For select fields set `options` to an " +
-  "array of choices; otherwise set `options` to null. Set `placeholder` to a brief example " +
-  "or null. Keep each label under 6 words. Return a short `title` naming the task.";
+  "array of choices; otherwise set `options` to null. Set `placeholder` to a brief, " +
+  "plain-text example with no braces or code (e.g. \"e.g. Emily\"), or null. Keep each " +
+  "label under 6 words. Return a short `title` naming the task.";
 
 const CARDS_SYSTEM =
   "You are Bit, a household assistant. Given a task and the user's answers, produce activity " +

@@ -8,6 +8,10 @@ import {
 } from "@/components/ui/select";
 import type { Questions, QuestionField } from "@/lib/start/schemas";
 
+// Strip stray template/brace characters an LLM occasionally leaks into copy
+// (e.g. a placeholder coming back as "e.g. Emily Smith}.{").
+const clean = (s: string) => s.replace(/[{}]/g, "").trim();
+
 export function QuestionsForm({
   questions,
   onSubmit,
@@ -21,14 +25,14 @@ export function QuestionsForm({
 
   const submit = () => {
     const byLabel: Record<string, string> = {};
-    for (const f of questions.fields) byLabel[f.label] = values[f.id] ?? "";
+    for (const f of questions.fields) byLabel[clean(f.label)] = values[f.id] ?? "";
     onSubmit(byLabel);
   };
 
   return (
     <div className="flex flex-1 flex-col px-5 pt-10 pb-6">
-      <h2 className="text-xl font-semibold tracking-tight">{questions.title}</h2>
-      <p className="mt-1 text-sm text-neutral-500">A few quick details so Bit can help.</p>
+      <h2 className="text-xl font-semibold tracking-tight">{clean(questions.title)}</h2>
+      <p className="mt-1 text-sm text-muted-foreground">A few quick details so Bit can help.</p>
 
       <div className="mt-6 flex flex-col gap-5">
         {questions.fields.map((f) => (
@@ -50,17 +54,19 @@ function Field({
   value: string;
   onChange: (v: string) => void;
 }) {
+  const placeholder = field.placeholder ? clean(field.placeholder) : undefined;
+
   if (field.type === "select" && field.options) {
     return (
       <div className="flex flex-col gap-2">
-        <Label>{field.label}</Label>
+        <Label>{clean(field.label)}</Label>
         <Select value={value} onValueChange={(v) => onChange(v as string)}>
-          <SelectTrigger aria-label={field.label}>
-            <SelectValue placeholder={field.placeholder ?? "Select…"} />
+          <SelectTrigger aria-label={clean(field.label)}>
+            <SelectValue placeholder={placeholder ?? "Select…"} />
           </SelectTrigger>
           <SelectContent>
             {field.options.map((opt) => (
-              <SelectItem key={opt} value={opt}>{opt}</SelectItem>
+              <SelectItem key={opt} value={opt}>{clean(opt)}</SelectItem>
             ))}
           </SelectContent>
         </Select>
@@ -71,11 +77,11 @@ function Field({
   const inputType = field.type === "number" ? "number" : field.type === "date" ? "date" : "text";
   return (
     <div className="flex flex-col gap-2">
-      <Label htmlFor={field.id}>{field.label}</Label>
+      <Label htmlFor={field.id}>{clean(field.label)}</Label>
       <Input
         id={field.id}
         type={inputType}
-        placeholder={field.placeholder ?? undefined}
+        placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
