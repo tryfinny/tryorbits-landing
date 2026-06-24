@@ -25,47 +25,34 @@ export function IntroScreen({ onSubmit }: { onSubmit: (prompt: string) => void }
         <h1 className="mt-4 text-[2rem] font-bold leading-tight tracking-tight text-foreground">
           What can I help you with?
         </h1>
-        <p className="mt-2 text-base text-muted-foreground">
-          Tell Bit a task and watch it get handled.
+        <p className="mt-3 text-base leading-relaxed text-muted-foreground">
+          Other assistants just tell you what to do. I actually do it — I&apos;ll make the
+          calls, send the texts, and place the orders for you. Go on, give me a try!
         </p>
       </div>
 
-      {/* composer: textarea + scrollable chips + small send button, all in one box */}
-      <div className="rounded-3xl border border-border bg-card shadow-sm">
-        <Textarea
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault();
-              send();
-            }
-          }}
-          placeholder="e.g. Plan a birthday party for my daughter…"
-          rows={2}
-          className="resize-none border-0 bg-transparent px-4 pt-4 text-lg shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
-        />
-
-        <div className="flex items-center gap-2 px-2.5 pb-2.5 pt-1">
-          <div className="flex flex-1 gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-            {SUGGESTIONS.map((s) => (
-              <button
-                key={s.label}
-                type="button"
-                onClick={() => setValue(s.prompt)}
-                className="shrink-0 whitespace-nowrap rounded-full border border-border bg-muted px-3 py-1.5 text-sm font-medium text-muted-foreground transition hover:brightness-95"
-              >
-                {s.label}
-              </button>
-            ))}
-          </div>
-
+      {/* composer: textarea + send on one row, scrollable chips on their own row below */}
+      <div className="rounded-3xl border border-border bg-card px-2.5 pb-2.5 pt-1 shadow-sm">
+        <div className="flex items-end gap-1.5">
+          <Textarea
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                send();
+              }
+            }}
+            placeholder="e.g. Plan a birthday party for my daughter…"
+            rows={2}
+            className="flex-1 resize-none border-0 bg-transparent px-2 pt-3 text-lg shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+          />
           <button
             type="button"
             onClick={send}
             disabled={!trimmed}
             aria-label="Send"
-            className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-colors ${
+            className={`mb-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-colors ${
               trimmed
                 ? "bg-[hsl(97_17%_42%)] text-white hover:bg-[hsl(97_20%_37%)]"
                 : "cursor-not-allowed bg-muted text-muted-foreground"
@@ -73,6 +60,19 @@ export function IntroScreen({ onSubmit }: { onSubmit: (prompt: string) => void }
           >
             <ArrowUp className="h-5 w-5" strokeWidth={2.5} />
           </button>
+        </div>
+
+        <div className="flex gap-2 overflow-x-auto px-1 pb-1 [&::-webkit-scrollbar]:hidden">
+          {SUGGESTIONS.map((s) => (
+            <button
+              key={s.label}
+              type="button"
+              onClick={() => setValue(s.prompt)}
+              className="shrink-0 whitespace-nowrap rounded-full border border-border bg-muted px-3 py-1.5 text-sm font-medium text-muted-foreground transition hover:brightness-95"
+            >
+              {s.label}
+            </button>
+          ))}
         </div>
       </div>
     </div>
