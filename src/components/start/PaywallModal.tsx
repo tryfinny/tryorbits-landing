@@ -47,7 +47,7 @@ export function PaywallModal({
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
-      <DialogContent className="max-w-[360px]">
+      <DialogContent className="max-w-[360px] border-border bg-white">
         {phase === "form" && (
           <>
             <DialogHeader>

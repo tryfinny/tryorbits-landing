@@ -10,7 +10,7 @@ export function GuestListCard({
   onAction: (a: ActionType) => void;
 }) {
   return (
-    <Card>
+    <Card className="border-border bg-white shadow-md">
       <CardHeader><CardTitle className="text-base">{title}</CardTitle></CardHeader>
       <CardContent className="flex flex-col gap-3">
         {guests.map((g, i) => (

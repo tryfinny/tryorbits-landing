@@ -15,7 +15,8 @@ import StartPage from '../components/start/StartPage';
 <style is:global>
   /* The /start demo is intentionally all-Nunito — override the site's serif h1/h2 within it. */
   #start-demo,
-  #start-demo :is(h1, h2, h3, h4, h5, h6) {
+  #start-demo :is(h1, h2, h3, h4, h5, h6),
+  [role="dialog"] :is(h1, h2, h3, h4, h5, h6) {
     font-family: var(--font-sans);
   }
 </style>

@@ -7,7 +7,7 @@ export function ScheduleCard({
   events: { time: string; label: string }[];
 }) {
   return (
-    <Card>
+    <Card className="border-border bg-white shadow-md">
       <CardHeader><CardTitle className="text-base">{title}</CardTitle></CardHeader>
       <CardContent>
         <ol className="flex flex-col">

@@ -10,7 +10,7 @@ export function LocationCard({
   onAction: (a: ActionType) => void;
 }) {
   return (
-    <Card>
+    <Card className="border-border bg-white shadow-md">
       <CardHeader><CardTitle className="text-base">{title}</CardTitle></CardHeader>
       <CardContent className="flex flex-col gap-3">
         <div className="relative h-36 w-full overflow-hidden rounded-xl">
