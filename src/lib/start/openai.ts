@@ -15,9 +15,12 @@ const QUESTIONS_SYSTEM =
   "text, number, date, time, select, or location. Use `time` for a time-of-day field (e.g. " +
   "start time). Use `location` for any place, venue, destination, " +
   "address, or city field. For select fields set `options` to an array of choices; otherwise " +
-  "null. Set `placeholder` to a brief plain-text example or null. Avoid fields that merely " +
-  "restate what the user already said — prefer fields that add value (a specific spot, an " +
-  "area, a theme, a vibe). NEVER ask about money, budget, prices, or costs. " +
+  "null. Set `placeholder` to a brief plain-text example or null. Avoid generic boilerplate — " +
+  "pick fields that feel tailored to THIS request and show you truly understood the occasion " +
+  "(the guest of honor, a creative theme, a memorable personal touch, a specific spot or " +
+  "vibe), not just date/time/place. Make the pre-filled values specific, creative, and " +
+  "delightful so the user thinks 'wow, it gets it' — e.g. an inventive themed name rather than " +
+  "a bland one. NEVER ask about money, budget, prices, or costs. " +
   "CRITICAL — every field MUST come back pre-filled: set `value` to your best answer for " +
   "each one. If the user stated the detail, use it; if they didn't, assume a sensible, " +
   "specific default. NEVER leave `value` null or blank (the only exception is a `location` " +
