@@ -1,12 +1,12 @@
 "use client";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import type { Questions, QuestionField } from "@/lib/start/schemas";
+import { CtaButton } from "./CtaButton";
 
 // Strip stray template/brace characters an LLM occasionally leaks into copy
 // (e.g. a placeholder coming back as "e.g. Emily Smith}.{").
@@ -40,9 +40,11 @@ export function QuestionsForm({
         ))}
       </div>
 
-      <Button size="lg" className="mt-8" disabled={!complete} onClick={submit}>
-        Continue
-      </Button>
+      <div className="mt-8">
+        <CtaButton disabled={!complete} onClick={submit}>
+          Continue
+        </CtaButton>
+      </div>
     </div>
   );
 }

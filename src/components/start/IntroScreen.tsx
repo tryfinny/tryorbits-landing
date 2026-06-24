@@ -1,49 +1,56 @@
 "use client";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { BitAvatar } from "./BitAvatar";
+import { CtaButton } from "./CtaButton";
 
-const SUGGESTION = "Plan a birthday party for my daughter";
+const SUGGESTIONS: { label: string; prompt: string }[] = [
+  { label: "Birthday party", prompt: "Plan a birthday party for my daughter" },
+  { label: "Weekend trip", prompt: "Plan a weekend getaway" },
+  { label: "Dinner party", prompt: "Plan a dinner party for 8 friends" },
+];
 
 export function IntroScreen({ onSubmit }: { onSubmit: (prompt: string) => void }) {
   const [value, setValue] = useState("");
   const trimmed = value.trim();
 
   return (
-    <div className="flex flex-1 flex-col px-5 pt-12 pb-6">
-      <div className="flex items-center gap-3">
-        <BitAvatar size={64} />
-        <div>
-          <p className="text-sm text-muted-foreground">Bit</p>
-          <h1 className="font-heading text-2xl font-semibold tracking-tight text-foreground">What can I help you with?</h1>
-        </div>
+    <div className="flex flex-1 flex-col justify-center px-6 py-12">
+      <div className="flex flex-col items-center text-center">
+        <BitAvatar size={112} />
+        <h1 className="mt-4 text-[1.7rem] font-bold leading-tight tracking-tight text-foreground">
+          What can I help you with?
+        </h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Tell Bit a task and watch it get handled.
+        </p>
       </div>
 
-      <div className="mt-8 flex flex-col gap-3">
-        <button
-          type="button"
-          onClick={() => setValue(SUGGESTION)}
-          className="self-start rounded-full border border-border bg-card px-4 py-2 text-sm text-foreground transition-colors hover:bg-secondary"
-        >
-          {SUGGESTION}
-        </button>
-
+      <div className="mt-8 flex flex-col gap-4">
         <Textarea
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder="Type what you need help with…"
-          rows={4}
-          className="resize-none text-base"
+          placeholder="e.g. Plan a birthday party for my daughter…"
+          rows={3}
+          className="resize-none rounded-2xl border-border bg-card text-base shadow-sm"
         />
 
-        <Button
-          size="lg"
-          disabled={trimmed.length === 0}
-          onClick={() => onSubmit(trimmed)}
-        >
+        <div className="flex flex-wrap justify-center gap-2">
+          {SUGGESTIONS.map((s) => (
+            <button
+              key={s.label}
+              type="button"
+              onClick={() => setValue(s.prompt)}
+              className="rounded-full border border-[hsl(96_20%_82%)] bg-[hsl(96_26%_91%)] px-4 py-2 text-xs font-semibold text-[hsl(96_32%_28%)] transition-colors hover:bg-[hsl(96_26%_86%)]"
+            >
+              {s.label}
+            </button>
+          ))}
+        </div>
+
+        <CtaButton disabled={trimmed.length === 0} onClick={() => onSubmit(trimmed)}>
           Send
-        </Button>
+        </CtaButton>
       </div>
     </div>
   );

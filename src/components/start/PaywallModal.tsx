@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import type { ActionType } from "@/lib/start/schemas";
 import { trackPaywallSubmitted, trackPayNowClicked, trackRegionBlockedShown } from "@/lib/analytics";
+import { CtaButton } from "./CtaButton";
 
 type Phase = "form" | "pay" | "blocked";
 
@@ -63,7 +63,9 @@ export function PaywallModal({
                 <Label htmlFor="pw-password">Password</Label>
                 <Input id="pw-password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" />
               </div>
-              <Button size="lg" disabled={!canContinue} onClick={submitForm}>Continue</Button>
+              <CtaButton disabled={!canContinue} onClick={submitForm}>
+                Continue
+              </CtaButton>
             </div>
           </>
         )}
@@ -76,11 +78,11 @@ export function PaywallModal({
               <DialogDescription>Let Bit text guests, call venues, and place orders for you.</DialogDescription>
             </DialogHeader>
             <div className="flex flex-col gap-4 pt-2">
-              <div className="rounded-2xl border border-border bg-secondary/50 p-4 text-center">
+              <div className="rounded-2xl border border-border bg-secondary p-4 text-center">
                 <p className="text-3xl font-semibold text-foreground">$9.99<span className="text-base font-normal text-muted-foreground">/mo</span></p>
                 <p className="mt-1 text-sm text-muted-foreground">Cancel anytime</p>
               </div>
-              <Button size="lg" onClick={payNow}>Pay now</Button>
+              <CtaButton onClick={payNow}>Pay now</CtaButton>
             </div>
           </>
         )}
@@ -89,12 +91,12 @@ export function PaywallModal({
           <>
             <DialogHeader>
               <DialogTitle>Almost there!</DialogTitle>
-              <DialogDescription className="text-neutral-700">
+              <DialogDescription className="text-foreground">
                 Whoops, this isn&apos;t available in your region yet — we&apos;ll keep you posted!
               </DialogDescription>
             </DialogHeader>
             <div className="flex flex-col gap-4 pt-2">
-              <Button size="lg" variant="outline" onClick={onClose}>Close</Button>
+              <CtaButton variant="outline" onClick={onClose}>Close</CtaButton>
             </div>
           </>
         )}
