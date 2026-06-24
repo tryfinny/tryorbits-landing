@@ -34,6 +34,7 @@ export function DemoFlow() {
   const [prompt, setPrompt] = useState("");
   const [questions, setQuestions] = useState<Questions | null>(null);
   const [cards, setCards] = useState<Card[]>([]);
+  const [heroUrl, setHeroUrl] = useState<string | null>(null);
   const [paywall, setPaywall] = useState<{ open: boolean; action: ActionType | null }>({ open: false, action: null });
 
   useEffect(() => {
@@ -60,6 +61,11 @@ export function DemoFlow() {
     setLoading(false);
     setStep("cards");
     trackCardsShown(data.cards.map((c) => c.type));
+    // Generate a relevant hero image in the background (non-blocking).
+    setHeroUrl(null);
+    callPlan({ mode: "hero", prompt, title: questions?.title ?? prompt })
+      .then((r) => setHeroUrl(r?.image ?? null))
+      .catch(() => {});
   };
 
   const handleAction = (action: ActionType) => {
@@ -70,6 +76,7 @@ export function DemoFlow() {
   const handleBack = () => {
     setStep("intro");
     setCards([]);
+    setHeroUrl(null);
     setQuestions(null);
     setPrompt("");
   };
@@ -86,7 +93,7 @@ export function DemoFlow() {
         <QuestionsForm questions={questions} onSubmit={handleAnswers} />
       ) : (
         <div className="flex-1 overflow-y-auto">
-          <CardsView cards={cards} title={questions?.title ?? "Your Plan"} onAction={handleAction} onBack={handleBack} />
+          <CardsView cards={cards} title={questions?.title ?? "Your Plan"} heroUrl={heroUrl} onAction={handleAction} onBack={handleBack} />
         </div>
       )}
 

@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { generateQuestions, generateCards } from "@/lib/start/openai";
+import { generateQuestions, generateCards, generateHero } from "@/lib/start/openai";
 import { fallbackQuestions, fallbackCards } from "@/lib/start/fallback";
 
 // On-demand (serverless) — keeps the OpenAI key server-side. Everything else
@@ -7,14 +7,24 @@ import { fallbackQuestions, fallbackCards } from "@/lib/start/fallback";
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
-  let body: { mode?: string; prompt?: string; answers?: Record<string, string> };
+  let body: { mode?: string; prompt?: string; answers?: Record<string, string>; title?: string };
   try {
     body = await request.json();
   } catch {
     return Response.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  const { mode, prompt, answers } = body ?? {};
+  const { mode, prompt, answers, title } = body ?? {};
+
+  if (mode === "hero") {
+    const subject = (typeof title === "string" && title) || (typeof prompt === "string" && prompt) || "";
+    try {
+      return Response.json({ image: await generateHero(subject) });
+    } catch (err) {
+      console.error("[/api/plan] hero failed:", err);
+      return Response.json({ image: null });
+    }
+  }
 
   if (mode === "questions") {
     if (!prompt || typeof prompt !== "string") {

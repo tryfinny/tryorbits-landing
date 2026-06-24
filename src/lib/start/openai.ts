@@ -80,3 +80,21 @@ export async function generateCards(prompt: string, answers: Record<string, stri
   if (!parsed) throw new Error("OpenAI returned no parsed cards");
   return parsed;
 }
+
+// Generate a relevant hero banner for the plan. Returns a base64 data URL.
+export async function generateHero(subject: string): Promise<string> {
+  const res = await getClient().images.generate({
+    model: "gpt-image-1",
+    prompt:
+      `A soft, warm, tasteful banner photograph representing "${subject}". ` +
+      `Calm pastel palette, gentle natural light, lifestyle aesthetic, no text, ` +
+      `no words, no logos, no recognizable faces. Wide cinematic composition.`,
+    size: "1536x1024",
+    quality: "low",
+    n: 1,
+  });
+  const d = res.data?.[0];
+  if (d?.b64_json) return `data:image/png;base64,${d.b64_json}`;
+  if (d?.url) return d.url;
+  throw new Error("OpenAI returned no image");
+}
