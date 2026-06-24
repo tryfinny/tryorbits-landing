@@ -12,8 +12,9 @@ export type ChatMessage = { role: "system" | "user"; content: string };
 const QUESTIONS_SYSTEM =
   "You are Bit, a friendly household assistant. The user tells you a task they want help " +
   "planning. Respond with 3-5 short form fields covering the key details. Use field types: " +
-  "text, number, date, or select. For select fields set `options` to an array of choices; " +
-  "otherwise null. Set `placeholder` to a brief plain-text example or null. " +
+  "text, number, date, select, or location. Use `location` for any place, venue, destination, " +
+  "address, or city field. For select fields set `options` to an array of choices; otherwise " +
+  "null. Set `placeholder` to a brief plain-text example or null. " +
   "CRITICAL — every field MUST come back pre-filled: set `value` to your best answer for " +
   "each one. If the user stated the detail, use it; if they didn't, assume a sensible, " +
   "specific default. NEVER leave `value` null or blank — the user only confirms or tweaks. " +

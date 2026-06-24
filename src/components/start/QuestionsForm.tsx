@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/select";
 import type { Questions, QuestionField } from "@/lib/start/schemas";
 import { CtaButton } from "./CtaButton";
+import { LocationAutocomplete } from "./LocationAutocomplete";
 
 // Strip stray template/brace characters an LLM occasionally leaks into copy
 // (e.g. a placeholder coming back as "e.g. Emily Smith}.{").
@@ -44,7 +45,7 @@ export function QuestionsForm({
         ))}
       </div>
 
-      <div className="mt-8">
+      <div className="mt-auto pt-8">
         <CtaButton disabled={!complete} onClick={submit}>
           Looks good
         </CtaButton>
@@ -61,6 +62,15 @@ function Field({
   onChange: (v: string) => void;
 }) {
   const placeholder = field.placeholder ? clean(field.placeholder) : undefined;
+
+  if (field.type === "location") {
+    return (
+      <div className="flex flex-col gap-2">
+        <Label htmlFor={field.id}>{clean(field.label)}</Label>
+        <LocationAutocomplete id={field.id} value={value} placeholder={placeholder} onChange={onChange} />
+      </div>
+    );
+  }
 
   if (field.type === "select" && field.options) {
     return (

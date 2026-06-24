@@ -7,7 +7,7 @@ export function fallbackQuestions(): Questions {
     fields: [
       { id: "headcount", label: "How many people?", type: "number", placeholder: "e.g. 12", options: null, value: "12" },
       { id: "date", label: "What date?", type: "date", placeholder: null, options: null, value: date },
-      { id: "location", label: "Where?", type: "text", placeholder: "e.g. downtown", options: null, value: "Downtown" },
+      { id: "location", label: "Where?", type: "location", placeholder: "Search a place…", options: null, value: "Downtown" },
       { id: "budget", label: "Budget?", type: "select", placeholder: null, options: ["$", "$$", "$$$"], value: "$$" },
     ],
   };

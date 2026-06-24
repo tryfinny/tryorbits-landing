@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const FieldTypeEnum = z.enum(["text", "number", "date", "select"]);
+export const FieldTypeEnum = z.enum(["text", "number", "date", "select", "location"]);
 
 export const QuestionFieldSchema = z.object({
   id: z.string(),
