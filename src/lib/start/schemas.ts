@@ -8,6 +8,8 @@ export const QuestionFieldSchema = z.object({
   type: FieldTypeEnum,
   placeholder: z.string().nullable(),
   options: z.array(z.string()).nullable(),
+  // Pre-filled value inferred from the user's prompt (null if not stated).
+  value: z.string().nullable(),
 });
 
 export const QuestionsSchema = z.object({

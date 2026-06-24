@@ -19,7 +19,11 @@ export function QuestionsForm({
   questions: Questions;
   onSubmit: (answers: Record<string, string>) => void;
 }) {
-  const [values, setValues] = useState<Record<string, string>>({});
+  const [values, setValues] = useState<Record<string, string>>(() => {
+    const init: Record<string, string> = {};
+    for (const f of questions.fields) init[f.id] = f.value ?? "";
+    return init;
+  });
   const set = (id: string, v: string) => setValues((s) => ({ ...s, [id]: v }));
   const complete = questions.fields.every((f) => (values[f.id] ?? "").trim().length > 0);
 
@@ -32,7 +36,7 @@ export function QuestionsForm({
   return (
     <div className="flex flex-1 flex-col px-5 pt-10 pb-6">
       <h2 className="text-2xl font-semibold tracking-tight">{clean(questions.title)}</h2>
-      <p className="mt-1 text-base text-muted-foreground">A few quick details so Bit can help.</p>
+      <p className="mt-1 text-base text-muted-foreground">Here&apos;s what I&apos;ve got — change anything.</p>
 
       <div className="mt-6 flex flex-col gap-5">
         {questions.fields.map((f) => (
@@ -42,7 +46,7 @@ export function QuestionsForm({
 
       <div className="mt-8">
         <CtaButton disabled={!complete} onClick={submit}>
-          Continue
+          Looks good
         </CtaButton>
       </div>
     </div>

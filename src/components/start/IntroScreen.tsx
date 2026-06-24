@@ -5,9 +5,9 @@ import { BitAvatar } from "./BitAvatar";
 import { CtaButton } from "./CtaButton";
 
 const SUGGESTIONS: { label: string; prompt: string }[] = [
-  { label: "Birthday party", prompt: "Plan a birthday party for my daughter" },
-  { label: "Weekend trip", prompt: "Plan a weekend getaway" },
-  { label: "Dinner party", prompt: "Plan a dinner party for 8 friends" },
+  { label: "Birthday party", prompt: "Plan a 7th birthday party for my daughter this Saturday afternoon for 12 kids" },
+  { label: "Weekend trip", prompt: "Plan a weekend getaway in San Francisco for my wife and I next month" },
+  { label: "Dinner party", prompt: "Plan a dinner party for 8 friends at my place this Friday at 7pm" },
 ];
 
 export function IntroScreen({ onSubmit }: { onSubmit: (prompt: string) => void }) {

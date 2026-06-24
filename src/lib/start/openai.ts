@@ -5,17 +5,23 @@ import { QuestionsSchema, CardsSchema, type Questions, type Cards } from "./sche
 // Astro/Vite exposes server env via import.meta.env (dev); Vercel sets process.env at runtime.
 const env = import.meta.env as unknown as Record<string, string | undefined>;
 const OPENAI_API_KEY = env.OPENAI_API_KEY ?? process.env.OPENAI_API_KEY;
-const MODEL = env.OPENAI_MODEL ?? process.env.OPENAI_MODEL ?? "gpt-4o-mini";
+const MODEL = "gpt-4o";
 
 export type ChatMessage = { role: "system" | "user"; content: string };
 
 const QUESTIONS_SYSTEM =
   "You are Bit, a friendly household assistant. The user tells you a task they want help " +
-  "planning. Respond with 3-4 short clarifying questions as form fields you need answered. " +
-  "Use field types: text, number, date, or select. For select fields set `options` to an " +
-  "array of choices; otherwise set `options` to null. Set `placeholder` to a brief, " +
-  "plain-text example with no braces or code (e.g. \"e.g. Emily\"), or null. Keep each " +
-  "label under 6 words. Return a short `title` naming the task.";
+  "planning. Respond with 3-5 short form fields covering the key details. Use field types: " +
+  "text, number, date, or select. For select fields set `options` to an array of choices; " +
+  "otherwise null. Set `placeholder` to a brief plain-text example or null. " +
+  "CRITICAL — every field MUST come back pre-filled: set `value` to your best answer for " +
+  "each one. If the user stated the detail, use it; if they didn't, assume a sensible, " +
+  "specific default. NEVER leave `value` null or blank — the user only confirms or tweaks. " +
+  "For `date` fields, `value` MUST be ISO format YYYY-MM-DD; resolve relative or partial " +
+  "dates ('next Saturday', 'July 4', 'tomorrow') using the current date provided, and if no " +
+  "date is implied pick a reasonable upcoming one. For `number` fields, `value` is digits " +
+  "only. For `select` fields, `value` must be one of `options`. Keep each label under 6 " +
+  "words. Return a short `title` naming the task.";
 
 const CARDS_SYSTEM =
   "You are Bit, a household assistant. Given a task and the user's answers, produce activity " +
@@ -31,10 +37,13 @@ function getClient(): OpenAI {
   return client;
 }
 
-export function buildQuestionsMessages(prompt: string): ChatMessage[] {
+export function buildQuestionsMessages(prompt: string, today: string): ChatMessage[] {
   return [
     { role: "system", content: QUESTIONS_SYSTEM },
-    { role: "user", content: `The user wants help with: "${prompt}". Generate the clarifying form fields.` },
+    {
+      role: "user",
+      content: `Today's date is ${today}. The user wants help with: "${prompt}". Generate the form fields with EVERY value pre-filled — use the user's details where given, sensible specific defaults otherwise.`,
+    },
   ];
 }
 
@@ -49,9 +58,10 @@ export function buildCardsMessages(prompt: string, answers: Record<string, strin
 }
 
 export async function generateQuestions(prompt: string): Promise<Questions> {
+  const today = new Date().toISOString().slice(0, 10);
   const completion = await getClient().beta.chat.completions.parse({
     model: MODEL,
-    messages: buildQuestionsMessages(prompt),
+    messages: buildQuestionsMessages(prompt, today),
     response_format: zodResponseFormat(QuestionsSchema, "questions"),
   });
   const parsed = completion.choices[0]?.message.parsed;
