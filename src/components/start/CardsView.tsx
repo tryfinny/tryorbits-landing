@@ -1,15 +1,16 @@
 "use client";
 import { useState, type ReactNode } from "react";
 import type { Card, ActionType } from "@/lib/start/schemas";
-import { Share2, ChevronLeft, Send, Phone, ShoppingCart, ArrowRight, MapPin, Check, CalendarPlus, type LucideIcon } from "lucide-react";
+import { Share2, ChevronLeft, Send, Phone, ShoppingCart, ArrowRight, MapPin, Check, CalendarPlus, ListChecks, type LucideIcon } from "lucide-react";
 
-type CardAction = "text_guest" | "call_reserve" | "order_instacart" | "add_calendar";
+type CardAction = "text_guest" | "call_reserve" | "order_instacart" | "add_calendar" | "create_list";
 
 const ACTIONS: Record<CardAction, { label: string; Icon: LucideIcon }> = {
   text_guest: { label: "Email or text guests", Icon: Send },
   call_reserve: { label: "Call & reserve", Icon: Phone },
   order_instacart: { label: "Order on Instacart", Icon: ShoppingCart },
   add_calendar: { label: "Add to my calendar", Icon: CalendarPlus },
+  create_list: { label: "Create list", Icon: ListChecks },
 };
 
 export function CardsView({
@@ -194,7 +195,7 @@ function LocationTile({
           onClick={() => onAction("call_reserve")}
           className={`mt-3 flex w-full items-center justify-center gap-2 rounded-full px-4 py-3 text-base font-bold transition-colors ${
             selected === null
-              ? "cursor-not-allowed bg-[hsl(26_14%_82%)] text-[hsl(26_8%_54%)]"
+              ? "cursor-not-allowed bg-[hsl(30_10%_91%)] text-[hsl(30_6%_66%)]"
               : "bg-[hsl(97_17%_42%)] text-white hover:bg-[hsl(97_20%_37%)]"
           }`}
         >
@@ -279,7 +280,13 @@ function PlanTile({
       const shown = card.items.slice(0, 6).map((it) => it.name);
       const extra = card.items.length - shown.length;
       return (
-        <Tile cardTitle={card.title} count={`${card.items.length} to pack`} onAction={onAction}>
+        <Tile
+          cardTitle={card.title}
+          count={`${card.items.length} to pack`}
+          action="create_list"
+          description="I'll save this as a checklist you can tick off as you pack."
+          onAction={onAction}
+        >
           <Rows items={extra > 0 ? [...shown, `+${extra} more`] : shown} />
         </Tile>
       );
