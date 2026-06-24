@@ -45,4 +45,18 @@ import StartPage from '../components/start/StartPage';
   [role="dialog"] input {
     accent-color: hsl(97 17% 42%);
   }
+  /* Native date/time inputs left-align value + picker icon; pin the icon to the right edge. */
+  #start-demo :is(input[type="date"], input[type="time"]),
+  [role="dialog"] :is(input[type="date"], input[type="time"]) {
+    position: relative;
+  }
+  #start-demo input::-webkit-calendar-picker-indicator,
+  [role="dialog"] input::-webkit-calendar-picker-indicator {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.6;
+    cursor: pointer;
+  }
 </style>
